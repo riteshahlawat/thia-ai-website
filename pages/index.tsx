@@ -23,6 +23,15 @@ const Home: NextPage = () => {
 				<Link href='/pricing'>
 					<a>/pricing</a>
 				</Link>
+				<Link href='/signin'>
+					<a>/signin</a>
+				</Link>
+				<Link href='/signup'>
+					<a>/signup</a>
+				</Link>
+				<Link href='/profile'>
+					<a>/profile</a>
+				</Link>
 				<Link href='/about'>
 					<a>/about</a>
 				</Link>
