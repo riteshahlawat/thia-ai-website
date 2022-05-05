@@ -1,18 +1,14 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import Link from 'next/link';
+import Link from '../../components/Link';
 import styles from '../../styles/Home.module.css';
 
 const Documentation: NextPage = () => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.main}>
-				<Link href='/docs/getstarted'>
-					<a>/docs/getstarted</a>
-				</Link>{' '}
-				<Link href='/docs/setup'>
-					<a>/docs/setup</a>
-				</Link>
+				<Link href='/docs/getstarted'>/docs/getstarted</Link>
+				<Link href='/docs/setup'>/docs/setup</Link>
 			</div>
 		</div>
 	);

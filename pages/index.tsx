@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+import Link from '../components/Link';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -14,33 +14,15 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				Thia
-				<Link href='/docs'>
-					<a>/docs</a>
-				</Link>
-				<Link href='/download'>
-					<a>/download</a>
-				</Link>
-				<Link href='/pricing'>
-					<a>/pricing</a>
-				</Link>
-				<Link href='/signin'>
-					<a>/signin</a>
-				</Link>
-				<Link href='/signup'>
-					<a>/signup</a>
-				</Link>
-				<Link href='/profile'>
-					<a>/profile</a>
-				</Link>
-				<Link href='/about'>
-					<a>/about</a>
-				</Link>
-				<Link href='/support'>
-					<a>/support</a>
-				</Link>
-				<Link href='/404'>
-					<a>/404</a>
-				</Link>
+				<Link href='/docs'>/docs</Link>
+				<Link href='/download'>/download</Link>
+				<Link href='/pricing'>/pricing</Link>
+				<Link href='/signin'>/signin</Link>
+				<Link href='/signup'>/signup</Link>
+				<Link href='/profile'>/profile</Link>
+				<Link href='/about'>/about</Link>
+				<Link href='/support'>/support</Link>
+				<Link href='/404'>/404</Link>
 			</main>
 
 			<footer className={styles.footer}></footer>
