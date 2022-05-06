@@ -24,8 +24,6 @@ const Home: NextPage = () => {
 				<Link href='/support'>/support</Link>
 				<Link href='/404'>/404</Link>
 			</main>
-
-			<footer className={styles.footer}></footer>
 		</div>
 	);
 };
