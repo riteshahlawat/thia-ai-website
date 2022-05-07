@@ -1,19 +1,19 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { Chakra } from '../src/common/Chakra';
+import { Chakra } from '../src/Chakra';
 import Layout from '../src/layout/Layout';
 import ProgressBar from '../src/hooks/progressBar';
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   ProgressBar();
   return (
-    <Chakra>
+    <Chakra cookies={pageProps.cookies}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
     </Chakra>
   );
-}
+};
 
 export default MyApp;
 

@@ -28,4 +28,5 @@ const Home: NextPage = () => {
   );
 };
 
+export { getServerSideProps } from '../src/Chakra';
 export default Home;
