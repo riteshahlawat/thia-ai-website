@@ -1,33 +1,28 @@
 import React from 'react';
+import Link from 'next/link';
+import type { LinkProps } from 'next/link';
+import { FaMoon, FaSun, FaBars } from 'react-icons/fa';
+import ContentContainer from './ContentContainer';
 import {
   Box,
-  Button,
-  ButtonGroup,
-  Container,
   Flex,
   HStack,
+  Button,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  useBreakpointValue,
+  ButtonGroup,
   useColorMode,
   useColorModeValue,
+  useBreakpointValue,
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import { SearchIcon } from '@chakra-ui/icons';
-import type { LinkProps } from 'next/link';
-import { FaMoon, FaSun } from 'react-icons/fa';
-import ContentContainer from './ContentContainer';
 
 interface NavItemsType extends LinkProps {
   label: string;
 }
 
 const navItems: Array<NavItemsType> = [
+  { label: 'Docs', href: '/docs' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Download', href: '/download' },
-  { label: 'Docs', href: '/docs' },
   { label: 'Support', href: '/support' },
 ];
 
@@ -40,34 +35,46 @@ const Navbar = () => {
   return (
     <Box as='nav' position='fixed' w='full'>
       <ContentContainer>
-        <Flex justify='space-between' flex='1' gap={5}>
-          <HStack spacing={8}>
-            <Link href='/'>Thia</Link>
-            <ButtonGroup spacing='1'>
-              {navItems.map(({ label, href }) => (
-                <Link href={href} key={label}>
-                  <Button
-                    color='gray.500'
-                    bg={'gray.800'}
-                    display='inline-flex'
-                    alignItems='center'
-                    key={label}
-                    _focus={{ boxShadow: 'none' }}
-                    _hover={{ color: 'white' }}
-                  >
-                    {label}
-                  </Button>
-                </Link>
-              ))}
-            </ButtonGroup>
-          </HStack>
-          <InputGroup mx={8}>
-            <InputLeftElement pointerEvents='none' children={<SearchIcon color='gray.300' />} />
-            <Input variant='filled' placeholder='Search the docs' />
-          </InputGroup>
-          <HStack spacing='3'>
-            <Button variant='ghost'>Sign in</Button>
-            <Button variant='primary'>Sign up</Button>
+        <Flex justify='space-between' alignItems='center' gap={10}>
+          <Link href='/'>Thia</Link>
+          {isDesktop ? (
+            <HStack spacing={3}>
+              <ButtonGroup spacing={3} pr={3}>
+                {navItems.map(({ label, href }) => (
+                  <Link href={href} key={label}>
+                    <Button
+                      h={9}
+                      color='gray.500'
+                      bg={'gray.800'}
+                      display='inline-flex'
+                      alignItems='center'
+                      key={label}
+                      borderRadius={100}
+                      _focus={{ boxShadow: 'none' }}
+                      _hover={{ color: 'white' }}
+                    >
+                      {label}
+                    </Button>
+                  </Link>
+                ))}
+              </ButtonGroup>
+              <Button variant='solid' borderRadius={100} h={9}>
+                <Link href='/signin'>Sign in</Link>
+              </Button>
+              <IconButton
+                size='md'
+                fontSize='lg'
+                aria-label={`Switch to ${text} mode`}
+                variant='ghost'
+                color='current'
+                ml={{ base: '0', md: '3' }}
+                onClick={toggleMode}
+                icon={<SwitchIcon />}
+                borderRadius={100}
+                _focus={{ boxShadow: 'none' }}
+              />
+            </HStack>
+          ) : (
             <IconButton
               size='md'
               fontSize='lg'
@@ -75,10 +82,11 @@ const Navbar = () => {
               variant='ghost'
               color='current'
               ml={{ base: '0', md: '3' }}
-              onClick={toggleMode}
-              icon={<SwitchIcon />}
+              icon={<FaBars />}
+              borderRadius={100}
+              _focus={{ boxShadow: 'none' }}
             />
-          </HStack>
+          )}
         </Flex>
       </ContentContainer>
     </Box>
@@ -86,6 +94,13 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// search bar
 {
-  /*  */
+  /*
+  <InputGroup>
+    <InputLeftElement pointerEvents='none' children={<SearchIcon color='gray.300' />} />
+    <Input variant='filled' placeholder='Search the docs' />
+  </InputGroup>
+*/
 }
