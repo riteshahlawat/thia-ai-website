@@ -12,22 +12,23 @@ production server:
 npm run prod
 ```
 
-| URL | Page | Priority | Status |  
-| ------------- | ------------- | -------- | --------|
-| `/` | Landing Page | - | --------|
-| `/download` | Downloads Page | - | --------|
-| `/pricing` | Pricing Page | - | --------|
-| `/about` | About Page | - | --------|
-| `/support` | Support Page  | - | -------|
-| `/signin` | signIn Page  | - | -------|
-| `/signup` | signUp Page  | - | -------|
-| `/profile` | Profile Page  | - | -------|
-| | | |
-| `/docs`| Documentation |-   | --------|
-| `/docs/getstarted`| Getting Started | -   | --------|
-| `/docs/setup`| setup | -   | --------|
+| URL                | Page            | Priority | Status   |
+| ------------------ | --------------- | -------- | -------- |
+| `/`                | Landing Page    | -        | -------- |
+| `/download`        | Downloads Page  | -        | -------- |
+| `/pricing`         | Pricing Page    | -        | -------- |
+| `/about`           | About Page      | -        | -------- |
+| `/support`         | Support Page    | -        | -------  |
+| `/signin`          | signIn Page     | -        | -------  |
+| `/signup`          | signUp Page     | -        | -------  |
+| `/profile`         | Profile Page    | -        | -------  |
+|                    |                 |          |
+| `/docs`            | Documentation   | -        | -------- |
+| `/docs/getstarted` | Getting Started | -        | -------- |
+| `/docs/setup`      | setup           | -        | -------- |
 
 ### What needs to be done:
+
 - Page design/mockup
 - need to pick theme colors, style guide
 - fix chakra flashing issue
