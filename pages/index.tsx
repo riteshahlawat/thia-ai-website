@@ -1,7 +1,6 @@
+import { Box } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from '../src/common/Link';
-import PageLayout from '../src/layout/PageLayout';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -13,7 +12,7 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
-        <PageLayout>Home</PageLayout>
+        <Box h='100vh'>home</Box>
       </main>
     </div>
   );
