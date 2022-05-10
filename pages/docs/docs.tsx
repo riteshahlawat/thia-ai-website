@@ -1,0 +1,15 @@
+import React from 'react';
+import type { NextPage } from 'next';
+import Link from '../../src/common/Link';
+import styles from '../../styles/Home.module.css';
+
+const Docs: NextPage = () => {
+  return (
+    <>
+      <Link href='/docs/getstarted'>/docs/getstarted</Link>
+      <Link href='/docs/setup'>/docs/setup</Link>
+    </>
+  );
+};
+
+export default Docs;
