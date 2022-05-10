@@ -1,20 +1,21 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { Chakra } from '../src/Chakra';
 import Layout from '../src/layout/Layout';
 import ProgressBar from '../src/hooks/progressBar';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '../chakra.theme';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps) => {
   ProgressBar();
   return (
-    <Chakra cookies={pageProps.cookies}>
+    <ChakraProvider theme={theme}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </Chakra>
+    </ChakraProvider>
   );
 };
 
-export default MyApp;
+export default App;
 
 // may need to add colorModeManager for SSR, view https://chakra-ui.com/docs/styled-system/features/color-mode for more details

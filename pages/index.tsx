@@ -1,1 +1,1 @@
-export { default, getServerSideProps } from './landing';
+export { default } from './landing';
