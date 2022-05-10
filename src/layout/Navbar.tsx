@@ -31,34 +31,38 @@ const Navbar = () => {
   const { toggleColorMode: toggleMode } = useColorMode();
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
   const text = useColorModeValue('dark', 'light');
+  const textColorOnHover = useColorModeValue('black', 'white');
 
   return (
-    <Box as='nav' position='fixed' w='full'>
+    <Box as='nav' position='fixed' w='full' backdropFilter='auto' backdropBlur='25px'>
       <ContentContainer>
         <Flex justify='space-between' alignItems='center' gap={10}>
-          <Link href='/'>Thia</Link>
-          {isDesktop ? (
-            <HStack spacing={3}>
-              <ButtonGroup spacing={3} pr={3}>
+          <HStack spacing={8}>
+            <Link href='/'>Thia</Link>
+            {isDesktop && (
+              <ButtonGroup spacing={3}>
                 {navItems.map(({ label, href }) => (
                   <Link href={href} key={label}>
                     <Button
-                      h={9}
+                      bg='transparent'
                       color='gray.500'
-                      bg={'gray.800'}
                       display='inline-flex'
                       alignItems='center'
                       key={label}
                       borderRadius={100}
                       _focus={{ boxShadow: 'none' }}
-                      _hover={{ color: 'white' }}
+                      _hover={{ color: textColorOnHover }}
                     >
                       {label}
                     </Button>
                   </Link>
                 ))}
               </ButtonGroup>
-              <Button variant='solid' borderRadius={100} h={9}>
+            )}
+          </HStack>
+          {isDesktop ? (
+            <HStack spacing={3}>
+              <Button variant='solid' borderRadius={100} _hover={{ color: textColorOnHover }}>
                 <Link href='/signin'>Sign in</Link>
               </Button>
               <IconButton
