@@ -1,12 +1,21 @@
+import { mode } from '@chakra-ui/theme-tools';
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
 // Thia theme colors
 const colors = {
   brand: {
-    900: '#1a365d',
-    800: '#153e75',
-    700: '#2a69ac',
+    light: { bg: '#ffffff', primary: '#00050f' },
+    dark: { bg: '#0a0a0a', primary: '#00050f' },
   },
+};
+
+// Thia default styles
+const styles = {
+  global: (props: any) => ({
+    body: {
+      bg: mode('brand.light.bg', 'brand.dark.bg')(props),
+    },
+  }),
 };
 
 // Add color mode config
@@ -16,6 +25,6 @@ const config: ThemeConfig = {
 };
 
 // Extend the theme
-const theme = extendTheme({ config, colors });
+const theme = extendTheme({ config, colors, styles });
 
 export default theme;
