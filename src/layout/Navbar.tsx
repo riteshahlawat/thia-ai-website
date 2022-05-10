@@ -32,9 +32,17 @@ const Navbar = () => {
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
   const text = useColorModeValue('dark', 'light');
   const textColorOnHover = useColorModeValue('black', 'white');
+  const navItemColor = useColorModeValue('brand.color.light', 'brand.color.dark');
 
   return (
-    <Box as='nav' position='fixed' w='full' backdropFilter='auto' backdropBlur='25px'>
+    <Box
+      as='nav'
+      position='fixed'
+      w='full'
+      backdropFilter='auto'
+      backdropBlur='25px'
+      py={{ sm: 2, md: 4 }}
+    >
       <ContentContainer>
         <Flex justify='space-between' alignItems='center' gap={10}>
           <HStack spacing={8}>
@@ -43,18 +51,20 @@ const Navbar = () => {
               <ButtonGroup spacing={3}>
                 {navItems.map(({ label, href }) => (
                   <Link href={href} key={label}>
-                    <Button
-                      bg='transparent'
-                      color='gray.500'
-                      display='inline-flex'
-                      alignItems='center'
-                      key={label}
-                      borderRadius={100}
-                      _focus={{ boxShadow: 'none' }}
-                      _hover={{ color: textColorOnHover }}
-                    >
-                      {label}
-                    </Button>
+                    <a>
+                      <Button
+                        bg='transparent'
+                        color={navItemColor}
+                        display='inline-flex'
+                        alignItems='center'
+                        key={label}
+                        borderRadius={100}
+                        _focus={{ boxShadow: 'none' }}
+                        _hover={{ color: textColorOnHover }}
+                      >
+                        {label}
+                      </Button>
+                    </a>
                   </Link>
                 ))}
               </ButtonGroup>
