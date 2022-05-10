@@ -13,7 +13,7 @@ const Layout = ({ children }: Props) => {
     <>
       <Navbar />
       <ContentContainer>
-        <Box pt={16}>{children}</Box>
+        <Box pt={24}>{children}</Box>
       </ContentContainer>
       <Footer />
     </>

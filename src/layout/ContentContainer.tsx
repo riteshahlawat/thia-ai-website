@@ -5,7 +5,7 @@ type Props = { children?: React.ReactNode };
 
 const ContentContainer = ({ children }: Props) => {
   return (
-    <Container maxW='container.xl' p={{ sm: 3, md: 5 }}>
+    <Container maxW='container.2xl' px={{ base: 4, md: 6 }}>
       {children}
     </Container>
   );
