@@ -1,6 +1,5 @@
 import {
   Box,
-  SimpleGrid,
   Stack,
   Text,
   Input,
@@ -17,7 +16,7 @@ import { ReactNode } from 'react';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { BiMailSend } from 'react-icons/bi';
 import ContentContainer from './ContentContainer';
-import Link from '../Link';
+import Link from '../common/Link';
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
