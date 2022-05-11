@@ -6,7 +6,7 @@ const colors = {
   brand: {
     bg: { light: '#ffffff', dark: '#0a0a0a' },
     color: { light: '#000000', dark: '#ffffff' },
-    primary: { light: '#90bdff', dark: '#0050c7' },
+    primary: { light: '#90bdff', dark: '#002d70' },
     primaryHover: { light: '#75abfb', dark: '#00398d' },
   },
 };
@@ -25,6 +25,15 @@ const sizes = {
   },
 };
 
+const components = {
+  Link: {
+    baseStyle: {
+      _focus: {
+        boxShadow: 'none',
+      },
+    },
+  },
+};
 // Add color mode config
 const config: ThemeConfig = {
   initialColorMode: 'dark',
@@ -32,6 +41,6 @@ const config: ThemeConfig = {
 };
 
 // Extend the theme
-const theme = extendTheme({ config, colors, styles, sizes });
+const theme = extendTheme({ config, colors, styles, sizes, components });
 
 export default theme;
