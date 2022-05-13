@@ -1,6 +1,6 @@
 import { ColorModeScript } from '@chakra-ui/react';
 import { Html, Head, Main, NextScript } from 'next/document';
-import theme from '../chakra.theme';
+import theme from '../styles/chakra.theme';
 
 const Document = () => {
   return (
@@ -14,4 +14,5 @@ const Document = () => {
     </Html>
   );
 };
+
 export default Document;

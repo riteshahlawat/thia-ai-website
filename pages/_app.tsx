@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Layout from '../src/layout/Layout';
 import ProgressBar from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../chakra.theme';
+import theme from '../styles/chakra.theme';
 
 const App = ({ Component, pageProps }: AppProps) => {
   ProgressBar();
