@@ -10,8 +10,8 @@ const NavContainer = ({ children }: { children?: React.ReactNode }) => {
       as='nav'
       py={{ base: 2, md: 4 }}
       bg={{
-        base: useColorModeValue('brand.primary.light', 'brand.primary.dark'),
-        md: useColorModeValue('brand.bg.light', 'brand.bg.dark'),
+        base: useColorModeValue('thia.purple-base', 'thia.purple-dark'),
+        md: useColorModeValue('thia.bg-base', 'thia.bg-dark'),
       }}
     >
       <ContentContainer>

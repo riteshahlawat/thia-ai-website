@@ -26,31 +26,19 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
         {navItemLinks.map(({ label, href }) => (
           <Link href={href} key={label}>
             <Button
+              size='sm'
               key={label}
               fontSize='sm'
               fontWeight='normal'
-              bg='transparent'
               borderRadius={100}
-              color={useColorModeValue('brand.color.light', 'brand.color.dark')}
-              alignItems='center'
-              display='inline-flex'
-              _focus={{ boxShadow: 'none' }}
-              _active={{ bg: 'brand.primary.dark' }}
-              _hover={{ bg: 'whiteAlpha.300' }}
+              variant='secondaryGhost'
             >
               {label}
             </Button>
           </Link>
         ))}
         <Link href='/signin'>
-          <Button
-            fontSize='sm'
-            variant='solid'
-            borderRadius={100}
-            _focus={{ boxShadow: 'none' }}
-            _active={{ bg: 'brand.primary.dark' }}
-            _hover={{ color: useColorModeValue('black', 'white'), bg: 'whiteAlpha.300' }}
-          >
+          <Button size='sm' fontSize='sm' variant='primary' rounded='full'>
             Sign in
           </Button>
         </Link>
