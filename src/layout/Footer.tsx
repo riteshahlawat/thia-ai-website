@@ -35,10 +35,11 @@ const socials = [
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue('brand.bg.light', 'brand.bg.dark')}
-      color={useColorModeValue('brand.color.light', 'brand.color.dark')}
+      bg={useColorModeValue('thia.bg-base', 'thia.bg-dark')}
+      color={useColorModeValue('thia.text-base', 'thia.text-dark')}
     >
       <ContentContainer>
+        <Divider />
         <Grid
           templateColumns={{
             base: '1fr 1fr 1fr',
@@ -103,12 +104,12 @@ export default function Footer() {
                 <Input placeholder={'Your email address'} variant='filled' />
                 <IconButton
                   aria-label='Subscribe'
-                  bg={useColorModeValue('brand.primary.light', 'brand.primary.dark')}
+                  bg={useColorModeValue('thia.purple-base', 'thia.purple-dark')}
                   _hover={{
-                    bg: useColorModeValue('brand.primaryHover.light', 'brand.primaryHover.dark'),
+                    bg: useColorModeValue('thia.purple-hover-base', 'thia.purple-hover-dark'),
                   }}
                   _active={{
-                    bg: useColorModeValue('brand.primaryHover.light', 'brand.primaryHover.dark'),
+                    bg: useColorModeValue('thia.purple-hover.base', 'thia.purple-Hover-dark'),
                   }}
                   icon={<BiMailSend />}
                 />
