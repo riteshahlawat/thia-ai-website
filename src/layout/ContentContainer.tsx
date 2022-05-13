@@ -1,11 +1,11 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 
-type Props = { children?: React.ReactNode };
+type Props = { children?: React.ReactNode; py?: number };
 
-const ContentContainer = ({ children }: Props) => {
+const ContentContainer = ({ children, py }: Props) => {
   return (
-    <Container maxW='container.2xl' px={[4, 4, 8, 8, 8]}>
+    <Container maxW='container.2xl' px={[4, 4, 8, 8, 8]} h='full' py={py}>
       {children}
     </Container>
   );
