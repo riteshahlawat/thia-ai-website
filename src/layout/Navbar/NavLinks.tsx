@@ -42,7 +42,7 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
             </Button>
           </Link>
         ))}
-        <Link href='/signin'>
+        <Link href='/login'>
           <Button
             fontSize='sm'
             variant='solid'
