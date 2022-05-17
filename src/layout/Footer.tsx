@@ -35,11 +35,11 @@ const socials = [
 export default function Footer() {
   return (
     <Box
+      as='footer'
       bg={useColorModeValue('thia.bg-base', 'thia.bg-dark')}
       color={useColorModeValue('thia.text-base', 'thia.text-dark')}
     >
       <ContentContainer>
-        <Divider />
         <Grid
           templateColumns={{
             base: '1fr 1fr 1fr',

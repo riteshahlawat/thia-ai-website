@@ -5,7 +5,17 @@ import Section from './Section';
 import ImageBox from './ImageBox';
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
-import { Box, Button, ButtonGroup, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Center,
+  Flex,
+  Heading,
+  Text,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
 
 const variants = {
   initial: { opacity: 0, width: '40%', height: '40%' },
@@ -48,13 +58,13 @@ const Home: NextPage = () => {
       </Head>
       <Box as='main' w='full'>
         <Section>
-          <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 56 }}>
+          <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
             <Box as='h1' fontWeight='light' textAlign='center'>
-              <Text fontSize={{ base: '4xl', md: '7xl' }} lineHeight='shorter'>
-                Decentralized alternative to cloud AutoML run within your ecosystem
+              <Text fontSize={{ base: '4xl', md: '7xl' }} lineHeight='shorter' fontWeight='bold'>
+                A decentralized alternative to cloud AutoML run within your ecosystem
               </Text>
             </Box>
-            <ButtonGroup spacing={8} size='lg'>
+            <ButtonGroup spacing={8}>
               <Link href='/pricing'>
                 <Button variant='secondary'>View Pricing Plans</Button>
               </Link>
@@ -98,9 +108,24 @@ const Home: NextPage = () => {
             </motion.div>
           </Box>
         </Section>
-        {ImageBoxData.map(props => (
-          <ImageBox {...props} />
-        ))}
+        <ImageBox {...ImageBoxData[0]} />
+        <ImageBox {...ImageBoxData[1]} />
+        <ImageBox {...ImageBoxData[2]} />
+        <Section bg={useColorModeValue('gray.100', 'whiteAlpha.50')} py={20}>
+          <Center>
+            <Flex direction='column' align='center' gap={10} textAlign='center'>
+              <Heading fontSize='6xl'>Ready to Start?</Heading>
+              <Text fontSize='lg'>
+                Integrate Thia into your app easily with our documentation or take the tutorial to
+                get started!
+              </Text>
+              <ButtonGroup size='lg' gap={10}>
+                <Button variant='primary'>Get Started</Button>
+                <Button variant='primaryOutline'>Sign up for free</Button>
+              </ButtonGroup>
+            </Flex>
+          </Center>
+        </Section>
       </Box>
     </>
   );

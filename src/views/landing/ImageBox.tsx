@@ -1,6 +1,6 @@
 import Section from './Section';
 import RevealOnView from '../../common/RevealOnView';
-import { Box, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 interface ImageBoxProps {
   label: string;
@@ -17,25 +17,38 @@ const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => 
           align='center'
           mx={[0, 0, 5, 16, 20]}
           direction={{ base: 'column', md: direction === 'right' ? 'row-reverse' : 'row' }}
-          gap={[4, 6, 10, 12, 16]}
+          gap={[10, 10, 12, 12, 16]}
         >
-          <Flex direction='column' gap={5} p={4} justify='center' minW={{ base: '50%', xl: '0%' }}>
+          <Flex
+            direction='column'
+            gap={5}
+            p={[0, 0, 4, 4, 4]}
+            justify='center'
+            minW='50%'
+            textAlign={{ base: 'center', md: 'start' }}
+          >
             <Text
               fontSize='sm'
-              fontWeight='semibold'
+              fontWeight='bold'
               letterSpacing='widest'
               color={useColorModeValue('thia.purple-base', 'thia.purple-dark')}
               casing='uppercase'
             >
               {label}
             </Text>
-            <Heading fontWeight='normal'>{heading}</Heading>
+            <Heading fontWeight='semibold' fontSize={{ base: '3xl', md: '5xl' }}>
+              {heading}
+            </Heading>
             <Text>{description}</Text>
+            <Box pt={5}>
+              <Button variant='primaryOutline'>Learn More</Button>
+            </Box>
           </Flex>
           <Box
             p={4}
-            h={'550px'}
-            w={'550px'}
+            h='550px'
+            w='100%'
+            maxW={{ base: '100%', md: '50%' }}
             flexShrink={0}
             backgroundImage='linear-gradient(90deg, rgba(71,0,255,1) 0%, rgba(119,66,255,1) 100%)'
             rounded='xl'
