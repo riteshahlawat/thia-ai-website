@@ -14,7 +14,7 @@ jobs:
 # Orchestrate our job run sequence
 workflows:
   version: 2
-  update-backend:
+  update-website:
     jobs:
       - pull-and-deploy:
         filters:
