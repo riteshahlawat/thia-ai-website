@@ -61,7 +61,7 @@ const Home: NextPage = () => {
           <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
             <Box as='h1' fontWeight='light' textAlign='center'>
               <Text fontSize={{ base: '4xl', md: '7xl' }} lineHeight='shorter' fontWeight='bold'>
-                AutoML ran within your ecosystem.
+                AutoML ran within your ecosystem
               </Text>
             </Box>
             <ButtonGroup spacing={8}>
