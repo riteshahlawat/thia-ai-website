@@ -2,6 +2,12 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --purple-base: rgb(190, 165, 255);
+  --purple-dark: rgb(53, 0, 193);
+  --purple-hover-base: rgb(170, 137, 255);
+  --purple-hover-dark: rgb(71, 0, 255);
 }

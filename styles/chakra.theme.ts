@@ -11,22 +11,27 @@ const config: ThemeConfig = {
 // Extend the theme
 const theme = extendTheme({
   config,
+  fonts: {
+    body: 'Poppins, sans-serif',
+  },
   colors: {
     thia: {
       'bg-base': '#ffffff',
       'bg-dark': '#000000',
       'text-base': '#000000',
       'text-dark': '#ffffff',
-      'purple-base': '#bea5ff',
-      'purple-dark': '#3500c1',
-      'purple-hover-base': '#aa89ff',
-      'purple-hover-dark': '#4700ff',
+      'purple-base': 'var(--purple-base)',
+      'purple-dark': 'var(--purple-dark)',
+      'purple-hover-base': 'var(--purple-hover-base)',
+      'purple-hover-dark': 'var(--purple-hover-dark)',
+      'purpleAlpha.50': '',
     },
   },
   styles: {
     global: (props: any) => ({
       body: {
         bg: mode('thia.bg-base', 'thia.bg-dark')(props),
+        color: mode('thia.text-base', 'thia.text-dark')(props),
       },
     }),
   },
