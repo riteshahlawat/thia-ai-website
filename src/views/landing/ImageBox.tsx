@@ -31,7 +31,7 @@ const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => 
               fontSize='sm'
               fontWeight='bold'
               letterSpacing='widest'
-              color={useColorModeValue('thia.purple-base', 'thia.purple-dark')}
+              color={useColorModeValue('thia.purple.400', 'thia.purple.600')}
               casing='uppercase'
             >
               {label}
@@ -46,7 +46,7 @@ const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => 
           </Flex>
           <Box
             p={4}
-            h='550px'
+            h='450px'
             w='100%'
             maxW={{ base: '100%', md: '50%' }}
             flexShrink={0}

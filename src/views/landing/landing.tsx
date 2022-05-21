@@ -60,21 +60,31 @@ const Home: NextPage = () => {
         <Section>
           <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
             <Box as='h1' fontWeight='light' textAlign='center'>
-              <Text fontSize={{ base: '4xl', md: '7xl' }} lineHeight='shorter' fontWeight='bold'>
+              <Text fontSize={{ base: '6xl', md: '7xl' }} lineHeight='shorter' fontWeight='bold'>
                 AutoML ran within your ecosystem
               </Text>
             </Box>
-            <ButtonGroup spacing={8}>
+            <Flex
+              w='full'
+              gap={{ base: 6, md: 10 }}
+              justify='center'
+              maxW='26rem'
+              flexWrap={{ base: 'wrap', md: 'nowrap' }}
+            >
               <Link href='/pricing'>
-                <Button variant='secondary'>View Pricing Plans</Button>
+                <Button variant='secondary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                  View Pricing
+                </Button>
               </Link>
               <Link href='/download'>
-                <Button variant='primary'>Download</Button>
+                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                  Download
+                </Button>
               </Link>
-            </ButtonGroup>
+            </Flex>
           </VStack>
         </Section>
-        <Section as='section' w='100%' m='auto' pos='relative'>
+        <Section w='100%' m='auto' pos='relative'>
           <Box pos='relative' px={{ base: 0, xl: 20 }}>
             <Box
               as={motion.div}
@@ -111,20 +121,32 @@ const Home: NextPage = () => {
         <ImageBox {...ImageBoxData[0]} />
         <ImageBox {...ImageBoxData[1]} />
         <ImageBox {...ImageBoxData[2]} />
-        <Section bg={useColorModeValue('gray.100', 'whiteAlpha.50')} py={20}>
-          <Center>
-            <Flex direction='column' align='center' gap={10} textAlign='center'>
-              <Heading fontSize='6xl'>Ready to Start?</Heading>
-              <Text fontSize='lg'>
-                Integrate Thia into your app easily with our documentation or take the tutorial to
-                get started!
-              </Text>
-              <ButtonGroup size='lg' gap={10}>
-                <Button variant='primary'>Get Started</Button>
-                <Button variant='primaryOutline'>Sign up for free</Button>
-              </ButtonGroup>
+        <Section bg={useColorModeValue('thia.gray.100', 'whiteAlpha.50')} py={{ base: 10, md: 20 }}>
+          <Flex direction='column' align='center' gap={10} textAlign='center'>
+            <Heading fontSize='5xl'>Ready to Start?</Heading>
+            <Text fontSize='lg'>
+              Integrate Thia into your app easily with our documentation or take the tutorial to get
+              started!
+            </Text>
+            <Flex
+              w='full'
+              gap={{ base: 6, md: 10 }}
+              justify='center'
+              maxW='26rem'
+              flexWrap={{ base: 'wrap', md: 'nowrap' }}
+            >
+              <Link href='/pricing'>
+                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                  Get Started
+                </Button>
+              </Link>
+              <Link href='/download'>
+                <Button variant='primaryOutline' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                  Sign up for free
+                </Button>
+              </Link>
             </Flex>
-          </Center>
+          </Flex>
         </Section>
       </Box>
     </>
