@@ -11,10 +11,7 @@ const NavContainer = ({ children }: { children?: React.ReactNode }) => {
         w='full'
         as='nav'
         py={{ base: 2, md: 5 }}
-        bg={{
-          base: useColorModeValue('thia.purple-base', 'thia.purple-dark'),
-          md: useColorModeValue('whiteAlpha.800', 'blackAlpha.800'),
-        }}
+        bg={useColorModeValue('whiteAlpha.800', 'blackAlpha.800')}
         backdropFilter='auto'
         backdropBlur='64px'
       >

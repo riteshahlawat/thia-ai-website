@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import Link, { LinkProps } from 'next/link';
-import { FaMoon, FaSun } from 'react-icons/fa';
+import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
 
 interface NavItemsType extends LinkProps {
   label: string;
@@ -15,8 +15,9 @@ const navItemLinks: Array<NavItemsType> = [
 
 const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
   const { toggleColorMode: toggleMode } = useColorMode();
-  const SwitchIcon = useColorModeValue(FaMoon, FaSun);
+  const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
   const text = useColorModeValue('dark', 'light');
+
   return (
     <Box
       display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
@@ -26,7 +27,6 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
         {navItemLinks.map(({ label, href }) => (
           <Link href={href} key={label}>
             <Button
-              size='sm'
               key={label}
               fontSize='sm'
               fontWeight='normal'
@@ -37,23 +37,27 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
             </Button>
           </Link>
         ))}
+        <IconButton
+          size='md'
+          fontSize='xl'
+          color='current'
+          variant='secondary'
+          onClick={toggleMode}
+          icon={<SwitchIcon />}
+          ml={{ base: '0', md: '3' }}
+          aria-label={`Switch to ${text} mode`}
+          _hover={{ bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200') }}
+        />
         <Link href='/signin'>
-          <Button size='sm' fontSize='sm' variant='primary' rounded='full'>
+          <Button
+            fontSize='sm'
+            variant='primary'
+            rounded='full'
+            _hover={{ bg: useColorModeValue('thia.purple.100', 'thia.purple.600') }}
+          >
             Sign in
           </Button>
         </Link>
-        <IconButton
-          size='md'
-          fontSize='lg'
-          aria-label={`Switch to ${text} mode`}
-          variant='ghost'
-          color='current'
-          ml={{ base: '0', md: '3' }}
-          onClick={toggleMode}
-          icon={<SwitchIcon />}
-          borderRadius={100}
-          _focus={{ boxShadow: 'none' }}
-        />
       </Stack>
     </Box>
   );
