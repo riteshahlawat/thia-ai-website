@@ -1,16 +1,13 @@
 import { Box, Button, IconButton, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
+import { links } from '../../constants';
 
-interface NavItemsType extends LinkProps {
-  label: string;
-}
-
-const navItemLinks: Array<NavItemsType> = [
-  { label: 'Docs', href: '/docs' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Download', href: '/download' },
-  { label: 'Support', href: '/support' },
+const navItemLinks = [
+  links.docs.index,
+  links.pricing.index,
+  links.download.index,
+  links.support.index,
 ];
 
 const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
@@ -24,8 +21,8 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
       flexBasis={{ base: '100%', md: 'auto' }}
     >
       <Stack spacing={8} align='center' direction={{ base: 'column', md: 'row' }}>
-        {navItemLinks.map(({ label, href }) => (
-          <Link href={href} key={label}>
+        {Object.values(navItemLinks).map(({ path, label }) => (
+          <Link href={path} key={label}>
             <Button
               key={label}
               fontSize='sm'

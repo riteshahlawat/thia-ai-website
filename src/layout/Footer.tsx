@@ -13,7 +13,7 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { links, socials } from '../constants';
 import { BiMailSend } from 'react-icons/bi';
 import ContentContainer from './ContentContainer';
 import Link from '../common/Link';
@@ -25,12 +25,6 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
     </Text>
   );
 };
-
-const socials = [
-  { label: 'Twitter', path: '#', icon: <FaTwitter /> },
-  { label: 'LinkedIn', path: '#', icon: <FaLinkedin /> },
-  { label: 'Github', path: '#', icon: <FaGithub /> },
-];
 
 export default function Footer() {
   return (
@@ -55,20 +49,21 @@ export default function Footer() {
               <Box fontSize='3xl'>Thia</Box>
               <Text fontSize={16}>Making AutoML Simple.</Text>
               <Stack direction={'row'} spacing={6}>
-                {socials.map(({ label, path, icon }) => (
-                  <IconButton
-                    as='a'
-                    key={label}
-                    href={path}
-                    icon={icon}
-                    rounded='full'
-                    aria-label={label}
-                    variant='secondary'
-                    _hover={{
-                      borderRadius: '3xl',
-                      bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
-                    }}
-                  ></IconButton>
+                {Object.values(socials).map(({ label, path, icon }) => (
+                  <Link href={path} key={label} passHref>
+                    <IconButton
+                      key={label}
+                      rounded='full'
+                      aria-label={label}
+                      variant='secondary'
+                      _hover={{
+                        borderRadius: '3xl',
+                        bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                      }}
+                    >
+                      {icon}
+                    </IconButton>
+                  </Link>
                 ))}
               </Stack>
             </VStack>
@@ -76,9 +71,9 @@ export default function Footer() {
           <GridItem>
             <VStack align={'flex-start'}>
               <ListHeader>Product</ListHeader>
-              <Link href='/docs'>Documentation</Link>
-              <Link href='/pricing'>Pricing</Link>
-              <Link href='/download'>Download</Link>
+              <Link href={links.docs.index.path}>{links.docs.index.label}</Link>
+              <Link href={links.pricing.index.path}>{links.pricing.index.label}</Link>
+              <Link href={links.download.index.path}>{links.download.index.label}</Link>
               <Link href={'#'}>Features</Link>
               <Link href={'#'}>Tutorials</Link>
             </VStack>
@@ -86,7 +81,7 @@ export default function Footer() {
           <GridItem>
             <VStack align={'flex-start'}>
               <ListHeader>Company</ListHeader>
-              <Link href={'#'}>About us</Link>
+              <Link href={'/about'}>About us</Link>
               <Link href={'#'}>Blog</Link>
               <Link href={'#'}>Contact us</Link>
               <Link href={'#'}>Careers</Link>
