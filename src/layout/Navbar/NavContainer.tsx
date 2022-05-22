@@ -3,24 +3,21 @@ import ContentContainer from '../ContentContainer';
 
 const NavContainer = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <Box pb={20}>
-      <Box
-        className='blur'
-        position='fixed'
-        zIndex={1000}
-        w='full'
-        as='nav'
-        py={{ base: 2, md: 5 }}
-        bg={useColorModeValue('whiteAlpha.800', 'blackAlpha.800')}
-        backdropFilter='auto'
-        backdropBlur='64px'
-      >
-        <ContentContainer>
-          <Flex align='center' justify='space-between' wrap='wrap' w='100%'>
-            {children}
-          </Flex>
-        </ContentContainer>
-      </Box>
+    <Box
+      w='full'
+      as='nav'
+      zIndex={1000}
+      position='fixed'
+      backdropBlur='64px'
+      className='blur nav'
+      backdropFilter='auto'
+      bg={useColorModeValue('whiteAlpha.800', 'blackAlpha.800')}
+    >
+      <ContentContainer>
+        <Flex align='center' className='nav' justify='space-between' wrap='wrap' w='100%'>
+          {children}
+        </Flex>
+      </ContentContainer>
     </Box>
   );
 };

@@ -7,6 +7,9 @@ export const Button: ComponentStyleConfig = {
     _focus: { boxShadow: 'none' },
     borderRadius: '3xl',
     transition: '250ms',
+    fontFamily: `'Poppins', sans-serif`,
+    fontWeight: 600,
+    letterSpacing: 'wider',
   },
   // Styles for the size variations
   sizes: {},

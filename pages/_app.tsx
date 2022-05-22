@@ -2,19 +2,20 @@ import '@fontsource/poppins';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Layout from '../src/layout/Layout';
+import theme from '../styles/chakra.theme';
 import ProgressBar from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../styles/chakra.theme';
+import { NextPageWithLayout } from '../src/NextPageWithLayoutType';
 
-const App = ({ Component, pageProps }: AppProps) => {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   ProgressBar();
-  return (
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ChakraProvider>
-  );
+  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
+
+  return <ChakraProvider theme={theme}>{getLayout(<Component {...pageProps} />)}</ChakraProvider>;
 };
 
 export default App;

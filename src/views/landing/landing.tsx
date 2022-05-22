@@ -5,17 +5,7 @@ import Section from './Section';
 import ImageBox from './ImageBox';
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Center,
-  Flex,
-  Heading,
-  Text,
-  useColorModeValue,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
 const variants = {
   initial: { opacity: 0, width: '40%', height: '40%' },
@@ -56,14 +46,18 @@ const Home: NextPage = () => {
         <meta name='description' content='Thia on web' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Box as='main' w='full'>
+      <Box w='full'>
         <Section>
           <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
-            <Box as='h1' fontWeight='light' textAlign='center'>
-              <Text fontSize={{ base: '6xl', md: '7xl' }} lineHeight='shorter' fontWeight='bold'>
-                AutoML ran within your ecosystem
-              </Text>
-            </Box>
+            <Heading
+              px={10}
+              fontSize={{ base: '6xl', md: '8xl' }}
+              lineHeight='shorter'
+              textAlign='center'
+            >
+              AutoML ran within your ecosystem
+            </Heading>
+
             <Flex
               w='full'
               gap={{ base: 6, md: 10 }}
