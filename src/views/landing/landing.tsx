@@ -129,12 +129,12 @@ const Home: NextPage = () => {
               maxW='26rem'
               flexWrap={{ base: 'wrap', md: 'nowrap' }}
             >
-              <Link href='/pricing'>
+              <Link href='/docs/#getstarted'>
                 <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                   Get Started
                 </Button>
               </Link>
-              <Link href='/download'>
+              <Link href='/singup'>
                 <Button variant='primaryOutline' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                   Sign up for free
                 </Button>

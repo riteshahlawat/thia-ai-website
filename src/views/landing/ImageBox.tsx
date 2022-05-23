@@ -28,11 +28,10 @@ const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => 
             textAlign={{ base: 'center', md: 'start' }}
           >
             <Text
-              fontSize='sm'
-              fontWeight='bold'
-              letterSpacing='widest'
-              color={useColorModeValue('thia.purple.400', 'thia.purple.600')}
               casing='uppercase'
+              fontWeight='bold'
+              letterSpacing='.2rem'
+              color={useColorModeValue('thia.purple.400', 'thia.purple.500')}
             >
               {label}
             </Text>

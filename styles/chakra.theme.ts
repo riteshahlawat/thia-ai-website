@@ -1,5 +1,5 @@
 import { mode } from '@chakra-ui/theme-tools';
-import { extendTheme, type ThemeConfig, withDefaultColorScheme } from '@chakra-ui/react';
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
 import { Link } from './components/link';
 import { Button } from './components/button';
@@ -14,7 +14,8 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   fonts: {
-    body: 'Poppins, sans-serif',
+    body: `'Poppins', sans-serif`,
+    Heading: `'Poppins', sans-serif`,
   },
   colors: {
     thia: {

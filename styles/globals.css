@@ -44,15 +44,15 @@ h6 {
   --gray-950: rgb(26, 26, 26);
   --gray-990: rgb(13, 13, 13);
 
-  --headerHeight: 72px;
+  --header-height: 72px;
 }
 
 .nav {
-  height: var(--headerHeight);
+  height: var(--header-height);
 }
 
 .fullHeightWithoutNav {
-  height: calc(100vh - var(--headerHeight));
+  height: calc(100vh - var(--header-height));
 }
 
 /*

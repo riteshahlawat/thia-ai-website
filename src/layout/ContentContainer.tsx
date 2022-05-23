@@ -1,7 +1,7 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 
-type Props = { children?: React.ReactNode; py?: number };
+type Props = { children?: React.ReactNode; py?: number | object };
 
 const ContentContainer = ({ children, py }: Props) => {
   return (

@@ -11,7 +11,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Navbar />
-      <Box as='main' pt='var(--headerHeight)'>
+      <Box as='main' pt='var(--header-height)'>
         {children}
       </Box>
       <Footer />
