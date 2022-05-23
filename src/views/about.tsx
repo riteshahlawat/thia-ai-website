@@ -44,7 +44,7 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Lasitha Amuwala',
-    role: 'role',
+    role: 'Developer',
     imgPath: '/team/lasitha_amuwala.jpg',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/lasitha-amuwala/' },
@@ -53,13 +53,13 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Michelle Lenartowicz',
-    role: 'role',
+    role: 'Business',
     imgPath: '/team/michelle_lenartowicz.jpg',
     socials: [{ name: 'LinkedIn', path: 'https://www.linkedin.com/in/michellelenartowicz/' }],
   },
   {
     name: 'David Chan',
-    role: 'role',
+    role: 'Developer',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/dchan0013/' },
       { name: 'Github', path: 'https://github.com/occamsrazor0013' },
@@ -67,7 +67,7 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Agamjot Saini',
-    role: 'role',
+    role: 'Developer',
     imgPath: '/team/agamjot_saini.jpg',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/agamjot-saini/' },
@@ -79,7 +79,12 @@ const teamData: Array<MemberType> = [
 const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
   return (
     <VStack p={5}>
-      <Circle size='175px' pos='relative' overflow='hidden'>
+      <Circle
+        size='175px'
+        pos='relative'
+        overflow='hidden'
+        bg={useColorModeValue('blackAlpha.100', 'alphaWhite.100')}
+      >
         <Image
           alt={name}
           layout='fill'
@@ -92,11 +97,12 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
         {name}
       </Text>
       <Text fontSize='sm'>{role}</Text>
-      <Flex>
+      <Flex gap={2}>
         {socials.map(({ path, name }) => (
           <a target='_blank' href={path} key={name}>
             <IconButton
               key={name}
+              size='lg'
               rounded='full'
               aria-label={name}
               variant='secondaryGhost'
