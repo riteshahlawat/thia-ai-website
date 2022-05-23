@@ -6,11 +6,9 @@ import {
   Button,
   Center,
   Circle,
-  Divider,
   Flex,
   Heading,
   IconButton,
-  Square,
   Text,
   useColorModeValue,
   VStack,
@@ -46,7 +44,7 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Lasitha Amuwala',
-    role: 'Founder',
+    role: 'role',
     imgPath: '/team/lasitha_amuwala.jpg',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/lasitha-amuwala/' },
@@ -55,13 +53,13 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Michelle Lenartowicz',
-    role: 'Founder',
+    role: 'role',
     imgPath: '/team/michelle_lenartowicz.jpg',
     socials: [{ name: 'LinkedIn', path: 'https://www.linkedin.com/in/michellelenartowicz/' }],
   },
   {
     name: 'David Chan',
-    role: 'Founder',
+    role: 'role',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/dchan0013/' },
       { name: 'Github', path: 'https://github.com/occamsrazor0013' },
@@ -69,7 +67,7 @@ const teamData: Array<MemberType> = [
   },
   {
     name: 'Agamjot Saini',
-    role: 'Founder',
+    role: 'role',
     imgPath: '/team/agamjot_saini.jpg',
     socials: [
       { name: 'LinkedIn', path: 'https://www.linkedin.com/in/agamjot-saini/' },
@@ -90,7 +88,7 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
           quality={100}
         />
       </Circle>
-      <Text fontSize='lg' fontWeight={600} letterSpacing='wider'>
+      <Text fontSize='md' fontWeight={600} letterSpacing='wider' pt={2}>
         {name}
       </Text>
       <Text fontSize='sm'>{role}</Text>
@@ -120,7 +118,7 @@ const About: NextPage = () => {
   return (
     <>
       <Center className='fullHeightWithoutNav' pb='var(--header-height)'>
-        <VStack spacing={5} align='center' textAlign='center' mx={{ base: 3, md: 20 }}>
+        <VStack spacing={5} align='center' textAlign='center' maxW='7xl'>
           <Text
             fontSize={{ base: 'xs', md: 'md' }}
             casing='uppercase'
