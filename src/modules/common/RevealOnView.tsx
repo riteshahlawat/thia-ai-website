@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const RevealOnView = ({ children }: { children?: React.ReactNode }) => (
+export const RevealOnView = ({ children }: { children?: React.ReactNode }) => (
   <motion.div
     initial={{ opacity: 0, y: '10%' }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -10,5 +10,3 @@ const RevealOnView = ({ children }: { children?: React.ReactNode }) => (
     {children}
   </motion.div>
 );
-
-export default RevealOnView;

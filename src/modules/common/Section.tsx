@@ -1,11 +1,11 @@
 import { Box } from '@chakra-ui/react';
-import ContentContainer from './ContentContainer';
+import { ContentContainer } from './ContentContainer';
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Box> {
   children?: React.ReactNode;
 }
 
-const Section = (props: Props) => {
+export const Section = (props: Props) => {
   const { children, ...rest } = props;
   return (
     <Box as='section' {...rest}>
@@ -13,5 +13,3 @@ const Section = (props: Props) => {
     </Box>
   );
 };
-
-export default Section;

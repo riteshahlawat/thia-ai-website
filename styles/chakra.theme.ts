@@ -11,7 +11,7 @@ const config: ThemeConfig = {
 };
 
 // Extend the theme
-const theme = extendTheme({
+export const theme = extendTheme({
   config,
   fonts: {
     body: `'Poppins', sans-serif`,
@@ -73,5 +73,3 @@ const theme = extendTheme({
     Button,
   },
 });
-
-export default theme;

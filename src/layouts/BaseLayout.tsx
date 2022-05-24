@@ -1,13 +1,13 @@
 import React from 'react';
-import Footer from '../modules/layout/Footer';
-import Navbar from '../modules/layout/Navbar/Navbar';
 import { Box } from '@chakra-ui/react';
+import { Footer } from '../modules/layout/Footer';
+import { Navbar } from '../modules/layout/Navbar/Navbar';
 
 type Props = {
   children?: React.ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+export const Layout = ({ children }: Props) => {
   return (
     <>
       <Navbar />
@@ -18,5 +18,3 @@ const Layout = ({ children }: Props) => {
     </>
   );
 };
-
-export default Layout;

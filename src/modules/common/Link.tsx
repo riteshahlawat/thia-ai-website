@@ -8,12 +8,10 @@ interface props extends LinkProps {
 }
 
 // Next link with chakraUI link style
-const Link = ({ href, children, ...rest }: props) => {
+export const Link = ({ href, children, ...rest }: props) => {
   return (
     <NextLink href={href} passHref>
       <ChakraLink>{children}</ChakraLink>
     </NextLink>
   );
 };
-
-export default Link;

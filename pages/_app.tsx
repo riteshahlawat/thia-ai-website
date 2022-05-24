@@ -1,9 +1,9 @@
 import '@fontsource/poppins';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Layout from '../src/layouts/BaseLayout';
-import theme from '../styles/chakra.theme';
-import ProgressBar from '../src/hooks/progressBar';
+import { theme } from '../styles/chakra.theme';
+import { Layout } from '../src/layouts/BaseLayout';
+import { ProgressBar } from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayoutType';
 

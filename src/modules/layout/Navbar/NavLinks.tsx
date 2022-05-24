@@ -10,7 +10,7 @@ const navItemLinks = [
   links.support.index,
 ];
 
-const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
+export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
   const { toggleColorMode: toggleMode } = useColorMode();
   const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
   const text = useColorModeValue('dark', 'light');
@@ -59,5 +59,3 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
     </Box>
   );
 };
-
-export default NavLinks;

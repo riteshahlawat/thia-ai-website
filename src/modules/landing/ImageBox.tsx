@@ -1,5 +1,5 @@
-import Section from '../common/Section';
-import RevealOnView from '../common/RevealOnView';
+import { Section } from '../common/Section';
+import { RevealOnView } from '../common/RevealOnView';
 import { Box, Button, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 interface ImageBoxProps {
@@ -9,7 +9,7 @@ interface ImageBoxProps {
   description: string;
 }
 
-const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => {
+export const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => {
   return (
     <RevealOnView>
       <Section my={{ base: 16, md: 64 }}>
@@ -57,5 +57,3 @@ const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => 
     </RevealOnView>
   );
 };
-
-export default ImageBox;

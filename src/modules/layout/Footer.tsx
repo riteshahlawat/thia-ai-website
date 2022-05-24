@@ -15,8 +15,8 @@ import {
 import { ReactNode } from 'react';
 import { links, socials } from '../../constants/links';
 import { BiMailSend } from 'react-icons/bi';
-import ContentContainer from '../common/ContentContainer';
-import Link from '../common/Link';
+import { ContentContainer } from '../common/ContentContainer';
+import { Link } from '../common/Link';
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -26,7 +26,7 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <Box
       as='footer'
@@ -135,4 +135,4 @@ export default function Footer() {
       </ContentContainer>
     </Box>
   );
-}
+};

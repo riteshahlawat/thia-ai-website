@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { FaTimes, FaBars } from 'react-icons/fa';
 
-const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => {
+export const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => {
   return (
     <Box display={{ base: 'block', md: 'none' }} onClick={toggle}>
       <IconButton
@@ -19,5 +19,3 @@ const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) 
     </Box>
   );
 };
-
-export default NavToggle;

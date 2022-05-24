@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import NavToggle from './NavToggle';
-import NavLinks from './NavLinks';
-import NavContainer from './NavContainer';
+import { NavLinks } from './NavLinks';
+import { NavToggle } from './NavToggle';
+import { NavContainer } from './NavContainer';
 
-const Navbar = () => {
+export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(isOpen => !isOpen);
@@ -17,8 +17,6 @@ const Navbar = () => {
     </NavContainer>
   );
 };
-
-export default Navbar;
 
 // search bar
 {
