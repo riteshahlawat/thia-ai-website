@@ -1,5 +1,6 @@
 import '@fontsource/poppins';
 import '../styles/globals.css';
+import '../styles/nprogress.css';
 import type { AppProps } from 'next/app';
 import { theme } from '../styles/chakra.theme';
 import { Layout } from '../src/layouts/BaseLayout';
