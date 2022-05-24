@@ -84,7 +84,7 @@ export const Footer = () => {
               <Link href={'/about'}>About us</Link>
               <Link href={'#'}>Blog</Link>
               <Link href={'#'}>Contact us</Link>
-              <Link href={'#'}>Careers</Link>
+              <Link href={'/careers'}>Careers</Link>
               <Link href={'#'}>Partners</Link>
             </VStack>
           </GridItem>
