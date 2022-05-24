@@ -1,1 +1,1 @@
-export { default } from '../src/views/landing/landing';
+export { default } from './landing';

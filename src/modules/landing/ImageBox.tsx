@@ -1,5 +1,5 @@
-import Section from './Section';
-import RevealOnView from '../../common/RevealOnView';
+import Section from '../common/Section';
+import RevealOnView from '../common/RevealOnView';
 import { Box, Button, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 interface ImageBoxProps {

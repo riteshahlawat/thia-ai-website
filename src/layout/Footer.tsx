@@ -13,10 +13,10 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { links, socials } from '../constants';
+import { links, socials } from '../constants/links';
 import { BiMailSend } from 'react-icons/bi';
-import ContentContainer from './ContentContainer';
-import Link from '../common/Link';
+import ContentContainer from '../modules/common/ContentContainer';
+import Link from '../modules/common/Link';
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (

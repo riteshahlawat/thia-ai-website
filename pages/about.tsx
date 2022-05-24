@@ -1,6 +1,6 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import ContentContainer from '../layout/ContentContainer';
+import ContentContainer from '../src/modules/common/ContentContainer';
 import {
   Box,
   Button,

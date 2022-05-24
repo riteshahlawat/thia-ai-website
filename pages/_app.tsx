@@ -5,7 +5,7 @@ import Layout from '../src/layout/Layout';
 import theme from '../styles/chakra.theme';
 import ProgressBar from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import { NextPageWithLayout } from '../src/NextPageWithLayoutType';
+import { NextPageWithLayout } from '../src/types/NextPageWithLayoutType';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;

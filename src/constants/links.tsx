@@ -1,15 +1,13 @@
-import { UrlObject } from 'url';
 import React from 'react';
+import { UrlObject } from 'url';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
-interface LinkType {
-  path: string | UrlObject;
-  icon: React.ReactNode;
-  label: string;
-}
-
 interface LinkObjType {
-  [key: string]: LinkType;
+  [key: string]: {
+    path: string | UrlObject;
+    icon: React.ReactNode;
+    label: string;
+  };
 }
 
 export const links: { [key: string]: LinkObjType } = {

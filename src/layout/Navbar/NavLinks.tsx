@@ -1,7 +1,7 @@
 import { Box, Button, IconButton, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
-import { links } from '../../constants';
+import { links } from '../../constants/links';
 
 const navItemLinks = [
   links.docs.index,

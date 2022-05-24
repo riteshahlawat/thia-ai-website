@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import Section from './Section';
-import ImageBox from './ImageBox';
+import Section from '../src/modules/common/Section';
+import ImageBox from '../src/modules/landing/ImageBox';
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';

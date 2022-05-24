@@ -1,6 +1,6 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import Link from '../../src/common/Link';
+import Link from '../../src/modules/common/Link';
 import styles from '../../styles/Home.module.css';
 
 const Docs: NextPage = () => {

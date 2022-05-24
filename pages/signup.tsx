@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ReactElement } from 'react';
-import { NextPageWithLayout } from '../NextPageWithLayoutType';
+import { NextPageWithLayout } from '../src/types/NextPageWithLayoutType';
 import { Center } from '@chakra-ui/react';
 
 const SignUp: NextPageWithLayout = () => {

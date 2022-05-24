@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import ContentContainer from '../../layout/ContentContainer';
+import ContentContainer from './ContentContainer';
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Box> {
   children?: React.ReactNode;
