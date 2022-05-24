@@ -12,9 +12,9 @@ import {
   Text,
   useColorModeValue,
   VStack,
+  Link,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 interface MemberType {
@@ -77,8 +77,9 @@ const teamData: Array<MemberType> = [
 ];
 
 const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
+  const socialButtonHoverBG = useColorModeValue('thia.gray.200', 'thia.gray.900');
   return (
-    <VStack p={5}>
+    <VStack p={5} gap={1}>
       <Circle
         size='175px'
         pos='relative'
@@ -99,21 +100,20 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
       <Text fontSize='sm'>{role}</Text>
       <Flex gap={2}>
         {socials.map(({ path, name }) => (
-          <a target='_blank' href={path} key={name}>
+          <Link href={path} key={name} isExternal>
             <IconButton
               key={name}
-              size='lg'
               rounded='full'
               aria-label={name}
               variant='secondaryGhost'
               _hover={{
                 borderRadius: '3xl',
-                bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                bg: socialButtonHoverBG,
               }}
             >
               {socialIcons[name]}
             </IconButton>
-          </a>
+          </Link>
         ))}
       </Flex>
     </VStack>
