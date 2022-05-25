@@ -25,10 +25,8 @@ import {
 	AuthErrorCodes,
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
-    getAuth, 
     getRedirectResult
 } from 'firebase/auth';
-import { getFunctions } from 'firebase/functions';
 import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
@@ -37,9 +35,7 @@ import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 const ChakraGoogleDarkButton = chakra(GoogleDarkButton);
 
 const Register: NextPage = () => {
-    const app = useFirebaseApp();
-    const auth = getAuth(app);
-    const functions = getFunctions(app);
+    const auth = useAuth();
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
         prompt: 'select_account consent',
@@ -48,20 +44,6 @@ const Register: NextPage = () => {
     const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
-
-    const getOAuthResponse = async () => {
-		const result = await getRedirectResult(auth);
-		if (result) {
-			const idToken = await result.user.getIdToken();
-			await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
-				uid: result.user.uid,
-			});
-			setGoogleSignInLoading(true);
-			setGoogleRegisteringLoading(true);
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			// Send that result to backend to create custom token
-		}
-	};
 
     const [googleSignInLoading, setGoogleSignInLoading] = useState(false);
 	const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
@@ -94,6 +76,20 @@ const Register: NextPage = () => {
     const googleLogin = async () => {
         await signInWithRedirect(auth, provider);
     };
+
+    const getOAuthResponse = async () => {
+		const result = await getRedirectResult(auth);
+		if (result) {
+			const idToken = await result.user.getIdToken();
+			await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
+				uid: result.user.uid,
+			});
+			setGoogleSignInLoading(true);
+			setGoogleRegisteringLoading(true);
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			// Send that result to backend to create custom token
+		}
+	};
 
     const handleRegistrationInputsFocused = (e: React.FocusEvent<HTMLInputElement>) => {
         const name: UserRegistrationDetailNames = e.target.name as UserRegistrationDetailNames;
@@ -281,132 +277,128 @@ const Register: NextPage = () => {
     }, []);
 
     return (
-        <AuthProvider sdk={auth}>
-            <FunctionsProvider sdk={functions}>
-                <Center
-                    w='full'
-                    h='full'
-                    overflowX='hidden'
-                    sx={{
-                        '&::-webkit-scrollbar': {
-                            w: '8px',
-                            bg: 'gray.600',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            bg: 'gray.900',
-                        },
-                    }}>
-                    <Stack spacing='4'>
-                        <Center>
-                            <Heading size={useBreakpointValue({ base: 'xl', md: '2xl' })}>Register</Heading>
-                        </Center>
-                        <Stack spacing='2'>
-                            <FormControl
-                                isInvalid={
-                                    userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''
-                                }>
-                                <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
-                                    Name
-                                </FormLabel>
-                                <Input
-                                    name='fullName'
-                                    placeholder='Full Name'
-                                    autoFocus
-                                    type='text'
-                                    onBlur={handleRegistrationInputsFocused}
-                                    onChange={handleRegistrationInputsChange}
-                                />
-                                <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
-                            </FormControl>
-                            <FormControl
-                                isInvalid={
-                                    userRegistrationFocusedOnce.emailAddress &&
-                                    userRegistrationErrorMessages.emailAddress != ''
-                                }>
-                                <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
-                                    Email
-                                </FormLabel>
-                                <Input
-                                    name='emailAddress'
-                                    placeholder='E-mail Address'
-                                    type='text'
-                                    onBlur={handleRegistrationInputsFocused}
-                                    onChange={handleRegistrationInputsChange}
-                                />
-                                <FormErrorMessage fontSize='xs'>
-                                    {userRegistrationErrorMessages.emailAddress}
-                                </FormErrorMessage>
-                            </FormControl>
-                            <FormControl
-                                isInvalid={
-                                    userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''
-                                }>
-                                <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
-                                    Password
-                                </FormLabel>
-                                <Input
-                                    name='password'
-                                    placeholder='Password'
-                                    type='password'
-                                    onBlur={handleRegistrationInputsFocused}
-                                    onChange={handleRegistrationInputsChange}
-                                />
-                                <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.password}</FormErrorMessage>
-                            </FormControl>
-                            <FormControl
-                                isInvalid={
-                                    userRegistrationFocusedOnce.passwordRetype &&
-                                    userRegistrationErrorMessages.passwordRetype != ''
-                                }>
-                                <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
-                                    Re-type Password
-                                </FormLabel>
-                                <Input
-                                    name='passwordRetype'
-                                    placeholder='Re-type Password'
-                                    type='password'
-                                    onBlur={handleRegistrationInputsFocused}
-                                    onChange={handleRegistrationInputsChange}
-                                />
-                                <FormErrorMessage fontSize='xs'>
-                                    {userRegistrationErrorMessages.passwordRetype}
-                                </FormErrorMessage>
-                            </FormControl>
-                        </Stack>
-                        <Button
-                            variant='solid'
-                            colorScheme='teal'
-                            w='full'
-                            onClick={registerNewAccount}
-                            isLoading={emailRegisteringLoading}>
-                            Register
-                        </Button>
-                        <HStack justify='space-around'>
-                            <Text fontSize='sm'>Already have an account?</Text>
-                            <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/login')}>
-                                <Text fontSize='sm'>Sign In</Text>
-                            </Button>
-                        </HStack>
-                        <Button
-                            bg='#4285F4'
-                            borderRadius='sm'
-                            onClick={googleLogin}
-                            isLoading={googleRegisteringLoading}
-                            _hover={{
-                                backgroundColor: '#4274f4',
-                            }}
-                            _active={{
-                                backgroundColor: '#426cf4',
-                            }}
-                            // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
-                            px='0'
-                            pr='2'>
-                            Register with Google
-                        </Button>
-                    </Stack>
+        <Center
+            w='full'
+            h='full'
+            overflowX='hidden'
+            sx={{
+                '&::-webkit-scrollbar': {
+                    w: '8px',
+                    bg: 'gray.600',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    bg: 'gray.900',
+                },
+            }}>
+            <Stack spacing='4'>
+                <Center>
+                    <Heading size={useBreakpointValue({ base: 'xl', md: '2xl' })}>Register</Heading>
                 </Center>
-            </FunctionsProvider>
-        </AuthProvider>
+                <Stack spacing='2'>
+                    <FormControl
+                        isInvalid={
+                            userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''
+                        }>
+                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                            Name
+                        </FormLabel>
+                        <Input
+                            name='fullName'
+                            placeholder='Full Name'
+                            autoFocus
+                            type='text'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isInvalid={
+                            userRegistrationFocusedOnce.emailAddress &&
+                            userRegistrationErrorMessages.emailAddress != ''
+                        }>
+                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                            Email
+                        </FormLabel>
+                        <Input
+                            name='emailAddress'
+                            placeholder='E-mail Address'
+                            type='text'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='xs'>
+                            {userRegistrationErrorMessages.emailAddress}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isInvalid={
+                            userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''
+                        }>
+                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                            Password
+                        </FormLabel>
+                        <Input
+                            name='password'
+                            placeholder='Password'
+                            type='password'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.password}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isInvalid={
+                            userRegistrationFocusedOnce.passwordRetype &&
+                            userRegistrationErrorMessages.passwordRetype != ''
+                        }>
+                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                            Re-type Password
+                        </FormLabel>
+                        <Input
+                            name='passwordRetype'
+                            placeholder='Re-type Password'
+                            type='password'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='xs'>
+                            {userRegistrationErrorMessages.passwordRetype}
+                        </FormErrorMessage>
+                    </FormControl>
+                </Stack>
+                <Button
+                    variant='solid'
+                    colorScheme='teal'
+                    w='full'
+                    onClick={registerNewAccount}
+                    isLoading={emailRegisteringLoading}>
+                    Register
+                </Button>
+                <HStack justify='space-around'>
+                    <Text fontSize='sm'>Already have an account?</Text>
+                    <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/login')}>
+                        <Text fontSize='sm'>Sign In</Text>
+                    </Button>
+                </HStack>
+                <Button
+                    bg='#4285F4'
+                    borderRadius='sm'
+                    onClick={googleLogin}
+                    isLoading={googleRegisteringLoading}
+                    _hover={{
+                        backgroundColor: '#4274f4',
+                    }}
+                    _active={{
+                        backgroundColor: '#426cf4',
+                    }}
+                    // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
+                    px='0'
+                    pr='2'>
+                    Register with Google
+                </Button>
+            </Stack>
+        </Center>
   )
 };
 

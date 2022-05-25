@@ -6,17 +6,20 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../chakra.theme';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
+import AuthComponent from '../src/auth/AuthComponent';
 
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps, }: AppProps) => {
     ProgressBar();
 
     return (
         <ChakraProvider theme={theme}>
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-            <Layout>
-            <Component {...pageProps} />
-            </Layout>
+            <AuthComponent>
+                <Layout>
+                <Component {...pageProps} />
+                </Layout>
+            </AuthComponent>
         </FirebaseAppProvider>
         </ChakraProvider>
     );

@@ -2,10 +2,9 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router'
 import { getFunctions } from 'firebase/functions';
-import { AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
+import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
-import { useAuth } from 'reactfire';
 import {
 	GoogleAuthProvider,
 	signInWithRedirect,
@@ -42,9 +41,7 @@ import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 const ChakraGoogleDarkButton = chakra(GoogleDarkButton);
 
 const Login: NextPage = () => {
-	const app = useFirebaseApp();
-	const auth = getAuth(app);
-	const functions = getFunctions(app);
+	const auth = useAuth();
 	const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
@@ -290,6 +287,7 @@ const Login: NextPage = () => {
 			});
 			setGoogleSignInLoading(true);
 			setGoogleRegisteringLoading(true);
+            router.push('dashboard');
 			const credential = GoogleAuthProvider.credentialFromResult(result);
 			// Send that result to backend to create custom token
 		}
@@ -314,122 +312,118 @@ const Login: NextPage = () => {
     }, []);
 
 	return (
-		<AuthProvider sdk={auth}>
-			<FunctionsProvider sdk={functions}>
-                    <Center w='full' h='full'>
-                        <VStack spacing='5' w={{ base: '65%', sm: '67%', md: '70%' }}>
-                            <Box w='full'>
-                                <Center>
-                                    <chakra.img src={thiaIcon.src} width='60px' h='60px' />
-                                </Center>
-                                <Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
-                                    <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
-                                        Log in to your account
-                                    </Heading>
-                                    <Text fontSize={useBreakpointValue({ base: '14px', md: '16px' })} color='gray.300'>
-                                        Start training on your hardware
-                                    </Text>
-                                </Stack>
-                            </Box>
-                            <VStack spacing='3' w='full'>
-                                <FormControl
-                                    variant='floating'
-                                    isRequired
-                                    isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
-                                    <Input
-                                        placeholder=' '
-                                        autoFocus
-                                        type='email'
-                                        value={emailAddress}
-                                        onBlur={() => setEmailFocusedOnce(true)}
-                                        onChange={(e) => {
-                                            const val = e.target.value;
-                                            // Email address input handling
-                                            const emailAddressPattern =
-                                                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                                            if (!val.match(emailAddressPattern)) {
-                                                // Invalid email address pattern
-                                                setEmailErrorMessage('Invalid email address');
-                                            } else setEmailErrorMessage('');
-                                            setEmailAddress(val);
-                                        }}
-                                    />
-                                    <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Email Address</FormLabel>
-                                    <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    variant='floating'
-                                    isRequired
-                                    isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}>
-                                    <Input
-                                        placeholder=' '
-                                        value={password}
-                                        onBlur={() => setPasswordFocusedOnce(true)}
-                                        onChange={(e) => {
-                                            const val = e.target.value;
-                                            if (val.trim().length == 0) {
-                                                setPasswordErrorMessage('Enter a password');
-                                            } else {
-                                                setPasswordErrorMessage('');
-                                            }
-                                            setPassword(val);
-                                        }}
-                                        type='password'
-                                    />
-                                    <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Password</FormLabel>
-                                    <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
-                                </FormControl>
-                            </VStack>
-                            <HStack justify='space-between' w='full' align='baseline'>
-                                <Checkbox isChecked={rememberMe} size='sm' onChange={(e) => setRememberMe(e.target.checked)}>
-                                    <Text fontSize='sm'>Remember me</Text>
-                                </Checkbox>
-                                <Button variant='link' colorScheme='teal' size='sm' onClick={forgorPassword}>
-                                    <Text fontSize='sm'>Forgot password</Text>
-                                </Button>
-                            </HStack>
-                            <Button
-                                variant='solid'
-                                colorScheme='teal'
-                                w='full'
-                                onClick={emailLogin}
-                                isLoading={emailSignInLoading}>
-                                Sign in
-                            </Button>
-                            <Button
-                                variant='outline'
-                                colorScheme='gray'
-                                w='full'
-                                onClick={resendEmailVerification}
-                                isLoading={sendingEmailVerification}>
-                                Resend Email Verification
-                            </Button>
-                            <HStack justify='space-around'>
-                                <Text fontSize='sm'>New to Thia?</Text>
-                                <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/register')}>
-                                    <Text fontSize='sm'>Sign up</Text>
-                                </Button>
-                            </HStack>
-                            <Button
-                                bg='#4285F4'
-                                borderRadius='sm'
-                                onClick={googleLogin}
-                                isLoading={googleSignInLoading}
-                                _hover={{
-                                    backgroundColor: '#4274f4',
-                                }}
-                                _active={{
-                                    backgroundColor: '#426cf4',
-                                }}
-                                // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
-                                px='0'
-                                pr='2'>
-                                Sign in with Google
-                            </Button>
-                        </VStack>
+        <Center w='full' h='full'>
+            <VStack spacing='5' w={{ base: '65%', sm: '67%', md: '70%' }}>
+                <Box w='full'>
+                    <Center>
+                        <chakra.img src={thiaIcon.src} width='60px' h='60px' />
                     </Center>
-			</FunctionsProvider>
-		</AuthProvider>
+                    <Stack spacing={{ base: '2', md: '3' }} textAlign='center'>
+                        <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
+                            Log in to your account
+                        </Heading>
+                        <Text fontSize={useBreakpointValue({ base: '14px', md: '16px' })} color='gray.300'>
+                            Start training on your hardware
+                        </Text>
+                    </Stack>
+                </Box>
+                <VStack spacing='3' w='full'>
+                    <FormControl
+                        variant='floating'
+                        isRequired
+                        isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
+                        <Input
+                            placeholder=' '
+                            autoFocus
+                            type='email'
+                            value={emailAddress}
+                            onBlur={() => setEmailFocusedOnce(true)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                // Email address input handling
+                                const emailAddressPattern =
+                                    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                                if (!val.match(emailAddressPattern)) {
+                                    // Invalid email address pattern
+                                    setEmailErrorMessage('Invalid email address');
+                                } else setEmailErrorMessage('');
+                                setEmailAddress(val);
+                            }}
+                        />
+                        <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Email Address</FormLabel>
+                        <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        variant='floating'
+                        isRequired
+                        isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}>
+                        <Input
+                            placeholder=' '
+                            value={password}
+                            onBlur={() => setPasswordFocusedOnce(true)}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val.trim().length == 0) {
+                                    setPasswordErrorMessage('Enter a password');
+                                } else {
+                                    setPasswordErrorMessage('');
+                                }
+                                setPassword(val);
+                            }}
+                            type='password'
+                        />
+                        <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Password</FormLabel>
+                        <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
+                    </FormControl>
+                </VStack>
+                <HStack justify='space-between' w='full' align='baseline'>
+                    <Checkbox isChecked={rememberMe} size='sm' onChange={(e) => setRememberMe(e.target.checked)}>
+                        <Text fontSize='sm'>Remember me</Text>
+                    </Checkbox>
+                    <Button variant='link' colorScheme='teal' size='sm' onClick={forgorPassword}>
+                        <Text fontSize='sm'>Forgot password</Text>
+                    </Button>
+                </HStack>
+                <Button
+                    variant='solid'
+                    colorScheme='teal'
+                    w='full'
+                    onClick={emailLogin}
+                    isLoading={emailSignInLoading}>
+                    Sign in
+                </Button>
+                <Button
+                    variant='outline'
+                    colorScheme='gray'
+                    w='full'
+                    onClick={resendEmailVerification}
+                    isLoading={sendingEmailVerification}>
+                    Resend Email Verification
+                </Button>
+                <HStack justify='space-around'>
+                    <Text fontSize='sm'>New to Thia?</Text>
+                    <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/register')}>
+                        <Text fontSize='sm'>Sign up</Text>
+                    </Button>
+                </HStack>
+                <Button
+                    bg='#4285F4'
+                    borderRadius='sm'
+                    onClick={googleLogin}
+                    isLoading={googleSignInLoading}
+                    _hover={{
+                        backgroundColor: '#4274f4',
+                    }}
+                    _active={{
+                        backgroundColor: '#426cf4',
+                    }}
+                    // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
+                    px='0'
+                    pr='2'>
+                    Sign in with Google
+                </Button>
+            </VStack>
+        </Center>
 	)
 };
 
