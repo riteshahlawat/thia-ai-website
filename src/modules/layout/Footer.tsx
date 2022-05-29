@@ -13,10 +13,10 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { links, socials } from '../../constants/links';
 import { BiMailSend } from 'react-icons/bi';
-import ContentContainer from './ContentContainer';
-import Link from '../common/Link';
+import { ContentContainer } from '../common/ContentContainer';
+import { Link } from '../common/Link';
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
@@ -26,17 +26,12 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const socials = [
-  { label: 'Twitter', path: '#', icon: <FaTwitter /> },
-  { label: 'LinkedIn', path: '#', icon: <FaLinkedin /> },
-  { label: 'Github', path: '#', icon: <FaGithub /> },
-];
-
-export default function Footer() {
+export const Footer = () => {
   return (
     <Box
-      bg={useColorModeValue('brand.bg.light', 'brand.bg.dark')}
-      color={useColorModeValue('brand.color.light', 'brand.color.dark')}
+      as='footer'
+      bg={useColorModeValue('thia.bg-base', 'thia.bg-dark')}
+      color={useColorModeValue('thia.text-base', 'thia.text-dark')}
     >
       <ContentContainer>
         <Grid
@@ -54,15 +49,21 @@ export default function Footer() {
               <Box fontSize='3xl'>Thia</Box>
               <Text fontSize={16}>Making AutoML Simple.</Text>
               <Stack direction={'row'} spacing={6}>
-                {socials.map(({ label, path, icon }) => (
-                  <IconButton
-                    key={label}
-                    as='a'
-                    href={path}
-                    rounded='full'
-                    aria-label={label}
-                    icon={icon}
-                  ></IconButton>
+                {Object.values(socials).map(({ label, path, icon }) => (
+                  <Link href={path} key={label} passHref>
+                    <IconButton
+                      key={label}
+                      rounded='full'
+                      aria-label={label}
+                      variant='secondary'
+                      _hover={{
+                        borderRadius: '3xl',
+                        bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                      }}
+                    >
+                      {icon}
+                    </IconButton>
+                  </Link>
                 ))}
               </Stack>
             </VStack>
@@ -70,9 +71,9 @@ export default function Footer() {
           <GridItem>
             <VStack align={'flex-start'}>
               <ListHeader>Product</ListHeader>
-              <Link href='/docs'>Documentation</Link>
-              <Link href='/pricing'>Pricing</Link>
-              <Link href='/download'>Download</Link>
+              <Link href={links.docs.index.path}>{links.docs.index.label}</Link>
+              <Link href={links.pricing.index.path}>{links.pricing.index.label}</Link>
+              <Link href={links.download.index.path}>{links.download.index.label}</Link>
               <Link href={'#'}>Features</Link>
               <Link href={'#'}>Tutorials</Link>
             </VStack>
@@ -80,10 +81,10 @@ export default function Footer() {
           <GridItem>
             <VStack align={'flex-start'}>
               <ListHeader>Company</ListHeader>
-              <Link href={'#'}>About us</Link>
+              <Link href={'/about'}>About us</Link>
               <Link href={'#'}>Blog</Link>
               <Link href={'#'}>Contact us</Link>
-              <Link href={'#'}>Careers</Link>
+              <Link href={'/careers'}>Careers</Link>
               <Link href={'#'}>Partners</Link>
             </VStack>
           </GridItem>
@@ -100,18 +101,14 @@ export default function Footer() {
             <VStack align={'flex-start'}>
               <ListHeader>Subscribe to our newsletter</ListHeader>
               <HStack w='full'>
-                <Input placeholder={'Your email address'} variant='filled' />
-                <IconButton
-                  aria-label='Subscribe'
-                  bg={useColorModeValue('brand.primary.light', 'brand.primary.dark')}
-                  _hover={{
-                    bg: useColorModeValue('brand.primaryHover.light', 'brand.primaryHover.dark'),
-                  }}
-                  _active={{
-                    bg: useColorModeValue('brand.primaryHover.light', 'brand.primaryHover.dark'),
-                  }}
-                  icon={<BiMailSend />}
+                <Input
+                  placeholder={'Your email address'}
+                  variant='filled'
+                  colorScheme='thia.gray'
+                  bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+                  _hover={{ bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200') }}
                 />
+                <IconButton aria-label='Subscribe' variant='primary' icon={<BiMailSend />} />
               </HStack>
             </VStack>
           </GridItem>
@@ -120,12 +117,22 @@ export default function Footer() {
         <Flex justify='space-between' py='8' fontSize='sm' gap={4}>
           <Text>© 2021 Thia CA, inc. All rights reserved</Text>
           <HStack spacing={{ base: 4, md: 8 }} align='start'>
-            <Link href={'#'}>Terms of Service</Link>
-            <Link href={'#'}>Privacy Policy</Link>
+            <Link href={'#'}>
+              Terms
+              <Box as='span' display={{ base: 'none', md: 'inline' }}>
+                {' of Service'}
+              </Box>
+            </Link>
+            <Link href={'#'}>
+              Privacy
+              <Box as='span' display={{ base: 'none', md: 'inline' }}>
+                {' Policy'}
+              </Box>
+            </Link>
             <Link href={'#'}>License</Link>
           </HStack>
         </Flex>
       </ContentContainer>
     </Box>
   );
-}
+};

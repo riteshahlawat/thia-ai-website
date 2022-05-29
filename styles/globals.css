@@ -2,6 +2,71 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Poppins' sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins' sans-serif;
+}
+
+:root {
+  --purple-50: #e1d5ff;
+  --purple-100: #c7b0ff;
+  --purple-200: #a581ff;
+  --purple-300: #8a5cff;
+  --purple-400: #7b47ff;
+  --purple-500: #5e1fff;
+  --purple-600: #4800ff;
+  --purple-700: #3600ca;
+  --purple-800: #2b01a0;
+  --purple-900: #1f0066;
+  --purple-950: #12003d;
+  --purple-990: #08001a;
+
+  --gray-50: rgb(247, 247, 247);
+  --gray-100: rgb(240, 240, 240);
+  --gray-200: rgb(220, 220, 220);
+  --gray-300: rgb(204, 204, 204);
+  --gray-400: rgb(179, 179, 179);
+  --gray-500: rgb(153, 153, 153);
+  --gray-600: rgb(128, 128, 128);
+  --gray-700: rgb(102, 102, 102);
+  --gray-800: rgb(77, 77, 77);
+  --gray-900: rgb(51, 51, 51);
+  --gray-950: rgb(26, 26, 26);
+  --gray-990: rgb(13, 13, 13);
+
+  --header-height: 72px;
+}
+
+.nav {
+  height: var(--header-height);
+}
+
+.fullHeightWithoutNav {
+  height: calc(100vh - var(--header-height));
+}
+
+/*
+  blue tint gray
+  --gray-50: #f2f5f7;
+  --gray-100: #edf0f2;
+  --gray-200: #e1e4e6;
+  --gray-300: #c8cbcd;
+  --gray-400: #afb2b4;
+  --gray-500: #96999b;
+  --gray-600: #7d8082;
+  --gray-700: #646769;
+  --gray-800: #4b4e50;
+  --gray-900: #323537;
+  --gray-950: #191c1e;
+  --gray-990: #0d1012;
+  */

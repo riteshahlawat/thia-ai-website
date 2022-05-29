@@ -1,9 +1,11 @@
+import '@fontsource/poppins';
 import '../styles/globals.css';
+import '../styles/nprogress.css';
 import type { AppProps } from 'next/app';
-import Layout from '../src/layout/Layout';
-import ProgressBar from '../src/hooks/progressBar';
+import { theme } from '../styles/chakra.theme';
+import { Layout } from '../src/layouts/BaseLayout';
+import { ProgressBar } from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../chakra.theme';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
 import AuthComponent from '../src/auth/AuthComponent';

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import Link from '../../src/common/Link';
-import styles from '../../styles/Home.module.css';
+import { Link } from '../../src/modules/common/Link';
 
 const Docs: NextPage = () => {
   return (

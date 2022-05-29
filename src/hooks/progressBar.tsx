@@ -1,10 +1,9 @@
 import React from 'react';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-
 import 'nprogress/nprogress.css';
 
-const ProgressBar = () => {
+export const ProgressBar = () => {
   React.useEffect(() => {
     NProgress.configure({ showSpinner: false });
     const handleRouteStart = () => NProgress.start();
@@ -22,5 +21,3 @@ const ProgressBar = () => {
     };
   }, []);
 };
-
-export default ProgressBar;
