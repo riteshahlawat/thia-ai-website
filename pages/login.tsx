@@ -1,61 +1,60 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { getFunctions } from 'firebase/functions';
 import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import {
-	GoogleAuthProvider,
-	signInWithRedirect,
-	signInWithEmailAndPassword,
-	sendEmailVerification,
-	AuthErrorCodes,
-	sendPasswordResetEmail,
-	getAuth,
-	getRedirectResult
+    GoogleAuthProvider,
+    signInWithRedirect,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    AuthErrorCodes,
+    sendPasswordResetEmail,
+    getAuth,
+    getRedirectResult,
 } from 'firebase/auth';
 import {
-	Box,
-	Button,
-	Center,
-	chakra,
-	Heading,
-	Stack,
-	useBreakpointValue,
-	VStack,
-	Text,
-	Input,
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	HStack,
-	Checkbox,
-	useToast,
-	Spinner,
+    Box,
+    Button,
+    Center,
+    chakra,
+    Heading,
+    Stack,
+    useBreakpointValue,
+    VStack,
+    Text,
+    Input,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    HStack,
+    Checkbox,
+    useToast,
+    Spinner,
     LightMode,
-    DarkMode
+    DarkMode,
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
-import thiaIcon from '../public/icon.png'
+import thiaIcon from '../public/icon.png';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 
-
 const Login: NextPage = () => {
-	const auth = useAuth();
-	const router = useRouter();
+    const auth = useAuth();
+    const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
 
-	const [googleSignInLoading, setGoogleSignInLoading] = useState(false);
-	const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
-	const [emailSignInLoading, setEmailSignInLoading] = useState(false);
-	const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
+    const [googleSignInLoading, setGoogleSignInLoading] = useState(false);
+    const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
+    const [emailSignInLoading, setEmailSignInLoading] = useState(false);
+    const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
 
     type DarkModeProps = {
         children: React.ReactNode; // 👈️ type children
     };
-    
+
     const DarkMode = (props: DarkModeProps) => {
         return <Center>{props.children}</Center>;
     };
@@ -160,7 +159,7 @@ const Login: NextPage = () => {
         }
         setSendingEmailVerification(true);
         signInWithEmailAndPassword(auth, emailAddress, password)
-            .then(async (userCredential) => {
+            .then(async userCredential => {
                 if (userCredential.user.emailVerified) {
                     // User is already verified
                     toast({
@@ -237,7 +236,7 @@ const Login: NextPage = () => {
         }
         setEmailSignInLoading(true);
         signInWithEmailAndPassword(auth, emailAddress, password)
-            .then(async (userCredential) => {
+            .then(async userCredential => {
                 if (!userCredential.user.emailVerified) {
                     setPassword('');
                     toast({
@@ -288,20 +287,20 @@ const Login: NextPage = () => {
             });
     };
 
-	const getOAuthResponse = async () => {
-		const result = await getRedirectResult(auth);
-		if (result) {
-			const idToken = await result.user.getIdToken();
-			await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
-				uid: result.user.uid,
-			});
-			setGoogleSignInLoading(true);
-			setGoogleRegisteringLoading(true);
+    const getOAuthResponse = async () => {
+        const result = await getRedirectResult(auth);
+        if (result) {
+            const idToken = await result.user.getIdToken();
+            await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
+                uid: result.user.uid,
+            });
+            setGoogleSignInLoading(true);
+            setGoogleRegisteringLoading(true);
             router.push('dashboard');
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			// Send that result to backend to create custom token
-		}
-	};
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // Send that result to backend to create custom token
+        }
+    };
 
     useEffect(() => {
         getOAuthResponse();
@@ -321,7 +320,7 @@ const Login: NextPage = () => {
         // each refresh so no point in adding them all.
     }, []);
 
-	return (
+    return (
         <Center w='full' h='full'>
             <VStack spacing='5' w={{ base: '65%', sm: '67%', md: '70%' }}>
                 <Box w='full'>
@@ -332,7 +331,10 @@ const Login: NextPage = () => {
                         <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
                             Log in to your account
                         </Heading>
-                        <Text fontSize={useBreakpointValue({ base: '14px', md: '16px' })} color='gray.300'>
+                        <Text
+                            fontSize={useBreakpointValue({ base: '14px', md: '16px' })}
+                            color='gray.300'
+                        >
                             Start training on your hardware
                         </Text>
                     </Stack>
@@ -341,14 +343,15 @@ const Login: NextPage = () => {
                     <FormControl
                         variant='floating'
                         isRequired
-                        isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
+                        isInvalid={emailFocusedOnce && emailErrorMessage != ''}
+                    >
                         <Input
                             placeholder=' '
                             autoFocus
                             type='email'
                             value={emailAddress}
                             onBlur={() => setEmailFocusedOnce(true)}
-                            onChange={(e) => {
+                            onChange={e => {
                                 const val = e.target.value;
                                 // Email address input handling
                                 const emailAddressPattern =
@@ -360,18 +363,19 @@ const Login: NextPage = () => {
                                 setEmailAddress(val);
                             }}
                         />
-                        <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Email Address</FormLabel>
+                        <FormLabel>Email Address</FormLabel>
                         <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
                     </FormControl>
                     <FormControl
                         variant='floating'
                         isRequired
-                        isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}>
+                        isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}
+                    >
                         <Input
                             placeholder=' '
                             value={password}
                             onBlur={() => setPasswordFocusedOnce(true)}
-                            onChange={(e) => {
+                            onChange={e => {
                                 const val = e.target.value;
                                 if (val.trim().length == 0) {
                                     setPasswordErrorMessage('Enter a password');
@@ -382,12 +386,16 @@ const Login: NextPage = () => {
                             }}
                             type='password'
                         />
-                        <FormLabel bgColor='var(--chakra-colors-gray-800) !important'>Password</FormLabel>
+                        <FormLabel>Password</FormLabel>
                         <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
                     </FormControl>
                 </VStack>
                 <HStack justify='space-between' w='full' align='baseline'>
-                    <Checkbox isChecked={rememberMe} size='sm' onChange={(e) => setRememberMe(e.target.checked)}>
+                    <Checkbox
+                        isChecked={rememberMe}
+                        size='sm'
+                        onChange={e => setRememberMe(e.target.checked)}
+                    >
                         <Text fontSize='sm'>Remember me</Text>
                     </Checkbox>
                     <Button variant='link' colorScheme='teal' size='sm' onClick={forgorPassword}>
@@ -399,7 +407,8 @@ const Login: NextPage = () => {
                     colorScheme='teal'
                     w='full'
                     onClick={emailLogin}
-                    isLoading={emailSignInLoading}>
+                    isLoading={emailSignInLoading}
+                >
                     Sign in
                 </Button>
                 <Button
@@ -407,12 +416,18 @@ const Login: NextPage = () => {
                     colorScheme='gray'
                     w='full'
                     onClick={resendEmailVerification}
-                    isLoading={sendingEmailVerification}>
+                    isLoading={sendingEmailVerification}
+                >
                     Resend Email Verification
                 </Button>
                 <HStack justify='space-around'>
                     <Text fontSize='sm'>New to Thia?</Text>
-                    <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/register')}>
+                    <Button
+                        variant='link'
+                        colorScheme='teal'
+                        size='sm'
+                        onClick={() => router.push('/register')}
+                    >
                         <Text fontSize='sm'>Sign up</Text>
                     </Button>
                 </HStack>
@@ -430,13 +445,14 @@ const Login: NextPage = () => {
                         }}
                         // leftIcon=
                         px='0'
-                        pr='2'>
+                        pr='2'
+                    >
                         Sign in with Google
                     </Button>
                 </DarkMode>
             </VStack>
         </Center>
-	)
+    );
 };
 
 export default Login;
