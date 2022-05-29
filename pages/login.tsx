@@ -160,20 +160,24 @@ const Login: NextPage = () => {
         setSendingEmailVerification(true);
         signInWithEmailAndPassword(auth, emailAddress, password)
             .then(async userCredential => {
-                if (userCredential.user.emailVerified) {
-                    // User is already verified
+                if (!userCredential.user.emailVerified) {
+                    await auth.signOut();
+                    await sendEmailVerification(userCredential.user);
+                    // await auth.signOut();
+                    setPassword('');
                     toast({
                         title: 'Info',
-                        description: 'Email is already verified',
+                        description: 'Email verification sent, check your email',
                         status: 'info',
                         duration: 1500,
                         isClosable: false,
                     });
                 } else {
-                    await sendEmailVerification(userCredential.user);
+                    await auth.signOut();
+                    setPassword('');
                     toast({
                         title: 'Info',
-                        description: 'Email verification sent, check your email',
+                        description: 'Email is already verified',
                         status: 'info',
                         duration: 1500,
                         isClosable: false,
@@ -238,6 +242,7 @@ const Login: NextPage = () => {
         signInWithEmailAndPassword(auth, emailAddress, password)
             .then(async userCredential => {
                 if (!userCredential.user.emailVerified) {
+                    await auth.signOut();
                     setPassword('');
                     toast({
                         title: 'Info',
@@ -246,7 +251,6 @@ const Login: NextPage = () => {
                         duration: 1500,
                         isClosable: false,
                     });
-                    await auth.signOut();
                     setEmailSignInLoading(false);
                 } else {
                     const idToken = await userCredential.user.getIdToken();

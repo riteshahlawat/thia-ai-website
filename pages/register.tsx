@@ -224,17 +224,17 @@ const Register: NextPage = () => {
             displayName: userRegistrationDetails.fullName,
             });
             if (!userCredential.user.emailVerified) {
-            // Send verification email
-            await sendEmailVerification(userCredential.user);
-            toast({
-                title: 'Info',
-                description: 'Email verification sent, check your email',
-                status: 'info',
-                duration: 1500,
-                isClosable: false,
-            });
-            await auth.signOut();
-            setEmailRegisteringLoading(false);
+                // Send verification email
+                await sendEmailVerification(userCredential.user);
+                await auth.signOut();
+                toast({
+                    title: 'Info',
+                    description: 'Email verification sent, check your email',
+                    status: 'info',
+                    duration: 1500,
+                    isClosable: false,
+                });
+                setEmailRegisteringLoading(false);
             } else {
             // Email already verified (don't know when this will happen but it's here in case it does)
             }
