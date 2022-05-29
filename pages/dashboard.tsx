@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth, useSigninCheck, useUser } from 'reactfire';
-import { Box } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
 type Props = {}
@@ -13,7 +13,9 @@ const Dashboard = (props: Props) => {
     const DisplayDashboard = () => {
         if (status === "loading") {
             return (
-                <Box />
+                <Center w='100vw' h='100vh'>
+                    <Spinner />
+                </Center>
             )
         } 
         if (signInCheckResult.signedIn === true) {

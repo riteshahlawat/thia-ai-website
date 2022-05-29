@@ -64,7 +64,7 @@ const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
                                 router.push('/')
                             }}
                         >
-                        Signout</MenuItem>
+                        Sign Out</MenuItem>
                     </MenuList>
                 </Menu>
             )

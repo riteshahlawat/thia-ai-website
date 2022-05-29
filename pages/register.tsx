@@ -15,7 +15,10 @@ import {
 	Text,
 	chakra,
 	useToast,
-    Spinner
+    Spinner,
+    LightMode,
+    DarkMode,
+    Box
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import {
@@ -32,8 +35,6 @@ import { BackendRequestHandler } from '../backend-requests/backendRequestHandler
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 
-const ChakraGoogleDarkButton = chakra(GoogleDarkButton);
-
 const Register: NextPage = () => {
     const auth = useAuth();
     const provider = new GoogleAuthProvider();
@@ -49,6 +50,14 @@ const Register: NextPage = () => {
 	const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
 	const [emailSignInLoading, setEmailSignInLoading] = useState(false);
 	const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
+
+    type DarkModeProps = {
+        children: React.ReactNode; // 👈️ type children
+    };
+    
+    const DarkMode = (props: DarkModeProps) => {
+        return <Center>{props.children}</Center>;
+    };
   
     const [userRegistrationDetails, setUserRegistrationDetails] = useState({
         fullName: '',
@@ -224,8 +233,8 @@ const Register: NextPage = () => {
                 duration: 1500,
                 isClosable: false,
             });
+            await auth.signOut();
             setEmailRegisteringLoading(false);
-            router.push('/');
             } else {
             // Email already verified (don't know when this will happen but it's here in case it does)
             }
@@ -299,7 +308,7 @@ const Register: NextPage = () => {
                         isInvalid={
                             userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''
                         }>
-                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                        <FormLabel fontSize='14px'>
                             Name
                         </FormLabel>
                         <Input
@@ -317,7 +326,7 @@ const Register: NextPage = () => {
                             userRegistrationFocusedOnce.emailAddress &&
                             userRegistrationErrorMessages.emailAddress != ''
                         }>
-                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                        <FormLabel fontSize='14px'>
                             Email
                         </FormLabel>
                         <Input
@@ -335,7 +344,7 @@ const Register: NextPage = () => {
                         isInvalid={
                             userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''
                         }>
-                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                        <FormLabel fontSize='14px'>
                             Password
                         </FormLabel>
                         <Input
@@ -352,7 +361,7 @@ const Register: NextPage = () => {
                             userRegistrationFocusedOnce.passwordRetype &&
                             userRegistrationErrorMessages.passwordRetype != ''
                         }>
-                        <FormLabel fontSize='14px' bgColor='var(--chakra-colors-gray-800) !important'>
+                        <FormLabel fontSize='14px'>
                             Re-type Password
                         </FormLabel>
                         <Input
@@ -381,22 +390,24 @@ const Register: NextPage = () => {
                         <Text fontSize='sm'>Sign In</Text>
                     </Button>
                 </HStack>
-                <Button
-                    bg='#4285F4'
-                    borderRadius='sm'
-                    onClick={googleLogin}
-                    isLoading={googleRegisteringLoading}
-                    _hover={{
-                        backgroundColor: '#4274f4',
-                    }}
-                    _active={{
-                        backgroundColor: '#426cf4',
-                    }}
-                    // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
-                    px='0'
-                    pr='2'>
-                    Register with Google
-                </Button>
+                <DarkMode>
+                    <Button
+                        bg='#4285F4'
+                        borderRadius='sm'
+                        onClick={googleLogin}
+                        isLoading={googleRegisteringLoading}
+                        _hover={{
+                            backgroundColor: '#4274f4',
+                        }}
+                        _active={{
+                            backgroundColor: '#426cf4',
+                        }}
+                        // leftIcon=
+                        px='0'
+                        pr='2'>
+                        Register with Google
+                    </Button>
+                </DarkMode>
             </Stack>
         </Center>
   )

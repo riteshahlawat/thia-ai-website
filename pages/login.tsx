@@ -32,13 +32,14 @@ import {
 	HStack,
 	Checkbox,
 	useToast,
-	Spinner
+	Spinner,
+    LightMode,
+    DarkMode
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import thiaIcon from '../public/icon.png'
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 
-const ChakraGoogleDarkButton = chakra(GoogleDarkButton);
 
 const Login: NextPage = () => {
 	const auth = useAuth();
@@ -50,6 +51,14 @@ const Login: NextPage = () => {
 	const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
 	const [emailSignInLoading, setEmailSignInLoading] = useState(false);
 	const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
+
+    type DarkModeProps = {
+        children: React.ReactNode; // 👈️ type children
+    };
+    
+    const DarkMode = (props: DarkModeProps) => {
+        return <Center>{props.children}</Center>;
+    };
 
     const provider = new GoogleAuthProvider();
 
@@ -238,6 +247,7 @@ const Login: NextPage = () => {
                         duration: 1500,
                         isClosable: false,
                     });
+                    await auth.signOut();
                     setEmailSignInLoading(false);
                 } else {
                     const idToken = await userCredential.user.getIdToken();
@@ -406,22 +416,24 @@ const Login: NextPage = () => {
                         <Text fontSize='sm'>Sign up</Text>
                     </Button>
                 </HStack>
-                <Button
-                    bg='#4285F4'
-                    borderRadius='sm'
-                    onClick={googleLogin}
-                    isLoading={googleSignInLoading}
-                    _hover={{
-                        backgroundColor: '#4274f4',
-                    }}
-                    _active={{
-                        backgroundColor: '#426cf4',
-                    }}
-                    // leftIcon={<ChakraGoogleDarkButton transform={'translateX(-3px)'} />}
-                    px='0'
-                    pr='2'>
-                    Sign in with Google
-                </Button>
+                <DarkMode>
+                    <Button
+                        bg='#4285F4'
+                        borderRadius='sm'
+                        onClick={googleLogin}
+                        isLoading={googleSignInLoading}
+                        _hover={{
+                            backgroundColor: '#4274f4',
+                        }}
+                        _active={{
+                            backgroundColor: '#426cf4',
+                        }}
+                        // leftIcon=
+                        px='0'
+                        pr='2'>
+                        Sign in with Google
+                    </Button>
+                </DarkMode>
             </VStack>
         </Center>
 	)
