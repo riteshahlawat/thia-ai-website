@@ -30,13 +30,14 @@ import {
 	sendEmailVerification,
     getRedirectResult
 } from 'firebase/auth';
-import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
+import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 import { ContentContainer } from '../src/modules/common/ContentContainer';
 
 const Register: NextPage = () => {
+    const { data: user } = useUser();
     const auth = useAuth();
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
@@ -272,17 +273,19 @@ const Register: NextPage = () => {
     };
 
     useEffect(() => {
+        if (!user) {
+            router.push('/')
+        }
         getOAuthResponse();
         const registerOnEnter = async (event: KeyboardEvent) => {
         if (event.key == 'Enter') {
             await registerNewAccount();
         }
         };
-
         window.addEventListener('keypress', registerOnEnter);
-
         return () => {
         window.removeEventListener('keypress', registerOnEnter);
+
         };
     });
 

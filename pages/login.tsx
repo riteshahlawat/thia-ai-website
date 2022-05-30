@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { getFunctions } from 'firebase/functions';
-import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
+import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import {
@@ -66,7 +66,7 @@ const Login: NextPage = () => {
         prompt: 'select_account consent',
     });
     const toast = useToast();
-
+    const { data: user } = useUser();
     const [rememberMe, setRememberMe] = useState(true);
 
     const [sendingEmailVerification, setSendingEmailVerification] = useState(false);
@@ -308,17 +308,19 @@ const Login: NextPage = () => {
     };
 
     useEffect(() => {
+        if (!user) {
+            router.push('/')
+        }
         getOAuthResponse();
         const signInOnEnter = async (event: KeyboardEvent) => {
             if (event.key == 'Enter') {
                 await emailLogin();
             }
         };
-
         window.addEventListener('keypress', signInOnEnter);
-
         return () => {
             window.removeEventListener('keypress', signInOnEnter);
+
         };
 
         // useEffect would have too many dependencies to where it would basically change
