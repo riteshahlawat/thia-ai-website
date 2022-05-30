@@ -46,7 +46,7 @@ import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 import { EmptyLayout } from '../src/layouts/EmptyLayout';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 import { AuthContainer } from '../src/auth/AuthContainer';
-import { Link } from '../src/modules/common/Link';
+import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
 
 const Login: NextPageWithLayout = () => {
     const auth = useAuth();
@@ -467,7 +467,7 @@ const Login: NextPageWithLayout = () => {
                     </Button>
                     <HStack justify='space-around' fontSize='sm'>
                         <Text>New to Thia?</Text>
-                        <Link
+                        <ChakraNextLink
                             href='/register'
                             styleProps={{
                                 variant: 'primaryLink',
@@ -475,7 +475,7 @@ const Login: NextPageWithLayout = () => {
                             }}
                         >
                             Sign up
-                        </Link>
+                        </ChakraNextLink>
                     </HStack>
                 </VStack>
             </Center>
