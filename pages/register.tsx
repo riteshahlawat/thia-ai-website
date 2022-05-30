@@ -36,6 +36,7 @@ import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 import { ContentContainer } from '../src/modules/common/ContentContainer';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { EmptyLayout } from '../src/layouts/EmptyLayout';
 
 const Register: NextPageWithLayout = () => {
     const auth = useAuth();
@@ -443,7 +444,7 @@ const Register: NextPageWithLayout = () => {
 
 // custom layout
 Register.getLayout = function getLayout(page: ReactElement) {
-    return <>{page}</>;
+    return <EmptyLayout>{page}</EmptyLayout>;
 };
 
 export default Register;
