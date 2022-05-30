@@ -323,7 +323,7 @@ const Login: NextPage = () => {
 
         // useEffect would have too many dependencies to where it would basically change
         // each refresh so no point in adding them all.
-    }, []);
+    });
 
     return (
         <ContentContainer>

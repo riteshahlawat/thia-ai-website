@@ -284,7 +284,7 @@ const Register: NextPage = () => {
         return () => {
         window.removeEventListener('keypress', registerOnEnter);
         };
-    }, []);
+    });
 
     return (
         <ContentContainer>

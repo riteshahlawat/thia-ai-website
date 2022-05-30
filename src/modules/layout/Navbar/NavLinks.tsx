@@ -25,66 +25,68 @@ const navItemLinks = [
     links.support.index,
 ];
 
-export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
-    const { toggleColorMode: toggleMode } = useColorMode();
-    const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
-    const text = useColorModeValue('dark', 'light');
+const SignInSignOut = () => {
     const { status, data: signInCheckResult } = useSigninCheck();
     const { data: user } = useUser();
     const auth = useAuth();
     const router = useRouter();
-    const SignInSignOut = () => {
-        if (status === "loading") {
-            return (
-                <Box />
-            )
-        } 
-        if (signInCheckResult.signedIn === true) {
-            return (
-                <Menu>
-                    <MenuButton 
-                        as={Button} 
-                        rightIcon={<ChevronDownIcon /> }
-                        variant='primary'
+
+    if (status === "loading") {
+        return (
+            <Box />
+        )
+    } 
+    if (signInCheckResult.signedIn === true) {
+        return (
+            <Menu>
+                <MenuButton 
+                    as={Button} 
+                    rightIcon={<ChevronDownIcon /> }
+                    variant='primary'
+                >
+                    <Box maxW='150px'>
+                        <Text isTruncated>
+                            {user?.displayName}
+                        </Text>
+                    </Box>
+                </MenuButton>
+                <MenuList>
+                    <MenuItem
+                        onClick={() => router.push('/dashboard')}
                     >
-                        <Box maxW='150px'>
-                            <Text isTruncated>
-                                {user?.displayName}
-                            </Text>
-                        </Box>
-                    </MenuButton>
-                    <MenuList>
-                        <MenuItem
-                            onClick={() => router.push('/dashboard')}
-                        >
-                            Dashboard
-                        </MenuItem>
-                        <MenuItem
-                            onClick={async () => {
-                                await auth.signOut();
-                                router.push('/')
-                            }}
-                        >
-                        Sign Out</MenuItem>
-                    </MenuList>
-                </Menu>
-            )
-        } else {
-            return (
-                <Link href='/login'>
-                    <Button
-                        fontSize='sm'
-                        variant='primary'
-                        borderRadius={100}
-                        _focus={{ boxShadow: 'none' }}
-                        _active={{ bg: 'brand.primary.dark' }}
+                        Dashboard
+                    </MenuItem>
+                    <MenuItem
+                        onClick={async () => {
+                            await auth.signOut();
+                            router.push('/')
+                        }}
                     >
-                        Sign in
-                    </Button>
-                </Link>
-            )
-        }
+                    Sign Out</MenuItem>
+                </MenuList>
+            </Menu>
+        )
+    } else {
+        return (
+            <Link href='/login'>
+                <Button
+                    fontSize='sm'
+                    variant='primary'
+                    borderRadius={100}
+                    _focus={{ boxShadow: 'none' }}
+                    _active={{ bg: 'brand.primary.dark' }}
+                >
+                    Sign in
+                </Button>
+            </Link>
+        )
     }
+}
+
+export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
+    const { toggleColorMode: toggleMode } = useColorMode();
+    const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
+    const text = useColorModeValue('dark', 'light');
 
     return (
         <Box

@@ -19,7 +19,7 @@ const App = ({ Component, pageProps, }: AppProps) => {
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
             <AuthComponent>
                 <Layout>
-                <Component {...pageProps} />
+                    <Component {...pageProps} />
                 </Layout>
             </AuthComponent>
         </FirebaseAppProvider>
