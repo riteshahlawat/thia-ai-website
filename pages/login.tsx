@@ -332,18 +332,7 @@ const Login: NextPageWithLayout = () => {
 
     return (
         <AuthTemplatePage>
-            <VStack
-                p={{ base: 0, sm: 12 }}
-                w='full'
-                spacing={6}
-                rounded='md'
-                border={{ md: '1px' }}
-                bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
-                borderColor={{
-                    base: useColorModeValue('thia.gray.100', 'thia.gray.950'),
-                    md: useColorModeValue('thia.gray.100', 'thia.gray.950'),
-                }}
-            >
+            <VStack w='full' spacing={6}>
                 <Box w='full'>
                     <Center>
                         <chakra.img src={thiaIcon.src} width='60px' h='60px' />

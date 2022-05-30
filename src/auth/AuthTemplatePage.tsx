@@ -11,7 +11,21 @@ export const AuthTemplatePage = ({ children }: { children?: React.ReactNode }) =
             }}
         >
             <AuthContainer>
-                <Center h='100vh'>{children}</Center>
+                <Center h='100vh'>
+                    <Box
+                        w='full'
+                        rounded='md'
+                        border={{ md: '1px' }}
+                        p={{ base: 0, sm: 12 }}
+                        bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+                        borderColor={{
+                            base: useColorModeValue('thia.gray.100', 'thia.gray.950'),
+                            md: useColorModeValue('thia.gray.100', 'thia.gray.950'),
+                        }}
+                    >
+                        {children}
+                    </Box>
+                </Center>
             </AuthContainer>
         </Box>
     );
