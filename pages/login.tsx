@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { NextPage } from 'next';
+import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import { getFunctions } from 'firebase/functions';
 import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
@@ -40,8 +40,10 @@ import { FirebaseError } from 'firebase/app';
 import thiaIcon from '../public/icon.png';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 import { ContentContainer } from '../src/modules/common/ContentContainer';
+import { EmptyLayout } from '../src/layouts/EmptyLayout';
+import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 
-const Login: NextPage = () => {
+const Login: NextPageWithLayout = () => {
     const auth = useAuth();
     const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
@@ -404,7 +406,12 @@ const Login: NextPage = () => {
                         >
                             <Text fontSize='sm'>Remember me</Text>
                         </Checkbox>
-                        <Button variant='link' colorScheme='teal' size='sm' onClick={forgorPassword}>
+                        <Button
+                            variant='link'
+                            colorScheme='teal'
+                            size='sm'
+                            onClick={forgorPassword}
+                        >
                             <Text fontSize='sm'>Forgot password</Text>
                         </Button>
                     </HStack>
@@ -462,4 +469,7 @@ const Login: NextPage = () => {
     );
 };
 
+Login.getLayout = function getLayout(page: ReactElement) {
+    return <EmptyLayout>{page}</EmptyLayout>;
+};
 export default Login;
