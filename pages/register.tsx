@@ -34,6 +34,7 @@ import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactf
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
+import { ContentContainer } from '../src/modules/common/ContentContainer';
 
 const Register: NextPage = () => {
     const auth = useAuth();
@@ -286,130 +287,132 @@ const Register: NextPage = () => {
     }, []);
 
     return (
-        <Center
-            w='full'
-            h='full'
-            overflowX='hidden'
-            sx={{
-                '&::-webkit-scrollbar': {
-                    w: '8px',
-                    bg: 'gray.600',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    bg: 'gray.900',
-                },
-            }}>
-            <Stack spacing='4'>
-                <Center>
-                    <Heading size={useBreakpointValue({ base: 'xl', md: '2xl' })}>Register</Heading>
-                </Center>
-                <Stack spacing='2'>
-                    <FormControl
-                        isInvalid={
-                            userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''
-                        }>
-                        <FormLabel fontSize='14px'>
-                            Name
-                        </FormLabel>
-                        <Input
-                            name='fullName'
-                            placeholder='Full Name'
-                            autoFocus
-                            type='text'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isInvalid={
-                            userRegistrationFocusedOnce.emailAddress &&
-                            userRegistrationErrorMessages.emailAddress != ''
-                        }>
-                        <FormLabel fontSize='14px'>
-                            Email
-                        </FormLabel>
-                        <Input
-                            name='emailAddress'
-                            placeholder='E-mail Address'
-                            type='text'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='xs'>
-                            {userRegistrationErrorMessages.emailAddress}
-                        </FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isInvalid={
-                            userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''
-                        }>
-                        <FormLabel fontSize='14px'>
-                            Password
-                        </FormLabel>
-                        <Input
-                            name='password'
-                            placeholder='Password'
-                            type='password'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.password}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isInvalid={
-                            userRegistrationFocusedOnce.passwordRetype &&
-                            userRegistrationErrorMessages.passwordRetype != ''
-                        }>
-                        <FormLabel fontSize='14px'>
-                            Re-type Password
-                        </FormLabel>
-                        <Input
-                            name='passwordRetype'
-                            placeholder='Re-type Password'
-                            type='password'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='xs'>
-                            {userRegistrationErrorMessages.passwordRetype}
-                        </FormErrorMessage>
-                    </FormControl>
-                </Stack>
-                <Button
-                    variant='solid'
-                    colorScheme='teal'
-                    w='full'
-                    onClick={registerNewAccount}
-                    isLoading={emailRegisteringLoading}>
-                    Register
-                </Button>
-                <HStack justify='space-around'>
-                    <Text fontSize='sm'>Already have an account?</Text>
-                    <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/login')}>
-                        <Text fontSize='sm'>Sign In</Text>
-                    </Button>
-                </HStack>
-                <DarkMode>
+        <ContentContainer>
+            <Center
+                w='full'
+                h='full'
+                overflowX='hidden'
+                sx={{
+                    '&::-webkit-scrollbar': {
+                        w: '8px',
+                        bg: 'gray.600',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        bg: 'gray.900',
+                    },
+                }}>
+                <Stack spacing='4'>
+                    <Center>
+                        <Heading size={useBreakpointValue({ base: 'xl', md: '2xl' })}>Register</Heading>
+                    </Center>
+                    <Stack spacing='2'>
+                        <FormControl
+                            isInvalid={
+                                userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''
+                            }>
+                            <FormLabel fontSize='14px'>
+                                Name
+                            </FormLabel>
+                            <Input
+                                name='fullName'
+                                placeholder='Full Name'
+                                autoFocus
+                                type='text'
+                                onBlur={handleRegistrationInputsFocused}
+                                onChange={handleRegistrationInputsChange}
+                            />
+                            <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl
+                            isInvalid={
+                                userRegistrationFocusedOnce.emailAddress &&
+                                userRegistrationErrorMessages.emailAddress != ''
+                            }>
+                            <FormLabel fontSize='14px'>
+                                Email
+                            </FormLabel>
+                            <Input
+                                name='emailAddress'
+                                placeholder='E-mail Address'
+                                type='text'
+                                onBlur={handleRegistrationInputsFocused}
+                                onChange={handleRegistrationInputsChange}
+                            />
+                            <FormErrorMessage fontSize='xs'>
+                                {userRegistrationErrorMessages.emailAddress}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl
+                            isInvalid={
+                                userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''
+                            }>
+                            <FormLabel fontSize='14px'>
+                                Password
+                            </FormLabel>
+                            <Input
+                                name='password'
+                                placeholder='Password'
+                                type='password'
+                                onBlur={handleRegistrationInputsFocused}
+                                onChange={handleRegistrationInputsChange}
+                            />
+                            <FormErrorMessage fontSize='xs'>{userRegistrationErrorMessages.password}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl
+                            isInvalid={
+                                userRegistrationFocusedOnce.passwordRetype &&
+                                userRegistrationErrorMessages.passwordRetype != ''
+                            }>
+                            <FormLabel fontSize='14px'>
+                                Re-type Password
+                            </FormLabel>
+                            <Input
+                                name='passwordRetype'
+                                placeholder='Re-type Password'
+                                type='password'
+                                onBlur={handleRegistrationInputsFocused}
+                                onChange={handleRegistrationInputsChange}
+                            />
+                            <FormErrorMessage fontSize='xs'>
+                                {userRegistrationErrorMessages.passwordRetype}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </Stack>
                     <Button
-                        bg='#4285F4'
-                        borderRadius='sm'
-                        onClick={googleLogin}
-                        isLoading={googleRegisteringLoading}
-                        _hover={{
-                            backgroundColor: '#4274f4',
-                        }}
-                        _active={{
-                            backgroundColor: '#426cf4',
-                        }}
-                        // leftIcon=
-                        px='0'
-                        pr='2'>
-                        Register with Google
+                        variant='solid'
+                        colorScheme='teal'
+                        w='full'
+                        onClick={registerNewAccount}
+                        isLoading={emailRegisteringLoading}>
+                        Register
                     </Button>
-                </DarkMode>
-            </Stack>
-        </Center>
+                    <HStack justify='space-around'>
+                        <Text fontSize='sm'>Already have an account?</Text>
+                        <Button variant='link' colorScheme='teal' size='sm' onClick={() => router.push('/login')}>
+                            <Text fontSize='sm'>Sign In</Text>
+                        </Button>
+                    </HStack>
+                    <DarkMode>
+                        <Button
+                            bg='#4285F4'
+                            borderRadius='sm'
+                            onClick={googleLogin}
+                            isLoading={googleRegisteringLoading}
+                            _hover={{
+                                backgroundColor: '#4274f4',
+                            }}
+                            _active={{
+                                backgroundColor: '#426cf4',
+                            }}
+                            // leftIcon=
+                            px='0'
+                            pr='2'>
+                            Register with Google
+                        </Button>
+                    </DarkMode>
+                </Stack>
+            </Center>
+        </ContentContainer>
   )
 };
 

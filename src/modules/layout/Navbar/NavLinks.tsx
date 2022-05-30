@@ -1,6 +1,21 @@
-import { Box, Button, IconButton, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { 
+    Box, 
+    Button, 
+    IconButton, 
+    Menu, 
+    MenuButton, 
+    MenuItem, 
+    MenuList, 
+    Stack, 
+    useColorMode, 
+    useColorModeValue,
+    Text
+} from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
+import { useAuth, useSigninCheck, useUser } from 'reactfire';
 import { links } from '../../../constants/links';
 
 const navItemLinks = [
@@ -14,6 +29,62 @@ export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
     const { toggleColorMode: toggleMode } = useColorMode();
     const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
     const text = useColorModeValue('dark', 'light');
+    const { status, data: signInCheckResult } = useSigninCheck();
+    const { data: user } = useUser();
+    const auth = useAuth();
+    const router = useRouter();
+    const SignInSignOut = () => {
+        if (status === "loading") {
+            return (
+                <Box />
+            )
+        } 
+        if (signInCheckResult.signedIn === true) {
+            return (
+                <Menu>
+                    <MenuButton 
+                        as={Button} 
+                        rightIcon={<ChevronDownIcon /> }
+                        variant='primary'
+                    >
+                        <Box maxW='150px'>
+                            <Text isTruncated>
+                                {user?.displayName}
+                            </Text>
+                        </Box>
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem
+                            onClick={() => router.push('/dashboard')}
+                        >
+                            Dashboard
+                        </MenuItem>
+                        <MenuItem
+                            onClick={async () => {
+                                await auth.signOut();
+                                router.push('/')
+                            }}
+                        >
+                        Sign Out</MenuItem>
+                    </MenuList>
+                </Menu>
+            )
+        } else {
+            return (
+                <Link href='/login'>
+                    <Button
+                        fontSize='sm'
+                        variant='primary'
+                        borderRadius={100}
+                        _focus={{ boxShadow: 'none' }}
+                        _active={{ bg: 'brand.primary.dark' }}
+                    >
+                        Sign in
+                    </Button>
+                </Link>
+            )
+        }
+    }
 
     return (
         <Box
@@ -45,16 +116,7 @@ export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
                     aria-label={`Switch to ${text} mode`}
                     _hover={{ bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200') }}
                 />
-                <Link href='/login'>
-                    <Button
-                        fontSize='sm'
-                        variant='primary'
-                        rounded='full'
-                        _hover={{ bg: useColorModeValue('thia.purple.100', 'thia.purple.600') }}
-                    >
-                        Sign in
-                    </Button>
-                </Link>
+                <SignInSignOut />
             </Stack>
         </Box>
     );
