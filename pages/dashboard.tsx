@@ -7,7 +7,6 @@ type Props = {}
 
 const Dashboard = (props: Props) => {
 	const { data: user } = useUser();
-    const { status, data: signInCheckResult } = useSigninCheck();
     const router = useRouter();
     
     useEffect(() => {
