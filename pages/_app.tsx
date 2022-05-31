@@ -9,20 +9,22 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
 import AuthComponent from '../src/auth/AuthComponent';
+import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 
+type AppPropsWithLayout = AppProps & {
+    Component: NextPageWithLayout;
+};
 
-const App = ({ Component, pageProps, }: AppProps) => {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
+
+    const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
     return (
         <ChakraProvider theme={theme}>
-        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-            <AuthComponent>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-            </AuthComponent>
-        </FirebaseAppProvider>
+            <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+                <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
+            </FirebaseAppProvider>
         </ChakraProvider>
     );
 };

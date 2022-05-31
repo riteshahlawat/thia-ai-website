@@ -1,14 +1,14 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import { Link } from '../../src/modules/common/Link';
+import { ChakraNextLink } from '../../src/modules/common/ChakraNextLink';
 
 const Docs: NextPage = () => {
-  return (
-    <>
-      <Link href='/docs/getstarted'>/docs/getstarted</Link>
-      <Link href='/docs/setup'>/docs/setup</Link>
-    </>
-  );
+    return (
+        <>
+            <ChakraNextLink href='/docs/getstarted'>/docs/getstarted</ChakraNextLink>
+            <ChakraNextLink href='/docs/setup'>/docs/setup</ChakraNextLink>
+        </>
+    );
 };
 
 export default Docs;

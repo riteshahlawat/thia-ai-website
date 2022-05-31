@@ -10,10 +10,8 @@ const Dashboard = (props: Props) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!user) {
-            router.push('/login');
-        }
-    }, [user]);
+        if (!user) router.push('/login');
+    }, [user, router]);
 
     return <Box>Welcome, {user?.displayName}</Box>;
 };
