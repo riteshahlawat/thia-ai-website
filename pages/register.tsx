@@ -287,9 +287,9 @@ const Register: NextPageWithLayout = () => {
     };
 
     useEffect(() => {
-        if (!user) {
-            router.push('/');
-        }
+        // if (!user) {
+        //     router.push('/');
+        // }
         getOAuthResponse();
         const registerOnEnter = async (event: KeyboardEvent) => {
             if (event.key == 'Enter') {
