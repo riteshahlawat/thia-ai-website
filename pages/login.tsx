@@ -405,12 +405,7 @@ const Login: NextPageWithLayout = () => {
                     >
                         <Text fontSize='sm'>Remember me</Text>
                     </Checkbox>
-                    <Button
-                        variant='link'
-                        colorScheme='thia.purple'
-                        s
-                        onClick={forgorPassword}
-                    >
+                    <Button variant='link' colorScheme='thia.purple' onClick={forgorPassword}>
                         <Text fontSize='sm'>Forgot password</Text>
                     </Button>
                 </HStack>
