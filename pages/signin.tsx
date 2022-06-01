@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { getFunctions } from 'firebase/functions';
 import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
-import Google from '../public/btn_google_light_normal_ios.svg';
+
 import {
     GoogleAuthProvider,
     signInWithRedirect,
@@ -16,13 +16,8 @@ import {
     getRedirectResult,
 } from 'firebase/auth';
 import {
-    Box,
     Button,
     Center,
-    chakra,
-    Heading,
-    Stack,
-    useBreakpointValue,
     VStack,
     Text,
     Input,
@@ -32,13 +27,9 @@ import {
     HStack,
     Checkbox,
     useToast,
-    Spinner,
-    LightMode,
-    DarkMode,
     useColorModeValue,
     Divider,
     Flex,
-    FormHelperText,
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import thiaIcon from '../public/icon.png';
@@ -48,6 +39,7 @@ import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 import { AuthContainer } from '../src/auth/AuthContainer';
 import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
 import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
+import { GoogleButton } from '../src/auth/GoogleButton';
 
 const SignIn: NextPageWithLayout = () => {
     const auth = useAuth();
@@ -284,142 +276,111 @@ const SignIn: NextPageWithLayout = () => {
     });
 
     return (
-        <AuthTemplatePage>
-            <VStack w='full' spacing={6}>
-                <Box w='full'>
-                    <Center>
-                        <chakra.img src={thiaIcon.src} width='60px' h='60px' />
-                    </Center>
-                    <Stack spacing={{ base: '3', md: '5' }} textAlign='center'>
-                        <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>
-                            Log in to your account
-                        </Heading>
-                        <Text fontSize={useBreakpointValue({ base: '14px', md: '16px' })}>
-                            Start training on your hardware
-                        </Text>
-                    </Stack>
-                </Box>
-                <VStack spacing={6} w='full'>
-                    <FormControl isRequired isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
-                        <FormLabel>Email Address</FormLabel>
-                        <Input
-                            placeholder=' '
-                            autoFocus
-                            type='email'
-                            bg={useColorModeValue('white', 'black')}
-                            value={emailAddress}
-                            onBlur={() => setEmailFocusedOnce(true)}
-                            onChange={(e: any) => {
-                                const val = e.target.value;
-                                // Email address input handling
-                                const emailAddressPattern =
-                                    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                                if (!val.match(emailAddressPattern)) {
-                                    // Invalid email address pattern
-                                    setEmailErrorMessage('Invalid email address');
-                                } else setEmailErrorMessage('');
-                                setEmailAddress(val);
-                            }}
-                        />
-                        <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isRequired
-                        isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}
-                    >
-                        <FormLabel>Password</FormLabel>
-                        <Input
-                            bg={useColorModeValue('white', 'black')}
-                            placeholder=' '
-                            value={password}
-                            onBlur={() => setPasswordFocusedOnce(true)}
-                            onChange={(e: any) => {
-                                const val = e.target.value;
-                                if (val.trim().length == 0) {
-                                    setPasswordErrorMessage('Enter a password');
-                                } else {
-                                    setPasswordErrorMessage('');
-                                }
-                                setPassword(val);
-                            }}
-                            type='password'
-                        />
-                        <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
-                    </FormControl>
-                </VStack>
-                <HStack justify='space-between' w='full' align='baseline'>
-                    <Checkbox
-                        isChecked={rememberMe}
-                        size='sm'
-                        onChange={(e: any) => setRememberMe(e.target.checked)}
-                    >
-                        <Text fontSize='sm'>Remember me</Text>
-                    </Checkbox>
-                    <ChakraNextLink
-                        href='/resetpassword'
-                        styleProps={{
-                            fontSize: 'sm',
-                            variant: 'primaryLink',
-                            fontWeight: 'bold',
+        <AuthTemplatePage
+            heading='Log in to your account'
+            text='Start training on your own hardware'
+        >
+            <VStack spacing={6} w='full'>
+                <FormControl isRequired isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
+                    <FormLabel>Email Address</FormLabel>
+                    <Input
+                        autoFocus
+                        type='email'
+                        placeholder='Email Address'
+                        bg={useColorModeValue('white', 'black')}
+                        value={emailAddress}
+                        onBlur={() => setEmailFocusedOnce(true)}
+                        onChange={(e: any) => {
+                            const val = e.target.value;
+                            // Email address input handling
+                            const emailAddressPattern =
+                                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                            if (!val.match(emailAddressPattern)) {
+                                // Invalid email address pattern
+                                setEmailErrorMessage('Invalid email address');
+                            } else setEmailErrorMessage('');
+                            setEmailAddress(val);
                         }}
-                    >
-                        Forgot password
-                    </ChakraNextLink>
-                </HStack>
-                <Button
-                    variant='primary'
-                    w='full'
-                    onClick={emailLogin}
-                    isLoading={emailSignInLoading}
+                    />
+                    <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                </FormControl>
+                <FormControl
+                    isRequired
+                    isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}
                 >
-                    Sign in
-                </Button>
-                <Button
-                    variant='secondary'
-                    colorScheme='gray'
-                    w='full'
-                    onClick={resendEmailVerification}
-                    isLoading={sendingEmailVerification}
-                >
-                    Resend Email Verification
-                </Button>
-                <HStack w='full'>
-                    <Divider />
-                    <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
-                        OR
-                    </Text>
-                    <Divider />
-                </HStack>
-                <Button
-                    w='full'
-                    bg='white'
-                    pr={3}
-                    pl={0}
-                    overflow='hidden'
-                    leftIcon={<Google />}
-                    _hover={{ bg: 'white', borderRadius: 'lg' }}
-                    _active={{ bg: 'white' }}
-                    color='black'
-                    onClick={googleLogin}
-                    isLoading={googleSignInLoading}
-                    border='1px'
-                    borderColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
-                >
-                    Sign in with Google
-                </Button>
-                <HStack justify='space-around' fontSize='sm'>
-                    <Text>New to Thia?</Text>
-                    <ChakraNextLink
-                        href='/signup'
-                        styleProps={{
-                            variant: 'primaryLink',
-                            fontWeight: 'bold',
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                        bg={useColorModeValue('white', 'black')}
+                        value={password}
+                        placeholder='Password'
+                        onBlur={() => setPasswordFocusedOnce(true)}
+                        onChange={(e: any) => {
+                            const val = e.target.value;
+                            if (val.trim().length == 0) {
+                                setPasswordErrorMessage('Enter a password');
+                            } else {
+                                setPasswordErrorMessage('');
+                            }
+                            setPassword(val);
                         }}
-                    >
-                        Sign up
-                    </ChakraNextLink>
-                </HStack>
+                        type='password'
+                    />
+                    <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
+                </FormControl>
             </VStack>
+            <HStack justify='space-between' w='full' align='baseline'>
+                <Checkbox
+                    isChecked={rememberMe}
+                    size='sm'
+                    onChange={(e: any) => setRememberMe(e.target.checked)}
+                >
+                    <Text fontSize='sm'>Remember me</Text>
+                </Checkbox>
+                <ChakraNextLink
+                    href='/resetpassword'
+                    styleProps={{
+                        fontSize: 'sm',
+                        variant: 'primaryLink',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Forgot password
+                </ChakraNextLink>
+            </HStack>
+            <Button variant='primary' w='full' onClick={emailLogin} isLoading={emailSignInLoading}>
+                Sign in
+            </Button>
+            <Button
+                w='full'
+                colorScheme='gray'
+                variant='secondary'
+                onClick={resendEmailVerification}
+                isLoading={sendingEmailVerification}
+            >
+                Resend Email Verification
+            </Button>
+            <HStack w='full'>
+                <Divider />
+                <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
+                    OR
+                </Text>
+                <Divider />
+            </HStack>
+            <GoogleButton onCLick={googleLogin} isLoading={googleSignInLoading}>
+                Sign in with Google
+            </GoogleButton>
+            <Flex gap={3} fontSize='sm'>
+                <Text>New to Thia?</Text>
+                <ChakraNextLink
+                    href='/signup'
+                    styleProps={{
+                        variant: 'primaryLink',
+                        fontWeight: 'bold',
+                    }}
+                >
+                    Sign up
+                </ChakraNextLink>
+            </Flex>
         </AuthTemplatePage>
     );
 };
