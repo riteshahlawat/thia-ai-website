@@ -333,7 +333,7 @@ const Login: NextPageWithLayout = () => {
     });
 
     return (
-        <AuthTemplatePage>
+        <AuthTemplatePage heading='' text=''>
             <VStack w='full' spacing={6}>
                 <Box w='full'>
                     <Center>

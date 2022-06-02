@@ -16,7 +16,7 @@ import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 
 type Props = {};
 
-const text = `Enter the email address associated with your accoutn anad we'll send you a link to reset your password.`;
+const text = "Enter the email address associated with your accoutn anad we&apos;ll send you a link to reset your password.";
 
 const ResetPassword: NextPageWithLayout = (props: Props) => {
     return (
@@ -34,7 +34,7 @@ const ResetPassword: NextPageWithLayout = (props: Props) => {
                 Reset Password
             </Button>
             <Flex gap={3} fontSize='sm'>
-                <Text>Don't have an account?</Text>
+                <Text>Don&apos;t have an account?</Text>
                 <ChakraNextLink
                     href='/signup'
                     styleProps={{
