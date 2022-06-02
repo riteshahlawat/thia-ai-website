@@ -1,5 +1,10 @@
 import React from 'react';
-import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactfire';
+import {
+    useAuth,
+    AuthProvider as FireAuthProvider,
+    FunctionsProvider,
+    useFirebaseApp,
+} from 'reactfire';
 import {
     GoogleAuthProvider,
     signInWithRedirect,
@@ -16,15 +21,15 @@ interface Props {
     children: React.ReactNode;
 }
 
-const AuthComponent = ({ children }: Props) => {
+const AuthProvider = ({ children }: Props) => {
     const app = useFirebaseApp();
     const auth = getAuth(app);
     const functions = getFunctions(app);
-    
+
     return (
-        <AuthProvider sdk={auth}>
+        <FireAuthProvider sdk={auth}>
             <FunctionsProvider sdk={functions}>{children}</FunctionsProvider>
-        </AuthProvider>
+        </FireAuthProvider>
     );
 };
-export default AuthComponent;
+export default AuthProvider;

@@ -303,7 +303,7 @@ const Register: NextPageWithLayout = () => {
     });
 
     return (
-        <AuthTemplatePage>
+        <AuthTemplatePage heading='' text=''>
             <Stack spacing='4' w='full'>
                 <Center>
                     <Heading size={useBreakpointValue({ base: 'xl', md: '2xl' })}>Register</Heading>

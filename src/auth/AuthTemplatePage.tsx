@@ -1,8 +1,8 @@
 import React from 'react';
-import { AuthContainer } from './AuthContainer';
 import {
     Box,
     Center,
+    Container,
     Heading,
     Text,
     useBreakpointValue,
@@ -12,9 +12,9 @@ import {
 import Image from 'next/image';
 
 type Props = {
-    children?: React.ReactNode;
-    heading?: string;
-    text?: string;
+    children: React.ReactNode;
+    heading: string;
+    text: string;
 };
 
 export const AuthTemplatePage = ({ children, heading, text }: Props) => {
@@ -25,7 +25,7 @@ export const AuthTemplatePage = ({ children, heading, text }: Props) => {
                 md: useColorModeValue('thia.bg-base', 'thia.bg-dark'),
             }}
         >
-            <AuthContainer>
+            <Container maxW='lg' px={[5, 5, 8, 8, 8]} h='full'>
                 <Center h='100vh'>
                     <Box
                         w='full'
@@ -59,7 +59,7 @@ export const AuthTemplatePage = ({ children, heading, text }: Props) => {
                         </VStack>
                     </Box>
                 </Center>
-            </AuthContainer>
+            </Container>
         </Box>
     );
 };

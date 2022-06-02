@@ -8,7 +8,7 @@ import { ProgressBar } from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
-import AuthComponent from '../src/auth/AuthComponent';
+import AuthProvider from '../src/auth/AuthProvider';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 
 type AppPropsWithLayout = AppProps & {
@@ -23,7 +23,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
+                <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>
     );

@@ -32,11 +32,9 @@ import {
     Flex,
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
-import thiaIcon from '../public/icon.png';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
 import { EmptyLayout } from '../src/layouts/EmptyLayout';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
-import { AuthContainer } from '../src/auth/AuthContainer';
 import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
 import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
 import { GoogleButton } from '../src/auth/GoogleButton';
