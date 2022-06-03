@@ -4,6 +4,7 @@ import type { Doc } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { ContentContainer } from 'src/modules/common/ContentContainer';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
+import { Box, Center, Container, Flex } from '@chakra-ui/react';
 
 export const getStaticPaths = async () => {
     return {
@@ -21,19 +22,18 @@ const Docs = ({ doc }: { doc: Doc }) => {
     const Component = useMDXComponent(doc.body.code);
     return (
         <>
-            <Head>
-                <title>{doc.title}</title>
-            </Head>
-            <article className='max-w-xl mx-auto py-8'>
-                <div className='text-center mb-8'>
-                    <Prose>
-                        <ContentContainer>
-                            <h1>{doc.title}</h1>
-                            <Component></Component>
-                        </ContentContainer>
-                    </Prose>
-                </div>
-            </article>
+            <ContentContainer>
+                <Flex>
+                    <Box w='300px' h='full'>
+                        DoCUMentation
+                    </Box>
+                    <Container maxW='container.md'>
+                        <Prose as='article'>
+                            <Component />
+                        </Prose>
+                    </Container>
+                </Flex>
+            </ContentContainer>
         </>
     );
 };
