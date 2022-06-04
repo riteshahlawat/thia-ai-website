@@ -12,13 +12,12 @@ import {
     Grid,
     GridItem,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { links, socials } from '../../constants/links';
 import { BiMailSend } from 'react-icons/bi';
 import { ContentContainer } from '../common/ContentContainer';
 import { ChakraNextLink } from '../common/ChakraNextLink';
 
-const ListHeader = ({ children }: { children: ReactNode }) => {
+const ListHeader = ({ children }: { children: string }) => {
     return (
         <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
             {children}
@@ -33,121 +32,116 @@ export const Footer = () => {
             bg={useColorModeValue('thia.bg-base', 'thia.bg-dark')}
             color={useColorModeValue('thia.text-base', 'thia.text-dark')}
         >
-            <ContentContainer>
-                <Grid
-                    templateColumns={{
-                        base: '1fr 1fr 1fr',
-                        md: '2fr 1fr 1fr 1fr',
-                        lg: '2fr 1fr 1fr 1fr 2fr',
-                    }}
-                    fontSize='sm'
-                    gap={8}
-                    py={12}
-                >
-                    <GridItem colSpan={{ base: 3, md: 1 }}>
-                        <VStack spacing={6} align='flex-start'>
-                            <Box fontSize='3xl'>Thia</Box>
-                            <Text fontSize={16}>Making AutoML Simple.</Text>
-                            <Stack direction={'row'} spacing={6}>
-                                {Object.values(socials).map(({ label, path, icon }) => (
-                                    <ChakraNextLink href={path} key={label}>
-                                        <IconButton
-                                            key={label}
-                                            rounded='full'
-                                            aria-label={label}
-                                            variant='secondary'
-                                            _hover={{
-                                                borderRadius: '3xl',
-                                                bg: useColorModeValue(
-                                                    'thia.gray.200',
-                                                    'thia.gray.900'
-                                                ),
-                                            }}
-                                        >
-                                            {icon}
-                                        </IconButton>
-                                    </ChakraNextLink>
-                                ))}
-                            </Stack>
-                        </VStack>
-                    </GridItem>
-                    <GridItem>
-                        <VStack align={'flex-start'}>
-                            <ListHeader>Product</ListHeader>
-                            <ChakraNextLink href={links.docs.index.path}>
-                                {links.docs.index.label}
-                            </ChakraNextLink>
-                            <ChakraNextLink href={links.pricing.index.path}>
-                                {links.pricing.index.label}
-                            </ChakraNextLink>
-                            <ChakraNextLink href={links.download.index.path}>
-                                {links.download.index.label}
-                            </ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Features</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
-                        </VStack>
-                    </GridItem>
-                    <GridItem>
-                        <VStack align={'flex-start'}>
-                            <ListHeader>Company</ListHeader>
-                            <ChakraNextLink href={'/about'}>About us</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Blog</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Contact us</ChakraNextLink>
-                            <ChakraNextLink href={'/careers'}>Careers</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Partners</ChakraNextLink>
-                        </VStack>
-                    </GridItem>
-                    <GridItem>
-                        <VStack align={'flex-start'}>
-                            <ListHeader>Support</ListHeader>
-                            <ChakraNextLink href={'#'}>Help Center</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Fourms</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>Guides</ChakraNextLink>
-                            <ChakraNextLink href={'#'}>FAQ</ChakraNextLink>
-                        </VStack>
-                    </GridItem>
-                    <GridItem colSpan={{ base: 3, sm: 2, md: 1 }}>
-                        <VStack align={'flex-start'}>
-                            <ListHeader>Subscribe to our newsletter</ListHeader>
-                            <HStack w='full'>
-                                <Input
-                                    placeholder={'Your email address'}
-                                    variant='filled'
-                                    colorScheme='thia.gray'
-                                    bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-                                    _hover={{
-                                        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-                                    }}
-                                />
-                                <IconButton
-                                    aria-label='Subscribe'
-                                    variant='primary'
-                                    icon={<BiMailSend />}
-                                />
-                            </HStack>
-                        </VStack>
-                    </GridItem>
-                </Grid>
-                <Divider />
-                <Flex justify='space-between' py='8' fontSize='sm' gap={4}>
-                    <Text>© 2021 Thia CA, inc. All rights reserved</Text>
-                    <HStack spacing={{ base: 4, md: 8 }} align='start'>
-                        <ChakraNextLink href={'#'}>
-                            Terms
-                            <Box as='span' display={{ base: 'none', md: 'inline' }}>
-                                {' of Service'}
-                            </Box>
+            <Grid
+                templateColumns={{
+                    base: '1fr 1fr 1fr',
+                    md: '2fr 1fr 1fr 1fr',
+                    lg: '2fr 1fr 1fr 1fr 2fr',
+                }}
+                fontSize='sm'
+                gap={8}
+                py={12}
+            >
+                <GridItem colSpan={{ base: 3, md: 1 }}>
+                    <VStack spacing={6} align='flex-start'>
+                        <Box fontSize='3xl'>Thia</Box>
+                        <Text fontSize={16}>Making AutoML Simple.</Text>
+                        <Stack direction={'row'} spacing={6}>
+                            {Object.values(socials).map(({ label, path, icon }) => (
+                                <ChakraNextLink href={path} key={label}>
+                                    <IconButton
+                                        key={label}
+                                        rounded='full'
+                                        aria-label={label}
+                                        variant='secondary'
+                                        _hover={{
+                                            borderRadius: '3xl',
+                                            bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                                        }}
+                                    >
+                                        {icon}
+                                    </IconButton>
+                                </ChakraNextLink>
+                            ))}
+                        </Stack>
+                    </VStack>
+                </GridItem>
+                <GridItem>
+                    <VStack align={'flex-start'}>
+                        <ListHeader>Product</ListHeader>
+                        <ChakraNextLink href={links.docs.index.path}>
+                            {links.docs.index.label}
                         </ChakraNextLink>
-                        <ChakraNextLink href={'#'}>
-                            Privacy
-                            <Box as='span' display={{ base: 'none', md: 'inline' }}>
-                                {' Policy'}
-                            </Box>
+                        <ChakraNextLink href={links.pricing.index.path}>
+                            {links.pricing.index.label}
                         </ChakraNextLink>
-                        <ChakraNextLink href={'#'}>License</ChakraNextLink>
-                    </HStack>
-                </Flex>
-            </ContentContainer>
+                        <ChakraNextLink href={links.download.index.path}>
+                            {links.download.index.label}
+                        </ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Features</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
+                    </VStack>
+                </GridItem>
+                <GridItem>
+                    <VStack align={'flex-start'}>
+                        <ListHeader>Company</ListHeader>
+                        <ChakraNextLink href={'/about'}>About us</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Blog</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Contact us</ChakraNextLink>
+                        <ChakraNextLink href={'/careers'}>Careers</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Partners</ChakraNextLink>
+                    </VStack>
+                </GridItem>
+                <GridItem>
+                    <VStack align={'flex-start'}>
+                        <ListHeader>Support</ListHeader>
+                        <ChakraNextLink href={'#'}>Help Center</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Fourms</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Guides</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>FAQ</ChakraNextLink>
+                    </VStack>
+                </GridItem>
+                <GridItem colSpan={{ base: 3, sm: 2, md: 1 }}>
+                    <VStack align={'flex-start'}>
+                        <ListHeader>Subscribe to our newsletter</ListHeader>
+                        <HStack w='full'>
+                            <Input
+                                placeholder={'Your email address'}
+                                variant='filled'
+                                colorScheme='thia.gray'
+                                bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+                                _hover={{
+                                    bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
+                                }}
+                            />
+                            <IconButton
+                                aria-label='Subscribe'
+                                variant='primary'
+                                icon={<BiMailSend />}
+                            />
+                        </HStack>
+                    </VStack>
+                </GridItem>
+            </Grid>
+            <Divider />
+            <Flex justify='space-between' py='8' fontSize='sm' gap={4}>
+                <Text>© 2021 Thia CA, inc. All rights reserved</Text>
+                <HStack spacing={{ base: 4, md: 8 }} align='start'>
+                    <ChakraNextLink href={'#'}>
+                        Terms
+                        <Box as='span' display={{ base: 'none', md: 'inline' }}>
+                            {' of Service'}
+                        </Box>
+                    </ChakraNextLink>
+                    <ChakraNextLink href={'#'}>
+                        Privacy
+                        <Box as='span' display={{ base: 'none', md: 'inline' }}>
+                            {' Policy'}
+                        </Box>
+                    </ChakraNextLink>
+                    <ChakraNextLink href={'#'}>License</ChakraNextLink>
+                </HStack>
+            </Flex>
         </Box>
     );
 };

@@ -1,13 +1,13 @@
-import React from 'react';
-import type { NextPage } from 'next';
-import { ChakraNextLink } from '../../src/modules/common/ChakraNextLink';
+import React, { ReactElement } from 'react';
+import { DocsLayout } from 'src/layouts/DocsLayout';
+import { NextPageWithLayout } from 'src/types/NextPageWithLayout';
 
-const Docs: NextPage = () => {
-    return (
-        <>
-            <ChakraNextLink href='/docs/rich'>/docs/rich</ChakraNextLink>
-        </>
-    );
+const Docs: NextPageWithLayout = props => {
+    return <></>;
+};
+
+Docs.getLayout = function getLayout(page: ReactElement) {
+    return <DocsLayout>{page}</DocsLayout>;
 };
 
 export default Docs;

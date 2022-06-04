@@ -1,10 +1,12 @@
-import Head from 'next/head';
+import type { ReactElement } from 'react';
 import { allDocs } from 'contentlayer/generated';
 import type { Doc } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { ContentContainer } from 'src/modules/common/ContentContainer';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
-import { Box, Center, Container, Flex } from '@chakra-ui/react';
+import { Box, Center, Container, Divider, Flex, HStack, VStack } from '@chakra-ui/react';
+import { BaseLayout } from 'src/layouts/BaseLayout';
+import { DocsLayout } from 'src/layouts/DocsLayout';
 
 export const getStaticPaths = async () => {
     return {
@@ -20,22 +22,16 @@ export const getStaticProps = async ({ params }: any) => {
 
 const Docs = ({ doc }: { doc: Doc }) => {
     const Component = useMDXComponent(doc.body.code);
+
     return (
-        <>
-            <ContentContainer>
-                <Flex>
-                    <Box w='300px' h='full'>
-                        DoCUMentation
-                    </Box>
-                    <Container maxW='container.md'>
-                        <Prose as='article'>
-                            <Component />
-                        </Prose>
-                    </Container>
-                </Flex>
-            </ContentContainer>
-        </>
+        <Prose as='article'>
+            <Component />
+        </Prose>
     );
+};
+
+Docs.getLayout = function getLayout(page: ReactElement) {
+    return <DocsLayout>{page}</DocsLayout>;
 };
 
 export default Docs;

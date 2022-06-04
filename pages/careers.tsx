@@ -5,15 +5,15 @@ import { ContentContainer } from '../src/modules/common/ContentContainer';
 type Props = {};
 
 const Careers = (props: Props) => {
-  return (
-    <ContentContainer>
-      <Center className='fullHeightWithoutNav' pb='var(--header-height)'>
-        <Heading>
-          Sorry, we currently do not have any open positions, please check back later.
-        </Heading>
-      </Center>
-    </ContentContainer>
-  );
+    return (
+        <ContentContainer>
+            <Center h='var(--fullHeightWithoutNav)' pb='var(--header-height)'>
+                <Heading>
+                    Sorry, we currently do not have any open positions, please check back later.
+                </Heading>
+            </Center>
+        </ContentContainer>
+    );
 };
 
 export default Careers;
