@@ -1,5 +1,6 @@
-import { Box, Button, Container, Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { allDocs } from 'contentlayer/generated';
+import { query } from 'firebase/firestore';
 import Link from 'next/link';
 import React from 'react';
 import { ChakraNextLink } from 'src/modules/common/ChakraNextLink';
@@ -12,52 +13,59 @@ type Props = {
 };
 
 export const DocsLayout = ({ children }: Props) => {
-    const docs = allDocs.map(d => {
-        return { slug: d.slug, title: d.title };
+    const docs = allDocs.map(({ slug, title, category }) => {
+        return { slug, title, category };
     });
 
     return (
         <>
             <Navbar />
             <ContentContainer>
-                <Box display='relative' maxH='100vh'>
-                    <Flex pt='calc(var(--header-height) + 10px)'>
-                        <Box
-                            p={5}
-                            pl={0}
-                            mr={5}
-                            w='200px'
-                            pos='sticky'
-                            top='calc(var(--header-height) + 10px)'
-                            maxH='calc(var(--fullHeightWithoutNav) - 10px)'
-                        >
-                            <Text mb={3}>Documentation</Text>
-                            <VStack align='start'>
-                                {docs.map(({ slug, title }, i) => (
-                                    <ChakraNextLink
-                                        key={i}
-                                        href={{ pathname: '/docs/[slug]', query: { slug } }}
-                                    >
+                <Flex pt='calc(var(--header-height) + 10px)'>
+                    <Box
+                        p={5}
+                        pl={0}
+                        w='300px'
+                        pos='sticky'
+                        top='calc(var(--header-height) + 10px)'
+                        maxH='calc(var(--fullHeightWithoutNav) - 10px)'
+                    >
+                        <Text mb={3}>Documentation</Text>
+                        <VStack align='start' fontSize='md'>
+                            {docs.map(({ slug, title }, i) => {
+                                return (
+                                    <ChakraNextLink key={i} href={slug}>
                                         {title}
                                     </ChakraNextLink>
-                                ))}
-                            </VStack>
-                        </Box>
-                        <Box alignContent='center'>
-                            <Flex>
-                                <Box flexGrow={1} minH='calc(var(--fullHeightWithoutNav) - 10px)'>
-                                    <Container py={5} maxW='container.md'>
-                                        {children}
-                                    </Container>
-                                </Box>
-                                <Box w='200px' p={5} pr={0} pos='sticky' top={0}>
-                                    <Text casing='capitalize'> On This Page</Text>
-                                </Box>
-                            </Flex>
-                            <Footer />
-                        </Box>
-                    </Flex>
-                </Box>
+                                );
+                            })}
+                        </VStack>
+                    </Box>
+                    <Box w='full'>
+                        <Flex bg={useColorModeValue('thia.gray.50', 'thia.gray.990')} rounded='2xl'>
+                            <Box
+                                flexGrow={1}
+                                minH='calc(var(--fullHeightWithoutNav) - 10px)'
+                                alignContent='center'
+                            >
+                                <Container py={5} maxW='container.md'>
+                                    {children}
+                                </Container>
+                            </Box>
+                            <Box
+                                w='200px'
+                                p={5}
+                                pr={0}
+                                pos='sticky'
+                                top={0}
+                                display={{ base: 'none', xl: 'block' }}
+                            >
+                                <Text casing='capitalize'> On This Page</Text>
+                            </Box>
+                        </Flex>
+                        <Footer />
+                    </Box>
+                </Flex>
             </ContentContainer>
         </>
     );

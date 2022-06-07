@@ -1,19 +1,43 @@
 import { ComputedFields, defineDocumentType, makeSource } from 'contentlayer/source-files';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
 const computedFields: ComputedFields = {
     slug: {
         type: 'string',
-        resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+        resolve: doc =>
+            doc._raw.flattenedPath
+                .split('/')
+                .splice(1)
+                .map(s => s.split('-').splice(1).join('-'))
+                .join('/'),
+    },
+    pathSegments: {
+        type: 'json',
+        resolve: doc => {
+            const path = doc._raw.flattenedPath.split('/');
+            const pathSegment = path.splice(1).map(s => {
+                return {
+                    order: parseInt(s.split('-', 1)[0]),
+                    pathName: s.split('-').slice(1).join('-'),
+                };
+            });
+            return pathSegment;
+        },
     },
 };
 
 const Doc = defineDocumentType(() => ({
     name: 'Doc',
-    filePathPattern: '**/*.mdx',
+    filePathPattern: 'docs/**/*.mdx',
     contentType: 'mdx',
     fields: {
         title: { type: 'string', required: true },
+        // createdAt: { type: 'date', required: true },
+        // updatedAt: { type: 'date', required: true },
+        // isVisible: { type: 'boolean', required: true },
+        category: { type: 'string', required: true },
     },
     computedFields,
 }));
@@ -21,7 +45,7 @@ const Doc = defineDocumentType(() => ({
 const contentLayerConfig = makeSource({
     contentDirPath: 'content',
     documentTypes: [Doc],
-    mdx: { remarkPlugins: [remarkGfm] },
+    mdx: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] },
 });
 
 export default contentLayerConfig;

@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { links, socials } from '../../constants/links';
 import { BiMailSend } from 'react-icons/bi';
-import { ContentContainer } from '../common/ContentContainer';
 import { ChakraNextLink } from '../common/ChakraNextLink';
 
 const ListHeader = ({ children }: { children: string }) => {
@@ -27,11 +26,7 @@ const ListHeader = ({ children }: { children: string }) => {
 
 export const Footer = () => {
     return (
-        <Box
-            as='footer'
-            bg={useColorModeValue('thia.bg-base', 'thia.bg-dark')}
-            color={useColorModeValue('thia.text-base', 'thia.text-dark')}
-        >
+        <Box as='footer' bg='inherit' color={useColorModeValue('thia.text-base', 'thia.text-dark')}>
             <Grid
                 templateColumns={{
                     base: '1fr 1fr 1fr',

@@ -1,23 +1,30 @@
 import type { ReactElement } from 'react';
 import { allDocs } from 'contentlayer/generated';
 import type { Doc } from 'contentlayer/generated';
-import { useMDXComponent } from 'next-contentlayer/hooks';
-import { ContentContainer } from 'src/modules/common/ContentContainer';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
-import { Box, Center, Container, Divider, Flex, HStack, VStack } from '@chakra-ui/react';
-import { BaseLayout } from 'src/layouts/BaseLayout';
 import { DocsLayout } from 'src/layouts/DocsLayout';
+import { useMDXComponent } from 'next-contentlayer/hooks';
 
 export const getStaticPaths = async () => {
+    const paths = allDocs.map(doc => {
+        return { params: { slug: doc.pathSegments.map((seg: PathSegment) => seg.pathName) } };
+    });
     return {
-        paths: allDocs.map((d: any) => ({ params: { slug: d.slug } })),
+        paths,
         fallback: false,
     };
 };
 
 export const getStaticProps = async ({ params }: any) => {
-    const doc = allDocs.find((doc: any) => doc.slug === params.slug);
-    return { props: { doc } };
+    const pagePath = params.slug?.join('/') ?? '';
+    return {
+        props: {
+            doc: allDocs.find(
+                (doc: Doc) =>
+                    doc.pathSegments.map((seg: PathSegment) => seg.pathName).join('/') === pagePath
+            ),
+        },
+    };
 };
 
 const Docs = ({ doc }: { doc: Doc }) => {
