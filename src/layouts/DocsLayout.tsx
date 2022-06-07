@@ -1,5 +1,5 @@
 import { Box, Button, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
-import { allDocs } from 'contentlayer/generated';
+import { allDocs, Doc } from 'contentlayer/generated';
 import { query } from 'firebase/firestore';
 import Link from 'next/link';
 import React from 'react';
@@ -12,10 +12,57 @@ type Props = {
     children: React.ReactNode;
 };
 
+const Branch = ({ branch, i }: any) => {
+    return (
+        <>
+            <ChakraNextLink key={i} href={branch.slug}>
+                {branch.title}
+            </ChakraNextLink>
+            <Box pl={10}>{branch.children && <Tree tree={branch.children} />}</Box>
+        </>
+    );
+};
+const Tree = ({ tree }: any) => {
+    return (
+        <>
+            {tree.map((branch: any, i: number) => (
+                <Branch branch={branch} index={i} key={i} />
+            ))}
+        </>
+    );
+};
+
+const DocsNavigation = ({ tree }: any) => {
+    return <Tree tree={tree} />;
+};
+
 export const DocsLayout = ({ children }: Props) => {
     const docs = allDocs.map(({ slug, title, category }) => {
         return { slug, title, category };
     });
+
+    const treetree = (docs: Doc[], parentPathNames: string[] = []): any => {
+        const level = parentPathNames.length;
+        return docs
+            .filter(
+                (d: any) =>
+                    d.pathSegments.length === level + 1 &&
+                    d.pathSegments
+                        .map((_: PathSegment) => _.pathName)
+                        .join('/')
+                        .startsWith(parentPathNames.join('/'))
+            )
+            .map((doc: Doc) => ({
+                title: doc.title,
+                slug: doc.slug,
+                children: treetree(
+                    docs,
+                    doc.pathSegments.map((_: PathSegment) => _.pathName)
+                ),
+            }));
+    };
+
+    const tree = treetree(allDocs);
 
     return (
         <>
@@ -32,13 +79,7 @@ export const DocsLayout = ({ children }: Props) => {
                     >
                         <Text mb={3}>Documentation</Text>
                         <VStack align='start' fontSize='md'>
-                            {docs.map(({ slug, title }, i) => {
-                                return (
-                                    <ChakraNextLink key={i} href={slug}>
-                                        {title}
-                                    </ChakraNextLink>
-                                );
-                            })}
+                            <DocsNavigation tree={tree} />
                         </VStack>
                     </Box>
                     <Box w='full'>
