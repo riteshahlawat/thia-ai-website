@@ -99,6 +99,10 @@ export const theme = extendTheme(
                 fontFamily: 'Open Sans',
                 fontWeight: mode('400', '300')(props),
             },
+            li: {
+                fontFamily: 'Open Sans',
+                fontWeight: mode('400', '300')(props),
+            },
         }),
     })
 );
