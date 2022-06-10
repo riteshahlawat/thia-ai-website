@@ -37,7 +37,7 @@ const Doc = defineDocumentType(() => ({
         // createdAt: { type: 'date', required: true },
         // updatedAt: { type: 'date', required: true },
         // isVisible: { type: 'boolean', required: true },
-        // category: { type: 'string', required: true },
+        category: { type: 'string', required: true },
     },
     computedFields,
 }));
