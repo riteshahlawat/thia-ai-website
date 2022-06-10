@@ -5,64 +5,17 @@ import Link from 'next/link';
 import React from 'react';
 import { ChakraNextLink } from 'src/modules/common/ChakraNextLink';
 import { ContentContainer } from 'src/modules/common/ContentContainer';
+import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
 import { Footer } from 'src/modules/layout/Footer';
 import { Navbar } from 'src/modules/layout/Navbar/Navbar';
+import { buildDocsTree } from 'src/utils/docs/docsNavigationTree';
 
 type Props = {
     children: React.ReactNode;
 };
 
-const Branch = ({ branch, i }: any) => {
-    return (
-        <>
-            <ChakraNextLink key={i} href={branch.slug}>
-                {branch.title}
-            </ChakraNextLink>
-            <Box pl={10}>{branch.children && <Tree tree={branch.children} />}</Box>
-        </>
-    );
-};
-const Tree = ({ tree }: any) => {
-    return (
-        <>
-            {tree.map((branch: any, i: number) => (
-                <Branch branch={branch} index={i} key={i} />
-            ))}
-        </>
-    );
-};
-
-const DocsNavigation = ({ tree }: any) => {
-    return <Tree tree={tree} />;
-};
-
 export const DocsLayout = ({ children }: Props) => {
-    const docs = allDocs.map(({ slug, title, category }) => {
-        return { slug, title, category };
-    });
-
-    const treetree = (docs: Doc[], parentPathNames: string[] = []): any => {
-        const level = parentPathNames.length;
-        return docs
-            .filter(
-                (d: any) =>
-                    d.pathSegments.length === level + 1 &&
-                    d.pathSegments
-                        .map((_: PathSegment) => _.pathName)
-                        .join('/')
-                        .startsWith(parentPathNames.join('/'))
-            )
-            .map((doc: Doc) => ({
-                title: doc.title,
-                slug: doc.slug,
-                children: treetree(
-                    docs,
-                    doc.pathSegments.map((_: PathSegment) => _.pathName)
-                ),
-            }));
-    };
-
-    const tree = treetree(allDocs);
+    const tree = buildDocsTree(allDocs);
 
     return (
         <>
@@ -72,7 +25,7 @@ export const DocsLayout = ({ children }: Props) => {
                     <Box
                         p={5}
                         pl={0}
-                        w='300px'
+                        w='350px'
                         pos='sticky'
                         top='calc(var(--header-height) + 10px)'
                         maxH='calc(var(--fullHeightWithoutNav) - 10px)'
