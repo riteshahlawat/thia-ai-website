@@ -103,6 +103,17 @@ export const theme = extendTheme(
                 fontFamily: 'Open Sans',
                 fontWeight: mode('400', '300')(props),
             },
+            code: {
+                px: '1',
+                borderRadius: 'sm',
+                bg: mode('thia.gray.200', 'thia.gray.950')(props),
+                '&::after': {
+                    content: "''",
+                },
+                '&::before': {
+                    content: "''",
+                },
+            },
         }),
     })
 );
