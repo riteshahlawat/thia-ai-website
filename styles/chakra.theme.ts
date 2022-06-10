@@ -76,7 +76,7 @@ export const theme = extendTheme(
         },
     },
     withProse({
-        baseStyle: {
+        baseStyle: props => ({
             h1: {
                 fontFamily: 'Open Sans',
             },
@@ -97,7 +97,8 @@ export const theme = extendTheme(
             },
             p: {
                 fontFamily: 'Open Sans',
+                fontWeight: mode('400', '300')(props),
             },
-        },
+        }),
     })
 );
