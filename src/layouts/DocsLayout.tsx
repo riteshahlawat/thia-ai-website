@@ -26,6 +26,7 @@ export const DocsLayout = ({ children }: Props) => {
                         pos='sticky'
                         top='calc(var(--header-height) + 10px)'
                         maxH='calc(var(--fullHeightWithoutNav) - 10px)'
+                        overflowY='auto'
                     >
                         <VStack align='start' fontSize='md'>
                             <DocsNavigation tree={tree} />
