@@ -4,6 +4,7 @@ import type { Doc } from 'contentlayer/generated';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { DocsLayout } from 'src/layouts/DocsLayout';
 import { useMDXComponent } from 'next-contentlayer/hooks';
+import { PathSegment } from 'src/types/PathSegment';
 
 export const getStaticPaths = async () => {
     const paths = allDocs.map(doc => {
