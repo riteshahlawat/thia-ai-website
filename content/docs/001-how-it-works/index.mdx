@@ -3,4 +3,25 @@ title: How It Works
 category: how it works
 ---
 
-# How It Works
+## How It Works
+
+### Overview
+
+Thia is an AutoML application that runs on your own hardware instead of the cloud. It is installed
+onto your Desktop and the Machine Learning takes place on your GPU. If you are on macOS or don't
+have a GPU, it connects to a linux virtual machine from your preferred vendor that does have one.
+
+> **_NOTE:_** Currently Thia is only available on Windows and won't run if you don't have an NVIDIA GPU.
+> We later plan to support other operating systems and linux virtual machines.
+
+---
+
+### Thia Workflow
+
+![How Thia Works](/how_thia_works.png 'How Thia Works')
+
+<center>***Figure 1**: Thia model training/usage workflow*</center>
+
+Thia is the hub to train, serve, and monitor your Machine Learning models. Because all of this is happening on
+your machine(s), **you** are in control of your own data. The app communicates with our servers for authentication
+and authorization of tasks only.

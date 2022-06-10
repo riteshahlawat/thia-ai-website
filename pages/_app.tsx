@@ -1,4 +1,5 @@
 import '@fontsource/poppins';
+import '@fontsource/open-sans';
 import '../styles/globals.css';
 import '../styles/nprogress.css';
 import type { AppProps } from 'next/app';

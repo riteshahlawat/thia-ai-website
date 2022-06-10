@@ -75,5 +75,29 @@ export const theme = extendTheme(
             Button,
         },
     },
-    withProse()
+    withProse({
+        baseStyle: {
+            h1: {
+                fontFamily: 'Open Sans',
+            },
+            h2: {
+                fontFamily: 'Open Sans',
+            },
+            h3: {
+                fontFamily: 'Open Sans',
+            },
+            h4: {
+                fontFamily: 'Open Sans',
+            },
+            h5: {
+                fontFamily: 'Open Sans',
+            },
+            h6: {
+                fontFamily: 'Open Sans',
+            },
+            p: {
+                fontFamily: 'Open Sans',
+            },
+        },
+    })
 );
