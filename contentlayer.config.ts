@@ -1,6 +1,7 @@
 import { ComputedFields, defineDocumentType, makeSource } from 'contentlayer/source-files';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
+import { remarkMdxImages } from 'remark-mdx-images';
 import remarkGfm from 'remark-gfm';
 
 const computedFields: ComputedFields = {
@@ -45,7 +46,18 @@ const Doc = defineDocumentType(() => ({
 const contentLayerConfig = makeSource({
     contentDirPath: 'content',
     documentTypes: [Doc],
-    mdx: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] },
+    mdx: {
+        remarkPlugins: [remarkGfm, remarkMdxImages],
+        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+        esbuildOptions: options => {
+            options.loader = {
+                ...options.loader,
+                '.png': 'dataurl',
+                '.jpg': 'dataurl',
+            };
+            return options;
+        },
+    },
 });
 
 export default contentLayerConfig;
