@@ -1,9 +1,6 @@
-import { Box, Button, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
-import { allDocs, Doc } from 'contentlayer/generated';
-import { query } from 'firebase/firestore';
-import Link from 'next/link';
+import { Box, Container, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { allDocs } from 'contentlayer/generated';
 import React from 'react';
-import { ChakraNextLink } from 'src/modules/common/ChakraNextLink';
 import { ContentContainer } from 'src/modules/common/ContentContainer';
 import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
 import { Footer } from 'src/modules/layout/Footer';
@@ -30,13 +27,12 @@ export const DocsLayout = ({ children }: Props) => {
                         top='calc(var(--header-height) + 10px)'
                         maxH='calc(var(--fullHeightWithoutNav) - 10px)'
                     >
-                        <Text mb={3}>Documentation</Text>
                         <VStack align='start' fontSize='md'>
                             <DocsNavigation tree={tree} />
                         </VStack>
                     </Box>
                     <Box w='full'>
-                        <Flex bg={useColorModeValue('thia.gray.50', 'thia.gray.990')} rounded='2xl'>
+                        <Flex bg={useColorModeValue('thia.gray.50', 'thia.gray.990')} rounded='md'>
                             <Box
                                 flexGrow={1}
                                 minH='calc(var(--fullHeightWithoutNav) - 10px)'

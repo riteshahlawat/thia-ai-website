@@ -30,7 +30,6 @@ export const getStaticProps = async ({ params }: any) => {
 
 const Docs = ({ doc }: { doc: Doc }) => {
     const Component = useMDXComponent(doc.body.code);
-
     return (
         <Prose as='article'>
             <Component />

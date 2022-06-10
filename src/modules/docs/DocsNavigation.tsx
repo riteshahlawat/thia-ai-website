@@ -1,11 +1,44 @@
-import { Box, Button, Flex, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { isEmpty } from 'src/utils/docs/common';
-import Link from 'next/link';
+import { ChakraNextLink } from '../common/ChakraNextLink';
+import { useRouter } from 'next/router';
 
-const Branch = ({ branch, i }: any) => {
-    const [isOpen, setIsOpen] = useState(false);
+type BranchType = {
+    branch: any;
+    depth: number;
+    activePath: string;
+};
+
+type TreeType = {
+    tree: any;
+    depth: number;
+    activePath: string;
+};
+
+const Branch = ({ branch, depth, activePath }: BranchType) => {
+    const [expanded, setExpanded] = useState(false);
+    const [active, setActive] = useState(false);
+    const toggleExpanded = () => setExpanded(!expanded);
+
+    useEffect(() => {
+        if (activePath && branch.slug === activePath.split('/docs/')[1]) {
+            setActive(true);
+
+            if (!isEmpty(branch.children)) setExpanded(true);
+        } else {
+            setActive(false);
+        }
+    }, [activePath]);
+
+    const textColor = () => {
+        if (active) return useColorModeValue('thia.text-base', 'thia.text-dark');
+        else
+            return depth
+                ? useColorModeValue('thia.gray.700', 'thia.gray.300')
+                : useColorModeValue('thia.gray.800', 'thia.gray.200');
+    };
     return (
         <>
             <Flex
@@ -13,15 +46,26 @@ const Branch = ({ branch, i }: any) => {
                 fontSize='sm'
                 w='full'
                 rounded='md'
-                _hover={{ bg: 'thia.gray.990' }}
-                py={1}
+                bg={active ? useColorModeValue('thia.purple.50', 'thia.purple.900') : 'transparent'}
+                _hover={{
+                    bg: active
+                        ? useColorModeValue('thia.purple.50', 'thia.purple.900')
+                        : useColorModeValue('thia.gray.50', 'thia.gray.990'),
+                }}
+                py={1.5}
                 pl={3}
             >
-                <Link href={branch.slug}>
-                    <Box w='full' as='a'>
-                        {branch.title}
-                    </Box>
-                </Link>
+                <ChakraNextLink
+                    href={branch.slug}
+                    styleProps={{
+                        w: 'full',
+                        fontWeight: depth ? 400 : 600,
+                        _hover: { textDecoration: 'none' },
+                        color: textColor,
+                    }}
+                >
+                    {branch.title}
+                </ChakraNextLink>
 
                 {!isEmpty(branch.children) && (
                     <IconButton
@@ -31,48 +75,35 @@ const Branch = ({ branch, i }: any) => {
                         bg='transparent'
                         _hover={{ bg: 'transparent' }}
                         _active={{ bg: 'transparent' }}
-                        onClick={() => setIsOpen(!isOpen)}
-                        icon={isOpen ? <MdExpandMore /> : <MdChevronRight />}
+                        onClick={toggleExpanded}
+                        icon={expanded ? <MdExpandMore /> : <MdChevronRight />}
                     />
                 )}
             </Flex>
-            <Box pl={5} w='full' display={branch.children && isOpen ? 'block' : 'none'}>
-                <Tree tree={branch.children} />
+            <Box pl={5} w='full' display={branch.children && expanded ? 'block' : 'none'}>
+                <Tree tree={branch.children} depth={depth + 1} activePath={activePath} />
             </Box>
         </>
     );
 };
 
-const Tree = ({ tree }: any) => {
+const Tree = ({ tree, depth, activePath }: TreeType) => {
     return (
-        <VStack spacing={1} w='full'>
+        <VStack
+            w='full'
+            pl={3}
+            spacing={2}
+            borderLeft={depth ? '1px' : 'none'}
+            borderColor={useColorModeValue('thia.gray.400', 'thia.gray.950')}
+        >
             {tree.map((branch: any, i: number) => (
-                <Branch branch={branch} index={i} key={i} />
+                <Branch key={i} branch={branch} depth={depth} activePath={activePath} />
             ))}
         </VStack>
     );
 };
 
 export const DocsNavigation = ({ tree }: any) => {
-    return <Tree tree={tree} />;
+    const router = useRouter();
+    return <Tree tree={tree} depth={0} activePath={router.asPath} />;
 };
-
-{
-    /* <>
-<Flex fontSize='sm' w='full'>
-    <Link key={i} href={branch.slug}>
-        <Box width='full'>{branch.title}</Box>
-    </Link>
-    {branch.children.length ? (
-        <Button
-            bg='transparent'
-            _hover={{ bg: 'transparent' }}
-            _active={{ bg: 'transparent' }}
-            onClick={() => setIsOpen(!isOpen)}
-        ></Button>
-    ) : null}
-</Flex>
-
-
-</> */
-}
