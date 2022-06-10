@@ -8,8 +8,9 @@ category: how it works
 ### Overview
 
 Thia is an AutoML application that runs on your own hardware instead of the cloud. It is installed
-onto your Desktop and the Machine Learning takes place on your GPU. If you are on macOS or don't
-have a GPU, it connects to a linux virtual machine from your preferred vendor that does have one.
+onto your Desktop and the Machine Learning **(ML)** takes place on your GPU. If you are on macOS, or don't
+have a graphics processing unit **(GPU)**, it connects to a linux virtual machine from your preferred vendor
+that does have one.
 
 > **_NOTE:_** Currently Thia is only available on Windows and won't run if you don't have an NVIDIA GPU.
 > We later plan to support other operating systems and linux virtual machines.
@@ -22,6 +23,39 @@ have a GPU, it connects to a linux virtual machine from your preferred vendor th
 
 <center>***Figure 1**: Thia model training/usage workflow*</center>
 
-Thia is the hub to train, serve, and monitor your Machine Learning models. Because all of this is happening on
-your machine(s), **_you_** are in control of your own data. The app communicates with our servers for authentication
-and authorization of tasks only.
+Thia is the hub where you:
+
+-   Train your ML models.
+-   Test your ML models.
+-   Deploy your ML models.
+-   Monitor your deployed ML models.
+
+Because all of this is happening on your machine(s), **_you_** are in control of your own data. The app
+communicates with our servers for authentication and authorization of ML tasks only.
+
+> **_NOTE:_** You can only Train and Test your ML models with Thia. In future versions you will also be
+> able to deploy your ML models and monitor them.
+
+---
+
+### Machine Requirements
+
+The following are the required specifications, without which, the app will not function as intended:
+
+-   Windows 10 or higher, 64 bit (Other operating systems will be supported in future releases.)
+-   NVIDIA GPU (Preferrably above the 10 series.)
+-   Recent NVIDIA Drivers.
+
+The following are the minimum specifications (you may still encounter some issues and limitations):
+
+-   NVIDIA GPU with 4 GB of video memory or more.
+-   Intel / AMD CPU with 4 cores or more.
+-   8 GB of RAM
+-   5 GB of HDD free space.
+
+The following are the reccomended specifications (you likely won't encounter issues):
+
+-   NVIDIA GPU with 8 GB of video memory or more.
+-   Intel / AMD CPU with 6 cores.
+-   16 GB of RAM
+-   10 GB of SSD free space.
