@@ -50,7 +50,7 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                 _hover={{
                     bg: active
                         ? useColorModeValue('thia.purple.50', 'thia.purple.900')
-                        : useColorModeValue('thia.gray.50', 'thia.gray.990'),
+                        : useColorModeValue('thia.gray.100', 'thia.gray.950'),
                 }}
                 py={1.5}
                 pl={3}

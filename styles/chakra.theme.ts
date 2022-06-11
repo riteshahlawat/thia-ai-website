@@ -117,10 +117,11 @@ export const theme = extendTheme(
                 },
             },
             code: {
-                px: '1',
-                borderRadius: 'sm',
-                bg: mode('thia.gray.900', 'thia.gray.950')(props),
-                color: 'white',
+                px: '1.5',
+                pb: '0.5',
+                borderRadius: 'md',
+                bg: mode('thia.gray.300', 'thia.gray.900')(props),
+                color: mode('thia.gray.900', 'white')(props),
                 '&::before, &::after': {
                     content: "''",
                 },
