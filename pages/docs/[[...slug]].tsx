@@ -7,9 +7,9 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import { PathSegment } from 'src/types/PathSegment';
 import { Box, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
-import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadCrumbs';
 import { Footer } from 'src/modules/layout/Footer';
 import { buildDocsTree } from 'src/utils/docs/docsNavigationTree';
+import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
 
 export const getStaticPaths = async () => {
     const paths = allDocs.map(doc => {
