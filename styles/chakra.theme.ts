@@ -103,14 +103,25 @@ export const theme = extendTheme(
                 fontFamily: 'Open Sans',
                 fontWeight: mode('400', '300')(props),
             },
+            pre: {
+                p: '4',
+                rounded: 'md',
+                bg: 'var(--gray-950) !important',
+                // color: mode('black', 'white')(props),
+                overflow: 'auto',
+                code: {
+                    bg: 'inherit',
+                    '&::before, &::after': {
+                        content: "''",
+                    },
+                },
+            },
             code: {
                 px: '1',
                 borderRadius: 'sm',
-                bg: mode('thia.gray.200', 'thia.gray.950')(props),
-                '&::after': {
-                    content: "''",
-                },
-                '&::before': {
+                bg: mode('thia.gray.900', 'thia.gray.950')(props),
+                color: 'white',
+                '&::before, &::after': {
                     content: "''",
                 },
             },
