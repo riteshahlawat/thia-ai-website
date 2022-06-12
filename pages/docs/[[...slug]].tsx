@@ -51,11 +51,12 @@ const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: Br
                     <DocsNavigation tree={tree} />
                 </VStack>
             </Box>
-            <Box w='full' pl={5}>
-                <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
+            <Box w='full' pl={5} py={7}>
+               
                 <Flex rounded='md' bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}>
                     <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' alignContent='center'>
-                        <Container maxW='container.md' py={5}>
+                        <Container maxW='container.md'>
+                        <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
                             <Prose as='article'>
                                 <MDXComponent />
                             </Prose>

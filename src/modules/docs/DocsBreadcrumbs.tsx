@@ -1,8 +1,8 @@
 import React from 'react';
 import { MdChevronRight } from 'react-icons/md';
-import { Box, Breadcrumb, BreadcrumbItem, useColorModeValue } from '@chakra-ui/react';
+import { Box, Breadcrumb, BreadcrumbItem, Text, useColorModeValue } from '@chakra-ui/react';
 import { BreadcrumbType } from 'src/types/Breadcrumbs';
-import Link from 'next/link';
+import { ChakraNextLink } from '../common/ChakraNextLink';
 
 export const DocsBreadcrumbs = ({ path, title }: BreadcrumbType) => {
     const breadcrumbPath = path.split('/');
@@ -18,22 +18,23 @@ export const DocsBreadcrumbs = ({ path, title }: BreadcrumbType) => {
 
     return (
         <Box
-            p={5}
-            pl={0}
+            pt={7}
             pb={3}
             w='full'
-            pos='sticky'
             fontSize='sm'
             roundedTop='md'
-            top='var(--header-height)'
             color={useColorModeValue('thia.gray.700', 'thia.gray.400')}
-            bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+            bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
             textTransform='capitalize'
         >
             <Breadcrumb separator={<MdChevronRight />}>
                 {breadcrumbs.map(({ name, path }, i) => (
                     <BreadcrumbItem key={i}>
-                        <Link href={path}>{name}</Link>
+                        {i + 1 < breadcrumbs.length ? (
+                            <ChakraNextLink href={path}>{name}</ChakraNextLink>
+                        ) : (
+                            <Text>{name}</Text>
+                        )}
                     </BreadcrumbItem>
                 ))}
             </Breadcrumb>
