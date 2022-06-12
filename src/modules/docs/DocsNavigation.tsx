@@ -1,7 +1,7 @@
-import { Box, Flex, IconButton, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { Box, Flex, IconButton, useColorModeValue, VStack } from '@chakra-ui/react';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import { isEmpty } from 'src/utils/docs/common';
+import { isEmpty } from '@chakra-ui/utils';
 import { ChakraNextLink } from '../common/ChakraNextLink';
 import { useRouter } from 'next/router';
 
@@ -20,16 +20,14 @@ type TreeType = {
 const Branch = ({ branch, depth, activePath }: BranchType) => {
     const [expanded, setExpanded] = useState(false);
     const [active, setActive] = useState(false);
+
     const toggleExpanded = () => setExpanded(!expanded);
 
     useEffect(() => {
         if (activePath && branch.slug === activePath.split('/docs/')[1]) {
             setActive(true);
-
             if (!isEmpty(branch.children)) setExpanded(true);
-        } else {
-            setActive(false);
-        }
+        } else setActive(false);
     }, [activePath]);
 
     const textColor = () => {
@@ -39,6 +37,7 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                 ? useColorModeValue('thia.gray.700', 'thia.gray.300')
                 : useColorModeValue('thia.gray.800', 'thia.gray.200');
     };
+
     return (
         <>
             <Flex

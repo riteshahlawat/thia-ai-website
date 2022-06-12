@@ -1,47 +1,42 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { MdChevronRight } from 'react-icons/md';
-import {
-    Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    Container,
-    Heading,
-    useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Breadcrumb, BreadcrumbItem, useColorModeValue } from '@chakra-ui/react';
+import { BreadcrumbType } from 'src/types/Breadcrumbs';
+import Link from 'next/link';
 
-type Props = {};
+export const DocsBreadcrumbs = ({ path, title }: BreadcrumbType) => {
+    const breadcrumbPath = path.split('/');
 
-export const DocsBreadcrumbs = (props: Props) => {
-    const router = useRouter();
+    const crumbs = breadcrumbPath[0]
+        ? breadcrumbPath.map((crumb, i) => {
+              const path = breadcrumbPath.slice(0, i + 1).join('/');
+              return { name: crumb.replaceAll('-', ' '), path };
+          })
+        : [];
+
+    const breadcrumbs = [{ name: 'Thia Documentation', path: '/docs' }, ...crumbs];
 
     return (
         <Box
             p={5}
+            pl={0}
+            pb={3}
             w='full'
             pos='sticky'
+            fontSize='sm'
+            roundedTop='md'
             top='var(--header-height)'
-            bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}
+            color={useColorModeValue('thia.gray.700', 'thia.gray.400')}
+            bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+            textTransform='capitalize'
         >
-            <Container maxW='container.md'>
-                <Breadcrumb separator={<MdChevronRight />}>
-                    {router.asPath
-                        .split('/')
-                        .slice(1)
-                        .map((crumb, i) => (
-                            <BreadcrumbItem key={i}>
-                                <BreadcrumbLink href={''}>{crumb}</BreadcrumbLink>
-                            </BreadcrumbItem>
-                        ))}
-                </Breadcrumb>
-            </Container>
+            <Breadcrumb separator={<MdChevronRight />}>
+                {breadcrumbs.map(({ name, path }, i) => (
+                    <BreadcrumbItem key={i}>
+                        <Link href={path}>{name}</Link>
+                    </BreadcrumbItem>
+                ))}
+            </Breadcrumb>
         </Box>
     );
 };
-
-{
-    /* <Heading fontSize='normal' fontWeight='normal'>
-                    hello
-                </Heading> */
-}

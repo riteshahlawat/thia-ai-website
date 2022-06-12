@@ -5,11 +5,12 @@ import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { DocsLayout } from 'src/layouts/DocsLayout';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { PathSegment } from 'src/types/PathSegment';
-import { Box, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
 import { Footer } from 'src/modules/layout/Footer';
 import { buildDocsTree } from 'src/utils/docs/docsNavigationTree';
 import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
+import { BreadcrumbType } from 'src/types/Breadcrumbs';
+import { Box, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
 export const getStaticPaths = async () => {
     const paths = allDocs.map(doc => {
@@ -23,19 +24,17 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }: any) => {
     const pagePath = params.slug?.join('/') ?? '';
-    return {
-        props: {
-            doc: allDocs.find(
-                (doc: Doc) =>
-                    doc.pathSegments.map((seg: PathSegment) => seg.pathName).join('/') === pagePath
-            ),
-        },
-    };
+    const doc = allDocs.find(
+        (doc: Doc) =>
+            doc.pathSegments.map((seg: PathSegment) => seg.pathName).join('/') === pagePath
+    );
+    const tree = buildDocsTree(allDocs);
+    const breadcrumbs = { path: doc?.slug, title: doc?.title };
+    return { props: { doc, tree, breadcrumbs } };
 };
 
-const Docs = ({ doc }: { doc: Doc }) => {
-    const MDXComponent = useMDXComponent(doc.body.code);
-    const tree = buildDocsTree(allDocs);
+const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: BreadcrumbType }) => {
+    const MDXComponent = useMDXComponent(doc?.body.code || '');
 
     return (
         <Flex pt='var(--header-height)'>
@@ -52,24 +51,17 @@ const Docs = ({ doc }: { doc: Doc }) => {
                     <DocsNavigation tree={tree} />
                 </VStack>
             </Box>
-            <Box w='full' pt={10} pl={5}>
+            <Box w='full' pl={5}>
+                <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
                 <Flex rounded='md' bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}>
                     <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' alignContent='center'>
-                        <DocsBreadcrumbs />
-                        <Container maxW='container.md' pb={5}>
+                        <Container maxW='container.md' py={5}>
                             <Prose as='article'>
                                 <MDXComponent />
                             </Prose>
                         </Container>
                     </Box>
-                    <Box
-                        w='200px'
-                        p={5}
-                        pr={0}
-                        pos='sticky'
-                        top={0}
-                        display={{ base: 'none', xl: 'block' }}
-                    >
+                    <Box w='200px' p={5} pr={0} display={{ base: 'none', xl: 'block' }}>
                         <Text casing='capitalize'> On This Page</Text>
                     </Box>
                 </Flex>
