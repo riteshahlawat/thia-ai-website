@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "dev": "rimraf .next && next dev",
         "prod": "next build && next start",
         "build": "next build",
         "start": "next start",
@@ -34,6 +34,7 @@
         "rehype-slug": "^5.0.1",
         "remark-gfm": "^3.0.1",
         "remark-mdx-images": "^1.0.3",
+        "rimraf": "^3.0.2",
         "sharp": "^0.30.4"
     },
     "devDependencies": {
