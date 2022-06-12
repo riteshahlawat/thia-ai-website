@@ -24,7 +24,7 @@ export const DocsBreadcrumbs = ({ path, title }: BreadcrumbType) => {
             fontSize='sm'
             roundedTop='md'
             color={useColorModeValue('thia.gray.700', 'thia.gray.400')}
-            bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
+            bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}
             textTransform='capitalize'
         >
             <Breadcrumb separator={<MdChevronRight />}>
