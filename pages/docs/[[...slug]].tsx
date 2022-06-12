@@ -37,38 +37,54 @@ const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: Br
     const MDXComponent = useMDXComponent(doc?.body.code || '');
 
     return (
-        <Flex pt='var(--header-height)'>
-            <Box
-                pt={10}
-                pr={5}
-                w='350px'
-                pos='sticky'
-                top='var(--header-height)'
-                maxH='var(--fullHeightWithoutNav)'
-                overflowY='auto'
-            >
-                <VStack align='start' fontSize='md'>
-                    <DocsNavigation tree={tree} />
-                </VStack>
-            </Box>
-            <Box w='full' pl={5} py={7}>
-               
-                <Flex rounded='md' bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}>
-                    <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' alignContent='center'>
+        <>
+            <Flex pt='var(--header-height)'>
+                <Box
+                    pt={7}
+                    pr={5}
+                    w='350px'
+                    pos='sticky'
+                    overflowY='auto'
+                    top='var(--header-height)'
+                    h='var(--fullHeightWithoutNav)'
+                    maxH='var(--fullHeightWithoutNav)'
+                    flexShrink={0}
+                >
+                    <VStack align='start' fontSize='md'>
+                        <DocsNavigation tree={tree} />
+                    </VStack>
+                </Box>
+                <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' py={7} pl={5}>
+                    <Flex
+                        px={5}
+                        h='full'
+                        rounded='md'
+                        flexShrink={0}
+                        bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}
+                    >
                         <Container maxW='container.md'>
-                        <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
+                            <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
                             <Prose as='article'>
                                 <MDXComponent />
                             </Prose>
                         </Container>
-                    </Box>
-                    <Box w='200px' p={5} pr={0} display={{ base: 'none', xl: 'block' }}>
-                        <Text casing='capitalize'> On This Page</Text>
-                    </Box>
-                </Flex>
-                <Footer />
-            </Box>
-        </Flex>
+                        <Box
+                            pl={5}
+                            flexGrow={1}
+                            display={{ base: 'none', xl: 'block' }}
+                            color={useColorModeValue('thia.gray.700', 'thia.gray.400')}
+                        >
+                            <Box pt={7} pb={3} fontSize='sm'>
+                                Read time
+                            </Box>
+                            <Box pt={7} pb={3}>
+                                On this page:
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Box>
+            </Flex>
+        </>
     );
 };
 

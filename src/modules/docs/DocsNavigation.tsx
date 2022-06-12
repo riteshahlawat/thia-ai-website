@@ -92,8 +92,8 @@ const Tree = ({ tree, depth, activePath }: TreeType) => {
             w='full'
             pl={3}
             spacing={2}
-            borderLeft={depth ? '1px' : 'none'}
-            borderColor={useColorModeValue('thia.gray.400', 'thia.gray.950')}
+            borderLeft={depth ? '4px' : 'none'}
+            borderColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
         >
             {tree.map((branch: any, i: number) => (
                 <Branch key={i} branch={branch} depth={depth} activePath={activePath} />
