@@ -53,6 +53,29 @@ h6 {
     height: var(--header-height);
 }
 
+/* Docs anchor tag */
+.anchor {
+    position: absolute;
+    visibility: hidden;
+    margin-left: -1em;
+    padding-right: 0.5em;
+    width: 80%;
+    max-width: 700px;
+    cursor: pointer;
+}
+
+a {
+    transition-property: all;
+}
+
+.anchor:after {
+    content: '#';
+}
+
+*:hover > .anchor {
+    visibility: visible;
+}
+
 /*
   blue tint gray
   --gray-50: #f2f5f7;

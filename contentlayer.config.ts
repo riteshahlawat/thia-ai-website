@@ -54,7 +54,7 @@ const contentLayerConfig = makeSource({
         remarkPlugins: [remarkGfm, remarkMdxImages],
         rehypePlugins: [
             rehypeSlug,
-            rehypeAutolinkHeadings,
+            [rehypeAutolinkHeadings, { properties: { className: ['anchor'] } }],
             [rehypeExternalLinks, { target: '_blank' }],
             rehypeHighlight,
         ],

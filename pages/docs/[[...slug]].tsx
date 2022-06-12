@@ -55,13 +55,13 @@ const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: Br
                 </Box>
                 <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' py={7} pl={5}>
                     <Flex
-                        px={5}
+                        px={7}
                         h='full'
                         rounded='md'
                         flexShrink={0}
                         bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}
                     >
-                        <Container maxW='container.md'>
+                        <Container maxW='container.md' pl={5} pb={5}>
                             <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
                             <Prose as='article'>
                                 <MDXComponent />

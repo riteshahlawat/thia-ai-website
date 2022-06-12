@@ -126,6 +126,11 @@ export const theme = extendTheme(
                     content: "''",
                 },
             },
+            a: {
+                color: mode('thia.gray.300', 'thia.gray.800')(props),
+                _hover: { textDecoration: 'none' },
+                _focus: { boxShadow: 'none' },
+            },
         }),
     })
 );
