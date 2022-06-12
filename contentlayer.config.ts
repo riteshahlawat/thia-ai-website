@@ -4,6 +4,7 @@ import rehypeSlug from 'rehype-slug';
 import { remarkMdxImages } from 'remark-mdx-images';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeExternalLinks from 'rehype-external-links';
 
 const computedFields: ComputedFields = {
     slug: {
@@ -49,7 +50,12 @@ const contentLayerConfig = makeSource({
     documentTypes: [Doc],
     mdx: {
         remarkPlugins: [remarkGfm, remarkMdxImages],
-        rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeHighlight],
+        rehypePlugins: [
+            rehypeSlug,
+            rehypeAutolinkHeadings,
+            [rehypeExternalLinks, { target: '_blank' }],
+            rehypeHighlight,
+        ],
         esbuildOptions: options => {
             options.loader = {
                 ...options.loader,
