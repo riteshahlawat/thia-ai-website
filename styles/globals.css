@@ -56,7 +56,7 @@ h6 {
 /* Docs anchor tag */
 .anchor {
     position: absolute;
-    visibility: hidden;
+    opacity: 0;
     margin-left: -1em;
     padding-right: 0.5em;
     width: 80%;
@@ -73,7 +73,7 @@ a {
 }
 
 *:hover > .anchor {
-    visibility: visible;
+    opacity: 1;
 }
 
 /*
