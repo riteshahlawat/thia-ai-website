@@ -35,7 +35,6 @@ export const getStaticProps = async ({ params }: any) => {
 
 const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: BreadcrumbType }) => {
     const MDXComponent = useMDXComponent(doc?.body.code || '');
-
     return (
         <>
             <Flex pt='var(--header-height)'>
@@ -74,8 +73,8 @@ const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: Br
                             display={{ base: 'none', xl: 'block' }}
                             color={useColorModeValue('thia.gray.700', 'thia.gray.400')}
                         >
-                            <Box pt={7} pb={3} fontSize='sm'>
-                                Read time
+                            <Box pt={7} pb={3} pr={5} fontSize='sm' textAlign='right'>
+                                {doc.readingTime.text}
                             </Box>
                             <Box pt={7} pb={3}>
                                 On this page:

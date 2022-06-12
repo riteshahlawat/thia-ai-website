@@ -5,8 +5,10 @@ import { remarkMdxImages } from 'remark-mdx-images';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeExternalLinks from 'rehype-external-links';
+import readingTime from 'reading-time';
 
 const computedFields: ComputedFields = {
+    readingTime: { type: 'json', resolve: doc => readingTime(doc.body.raw) },
     slug: {
         type: 'string',
         resolve: doc =>
