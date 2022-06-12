@@ -119,9 +119,9 @@ export const theme = extendTheme(
             code: {
                 px: '1.5',
                 pb: '0.5',
-                borderRadius: 'md',
-                bg: mode('thia.gray.300', 'thia.gray.900')(props),
-                color: mode('thia.gray.900', 'white')(props),
+                rounded: 'sm',
+                bg: 'thia.gray.900',
+                color: 'thia.gray.50',
                 '&::before, &::after': {
                     content: "''",
                 },
@@ -130,6 +130,13 @@ export const theme = extendTheme(
                 color: mode('thia.gray.300', 'thia.gray.800')(props),
                 _hover: { textDecoration: 'none' },
                 _focus: { boxShadow: 'none' },
+            },
+            hr: {
+                borderColor: mode(
+                    'var(--chakra-colors-thia-gray-300) !important',
+                    'var(--chakra-colors-thia-gray-600) !important'
+                )(props),
+                opacity: mode('1 !important', '0.5 !important')(props),
             },
         }),
     })
