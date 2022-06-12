@@ -2,4 +2,124 @@
 title: Image Classification
 ---
 
-# Creating An Image Classification Model
+## Creating An Image Classification Model
+
+Here are the following steps to create an image classification model:
+
+1. Navigate to the home page.
+2. Click on `Create Model` button to open up the modal. ![Create Model Button][1]
+3. Select the `IMAGE CLASSIFICATION` model.
+    <img
+        src='/docs/ui/image-classification-model-creation/2.jpg'
+        alt='Select Image Classification Model'
+        title='Select Image Classification Model'
+        width='500'
+    />
+4. Fill in the model name.
+    > **_Note_**: The model name must contain only alphanumeric characters, dashes, or underscores - no whitespace.
+5. Select the model size. Click [here][2] to learn more about the different model sizes.
+6. Select the labelling type. Click [here][3] to learn more about the different labelling types.
+
+---
+
+### Model Size
+
+Here are some quick differences between the different model sizes:
+
+| Model Size  | Disk Space (MB) | Latency (ms) | Relative Accuracy |
+| ----------- | --------------- | ------------ | ----------------- |
+| Extra Small | 14              | 10           | 0.83x             |
+| Small       | 24              | 80           | 0.88x             |
+| Medium      | 96              | 120          | 0.9x              |
+| Large       | 128             | 489          | 0.95x             |
+| Extra Large | 240             | 1044         | 1x                |
+
+    <center>
+        **Table 1**: Model size comparison.
+        <p style={{ fontSize: '12px' }}>*Latency was measured on an RTX 3080 in batch sizes of 16. Relative accuracy is relative to the accuracy of an `Extra Large` model when trained on the [**ImageNet**][4] dataset*</p>
+    </center>
+
+#### Extra Small
+
+An extra small model is extremely small in size and uses a simpler internal architecture, resulting in it being extremely fast.
+The low latency comes with a drawback of it being more inaccurate in comparison to the larger models. Because of this it is best suited for:
+
+-   Android devices
+-   iOS devices
+-   Computers **without** a GPU
+-   Edge devices:
+    -   Microcontrollers (e.g Arduino Nano 33 BLE Sense)
+    -   Single-board computers **without** a hardware accelerator (e.g. Raspberry Pi)
+    -   Single-board computers **with** a harware accelerator (e.g. NVIDIA Jetson devices)
+    -   Vision processing units (e.g. Intel Neural Computing Stick)
+    -   Tensor Processing Unit (e.g. Google Coral Edge TPU)
+-   Extremely high-throughput business needs
+
+> **Note**: Throughput refers to as number of data inputs a model can process in one unit of time. In this case it refers to images/second where a higher
+> throughput model can process more images in a less amount of time.
+
+#### Small
+
+A small model is smaller in size and uses a simple internal architecture, resulting in it being fast. The reduced latency
+comes at the cost of it being slightly more inaccurate in comparison to the larger models. Because of this it is best suited for:
+
+-   Computers **with** a low-end GPU
+-   Edge devices:
+    -   Single-board computers **with** a harware accelerator (e.g. NVIDIA Jetson devices)
+    -   Vision processing units (e.g. Intel Neural Computing Stick)
+    -   Tensor Processing Unit (e.g. Google Coral Edge TPU)
+-   High-throughput / real-time business needs
+
+#### Medium
+
+A medium model is in the middle in terms of size, latency, and accuracy. Because of this it is best suited for:
+
+-   Computers **with** a low-to-mid range GPU
+-   Balance between throughput and accuracy
+
+#### Large
+
+A large model is larger in size and uses a complex internal architecture, resulting in it being accurate. The increasesd accuracy
+comes at the cost of it being slightly slower in comparison to smaller models. Because of this it is best suited for:
+
+-   Computers **with** a mid-to-high range GPU
+-   High-accuracy business needs
+
+#### Extra Large
+
+An extra large model is extremely large in size and uses a more complex internal architecture, resulting in it being extremely accurate.
+The high accuracy comes at the cost of being slower in comparison to smaller models. Because of this it is best suited for:
+
+-   Computers **with** a high-end GPU
+-   Accuracy-critical business needs
+
+---
+
+### Labelling Type
+
+Image classification models can either have the inputs associated with a single label or multiple labels.
+They differ in the way they deal with images that contain multiple objects.
+
+#### Single Label
+
+In single label classification, each image is assigned a single label. Ex:
+
+-   An image containing a cat will be labelled with a `cat` label.
+-   An image containing a dog will be labelled with a `dog` label.
+-   An image containing a cat **and** a dog will be labelled with either:
+    -   `cat`
+    -   `dog`
+    -   another label entirely
+
+#### Multi Label
+
+In multi-label classification, each image may be assigned to multiple labels. Ex:
+
+-   An image containing a cat will be labelled with a `cat` label.
+-   An image containing a dog will be labelled with a `dog` label.
+-   An image that contains a cat and a dog will be labelled with both `cat` **and** `dog`.
+
+[1]: /docs/ui/image-classification-model-creation/1.jpg 'Create Model Button'
+[2]: #model-size 'Details About Model Sizes'
+[3]: #labelling-type 'Details About Labelling Types'
+[4]: https://www.image-net.org/ 'ImageNet Dataset'
