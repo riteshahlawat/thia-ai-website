@@ -15,13 +15,32 @@ Here are our **recommendations** when gathering data:
     -   If you're going to be making predictions on live traffic video with a low-bandwith connection, the frames will be blurry and low-resolution.
         Likewise, your dataset should be composed of blurry and low-resolution traffic data.
     -   Don't worry too much about the correct orientation of the data as we perform image rotations as a part of our [data augmentation][3] pipeline.
--   Provide data from multiple angles, lighting conditions, and backgrounds.
+-   Have dataset to be as Independent and Identically Distributed (**I.I.D**) as possible. See [below][4] for more details.
 -   Thia ML models can't predict labels that you yourself cannot assign. As a rule of thumb, if you can't decipher the label of an image in 1-2 seconds,
     consider not adding the image to the dataset.
 -   The more images per label you have, the better the model is able to learn. As a rule of thumb, you should have **500 images** per label for
     [single label][1] classification and **1000 images** per label for [multi label][2] classification.
 -   Thia ML models struggle training on very low frequency labels and on datasets with large class imbalances. As a rule of thumb, if there more than 100 times more
     images for the most common label than for the least common label, consider deleting the least common label.
+
+#### I.I.D
+
+I.I.D means that:
+
+-   Samples from the dataset should be independent from one another. Ex: when flipping a coin, the probability of getting heads
+    does not depend on the previous flips of the coin.
+-   Samples should be come from the same probability distribution to be identically distributed. Ex: flipping a coin is identical
+    because every sample comes from the same distribution (there is no change in distribution when we flip a coin.)
+
+> A collection of random variables are independent and identically distributed if each random variable has the same
+> probability distribution as the others and are all mutually independent
+
+But what does this mean for image classification datasets? How do we have our dataset be I.I.D?
+
+-   Provide data from multiple angles, lighting conditions, and backgrounds.
+-   If the classes of a dataset are real-life objects try to include as many variations of that object (old, young, broken, etc) as you can.
+
+---
 
 ### Image Specifications
 
@@ -44,3 +63,4 @@ slowing down the app when viewing your dataset.
 [1]: /docs/creating-a-model/image-classification#single-label 'Single Label Classification'
 [2]: /docs/creating-a-model/image-classification#multi-label 'Multi Label Classification'
 [3]: https://www.analyticsvidhya.com/blog/2021/03/image-augmentation-techniques-for-training-deep-learning-models/#:~:text=Image%20augmentation%20is%20a%20technique,training%20a%20deep%20learning%20model 'Data Augmentation Definition'
+[4]: #iid 'Independent & Identically Distributed Details'
