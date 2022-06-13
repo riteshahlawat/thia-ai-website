@@ -3,4 +3,44 @@ title: Preparing Data
 description: Sex
 ---
 
-# Preparing Data
+## Preparing Data
+
+### Gathering Data
+
+Having accurate and balanced machine learning models depends heavily on the quality of the data you train the model on.
+All datasets are flawed to some degree, but having a more representative dataset makes our job easier.
+Here are our **recommendations** when gathering data:
+
+-   The data should be as close as possible to the data that predictions will be made on. Ex:
+    -   If you're going to be making predictions on live traffic video with a low-bandwith connection, the frames will be blurry and low-resolution.
+        Likewise, your dataset should be composed of blurry and low-resolution traffic data.
+    -   Don't worry too much about the correct orientation of the data as we perform image rotations as a part of our [data augmentation][3] pipeline.
+-   Provide data from multiple angles, lighting conditions, and backgrounds.
+-   Thia ML models can't predict labels that you yourself cannot assign. As a rule of thumb, if you can't decipher the label of an image in 1-2 seconds,
+    consider not adding the image to the dataset.
+-   The more images per label you have, the better the model is able to learn. As a rule of thumb, you should have **500 images** per label for
+    [single label][1] classification and **1000 images** per label for [multi label][2] classification.
+-   Thia ML models struggle training on very low frequency labels and on datasets with large class imbalances. As a rule of thumb, if there more than 100 times more
+    images for the most common label than for the least common label, consider deleting the least common label.
+
+### Image Specifications
+
+The following images formats are supported when creating a dataset:
+
+-   JPEG / JPG
+-   PNG
+
+The following image formats are supported when testing a trained model:
+
+-   JPEG / JPG
+-   PNG
+
+> **Note**: When training, all images are converted into JPG format regardless because it has a reduced file size.
+> More image formats will be supported in future releases.
+
+While we don't restrict the sizes of images in your dataset, we recommend not exceeding **25 MB** as it can end up
+slowing down the app when viewing your dataset.
+
+[1]: /docs/creating-a-model/image-classification#single-label 'Single Label Classification'
+[2]: /docs/creating-a-model/image-classification#multi-label 'Multi Label Classification'
+[3]: https://www.analyticsvidhya.com/blog/2021/03/image-augmentation-techniques-for-training-deep-learning-models/#:~:text=Image%20augmentation%20is%20a%20technique,training%20a%20deep%20learning%20model 'Data Augmentation Definition'
