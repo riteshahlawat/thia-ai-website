@@ -102,6 +102,9 @@ export const theme = extendTheme(
             li: {
                 fontFamily: 'Open Sans',
                 fontWeight: mode('400', '300')(props),
+                '&::marker': {
+                    color: 'var(--chakra-colors-thia-gray-600) !important',
+                },
             },
             pre: {
                 p: '4',
@@ -137,6 +140,28 @@ export const theme = extendTheme(
                     'var(--chakra-colors-thia-gray-600) !important'
                 )(props),
                 opacity: mode('1 !important', '0.5 !important')(props),
+            },
+            blockquote: {
+                borderInlineStartColor: mode(
+                    'var(--chakra-colors-thia-gray-300) !important',
+                    'var(--chakra-colors-thia-gray-600) !important'
+                )(props),
+            },
+            table: {
+                thead: {
+                    borderBottomColor: mode(
+                        'var(--chakra-colors-thia-gray-300) !important',
+                        'var(--chakra-colors-thia-gray-600) !important'
+                    )(props),
+                },
+                tbody: {
+                    tr: {
+                        borderBottomColor: mode(
+                            'var(--chakra-colors-thia-gray-300) !important',
+                            'var(--chakra-colors-thia-gray-600) !important'
+                        )(props),
+                    },
+                },
             },
         }),
     })
