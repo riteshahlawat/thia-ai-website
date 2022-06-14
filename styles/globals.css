@@ -80,6 +80,10 @@ a {
     opacity: 1;
 }
 
+.katex {
+    font-size: 25px !important;
+}
+
 /*
   blue tint gray
   --gray-50: #f2f5f7;

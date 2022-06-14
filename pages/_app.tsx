@@ -1,10 +1,11 @@
 import '@fontsource/poppins';
 import '@fontsource/open-sans';
 import '@fontsource/open-sans/300.css';
+import '../styles/katex/katex.min.css';
 import '../styles/globals.css';
 import '../styles/github-dark.min.css';
 import '../styles/nprogress.css';
-import '../styles//katex/katex.min.css';
+
 import type { AppProps } from 'next/app';
 import { theme } from '../styles/chakra.theme';
 import { BaseLayout } from '../src/layouts/BaseLayout';
