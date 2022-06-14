@@ -1,7 +1,7 @@
-import { PathSegment } from 'src/types/PathSegment';
+import { TreeNode, PathSegment } from 'src/types/DocsTypes';
 import { Doc } from '../../../.contentlayer/generated';
 
-export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): any => {
+export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): TreeNode[] => {
     const level = parentPathNames.length;
     return docs
         .filter(
@@ -12,14 +12,16 @@ export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): any 
                     .join('/')
                     .startsWith(parentPathNames.join('/'))
         )
-        .map((doc: Doc) => ({
-            title: doc.title,
-            slug: doc.slug,
-            description: doc.description,
-            readTime: doc.readingTime,
-            children: buildDocsTree(
-                docs,
-                doc.pathSegments.map((_: PathSegment) => _.pathName)
-            ),
-        }));
+        .map(
+            (doc: Doc): TreeNode => ({
+                title: doc.title,
+                slug: doc.slug,
+                description: doc.description,
+                readTime: doc.readingTime,
+                children: buildDocsTree(
+                    docs,
+                    doc.pathSegments.map((_: PathSegment) => _.pathName)
+                ),
+            })
+        );
 };

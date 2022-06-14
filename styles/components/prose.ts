@@ -8,7 +8,6 @@ export const Prose = {
             fontSize: '2em',
             my: '0.67em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         h2: {
             fontFamily: 'Open Sans',
@@ -16,7 +15,6 @@ export const Prose = {
             fontSize: '1.5em',
             my: '0.83em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         h3: {
             fontFamily: 'Open Sans',
@@ -24,7 +22,6 @@ export const Prose = {
             fontSize: '1.17em',
             my: '1em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         h4: {
             fontFamily: 'Open Sans',
@@ -32,7 +29,6 @@ export const Prose = {
             fontSize: '1em',
             my: '1.33em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         h5: {
             fontFamily: 'Open Sans',
@@ -40,7 +36,6 @@ export const Prose = {
             fontSize: '.83em',
             my: '1.67em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         h6: {
             fontFamily: 'Open Sans',
@@ -48,7 +43,6 @@ export const Prose = {
             fontSize: '.67em',
             my: '2.33em !important',
             mx: '0 !important',
-            fontWeight: 'bold',
         },
         p: {
             fontFamily: 'Open Sans',

@@ -4,18 +4,7 @@ import { useEffect, useState } from 'react';
 import { isEmpty } from '@chakra-ui/utils';
 import { ChakraNextLink } from '../common/ChakraNextLink';
 import { useRouter } from 'next/router';
-
-type BranchType = {
-    branch: any;
-    depth: number;
-    activePath: string;
-};
-
-type TreeType = {
-    tree: any;
-    depth: number;
-    activePath: string;
-};
+import { BranchType, TreeNode, TreeType } from 'src/types/DocsTypes';
 
 const Branch = ({ branch, depth, activePath }: BranchType) => {
     const [expanded, setExpanded] = useState(false);
@@ -95,14 +84,14 @@ const Tree = ({ tree, depth, activePath }: TreeType) => {
             borderLeft={depth ? '4px' : 'none'}
             borderColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
         >
-            {tree.map((branch: any, i: number) => (
+            {tree.map((branch: TreeNode, i: number) => (
                 <Branch key={i} branch={branch} depth={depth} activePath={activePath} />
             ))}
         </VStack>
     );
 };
 
-export const DocsNavigation = ({ tree }: any) => {
+export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
     const router = useRouter();
     return <Tree tree={tree} depth={0} activePath={router.asPath} />;
 };
