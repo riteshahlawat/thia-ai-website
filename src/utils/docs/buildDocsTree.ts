@@ -5,13 +5,14 @@ export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): Tree
     const level = parentPathNames.length;
     return docs
         .filter(
-            (d: any) =>
+            (d: Doc) =>
                 d.pathSegments.length === level + 1 &&
                 d.pathSegments
                     .map((_: PathSegment) => _.pathName)
                     .join('/')
                     .startsWith(parentPathNames.join('/'))
         )
+        .sort((a: Doc, b: Doc) => a.pathSegments[level].order - b.pathSegments[level].order)
         .map(
             (doc: Doc): TreeNode => ({
                 title: doc.title,
