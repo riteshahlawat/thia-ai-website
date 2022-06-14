@@ -42,6 +42,7 @@ const Doc = defineDocumentType(() => ({
     fields: {
         title: { type: 'string', required: true },
         description: { type: 'string', required: true },
+        showChildCards: { type: 'boolean', required: false },
         // createdAt: { type: 'date', required: true },
         // updatedAt: { type: 'date', required: true },
         // isVisible: { type: 'boolean', required: true },

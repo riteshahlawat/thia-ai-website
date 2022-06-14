@@ -6,34 +6,51 @@ import { DocsLayout } from 'src/layouts/DocsLayout';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { PathSegment } from 'src/types/PathSegment';
 import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
-import { Footer } from 'src/modules/layout/Footer';
-import { buildDocsTree } from 'src/utils/docs/docsNavigationTree';
+import { buildDocsTree } from 'src/utils/docs/buildDocsTree';
 import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
 import { BreadcrumbType } from 'src/types/Breadcrumbs';
-import { Box, Container, Flex, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import {
+    Box,
+    Container,
+    Flex,
+    Heading,
+    SimpleGrid,
+    Text,
+    useColorModeValue,
+    VStack,
+} from '@chakra-ui/react';
+import Link from 'next/link';
+
+type DocPageType = {
+    doc: Doc;
+    tree: any;
+    childrenTree: any;
+    breadcrumbs: BreadcrumbType;
+};
+
+const pathSegmnetHelper = (doc: Doc) => doc.pathSegments.map((_: PathSegment) => _.pathName);
 
 export const getStaticPaths = async () => {
     const paths = allDocs.map(doc => {
-        return { params: { slug: doc.pathSegments.map((seg: PathSegment) => seg.pathName) } };
+        return { params: { slug: pathSegmnetHelper(doc) } };
     });
-    return {
-        paths,
-        fallback: false,
-    };
+    return { paths, fallback: false };
 };
 
 export const getStaticProps = async ({ params }: any) => {
     const pagePath = params.slug?.join('/') ?? '';
-    const doc = allDocs.find(
-        (doc: Doc) =>
-            doc.pathSegments.map((seg: PathSegment) => seg.pathName).join('/') === pagePath
-    );
+    const doc = allDocs.find((doc: Doc) => pathSegmnetHelper(doc).join('/') === pagePath);
+
     const tree = buildDocsTree(allDocs);
+    const childrenTree = doc?.showChildCards
+        ? buildDocsTree(allDocs, pathSegmnetHelper(doc))
+        : null;
+
     const breadcrumbs = { path: doc?.slug, title: doc?.title };
-    return { props: { doc, tree, breadcrumbs } };
+    return { props: { doc, tree, childrenTree, breadcrumbs } };
 };
 
-const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: BreadcrumbType }) => {
+const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
     const MDXComponent = useMDXComponent(doc?.body.code || '');
     return (
         <>
@@ -65,6 +82,17 @@ const Docs = ({ doc, tree, breadcrumbs }: { doc: Doc; tree: any; breadcrumbs: Br
                             <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
                             <Prose as='article'>
                                 <MDXComponent />
+                                <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={10}>
+                                    {doc.showChildCards &&
+                                        childrenTree.map((card: any, i: number) => (
+                                            <Link href={card.slug}>
+                                                <Box key={i} p={5} border='1px' rounded='md'>
+                                                    <Heading>{card.title}</Heading>
+                                                    <Text>{card.description}</Text>
+                                                </Box>
+                                            </Link>
+                                        ))}
+                                </SimpleGrid>
                             </Prose>
                         </Container>
                         <Box

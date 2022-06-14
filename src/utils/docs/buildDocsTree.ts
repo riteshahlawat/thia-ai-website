@@ -15,6 +15,8 @@ export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): any 
         .map((doc: Doc) => ({
             title: doc.title,
             slug: doc.slug,
+            description: doc.description,
+            readTime: doc.readingTime,
             children: buildDocsTree(
                 docs,
                 doc.pathSegments.map((_: PathSegment) => _.pathName)
