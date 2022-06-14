@@ -40,8 +40,6 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                         ? useColorModeValue('thia.purple.50', 'thia.purple.900')
                         : useColorModeValue('thia.gray.100', 'thia.gray.950'),
                 }}
-                py={1.5}
-                pl={3}
             >
                 <ChakraNextLink
                     href={branch.slug}
@@ -50,6 +48,8 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                         fontWeight: depth ? 400 : 600,
                         _hover: { textDecoration: 'none' },
                         color: textColor,
+                        py: 1.5,
+                        pl: 3,
                     }}
                 >
                     {branch.title}
