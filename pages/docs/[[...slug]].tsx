@@ -4,29 +4,20 @@ import type { Doc } from 'contentlayer/generated';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { DocsLayout } from 'src/layouts/DocsLayout';
 import { useMDXComponent } from 'next-contentlayer/hooks';
-import { PathSegment } from 'src/types/PathSegment';
 import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
 import { buildDocsTree } from 'src/utils/docs/buildDocsTree';
 import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
-import { BreadcrumbType } from 'src/types/Breadcrumbs';
+import { DocsChildCard } from 'src/modules/docs/DocsChildCard';
+import { DocPageType, PathSegment, TreeNode } from 'src/types/DocsTypes';
 import {
     Box,
     Container,
+    Divider,
     Flex,
-    Heading,
     SimpleGrid,
-    Text,
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
-import Link from 'next/link';
-
-type DocPageType = {
-    doc: Doc;
-    tree: any;
-    childrenTree: any;
-    breadcrumbs: BreadcrumbType;
-};
 
 const pathSegmnetHelper = (doc: Doc) => doc.pathSegments.map((_: PathSegment) => _.pathName);
 
@@ -79,20 +70,20 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
                         bg={useColorModeValue('thia.gray.100', 'thia.gray.950')}
                     >
                         <Container maxW='container.md' pl={5} pb={5}>
-                            <DocsBreadcrumbs path={breadcrumbs.path} title={breadcrumbs.title} />
+                            <DocsBreadcrumbs path={breadcrumbs.path} />
                             <Prose as='article'>
                                 <MDXComponent />
-                                <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={10}>
-                                    {doc.showChildCards &&
-                                        childrenTree.map((card: any, i: number) => (
-                                            <Link href={card.slug}>
-                                                <Box key={i} p={5} border='1px' rounded='md'>
-                                                    <Heading>{card.title}</Heading>
-                                                    <Text>{card.description}</Text>
-                                                </Box>
-                                            </Link>
-                                        ))}
-                                </SimpleGrid>
+                                {doc.showChildCards && (
+                                    <>
+                                        <Divider />
+                                        <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={7}>
+                                            {childrenTree.map((card: TreeNode, i: number) => (
+                                                <DocsChildCard key={i} {...card} />
+                                            ))}
+                                        </SimpleGrid>
+                                        <Divider />
+                                    </>
+                                )}
                             </Prose>
                         </Container>
                         <Box
