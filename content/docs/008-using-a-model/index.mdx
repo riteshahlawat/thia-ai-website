@@ -3,4 +3,99 @@ title: Using A Model
 description: Sex
 ---
 
-# Using A Model
+## Using A Model
+
+### Exporting A Model
+
+The first step to using a model is to export it. You can currently export it in the following formats:
+
+-   TensorFlow Lite (used on mobile / edge devices)
+-   TensorFlow SavedModel (used on a computer / Docker container)
+
+> **Note**: We are currently adding support for TensorFlow.js and Edge TPU compiled TensorFlow Lite
+
+**To export a model**:
+
+1.  Navigate to the model you wish to train by selecting it in the `Models` page.
+2.  Scroll down to the `Export` section.
+    ![Export Model UI][1]
+3.  Click the preferred export method and select the folder you wish to export to.
+    ![Select Export Folder][2]
+4.  Wait till the model is finished exporting.
+
+---
+
+### Downloading Class List
+
+Each prediction is a value from `0` to `Number of classes - 1`. To download the class list for a trained model:
+
+1. Navigate to the model you wish to train by selecting it in the `Models` page.
+
+---
+
+### Using A SavedModel
+
+Depending on the model size, you will need to resize the images you are running inference on, to a different size.
+Refer to the following table:
+
+| **Model Size** | **Input Image Resolution (px)** |
+| -------------- | ------------------------------- |
+| Extra Small    | 224 x 224                       |
+| Small          | 300 x 300                       |
+| Medium         | 384 x 384                       |
+| Large          | 480 x 480                       |
+| Extra Large    | 480 x 480                       |
+
+```py
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+import numpy as np
+from PIL import Image
+
+# Load images you want to run predictions on
+# Even if it is one image, keep the path in an array
+image_paths = ['path/to/image1.jpg', 'path/to/image2.jpg', ...]
+image_batch = []
+# Must be a tuple, refer above to the resolution depending on your model size
+image_size = (224, 224)
+for image_path in image_paths:
+    # Load the image using your preferred method, we use PIL
+    with Image.open(image_path) as img:
+        # Convert the image to be RGB format if not already
+        # Can't use images in RGBA as it contains 4 channels,
+        # and we only need the color channels
+        if img.format != 'JPEG':
+            img = img.convert('RGB')
+        # Resize image to the corresponding resolution mentioned above
+        img = img.resize(image_size, Image.NEAREST)
+        image_batch.append(np.asarray(img))
+
+# Convert image_batch to a TensorFlow Tensor
+image_batch = np.array(image_batch)
+image_batch_tensor = tf.convert_to_tensor(image_batch)
+
+# Load the model
+model_path = 'path/to/your/model/folder'
+model: tf.keras.Model = load_model(model_path)
+
+# Make the predictions
+predictions = model(image_batch_tensor)
+predictions = predictions.numpy()
+# Convert predictions to a 1-D array with each element representing the prediction
+# for each image in the image_batch
+predictions = predictions.argmax(axis=1)
+
+print(predictions)
+# [0, 1, 4, 2, 0, 0, ...]
+```
+
+Refer [above][4] to download the class list. For more information about the saved model format visit TensorFlow [documentation][3].
+
+### Using A TensorFlow Lite Model
+
+> We will soon have more information for using a TensorFlow Lite model.
+
+[1]: /docs/ui/image-classification-using/1.jpg 'Export Model UI'
+[2]: /docs/ui/image-classification-using/2.jpg 'Select Export Folder'
+[3]: https://www.tensorflow.org/guide/saved_model 'Saved Model Format Details'
+[4]: #downloading-class-list 'Downloading Class List'
