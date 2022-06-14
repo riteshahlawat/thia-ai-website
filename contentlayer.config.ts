@@ -6,6 +6,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeExternalLinks from 'rehype-external-links';
 import readingTime from 'reading-time';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 const computedFields: ComputedFields = {
     readingTime: { type: 'json', resolve: doc => readingTime(doc.body.raw) },
@@ -52,12 +54,13 @@ const contentLayerConfig = makeSource({
     contentDirPath: 'content',
     documentTypes: [Doc],
     mdx: {
-        remarkPlugins: [remarkGfm, remarkMdxImages],
+        remarkPlugins: [remarkGfm, remarkMdxImages, remarkMath],
         rehypePlugins: [
             rehypeSlug,
             [rehypeAutolinkHeadings, { properties: { className: ['anchor'] } }],
             [rehypeExternalLinks, { target: '_blank' }],
             rehypeHighlight,
+            rehypeKatex,
         ],
         esbuildOptions: options => {
             options.loader = {

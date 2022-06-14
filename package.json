@@ -33,8 +33,10 @@
         "rehype-autolink-headings": "^6.1.1",
         "rehype-external-links": "^1.0.1",
         "rehype-highlight": "^5.0.2",
+        "rehype-katex": "^6.0.2",
         "rehype-slug": "^5.0.1",
         "remark-gfm": "^3.0.1",
+        "remark-math": "^5.1.1",
         "remark-mdx-images": "^1.0.3",
         "rimraf": "^3.0.2",
         "sharp": "^0.30.4"
