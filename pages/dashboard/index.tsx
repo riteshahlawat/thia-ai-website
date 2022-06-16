@@ -13,7 +13,8 @@ const Dashboard = (props: Props) => {
         if (!user) router.push('/login');
     }, [user, router]);
 
-    return <Box>Welcome, {user?.displayName}</Box>;
+
+    return <Box>Welcome, {user?.uid}</Box>;
 };
 
 export default Dashboard;

@@ -10,6 +10,8 @@ import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
 import AuthProvider from '../src/auth/AuthProvider';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
@@ -18,12 +20,17 @@ type AppPropsWithLayout = AppProps & {
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
 
+    const stripePromise = loadStripe('pk_test_51IMUEAGP4toduWVo8bPxZpkYmQyNvRpzym23FDP7oLkHEdQvvYA6PtAgdDLA1DiyYPdU7NVwdf7KV0NVEQrdjMVr00LCNelIlV')
     const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+                <AuthProvider>
+                    <Elements stripe={stripePromise}>
+                        {getLayout(<Component {...pageProps} />)}
+                    </Elements>
+                </AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>
     );

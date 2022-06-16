@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { PingBackendSecureBackendRequest } from './requests/get/pingBackendSecure';
+import { PostNewCreditCardBackendRequest, PostNewCreditCardData } from './requests/post/saveNewCreditCard';
 import { PostNewUserClaimsBackendRequest, PostNewUserClaimsData } from './requests/post/setNewUserRoles';
 
 /**
@@ -13,6 +14,8 @@ export class BackendRequestHandler {
 	private pingBackendSecureBR!: PingBackendSecureBackendRequest;
 	// New User
 	private setNewUserRolesBR!: PostNewUserClaimsBackendRequest;
+    // New Credit Card
+    private saveNewCreditCardBR!: PostNewCreditCardBackendRequest;
 
 	/**
 	 * Private constructor.
@@ -37,6 +40,7 @@ export class BackendRequestHandler {
 
 		this.pingBackendSecureBR = new PingBackendSecureBackendRequest(this.backendRequest);
 		this.setNewUserRolesBR = new PostNewUserClaimsBackendRequest(this.backendRequest);
+        this.saveNewCreditCardBR = new PostNewCreditCardBackendRequest(this.backendRequest);
 	};
 
 	public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -46,4 +50,8 @@ export class BackendRequestHandler {
 	public setNewUserRoles = async (idToken: string, data: PostNewUserClaimsData, config?: AxiosRequestConfig) => {
 		return this.setNewUserRolesBR.run(config, [idToken, data]);
 	};
+
+    public saveNewCreditCard = async (idToken: string, data: PostNewCreditCardData, config?: AxiosRequestConfig) => {
+        return this.saveNewCreditCardBR.run(config, [idToken, data])
+    }
 }

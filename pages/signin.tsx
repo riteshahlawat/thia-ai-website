@@ -82,9 +82,6 @@ const SignIn: NextPageWithLayout = () => {
         await signInWithRedirect(auth, provider);
     };
 
-    // No the name of this function is not a mistake.
-    // I will unironically fire anyone who changes this :D
-
     const resendEmailVerification = () => {
         if (password.trim() == '' || emailAddress.trim() == '') {
             toast({

@@ -26,15 +26,11 @@ const navItemLinks = [
 ];
 
 const SignInSignOut = () => {
-    const { status, data: signInCheckResult } = useSigninCheck();
     const { data: user } = useUser();
     const auth = useAuth();
     const router = useRouter();
 
-    if (status === 'loading') {
-        return <Box />;
-    }
-    if (signInCheckResult.signedIn === true) {
+    if (user) {
         return (
             <Menu>
                 <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant='primary'>
@@ -44,6 +40,8 @@ const SignInSignOut = () => {
                 </MenuButton>
                 <MenuList>
                     <MenuItem onClick={() => router.push('/dashboard')}>Dashboard</MenuItem>
+                    <MenuItem onClick={() => router.push('/settings')}>Settings</MenuItem>
+                    <MenuItem onClick={() => router.push('/billing')}>Billing</MenuItem>
                     <MenuItem
                         onClick={async () => {
                             await auth.signOut();

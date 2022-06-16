@@ -229,6 +229,7 @@ const SignUp: NextPageWithLayout = () => {
             return;
         }
         setEmailRegisteringLoading(true);
+        const stripe = require('stripe')('sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb');
         createUserWithEmailAndPassword(
             auth,
             userRegistrationDetails.emailAddress,
@@ -249,6 +250,11 @@ const SignUp: NextPageWithLayout = () => {
                         duration: 1500,
                         isClosable: false,
                     });
+                    await stripe.customers.create({
+                        email: userRegistrationDetails.emailAddress,
+                        description: 'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
+                    })
+                    console.log(userRegistrationDetails);
                     setEmailRegisteringLoading(false);
                 } else {
                     // Email already verified (don't know when this will happen but it's here in case it does)
@@ -302,8 +308,8 @@ const SignUp: NextPageWithLayout = () => {
     });
 
     return (
-        <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
-            <VStack spacing={6} py={1}>
+        <AuthTemplatePage heading='Join Thia today ' text='Sign up to start training'>
+            <VStack spacing={6} py={1} w='full'>
                 <FormControl
                     isRequired
                     isInvalid={
