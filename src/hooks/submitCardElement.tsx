@@ -40,13 +40,13 @@ function submitCardElement() {
 
         const idToken = await user?.getIdToken();
 
-        const response = await BackendRequestHandler.getInstance().saveNewCreditCard(idToken, {
-            uid: user?.uid,
-            paymentMethodID: paymentMethodID,
-        })
+        // const response = await BackendRequestHandler.getInstance().saveNewCreditCard(idToken, {
+        //     uid: user?.uid,
+        //     paymentMethodID: paymentMethodID,
+        // })
 
-        const clientSecret = response.client_secret;
-        stripe?.confirmCardSetup(clientSecret);
+        // const clientSecret = response.client_secret;
+        // stripe?.confirmCardSetup(clientSecret);
 
     }
 

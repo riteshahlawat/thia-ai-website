@@ -107,7 +107,7 @@ const ResetPassword: NextPageWithLayout = (props: Props) => {
                 Reset Password
             </Button>
             <Flex gap={3} fontSize='sm'>
-                <Text>Don't have an account?</Text>
+                <Text>Don&quot;t have an account?</Text>
                 <ChakraNextLink
                     href='/signup'
                     styleProps={{
