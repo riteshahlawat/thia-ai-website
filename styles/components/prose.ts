@@ -8,6 +8,7 @@ export const Prose = {
             fontSize: '2em',
             my: '0.67em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         h2: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -15,6 +16,7 @@ export const Prose = {
             fontSize: '1.5em',
             my: '0.83em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         h3: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -22,6 +24,7 @@ export const Prose = {
             fontSize: '1.17em',
             my: '1em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         h4: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -29,6 +32,7 @@ export const Prose = {
             fontSize: '1em',
             my: '1.33em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         h5: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -36,6 +40,7 @@ export const Prose = {
             fontSize: '.83em',
             my: '1.67em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         h6: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -43,10 +48,12 @@ export const Prose = {
             fontSize: '.67em',
             my: '2.33em !important',
             mx: '0 !important',
+            letterSpacing: mode('.07em', '.07em')(props),
         },
         p: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
-            fontWeight: mode('400', '300')(props),
+            fontWeight: mode('normal', 'thin')(props),
+            color: mode('thia.gray.950', 'thia.gray.300')(props),
         },
         li: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -54,6 +61,7 @@ export const Prose = {
             '&::marker': {
                 color: 'var(--chakra-colors-thia-gray-600) !important',
             },
+            color: mode('thia.gray.950', 'thia.gray.300')(props),
         },
         pre: {
             p: '4',
@@ -67,6 +75,11 @@ export const Prose = {
                     content: "''",
                 },
             },
+        },
+        strong: {
+            color: mode('black', 'white')(props),
+            fontWeight: '600',
+            letterSpacing: '.08em',
         },
         code: {
             px: '1.5',
