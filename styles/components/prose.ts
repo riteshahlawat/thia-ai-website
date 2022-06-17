@@ -3,53 +3,53 @@ import { mode } from '@chakra-ui/theme-tools';
 export const Prose = {
     baseStyle: (props: any) => ({
         h1: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '2em',
             my: '0.67em !important',
             mx: '0 !important',
         },
         h2: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1.5em',
             my: '0.83em !important',
             mx: '0 !important',
         },
         h3: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1.17em',
             my: '1em !important',
             mx: '0 !important',
         },
         h4: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1em',
             my: '1.33em !important',
             mx: '0 !important',
         },
         h5: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '.83em',
             my: '1.67em !important',
             mx: '0 !important',
         },
         h6: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '.67em',
             my: '2.33em !important',
             mx: '0 !important',
         },
         p: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             fontWeight: mode('400', '300')(props),
         },
         li: {
-            fontFamily: 'Open Sans',
+            fontFamily: `'IBM Plex Sans', sans-serif`,
             fontWeight: mode('400', '300')(props),
             '&::marker': {
                 color: 'var(--chakra-colors-thia-gray-600) !important',
@@ -79,9 +79,13 @@ export const Prose = {
             },
         },
         a: {
-            color: mode('thia.gray.300', 'thia.gray.800')(props),
-            _hover: { textDecoration: 'none' },
+            fontWeight: 'semibold',
+            color: mode('thia.purple.300', 'thia.purple.300')(props),
             _focus: { boxShadow: 'none' },
+            _hover: {
+                textDecoration: 'none',
+                color: mode('thia.purple.500', 'thia.purple.400')(props),
+            },
         },
         hr: {
             borderColor: mode(
@@ -114,3 +118,8 @@ export const Prose = {
         },
     }),
 };
+// a: {
+//     color: mode('thia.gray.300', 'thia.gray.800')(props),
+//     _hover: { textDecoration: 'none' },
+//     _focus: { boxShadow: 'none' },
+// },

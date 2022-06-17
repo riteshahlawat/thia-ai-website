@@ -1,5 +1,6 @@
 import '@fontsource/poppins';
 import '@fontsource/open-sans';
+import '@fontsource/ibm-plex-sans';
 import '@fontsource/open-sans/300.css';
 import '../styles/katex/katex.min.css';
 import '../styles/globals.css';
