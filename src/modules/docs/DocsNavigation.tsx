@@ -91,5 +91,22 @@ const Tree = ({ tree, depth, activePath }: TreeType) => {
 
 export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
     const router = useRouter();
-    return <Tree tree={tree} depth={0} activePath={router.asPath} />;
+
+    return (
+        <>
+            <ChakraNextLink
+                href={'/docs'}
+                styleProps={{
+                    w: 'full',
+                    _hover: { textDecoration: 'none' },
+                    py: 1.5,
+                    pl: 3,
+                    fontSize: 'sm',
+                }}
+            >
+                Documentation
+            </ChakraNextLink>
+            <Tree tree={tree} depth={0} activePath={router.asPath} />
+        </>
+    );
 };

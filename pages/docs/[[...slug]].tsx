@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react';
-import { allDocs } from 'contentlayer/generated';
-import type { Doc } from 'contentlayer/generated';
+import { allDocs, Doc } from 'contentlayer/generated';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { DocsLayout } from 'src/layouts/DocsLayout';
 import { useMDXComponent } from 'next-contentlayer/hooks';
@@ -9,6 +8,9 @@ import { buildDocsTree } from 'src/utils/docs/buildDocsTree';
 import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
 import { DocsChildCard } from 'src/modules/docs/DocsChildCard';
 import { DocPageType, TreeNode } from 'src/types/DocsTypes';
+import { Headings } from 'src/modules/docs/DocHeadings';
+import { getPathSegments, joinPathSegments } from 'src/utils/docs/pathSegmentUtils';
+import Image from 'next/image';
 import {
     Box,
     Container,
@@ -18,11 +20,10 @@ import {
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
-import { Headings } from 'src/modules/docs/DocHeadings';
-import { getPathSegments, joinPathSegments } from 'src/utils/docs/pathSegmentUtils';
 
 const components = {
     ...Headings,
+    Image,
 };
 
 const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
