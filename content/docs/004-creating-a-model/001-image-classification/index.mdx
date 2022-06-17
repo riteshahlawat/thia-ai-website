@@ -3,7 +3,7 @@ title: Image Classification
 description: Sex
 ---
 
-## Creating An Image Classification Model
+# Creating An Image Classification Model
 
 Here are the following steps to create an image classification model:
 
@@ -23,7 +23,7 @@ Here are the following steps to create an image classification model:
 
 ---
 
-### Model Size
+## Model Size
 
 Here are some quick differences between the different model sizes:
 
@@ -41,7 +41,7 @@ Here are some quick differences between the different model sizes:
         *Latency was measured on an RTX 3080 in batch sizes of 16. Relative accuracy is relative to the accuracy of an `Extra Large` model when trained on the [**ImageNet**][4] dataset*
     </center>
 
-#### Extra Small
+### Extra Small
 
 An extra small model is extremely small in size and uses a simpler internal architecture, resulting in it being extremely fast.
 The low latency comes with a drawback of it being more inaccurate in comparison to the larger models. Because of this it is best suited for:
@@ -60,7 +60,7 @@ The low latency comes with a drawback of it being more inaccurate in comparison 
 > **Note**: Throughput refers to as number of data inputs a model can process in one unit of time. In this case it refers to images/second where a higher
 > throughput model can process more images in a less amount of time.
 
-#### Small
+### Small
 
 A small model is smaller in size and uses a simple internal architecture, resulting in it being fast. The reduced latency
 comes at the cost of it being slightly more inaccurate in comparison to the larger models. Because of this it is best suited for:
@@ -72,14 +72,14 @@ comes at the cost of it being slightly more inaccurate in comparison to the larg
     -   Tensor Processing Unit (e.g. Google Coral Edge TPU)
 -   High-throughput / real-time business needs
 
-#### Medium
+### Medium
 
 A medium model is in the middle in terms of size, latency, and accuracy. Because of this it is best suited for:
 
 -   Computers **with** a low-to-mid range GPU
 -   Balance between throughput and accuracy
 
-#### Large
+### Large
 
 A large model is larger in size and uses a complex internal architecture, resulting in it being accurate. The increasesd accuracy
 comes at the cost of it being slightly slower in comparison to smaller models. Because of this it is best suited for:
@@ -87,7 +87,7 @@ comes at the cost of it being slightly slower in comparison to smaller models. B
 -   Computers **with** a mid-to-high range GPU
 -   High-accuracy business needs
 
-#### Extra Large
+### Extra Large
 
 An extra large model is extremely large in size and uses a more complex internal architecture, resulting in it being extremely accurate.
 The high accuracy comes at the cost of being slower in comparison to smaller models. Because of this it is best suited for:
@@ -97,12 +97,12 @@ The high accuracy comes at the cost of being slower in comparison to smaller mod
 
 ---
 
-### Labelling Type
+## Labelling Type
 
 Image classification models can either have the inputs associated with a single label or multiple labels.
 They differ in the way they deal with images that contain multiple objects.
 
-#### Single Label
+### Single Label
 
 In single label classification, each image is assigned a single label. Ex:
 
@@ -113,7 +113,7 @@ In single label classification, each image is assigned a single label. Ex:
     -   `dog`
     -   another label entirely
 
-#### Multi Label
+### Multi Label
 
 In multi-label classification, each image may be assigned to multiple labels. Ex:
 

@@ -35,7 +35,7 @@ const Heading = ({ heading, children }: Heading) => {
                     icon={<MdOutlineLink />}
                     justifyContent='start'
                     onClick={copyToClipboard}
-                    color={useColorModeValue('thia.purple.300', 'thia.gray.700')}
+                    color={useColorModeValue('thia.gray.700', 'thia.gray.700')}
                     _hover={{
                         color: useColorModeValue('thia.purple.300', 'thia.purple.400'),
                         bg: 'transparent',

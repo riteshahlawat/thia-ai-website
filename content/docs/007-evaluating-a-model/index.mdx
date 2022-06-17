@@ -3,13 +3,13 @@ title: Evaluating A Model
 description: Sex
 ---
 
-## Evaluating A Model
+# Evaluating A Model
 
 Evaluation is performed right after training has completed. We use the test
 dataset to evaluate the quality and accuracy of the trained model.
 ![Evaluation UI][1]
 
-### Evaluation Metrics
+## Evaluation Metrics
 
 Before we look at the evaluation metrics, let's understand some key classification metrics:
 
@@ -20,19 +20,19 @@ Before we look at the evaluation metrics, let's understand some key classificati
 
 Click [here][2] to learn more about the classification metrics if you're still having trouble understanding.
 
-#### AU PRC
+### AU PRC
 
 AU PRC stands for Area under Precision/Recall **(PR)** curve. A PR curve shows the trade-off between precision
 and recall across different decision thresholds. AU PRC is generally between 0.5 - 1.0 with 1.0 representing a perfect
 model.
 
-#### Accuracy
+### Accuracy
 
 Accuracy is simply the fraction of predictions your model got right.
 
 Or in other words: $\frac{TP + TN}{Total}$
 
-#### Precision
+### Precision
 
 Precision is seen as the _quality_ of a positive prediction made by the model. It is the fraction of positive predictions
 (false positive + true positive) produced by the model that were correctly classified. In comparison to accuracy that
@@ -41,14 +41,14 @@ category.
 
 Or in other words: $\frac{TP}{TP + FP}$
 
-#### Recall
+### Recall
 
 Recall, also known as the true positive rate. It is the fraction of
 Recall tells you how many times the model was able to detect a specific category.
 
 Or in other words: $\frac{TP}{TP + FN}$
 
-#### Log Loss
+### Log Loss
 
 Log Loss represents the cross-entropy between the model predictions and the target values. It is
 indicative of how close the prediction probability is to the corresponding true value. The more the
@@ -56,7 +56,7 @@ predicted probability diverges from the actual value, the higher the log-loss is
 
 Click [here][3] to learn the intuition about log loss
 
-### Testing On Your Own Images
+## Testing On Your Own Images
 
 Testing on your own images.
 

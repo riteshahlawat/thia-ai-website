@@ -3,7 +3,7 @@ title: Training A Model
 description: Sex
 ---
 
-## Training A Model
+# Training A Model
 
 After having [created and labelled][1] a dataset, the next step is to train it. Training a model can take several minutes to
 an hour to complete. The length of training depends on:
@@ -24,12 +24,12 @@ The following are the steps to train an image classification model:
 
 ---
 
-### Training Graphs
+## Training Graphs
 
 When training you are able to view training graphs that are updated live. They represent how
 the training process is going.
 
-#### Training Progress
+### Training Progress
 
 The current training status is displayed at the top of the training section. It contains:
 ![Training Progress][3]
@@ -44,13 +44,13 @@ The current training status is displayed at the top of the training section. It 
 -   `Epoch`, if model is currently training. _Epoch represents one complete pass of the model training process. You can think of it as one step in the training process._
 -   `Training description`, if model is currently training.
 
-#### Accuracy Log
+### Accuracy Log
 
 The accuracy graph contains the history of how the model's training and validation accuracy have changed throughout the training process.
 A larger accuracy value represents a higher-quality model. Click [here][5] to learn more about accuracy.
 ![Accuracy vs Epochs Graph][4]
 
-#### Loss
+### Loss
 
 The loss graph contains the history of how the model's training and validation log-loss have changed throughout the training process.
 A lower log-loss value represents a higher-quality model. Click [here][6] to learn more about log-loss.
@@ -60,7 +60,7 @@ Thia chooses the **best** model which corresponds to the lowest validation log-l
 
 ---
 
-### Errors
+## Errors
 
 When an error is encountered during the training process, it is displayed on the training status.
 ![Training Status Error][8]
@@ -75,7 +75,7 @@ Some reasons for the error:
 More info about the error can be viewed in the `Recent Activity` panel in the `Home` page.
 ![Recent Activity Panel for Training Error][9]
 
-#### Retraining A Model
+### Retraining A Model
 
 As mentioned above, a model cannot be retrained unless the previous training encountered an error. If a model continues to fail
 training due to an Operation Error, consider training it on another dataset as the dataset you have been training on might have
