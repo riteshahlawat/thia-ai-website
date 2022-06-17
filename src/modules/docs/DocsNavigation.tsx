@@ -13,9 +13,10 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
     const toggleExpanded = () => setExpanded(!expanded);
 
     useEffect(() => {
-        const activeStatus = branch.path === activePath;
+        const activePathWithoutId = activePath.split('#')[0];
+        const activeStatus = branch.path === activePathWithoutId;
         setActive(activeStatus);
-        setExpanded(activeStatus || branch.children.map(_ => _.path).includes(activePath));
+        setExpanded(activeStatus || branch.children.map(_ => _.path).includes(activePathWithoutId));
     }, [branch, activePath]);
 
     const textColor = () =>
