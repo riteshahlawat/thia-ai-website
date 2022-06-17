@@ -13,19 +13,17 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
     const toggleExpanded = () => setExpanded(!expanded);
 
     useEffect(() => {
-        if (activePath && branch.slug === activePath.split('/docs/')[1]) {
-            setActive(true);
-            if (!isEmpty(branch.children)) setExpanded(true);
-        } else setActive(false);
-    }, [activePath]);
+        const activeStatus = branch.path === activePath;
+        setActive(activeStatus);
+        setExpanded(activeStatus || branch.children.map(_ => _.path).includes(activePath));
+    }, [branch, activePath]);
 
-    const textColor = () => {
-        if (active) return useColorModeValue('thia.text-base', 'thia.text-dark');
-        else
-            return depth
-                ? useColorModeValue('thia.gray.700', 'thia.gray.300')
-                : useColorModeValue('thia.gray.800', 'thia.gray.200');
-    };
+    const textColor = () =>
+        active
+            ? useColorModeValue('thia.text-base', 'thia.text-dark')
+            : depth
+            ? useColorModeValue('thia.gray.700', 'thia.gray.300')
+            : useColorModeValue('thia.gray.800', 'thia.gray.200');
 
     return (
         <>
@@ -68,7 +66,7 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                     />
                 )}
             </Flex>
-            <Box pl={5} w='full' display={branch.children && expanded ? 'block' : 'none'}>
+            <Box pl={5} w='full' display={!isEmpty(branch.children) && expanded ? 'block' : 'none'}>
                 <Tree tree={branch.children} depth={depth + 1} activePath={activePath} />
             </Box>
         </>

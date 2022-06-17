@@ -8,7 +8,7 @@ import { DocsNavigation } from 'src/modules/docs/DocsNavigation';
 import { buildDocsTree } from 'src/utils/docs/buildDocsTree';
 import { DocsBreadcrumbs } from 'src/modules/docs/DocsBreadcrumbs';
 import { DocsChildCard } from 'src/modules/docs/DocsChildCard';
-import { DocPageType, PathSegment, TreeNode } from 'src/types/DocsTypes';
+import { DocPageType, TreeNode } from 'src/types/DocsTypes';
 import {
     Box,
     Container,
@@ -19,6 +19,7 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Headings } from 'src/modules/docs/DocHeadings';
+import { getPathSegments, joinPathSegments } from 'src/utils/docs/pathSegmentUtils';
 
 const components = {
     ...Headings,
@@ -91,25 +92,21 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
 
 export const getStaticPaths = async () => {
     const paths = allDocs.map(doc => {
-        return { params: { slug: pathSegmnetHelper(doc) } };
+        return { params: { slug: getPathSegments(doc) } };
     });
     return { paths, fallback: false };
 };
 
 export const getStaticProps = async ({ params }: any) => {
     const pagePath = params.slug?.join('/') ?? '';
-    const doc = allDocs.find((doc: Doc) => pathSegmnetHelper(doc).join('/') === pagePath);
+    const doc = allDocs.find((doc: Doc) => joinPathSegments(doc) === pagePath);
 
     const tree = buildDocsTree(allDocs);
-    const childrenTree = doc?.showChildCards
-        ? buildDocsTree(allDocs, pathSegmnetHelper(doc))
-        : null;
+    const childrenTree = doc?.showChildCards ? buildDocsTree(allDocs, getPathSegments(doc)) : null;
 
     const breadcrumbs = { path: doc?.slug, title: doc?.title };
     return { props: { doc, tree, childrenTree, breadcrumbs } };
 };
-
-const pathSegmnetHelper = (doc: Doc) => doc.pathSegments.map((_: PathSegment) => _.pathName);
 
 Docs.getLayout = function getLayout(page: ReactElement) {
     return <DocsLayout>{page}</DocsLayout>;

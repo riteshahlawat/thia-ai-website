@@ -16,6 +16,7 @@ export type DocPageType = {
 export type TreeNode = {
     title: string;
     slug: string;
+    path: string;
     description: string;
     readTime: ReadTimeResults;
     children: TreeNode[];
