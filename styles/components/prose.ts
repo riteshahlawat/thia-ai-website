@@ -8,7 +8,7 @@ export const Prose = {
             fontSize: '2em',
             my: '0.67em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         h2: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -16,7 +16,7 @@ export const Prose = {
             fontSize: '1.5em',
             my: '0.83em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         h3: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -24,7 +24,7 @@ export const Prose = {
             fontSize: '1.17em',
             my: '1em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         h4: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -32,7 +32,7 @@ export const Prose = {
             fontSize: '1em',
             my: '1.33em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         h5: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -40,7 +40,7 @@ export const Prose = {
             fontSize: '.83em',
             my: '1.67em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         h6: {
             fontFamily: `'IBM Plex Sans', sans-serif`,
@@ -48,7 +48,7 @@ export const Prose = {
             fontSize: '.67em',
             my: '2.33em !important',
             mx: '0 !important',
-            letterSpacing: mode('.07em', '.07em')(props),
+            letterSpacing: '.07em',
         },
         p: {
             fontFamily: `'IBM Plex Sans', sans-serif`,

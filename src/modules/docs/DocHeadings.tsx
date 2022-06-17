@@ -23,6 +23,7 @@ const Heading = ({ heading, children }: Heading) => {
                 label={`Copy link to this section: ${children[1]}`}
                 aria-label='tooltip'
                 placement='top'
+                bg={useColorModeValue('thia.gray.900', 'thia.gray.200')}
             >
                 <IconButton
                     p={0}

@@ -78,9 +78,9 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
                             <Box pt={7} pb={3} pr={5} fontSize='sm' textAlign='right'>
                                 {doc.readingTime.text}
                             </Box>
-                            <Box pt={7} pb={3}>
+                            {/* <Box pt={7} pb={3}>
                                 On this page:
-                            </Box>
+                            </Box> */}
                         </Box>
                     </Flex>
                 </Box>
