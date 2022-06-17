@@ -18,27 +18,10 @@ import {
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
+import { Headings } from 'src/modules/docs/DocHeadings';
 
-const pathSegmnetHelper = (doc: Doc) => doc.pathSegments.map((_: PathSegment) => _.pathName);
-
-export const getStaticPaths = async () => {
-    const paths = allDocs.map(doc => {
-        return { params: { slug: pathSegmnetHelper(doc) } };
-    });
-    return { paths, fallback: false };
-};
-
-export const getStaticProps = async ({ params }: any) => {
-    const pagePath = params.slug?.join('/') ?? '';
-    const doc = allDocs.find((doc: Doc) => pathSegmnetHelper(doc).join('/') === pagePath);
-
-    const tree = buildDocsTree(allDocs);
-    const childrenTree = doc?.showChildCards
-        ? buildDocsTree(allDocs, pathSegmnetHelper(doc))
-        : null;
-
-    const breadcrumbs = { path: doc?.slug, title: doc?.title };
-    return { props: { doc, tree, childrenTree, breadcrumbs } };
+const components = {
+    ...Headings,
 };
 
 const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
@@ -72,7 +55,7 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
                         <Container maxW='container.md' pl={5} pb={5}>
                             <DocsBreadcrumbs path={breadcrumbs.path} />
                             <Prose as='article'>
-                                <MDXComponent />
+                                <MDXComponent components={components} />
                                 {doc.showChildCards && (
                                     <>
                                         <Divider />
@@ -105,6 +88,28 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
         </>
     );
 };
+
+export const getStaticPaths = async () => {
+    const paths = allDocs.map(doc => {
+        return { params: { slug: pathSegmnetHelper(doc) } };
+    });
+    return { paths, fallback: false };
+};
+
+export const getStaticProps = async ({ params }: any) => {
+    const pagePath = params.slug?.join('/') ?? '';
+    const doc = allDocs.find((doc: Doc) => pathSegmnetHelper(doc).join('/') === pagePath);
+
+    const tree = buildDocsTree(allDocs);
+    const childrenTree = doc?.showChildCards
+        ? buildDocsTree(allDocs, pathSegmnetHelper(doc))
+        : null;
+
+    const breadcrumbs = { path: doc?.slug, title: doc?.title };
+    return { props: { doc, tree, childrenTree, breadcrumbs } };
+};
+
+const pathSegmnetHelper = (doc: Doc) => doc.pathSegments.map((_: PathSegment) => _.pathName);
 
 Docs.getLayout = function getLayout(page: ReactElement) {
     return <DocsLayout>{page}</DocsLayout>;
