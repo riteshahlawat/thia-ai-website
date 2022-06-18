@@ -1,12 +1,12 @@
-import { Box, Flex, IconButton, useColorModeValue, VStack } from '@chakra-ui/react';
-import { MdChevronRight, MdExpandMore } from 'react-icons/md';
 import { useEffect, useState } from 'react';
+import { Tree } from './DocTree';
 import { isEmpty } from '@chakra-ui/utils';
-import { ChakraNextLink } from '../common/ChakraNextLink';
-import { useRouter } from 'next/router';
-import { BranchType, TreeNode, TreeType } from 'src/types/DocsTypes';
+import { ChakraNextLink } from '../../common/ChakraNextLink';
+import { BranchType, TreeNode } from 'src/types/DocsTypes';
+import { MdChevronRight, MdExpandMore } from 'react-icons/md';
+import { Box, Flex, IconButton, useColorModeValue } from '@chakra-ui/react';
 
-const Branch = ({ branch, depth, activePath }: BranchType) => {
+export const Branch = ({ branch, depth, activePath }: BranchType) => {
     const [expanded, setExpanded] = useState(false);
     const [active, setActive] = useState(false);
 
@@ -16,7 +16,10 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
         const activePathWithoutId = activePath.split('#')[0];
         const activeStatus = branch.path === activePathWithoutId;
         setActive(activeStatus);
-        setExpanded(activeStatus || branch.children.map(_ => _.path).includes(activePathWithoutId));
+        setExpanded(
+            activeStatus ||
+                branch.children.map((_: TreeNode) => _.path).includes(activePathWithoutId)
+        );
     }, [branch, activePath]);
 
     const textColor = () =>
@@ -29,9 +32,9 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
     return (
         <>
             <Flex
+                w='full'
                 align='center'
                 fontSize='sm'
-                w='full'
                 rounded='md'
                 bg={active ? useColorModeValue('thia.purple.50', 'thia.purple.900') : 'transparent'}
                 _hover={{
@@ -53,7 +56,6 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
                 >
                     {branch.title}
                 </ChakraNextLink>
-
                 {!isEmpty(branch.children) && (
                     <IconButton
                         h='100%'
@@ -70,44 +72,6 @@ const Branch = ({ branch, depth, activePath }: BranchType) => {
             <Box pl={5} w='full' display={!isEmpty(branch.children) && expanded ? 'block' : 'none'}>
                 <Tree tree={branch.children} depth={depth + 1} activePath={activePath} />
             </Box>
-        </>
-    );
-};
-
-const Tree = ({ tree, depth, activePath }: TreeType) => {
-    return (
-        <VStack
-            w='full'
-            pl={3}
-            spacing={2}
-            borderLeft={depth ? '4px' : 'none'}
-            borderColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
-        >
-            {tree.map((branch: TreeNode, i: number) => (
-                <Branch key={i} branch={branch} depth={depth} activePath={activePath} />
-            ))}
-        </VStack>
-    );
-};
-
-export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
-    const router = useRouter();
-
-    return (
-        <>
-            <ChakraNextLink
-                href={'/docs'}
-                styleProps={{
-                    w: 'full',
-                    _hover: { textDecoration: 'none' },
-                    py: 1.5,
-                    pl: 3,
-                    fontSize: 'sm',
-                }}
-            >
-                Documentation
-            </ChakraNextLink>
-            <Tree tree={tree} depth={0} activePath={router.asPath} />
         </>
     );
 };
