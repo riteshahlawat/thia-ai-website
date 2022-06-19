@@ -1,11 +1,16 @@
+html {
+    scroll-padding-top: calc(var(--header-height) + 12px);
+    scroll-behavior: smooth;
+}
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: 'Poppins' sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins' sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -14,45 +19,70 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins' sans-serif;
+    font-family: 'Poppins' sans-serif;
 }
 
 :root {
-  --purple-50: #e1d5ff;
-  --purple-100: #c7b0ff;
-  --purple-200: #a581ff;
-  --purple-300: #8a5cff;
-  --purple-400: #7b47ff;
-  --purple-500: #5e1fff;
-  --purple-600: #4800ff;
-  --purple-700: #3600ca;
-  --purple-800: #2b01a0;
-  --purple-900: #1f0066;
-  --purple-950: #12003d;
-  --purple-990: #08001a;
+    --purple-50: #e1d5ff;
+    --purple-100: #c7b0ff;
+    --purple-200: #a581ff;
+    --purple-300: #8a5cff;
+    --purple-400: #7b47ff;
+    --purple-500: #5e1fff;
+    --purple-600: #4800ff;
+    --purple-700: #3600ca;
+    --purple-800: #2b01a0;
+    --purple-900: #1f0066;
+    --purple-950: #12003d;
+    --purple-990: #08001a;
 
-  --gray-50: rgb(247, 247, 247);
-  --gray-100: rgb(240, 240, 240);
-  --gray-200: rgb(220, 220, 220);
-  --gray-300: rgb(204, 204, 204);
-  --gray-400: rgb(179, 179, 179);
-  --gray-500: rgb(153, 153, 153);
-  --gray-600: rgb(128, 128, 128);
-  --gray-700: rgb(102, 102, 102);
-  --gray-800: rgb(77, 77, 77);
-  --gray-900: rgb(51, 51, 51);
-  --gray-950: rgb(26, 26, 26);
-  --gray-990: rgb(13, 13, 13);
+    --gray-50: rgb(245, 245, 245);
+    --gray-100: rgb(235, 235, 235);
+    --gray-200: rgb(220, 220, 220);
+    --gray-300: rgb(204, 204, 204);
+    --gray-400: rgb(179, 179, 179);
+    --gray-500: rgb(153, 153, 153);
+    --gray-600: rgb(128, 128, 128);
+    --gray-700: rgb(102, 102, 102);
+    --gray-800: rgb(77, 77, 77);
+    --gray-900: rgb(45, 45, 45);
+    --gray-950: rgb(26, 26, 26);
+    --gray-990: rgb(15, 15, 15);
 
-  --header-height: 72px;
+    --header-height: 72px;
+    --footer-height: 362px;
+    --fullHeightWithoutNav: calc(100vh - var(--header-height));
 }
 
 .nav {
-  height: var(--header-height);
+    height: var(--header-height);
 }
 
-.fullHeightWithoutNav {
-  height: calc(100vh - var(--header-height));
+/* Docs anchor tag */
+.anchor {
+    position: absolute;
+    opacity: 0;
+    margin-left: -1em;
+    padding-right: 0.5em;
+    width: 80%;
+    max-width: 700px;
+    cursor: pointer;
+}
+
+a {
+    transition-property: all;
+}
+
+.anchor:after {
+    content: '#';
+}
+
+*:hover > .anchor {
+    opacity: 1;
+}
+
+.katex {
+    font-size: 25px !important;
 }
 
 /*

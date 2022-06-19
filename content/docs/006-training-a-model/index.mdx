@@ -1,0 +1,92 @@
+---
+title: Training A Model
+description: Train your model on your dataset and monitor its progress.
+---
+
+# Training A Model
+
+After having [created and labelled][1] a dataset, the next step is to train it. Training a model can take several minutes to
+an hour to complete. The length of training depends on:
+
+-   Size of dataset (larger datasets take longer to train).
+-   Size of model (larger models take longer to train).
+-   GPU (more performant GPUs take less time to train).
+
+The following are the steps to train an image classification model:
+
+1.  Navigate to the model page for the model you wish to train.
+2.  Select a dataset you wish to train the model on by clicking on it.
+3.  Click the `Train` button once a dataset is selected.
+    ![Train A Model][2]
+
+> **Note**: Once a model is trained without errors, it cannot be retrained. If you gather more data and wish to retrain,
+> you will have to create another model. In future releases, you will be able to retrain.
+
+---
+
+## Training Graphs
+
+When training you are able to view training graphs that are updated live. They represent how
+the training process is going.
+
+### Training Progress
+
+The current training status is displayed at the top of the training section. It contains:
+![Training Progress][3]
+
+-   `Training status`. Possible statuses:
+    -   `STARTING_TRAINING`
+    -   `TRAINING`
+    -   `TRAINED`
+    -   `EVALUATING`
+    -   `EVALUATED`
+    -   `ERROR`
+-   `Epoch`, if model is currently training. _Epoch represents one complete pass of the model training process. You can think of it as one step in the training process._
+-   `Training description`, if model is currently training.
+
+### Accuracy Log
+
+The accuracy graph contains the history of how the model's training and validation accuracy have changed throughout the training process.
+A larger accuracy value represents a higher-quality model. Click [here][5] to learn more about accuracy.
+![Accuracy vs Epochs Graph][4]
+
+### Loss
+
+The loss graph contains the history of how the model's training and validation log-loss have changed throughout the training process.
+A lower log-loss value represents a higher-quality model. Click [here][6] to learn more about log-loss.
+![Loss vs Epochs Graph][7]
+
+Thia chooses the **best** model which corresponds to the lowest validation log-loss.
+
+---
+
+## Errors
+
+When an error is encountered during the training process, it is displayed on the training status.
+![Training Status Error][8]
+
+Some reasons for the error:
+
+-   Model may be too large for the GPU on your computer
+-   GPU is currently being used in other GPU-intensive processes.
+-   An Operation Error occurred during training (very unlikely, happens more often with older GPU, out-of-date
+    drivers, or a corrupted dataset).
+
+More info about the error can be viewed in the `Recent Activity` panel in the `Home` page.
+![Recent Activity Panel for Training Error][9]
+
+### Retraining A Model
+
+As mentioned above, a model cannot be retrained unless the previous training encountered an error. If a model continues to fail
+training due to an Operation Error, consider training it on another dataset as the dataset you have been training on might have
+been corrupted during creation.
+
+[1]: /docs/creating-a-dataset/labelling-a-dataset
+[2]: /docs/ui/image-classification-training/1.jpg 'Train A Model'
+[3]: /docs/ui/image-classification-training/2.jpg 'Training Progress'
+[4]: /docs/ui/image-classification-training/3.jpg 'Accuracy vs Epochs Graph'
+[5]: /docs/evaluating-a-model 'Accuracy More Details'
+[6]: /docs/evaluating-a-model 'Log Loss More Details'
+[7]: /docs/ui/image-classification-training/4.jpg 'Loss vs Epochs Graph'
+[8]: /docs/ui/image-classification-training/5.jpg 'Training Status Error'
+[9]: /docs/ui/image-classification-training/6.jpg 'Training Error More Info'
