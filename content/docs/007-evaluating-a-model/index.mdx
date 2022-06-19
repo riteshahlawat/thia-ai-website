@@ -1,0 +1,65 @@
+---
+title: Evaluating A Model
+description: Learn about evaluation metrics and testing your model on your own data.
+---
+
+# Evaluating A Model
+
+Evaluation is performed right after training has completed. We use the test
+dataset to evaluate the quality and accuracy of the trained model.
+![Evaluation UI][1]
+
+## Evaluation Metrics
+
+Before we look at the evaluation metrics, let's understand some key classification metrics:
+
+-   **TP**: True Positive - An outcome where the model _correctly_ predicts the _positive_ class.
+-   **TN**: True Negative - An outcome where the model _correctly_ predicts the _negative_ class.
+-   **FP**: False Positive - An outcome where the model _incorrectly_ predicts the _positive_ class.
+-   **FN**: False Negative - An outcome where the model _incorrectly_ predicts the _negative_ class.
+
+Click [here][2] to learn more about the classification metrics if you're still having trouble understanding.
+
+### AU PRC
+
+AU PRC stands for Area under Precision/Recall **(PR)** curve. A PR curve shows the trade-off between precision
+and recall across different decision thresholds. AU PRC is generally between 0.5 - 1.0 with 1.0 representing a perfect
+model.
+
+### Accuracy
+
+Accuracy is simply the fraction of predictions your model got right.
+
+Or in other words: $\frac{TP + TN}{Total}$
+
+### Precision
+
+Precision is seen as the _quality_ of a positive prediction made by the model. It is the fraction of positive predictions
+(false positive + true positive) produced by the model that were correctly classified. In comparison to accuracy that
+tells you how many times the model was correct overall, precision tells you how good the model is at predicting a specific
+category.
+
+Or in other words: $\frac{TP}{TP + FP}$
+
+### Recall
+
+Recall, also known as the true positive rate. It is the fraction of
+Recall tells you how many times the model was able to detect a specific category.
+
+Or in other words: $\frac{TP}{TP + FN}$
+
+### Log Loss
+
+Log Loss represents the cross-entropy between the model predictions and the target values. It is
+indicative of how close the prediction probability is to the corresponding true value. The more the
+predicted probability diverges from the actual value, the higher the log-loss is.
+
+Click [here][3] to learn the intuition about log loss
+
+## Testing On Your Own Images
+
+Testing on your own images.
+
+[1]: /docs/ui/image-classification-evaluation/1.jpg 'Evaluation UI'
+[2]: https://developers.google.com/machine-learning/crash-course/classification/true-false-positive-negative 'Classification Metrics More Info'
+[3]: https://towardsdatascience.com/intuition-behind-log-loss-score-4e0c9979680a 'Log Loss Intuition'
