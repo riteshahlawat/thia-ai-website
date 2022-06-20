@@ -1,9 +1,8 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import {
     Button,
-    Center,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -26,41 +25,30 @@ import {
     sendEmailVerification,
     getRedirectResult,
 } from 'firebase/auth';
-import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp, useUser } from 'reactfire';
+import { useAuth, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
-import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
-import { ContentContainer } from '../src/modules/common/ContentContainer';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 import { EmptyLayout } from '../src/layouts/EmptyLayout';
 import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
 import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
 import { GoogleButton } from '../src/auth/GoogleButton';
+import { validifyEmailFormat, validifyPasswordFormat } from 'src/utils/auth/authUtils';
+import { createToast } from 'src/utils/common/toast';
 
 const SignUp: NextPageWithLayout = () => {
     const { data: user } = useUser();
     const auth = useAuth();
     const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-        prompt: 'select_account consent',
-    });
+    provider.setCustomParameters({ prompt: 'select_account consent' });
+
     const toast = useToast();
     const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
 
-    const [googleSignInLoading, setGoogleSignInLoading] = useState(false);
     const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
-    const [emailSignInLoading, setEmailSignInLoading] = useState(false);
     const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
-
-    type DarkModeProps = {
-        children: React.ReactNode; // 👈️ type children
-    };
-
-    const DarkMode = (props: DarkModeProps) => {
-        return <Center>{props.children}</Center>;
-    };
 
     const [userRegistrationDetails, setUserRegistrationDetails] = useState({
         fullName: '',
@@ -85,9 +73,7 @@ const SignUp: NextPageWithLayout = () => {
         passwordRetype: false,
     });
 
-    const googleLogin = async () => {
-        await signInWithRedirect(auth, provider);
-    };
+    const googleLogin = async () => await signInWithRedirect(auth, provider);
 
     const getOAuthResponse = async () => {
         const result = await getRedirectResult(auth);
@@ -96,7 +82,6 @@ const SignUp: NextPageWithLayout = () => {
             await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
                 uid: result.user.uid,
             });
-            setGoogleSignInLoading(true);
             setGoogleRegisteringLoading(true);
             const credential = GoogleAuthProvider.credentialFromResult(result);
             // Send that result to backend to create custom token
@@ -114,71 +99,40 @@ const SignUp: NextPageWithLayout = () => {
     const handleRegistrationInputsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         const name: UserRegistrationDetailNames = e.target.name as UserRegistrationDetailNames;
-        setUserRegistrationDetails({
-            ...userRegistrationDetails,
-            [name]: val,
-        });
+        setUserRegistrationDetails({ ...userRegistrationDetails, [name]: val });
         switch (name) {
             case 'emailAddress':
                 // Email address input handling
-                const emailAddressPattern =
-                    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                if (!val.match(emailAddressPattern)) {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        emailAddress: 'Invalid email address',
-                    });
-                } else {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        emailAddress: '',
-                    });
-                }
+                setUserRegistrationErrorMessages({
+                    ...userRegistrationErrorMessages,
+                    emailAddress: !validifyEmailFormat(val) ? 'Invalid email address' : '',
+                });
+
                 break;
             case 'fullName':
                 // Full name input handling
-                if (val.length < 3) {
-                    // Too small
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        fullName: 'Enter valid name',
-                    });
-                } else {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        fullName: '',
-                    });
-                }
+                setUserRegistrationErrorMessages({
+                    ...userRegistrationErrorMessages,
+                    fullName: val.length < 3 ? 'Enter valid name' : '', // Too small
+                });
+
                 break;
             case 'password':
                 // Password input handling
-                const passwordPattern = /(?=.*[0-9a-zA-Z]).{6,}/;
-                if (!val.match(passwordPattern)) {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        password: 'Weak password, 6 alpha-num chars',
-                    });
-                    //
-                } else {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        password: '',
-                    });
-                }
+                setUserRegistrationErrorMessages({
+                    ...userRegistrationErrorMessages,
+                    password: !validifyPasswordFormat(val)
+                        ? 'Weak password, 6 alpha-num charactors are required'
+                        : '',
+                });
                 break;
             case 'passwordRetype':
                 // Password retype input handling
-                if (val !== userRegistrationDetails.password) {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        passwordRetype: "Passwords don't match",
-                    });
-                } else {
-                    setUserRegistrationErrorMessages({
-                        ...userRegistrationErrorMessages,
-                        passwordRetype: '',
-                    });
-                }
+                setUserRegistrationErrorMessages({
+                    ...userRegistrationErrorMessages,
+                    passwordRetype:
+                        val !== userRegistrationDetails.password ? "Passwords don't match" : '',
+                });
                 break;
         }
     };
@@ -196,14 +150,7 @@ const SignUp: NextPageWithLayout = () => {
             }
         }
         if (!userRegistrationDetailsFilledOut) {
-            // Not all details filled out
-            toast({
-                title: 'Error',
-                description: 'Registration not filled out',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+            toast(createToast('Error', 'Registration not filled out', 'error')); // Not all details filled out
             return;
         }
         let userRegistrationErrorExists = false;
@@ -219,13 +166,7 @@ const SignUp: NextPageWithLayout = () => {
         }
         if (userRegistrationErrorExists) {
             // Not all details filled out
-            toast({
-                title: 'Error',
-                description: 'Registration contains an error',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+            toast(createToast('Error', 'Registration contains an error', 'error'));
             return;
         }
         setEmailRegisteringLoading(true);
@@ -242,68 +183,37 @@ const SignUp: NextPageWithLayout = () => {
                     // Send verification email
                     await sendEmailVerification(userCredential.user);
                     await auth.signOut();
-                    toast({
-                        title: 'Info',
-                        description: 'Email verification sent, check your email',
-                        status: 'info',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Info', 'Email verification sent, check your email'));
                     setEmailRegisteringLoading(false);
                 } else {
                     // Email already verified (don't know when this will happen but it's here in case it does)
                 }
             })
-            .catch((error: FirebaseError) => {
-                const errorCode = error.code;
+            .catch(({ code: errorCode }: FirebaseError) => {
                 if (errorCode == AuthErrorCodes.EMAIL_EXISTS) {
-                    toast({
-                        title: 'Error',
-                        description: 'Email already exists',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Error', 'Email already exists', 'error'));
                 } else if (errorCode == AuthErrorCodes.WEAK_PASSWORD) {
-                    toast({
-                        title: 'Error',
-                        description: 'Password is too weak',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Error', 'Weak password', 'error'));
                 } else if (errorCode == AuthErrorCodes.INVALID_EMAIL) {
-                    toast({
-                        title: 'Error',
-                        description: 'Invalid email',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Error', 'Invalid email', 'error'));
                 }
                 setEmailRegisteringLoading(false);
             });
     };
 
     useEffect(() => {
-        if (user) {
-            router.push('/');
-        }
+        if (user) router.push('/');
         getOAuthResponse();
         const registerOnEnter = async (event: KeyboardEvent) => {
-            if (event.key == 'Enter') {
-                await registerNewAccount();
-            }
+            if (event.key == 'Enter') await registerNewAccount();
         };
         window.addEventListener('keypress', registerOnEnter);
-        return () => {
-            window.removeEventListener('keypress', registerOnEnter);
-        };
+        return () => window.removeEventListener('keypress', registerOnEnter);
     });
 
     return (
         <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
-            <VStack spacing={6} py={1}>
+            <VStack spacing={6} py={1} w='full'>
                 <FormControl
                     isRequired
                     isInvalid={

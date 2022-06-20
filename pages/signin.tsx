@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import { getFunctions } from 'firebase/functions';
-import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp, useUser } from 'reactfire';
+import { useAuth, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 
 import {
@@ -11,13 +10,10 @@ import {
     signInWithEmailAndPassword,
     sendEmailVerification,
     AuthErrorCodes,
-    sendPasswordResetEmail,
-    getAuth,
     getRedirectResult,
 } from 'firebase/auth';
 import {
     Button,
-    Center,
     VStack,
     Text,
     Input,
@@ -38,6 +34,8 @@ import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
 import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
 import { GoogleButton } from '../src/auth/GoogleButton';
+import { validifyEmailFormat } from 'src/utils/auth/authUtils';
+import { createToast } from 'src/utils/common/toast';
 
 const SignIn: NextPageWithLayout = () => {
     const auth = useAuth();
@@ -46,23 +44,11 @@ const SignIn: NextPageWithLayout = () => {
     backendRequestHandler.initInstances(BackendRequestConfig);
 
     const [googleSignInLoading, setGoogleSignInLoading] = useState(false);
-    const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
     const [emailSignInLoading, setEmailSignInLoading] = useState(false);
-    const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
-
-    type DarkModeProps = {
-        children: React.ReactNode; // 👈️ type children
-    };
-
-    const DarkMode = (props: DarkModeProps) => {
-        return <Center>{props.children}</Center>;
-    };
 
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account consent' });
 
-    provider.setCustomParameters({
-        prompt: 'select_account consent',
-    });
     const toast = useToast();
     const { data: user } = useUser();
     const [rememberMe, setRememberMe] = useState(true);
@@ -78,88 +64,46 @@ const SignIn: NextPageWithLayout = () => {
     const [emailFocusedOnce, setEmailFocusedOnce] = useState(false);
     const [passwordFocusedOnce, setPasswordFocusedOnce] = useState(false);
 
-    const googleLogin = async () => {
-        await signInWithRedirect(auth, provider);
-    };
+    const googleLogin = async () => await signInWithRedirect(auth, provider);
 
     // No the name of this function is not a mistake.
     // I will unironically fire anyone who changes this :D
 
+    const firebaseErrorCodeCheck = (code: string) =>
+        code == AuthErrorCodes.INVALID_PASSWORD ||
+        code == AuthErrorCodes.USER_DELETED ||
+        code == AuthErrorCodes.INTERNAL_ERROR;
+
     const resendEmailVerification = () => {
         if (password.trim() == '' || emailAddress.trim() == '') {
-            toast({
-                title: 'Error',
-                description: 'Please enter an email and password',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+            toast(createToast('Error', 'Please enter an email and password', 'error'));
             return;
         }
-        // Email address input handling
-        const emailAddressPattern =
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (!emailAddress.match(emailAddressPattern)) {
-            toast({
-                title: 'Error',
-                description: 'Invalid email',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+
+        if (!validifyEmailFormat(emailAddress)) {
+            toast(createToast('Error', 'Invalid email', 'error'));
             return;
         }
+
         setSendingEmailVerification(true);
         signInWithEmailAndPassword(auth, emailAddress, password)
             .then(async userCredential => {
+                await auth.signOut();
                 if (!userCredential.user.emailVerified) {
-                    await auth.signOut();
                     await sendEmailVerification(userCredential.user);
-                    // await auth.signOut();
                     setPassword('');
-                    toast({
-                        title: 'Info',
-                        description: 'Email verification sent, check your email',
-                        status: 'info',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Info', 'Email verification sent, check your email'));
                 } else {
-                    await auth.signOut();
                     setPassword('');
-                    toast({
-                        title: 'Info',
-                        description: 'Email is already verified',
-                        status: 'info',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Info', 'Email is already verified'));
                 }
                 setSendingEmailVerification(false);
             })
-            .catch((error: FirebaseError) => {
-                const errorCode = error.code;
-
-                if (
-                    errorCode == AuthErrorCodes.INVALID_PASSWORD ||
-                    errorCode == AuthErrorCodes.USER_DELETED ||
-                    errorCode == AuthErrorCodes.INTERNAL_ERROR
-                ) {
-                    toast({
-                        title: 'Error',
-                        description: 'Invalid email or password',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
-                } else if (errorCode == AuthErrorCodes.INVALID_EMAIL) {
-                    toast({
-                        title: 'Error',
-                        description: 'Invalid email',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+            .catch(({ code: errorCode }: FirebaseError) => {
+                if (firebaseErrorCodeCheck(errorCode)) {
+                    toast(createToast('Error', 'Invalid email or password', 'error'));
+                } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
+                    toast(createToast('Error', 'Invalid email', 'error'));
                 }
                 setSendingEmailVerification(false);
             });
@@ -167,27 +111,13 @@ const SignIn: NextPageWithLayout = () => {
 
     // TODO: On enter, click sign in
     const emailLogin = async () => {
-        if (password.trim() == '' || emailAddress.trim() == '') {
-            toast({
-                title: 'Error',
-                description: 'Login form not filled out',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+        if (password.trim() === '' || emailAddress.trim() === '') {
+            toast(createToast('Error', 'Login form not filled out', 'error'));
             return;
         }
         // Email address input handling
-        const emailAddressPattern =
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        if (!emailAddress.match(emailAddressPattern)) {
-            toast({
-                title: 'Error',
-                description: 'Invalid email',
-                status: 'error',
-                duration: 1500,
-                isClosable: false,
-            });
+        if (!validifyEmailFormat(emailAddress)) {
+            toast(createToast('Error', 'Invalid email', 'error'));
             return;
         }
         setEmailSignInLoading(true);
@@ -196,13 +126,7 @@ const SignIn: NextPageWithLayout = () => {
                 if (!userCredential.user.emailVerified) {
                     await auth.signOut();
                     setPassword('');
-                    toast({
-                        title: 'Info',
-                        description: 'Email not verified, check your email',
-                        status: 'info',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                    toast(createToast('Info', 'Invalid email'));
                     setEmailSignInLoading(false);
                 } else {
                     const idToken = await userCredential.user.getIdToken();
@@ -214,30 +138,12 @@ const SignIn: NextPageWithLayout = () => {
                     router.push('/dashboard');
                 }
             })
-            .catch((error: FirebaseError) => {
-                const errorCode = error.code;
-
-                if (
-                    errorCode == AuthErrorCodes.INVALID_PASSWORD ||
-                    errorCode == AuthErrorCodes.USER_DELETED ||
-                    errorCode == AuthErrorCodes.INTERNAL_ERROR
-                ) {
-                    toast({
-                        title: 'Error',
-                        description: 'Invalid email or password',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+            .catch(({ code: errorCode }: FirebaseError) => {
+                if (firebaseErrorCodeCheck(errorCode)) {
+                    toast(createToast('Error', 'Invalid email or password', 'error'));
                     setEmailSignInLoading(false);
-                } else if (errorCode == AuthErrorCodes.INVALID_EMAIL) {
-                    toast({
-                        title: 'Error',
-                        description: 'Invalid email',
-                        status: 'error',
-                        duration: 1500,
-                        isClosable: false,
-                    });
+                } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
+                    toast(createToast('Error', 'Invalid email', 'error'));
                     setEmailSignInLoading(false);
                 }
             });
@@ -251,7 +157,6 @@ const SignIn: NextPageWithLayout = () => {
                 uid: result.user.uid,
             });
             setGoogleSignInLoading(true);
-            setGoogleRegisteringLoading(true);
             router.push('/dashboard');
             const credential = GoogleAuthProvider.credentialFromResult(result);
             // Send that result to backend to create custom token
@@ -262,13 +167,10 @@ const SignIn: NextPageWithLayout = () => {
         if (user) router.push('/');
         getOAuthResponse();
         const signInOnEnter = async (event: KeyboardEvent) => {
-            if (event.key == 'Enter') await emailLogin();
+            if (event.key === 'Enter') await emailLogin();
         };
         window.addEventListener('keypress', signInOnEnter);
-        return () => {
-            window.removeEventListener('keypress', signInOnEnter);
-        };
-
+        return () => window.removeEventListener('keypress', signInOnEnter);
         // useEffect would have too many dependencies to where it would basically change
         // each refresh so no point in adding them all.
     });
@@ -288,16 +190,11 @@ const SignIn: NextPageWithLayout = () => {
                         bg={useColorModeValue('white', 'black')}
                         value={emailAddress}
                         onBlur={() => setEmailFocusedOnce(true)}
-                        onChange={(e: any) => {
-                            const val = e.target.value;
-                            // Email address input handling
-                            const emailAddressPattern =
-                                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                            if (!val.match(emailAddressPattern)) {
-                                // Invalid email address pattern
-                                setEmailErrorMessage('Invalid email address');
-                            } else setEmailErrorMessage('');
-                            setEmailAddress(val);
+                        onChange={({ target }: any) => {
+                            setEmailErrorMessage(
+                                !validifyEmailFormat(target.value) ? 'Invalid email address' : ''
+                            );
+                            setEmailAddress(target.value);
                         }}
                     />
                     <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
@@ -308,18 +205,15 @@ const SignIn: NextPageWithLayout = () => {
                 >
                     <FormLabel>Password</FormLabel>
                     <Input
-                        bg={useColorModeValue('white', 'black')}
                         value={password}
                         placeholder='Password'
+                        bg={useColorModeValue('white', 'black')}
                         onBlur={() => setPasswordFocusedOnce(true)}
-                        onChange={(e: any) => {
-                            const val = e.target.value;
-                            if (val.trim().length == 0) {
-                                setPasswordErrorMessage('Enter a password');
-                            } else {
-                                setPasswordErrorMessage('');
-                            }
-                            setPassword(val);
+                        onChange={({ target }: any) => {
+                            setPasswordErrorMessage(
+                                target.value.trim().length == 0 ? 'Enter a password' : ''
+                            );
+                            setPassword(target.value);
                         }}
                         type='password'
                     />
@@ -328,8 +222,8 @@ const SignIn: NextPageWithLayout = () => {
             </VStack>
             <HStack justify='space-between' w='full' align='baseline'>
                 <Checkbox
-                    isChecked={rememberMe}
                     size='sm'
+                    isChecked={rememberMe}
                     onChange={(e: any) => setRememberMe(e.target.checked)}
                 >
                     <Text fontSize='sm'>Remember me</Text>
