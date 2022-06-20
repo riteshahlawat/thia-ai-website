@@ -47,8 +47,8 @@ export const Branch = ({ branch, depth, activePath }: BranchType) => {
                     href={branch.slug}
                     styleProps={{
                         w: 'full',
-                        fontWeight: depth ? 400 : 600,
-                        _hover: { textDecoration: 'none' },
+                        fontWeight: active ? 600 : 400,
+                        _hover: { textDecoration: 'none', color: 'white'},
                         color: textColor,
                         py: 1.5,
                         pl: 3,

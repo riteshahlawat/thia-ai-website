@@ -11,8 +11,8 @@ export const NavContainer = ({ children }: { children?: React.ReactNode }) => {
             backdropFilter='auto'
             backdropBlur='32px'
             bg={useColorModeValue('whiteAlpha.800', 'blackAlpha.800')}
-            // borderBottom='1px'
-            // borderBottomColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
+            borderBottom='1px'
+            borderBottomColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
         >
             <ContentContainer>
                 <Flex align='center' className='nav' justify='space-between' wrap='wrap' w='100%'>

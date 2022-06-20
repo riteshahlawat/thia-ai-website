@@ -13,6 +13,7 @@ export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
 
     return (
         <Box
+            as='aside'
             pos='sticky'
             flexShrink={0}
             overflowY='auto'
@@ -23,10 +24,12 @@ export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
             w={{ base: 'full', sm: '350px' }}
             h={{ base: 'full', sm: 'var(--fullHeightWithoutNav)' }}
             maxH='var(--fullHeightWithoutNav)'
-            bg={{ base: useColorModeValue('white', 'black'), sm: 'transparent' }}
+            bg={{ base: useColorModeValue('white', 'black'), sm: 'thia.dark' }}
             borderBottom={{ base: '1px', sm: 'none' }}
             borderTop={{ base: '1px', sm: 'none' }}
             borderColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
+            borderRight='1px'
+            borderRightColor={useColorModeValue('thia.gray.100', 'thia.gray.950')}
         >
             <VStack align='start' fontSize='md'>
                 <Flex align='center' py={1} w='full'>
