@@ -20,7 +20,7 @@ const AuthComponent = ({ children }: Props) => {
     const app = useFirebaseApp();
     const auth = getAuth(app);
     const functions = getFunctions(app);
-    
+
     return (
         <AuthProvider sdk={auth}>
             <FunctionsProvider sdk={functions}>{children}</FunctionsProvider>

@@ -1,16 +1,16 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { 
-    Box, 
-    Button, 
-    IconButton, 
-    Menu, 
-    MenuButton, 
-    MenuItem, 
-    MenuList, 
-    Stack, 
-    useColorMode, 
+import {
+    Box,
+    Button,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Stack,
+    useColorMode,
     useColorModeValue,
-    Text
+    Text,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -31,41 +31,30 @@ const SignInSignOut = () => {
     const auth = useAuth();
     const router = useRouter();
 
-    if (status === "loading") {
-        return (
-            <Box />
-        )
-    } 
+    if (status === 'loading') {
+        return <Box />;
+    }
     if (signInCheckResult.signedIn === true) {
         return (
             <Menu>
-                <MenuButton 
-                    as={Button} 
-                    rightIcon={<ChevronDownIcon /> }
-                    variant='primary'
-                >
+                <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant='primary'>
                     <Box maxW='150px'>
-                        <Text isTruncated>
-                            {user?.displayName}
-                        </Text>
+                        <Text isTruncated>{user?.displayName}</Text>
                     </Box>
                 </MenuButton>
                 <MenuList>
-                    <MenuItem
-                        onClick={() => router.push('/dashboard')}
-                    >
-                        Dashboard
-                    </MenuItem>
+                    <MenuItem onClick={() => router.push('/dashboard')}>Dashboard</MenuItem>
                     <MenuItem
                         onClick={async () => {
                             await auth.signOut();
-                            router.push('/')
+                            router.push('/');
                         }}
                     >
-                    Sign Out</MenuItem>
+                        Sign Out
+                    </MenuItem>
                 </MenuList>
             </Menu>
-        )
+        );
     } else {
         return (
             <Link href='/login'>
@@ -79,9 +68,9 @@ const SignInSignOut = () => {
                     Sign in
                 </Button>
             </Link>
-        )
+        );
     }
-}
+};
 
 export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
     const { toggleColorMode: toggleMode } = useColorMode();
