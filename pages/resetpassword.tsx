@@ -14,9 +14,9 @@ import { FirebaseError } from 'firebase/app';
 import { AuthErrorCodes, sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useAuth } from 'reactfire';
-import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
-import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
-import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 
 type Props = {};
 
