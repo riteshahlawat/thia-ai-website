@@ -14,12 +14,14 @@ import { ProgressBar } from '../src/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
-import AuthComponent from '../src/auth/AuthComponent';
+import { AuthComponent } from '../src/auth/AuthComponent';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
-type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
-};
+type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
+
+const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
@@ -27,11 +29,16 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout = Component.getLayout ?? (page => <BaseLayout>{page}</BaseLayout>);
 
     return (
-        <ChakraProvider theme={theme}>
-            <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
-            </FirebaseAppProvider>
-        </ChakraProvider>
+        <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+                <ChakraProvider theme={theme}>
+                    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+                        <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
+                    </FirebaseAppProvider>
+                </ChakraProvider>
+            </Hydrate>
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     );
 };
 
