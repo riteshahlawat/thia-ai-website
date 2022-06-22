@@ -22,13 +22,6 @@ export const Branch = ({ branch, depth, activePath }: BranchType) => {
         );
     }, [branch, activePath]);
 
-    const textColor = () =>
-        active
-            ? useColorModeValue('thia.text-base', 'thia.text-dark')
-            : depth
-            ? useColorModeValue('thia.gray.700', 'thia.gray.300')
-            : useColorModeValue('thia.gray.800', 'thia.gray.200');
-
     return (
         <>
             <Flex
@@ -36,11 +29,15 @@ export const Branch = ({ branch, depth, activePath }: BranchType) => {
                 align='center'
                 fontSize='sm'
                 rounded='md'
-                bg={active ? useColorModeValue('thia.purple.50', 'thia.purple.900') : 'transparent'}
+                bg={useColorModeValue(
+                    active ? 'thia.purple.50' : 'transparent',
+                    active ? 'thia.purple.900' : 'transparent'
+                )}
                 _hover={{
-                    bg: active
-                        ? useColorModeValue('thia.purple.50', 'thia.purple.900')
-                        : useColorModeValue('thia.gray.100', 'thia.gray.950'),
+                    bg: useColorModeValue(
+                        active ? 'thia.purple.50' : 'thia.gray.100',
+                        active ? 'thia.purple.900' : 'thia.gray.950'
+                    ),
                 }}
             >
                 <ChakraNextLink
@@ -49,7 +46,10 @@ export const Branch = ({ branch, depth, activePath }: BranchType) => {
                         w: 'full',
                         fontWeight: depth ? 400 : 600,
                         _hover: { textDecoration: 'none' },
-                        color: textColor,
+                        color: useColorModeValue(
+                            active ? 'thia.gray.700' : depth ? 'thia.gray.700' : 'thia.gray.800',
+                            active ? 'thia.text-dark' : depth ? 'thia.gray.300' : 'thia.gray.200'
+                        ),
                         py: 1.5,
                         pl: 3,
                     }}

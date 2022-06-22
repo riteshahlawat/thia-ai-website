@@ -25,6 +25,7 @@ const ListHeader = ({ children }: { children: string }) => {
 };
 
 export const Footer = () => {
+    const iconBackgroundColor = useColorModeValue('thia.gray.200', 'thia.gray.900');
     return (
         <Box as='footer' bg='inherit' color={useColorModeValue('thia.text-base', 'thia.text-dark')}>
             <Grid
@@ -51,7 +52,7 @@ export const Footer = () => {
                                         variant='secondary'
                                         _hover={{
                                             borderRadius: '3xl',
-                                            bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                                            bg: iconBackgroundColor,
                                         }}
                                     >
                                         {icon}
