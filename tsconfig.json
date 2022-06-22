@@ -1,7 +1,15 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
-        "paths": { "contentlayer/generated": ["./.contentlayer/generated"] },
+        "paths": {
+            "contentlayer/generated": ["./.contentlayer/generated"],
+            "@/components/*": ["src/components/*"],
+            "@/constants/*": ["src/constants/*"],
+            "@/hooks/*": ["src/hooks/*"],
+            "@/utils/*": ["src/utils/*"],
+            "@/types/*": ["src/types/*"],
+            "@/auth/*": ["src/auth/*"]
+        },
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,

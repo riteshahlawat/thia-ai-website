@@ -1,6 +1,6 @@
-import { TreeNode, PathSegment } from 'src/types/DocsTypes';
-import { Doc } from '../../../.contentlayer/generated';
-import { getPathSegments, joinPathSegments } from './pathSegmentUtils';
+import { TreeNode, PathSegment } from '@/types/DocsTypes';
+import { Doc } from 'contentlayer/generated';
+import { joinPathSegments } from './pathSegmentUtils';
 
 export const buildDocsTree = (docs: Doc[], parentPathNames: string[] = []): TreeNode[] => {
     const level = parentPathNames.length;

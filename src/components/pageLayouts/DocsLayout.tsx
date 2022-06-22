@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from 'src/modules/layout/Navbar/Navbar';
+import { Navbar } from '@/components/layout/Navbar/Navbar';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 
 type Props = {

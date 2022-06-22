@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
 import { useAuth, useSigninCheck, useUser } from 'reactfire';
-import { links } from '../../../constants/links';
+import { links } from '@/constants/links';
 
 const navItemLinks = [
     links.docs.index,

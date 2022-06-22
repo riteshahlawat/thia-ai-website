@@ -34,10 +34,10 @@ import { useAuth, AuthProvider, FunctionsProvider, useFirebaseApp } from 'reactf
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import GoogleDarkButton from '/public/btn_google_dark_normal_ios.svg';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
-import { ContentContainer } from '../src/modules/common/ContentContainer';
-import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
-import { EmptyLayout } from '../src/layouts/EmptyLayout';
-import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
+import { ContentContainer } from '@/components/common/ContentContainer';
+import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { EmptyLayout } from '@/components/pageLayouts/EmptyLayout';
+import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
 
 const Register: NextPageWithLayout = () => {
     const auth = useAuth();

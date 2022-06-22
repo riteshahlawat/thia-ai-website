@@ -1,5 +1,5 @@
 import { useColorModeValue, VStack } from '@chakra-ui/react';
-import { TreeNode, TreeType } from 'src/types/DocsTypes';
+import { TreeNode, TreeType } from '@/types/DocsTypes';
 import { Branch } from './DocBranch';
 
 export const Tree = ({ tree, depth, activePath }: TreeType) => {

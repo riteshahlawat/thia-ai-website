@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdChevronRight } from 'react-icons/md';
-import { ChakraNextLink } from '../common/ChakraNextLink';
-import { BreadcrumbType } from 'src/types/DocsTypes';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { BreadcrumbType } from '@/types/DocsTypes';
 import { Box, Breadcrumb, BreadcrumbItem, Text, useColorModeValue } from '@chakra-ui/react';
 
 export const DocsBreadcrumbs = ({ path }: BreadcrumbType) => {

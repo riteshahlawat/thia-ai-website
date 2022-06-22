@@ -9,13 +9,13 @@ import '../styles/nprogress.css';
 
 import type { AppProps } from 'next/app';
 import { theme } from '../styles/chakra.theme';
-import { BaseLayout } from '../src/layouts/BaseLayout';
-import { ProgressBar } from '../src/hooks/progressBar';
+import { BaseLayout } from '@/components/pageLayouts/BaseLayout';
+import { ProgressBar } from '@/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
-import { AuthComponent } from '../src/auth/AuthComponent';
-import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { AuthComponent } from '@/auth/AuthComponent';
+import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 

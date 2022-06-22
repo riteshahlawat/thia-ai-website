@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Tree } from './DocTree';
 import { isEmpty } from '@chakra-ui/utils';
-import { ChakraNextLink } from '../../common/ChakraNextLink';
-import { BranchType, TreeNode } from 'src/types/DocsTypes';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { BranchType, TreeNode } from '@/types/DocsTypes';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
 import { Box, Flex, IconButton, useColorModeValue } from '@chakra-ui/react';
 

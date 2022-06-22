@@ -12,9 +12,9 @@ import {
     Grid,
     GridItem,
 } from '@chakra-ui/react';
-import { links, socials } from '../../constants/links';
+import { links, socials } from '@/constants/links';
 import { BiMailSend } from 'react-icons/bi';
-import { ChakraNextLink } from '../common/ChakraNextLink';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
 const ListHeader = ({ children }: { children: string }) => {
     return (

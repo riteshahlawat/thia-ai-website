@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Section } from '../src/modules/common/Section';
+import { Section } from '@/components/common/Section';
 
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
-import { ImageBox } from '../src/modules/landing/ImageBox';
+import { ImageBox } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
 const variants = {
