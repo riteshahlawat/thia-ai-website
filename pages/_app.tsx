@@ -14,7 +14,7 @@ import { ProgressBar } from '@/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
 import { firebaseConfig } from '../firebase/firebase';
-import { AuthComponent } from '@/auth/AuthComponent';
+import { AuthProvider } from '@/auth/AuthProvider';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -33,7 +33,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
             <Hydrate state={pageProps.dehydratedState}>
                 <ChakraProvider theme={theme}>
                     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                        <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
+                        <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
                     </FirebaseAppProvider>
                 </ChakraProvider>
             </Hydrate>

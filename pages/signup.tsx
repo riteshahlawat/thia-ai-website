@@ -28,11 +28,11 @@ import {
 import { useAuth, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
-import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
-import { EmptyLayout } from '../src/layouts/EmptyLayout';
-import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
-import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
-import { GoogleButton } from '../src/auth/GoogleButton';
+import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { EmptyLayout } from '@/components/pageLayouts/EmptyLayout';
+import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { GoogleButton } from '@/auth/GoogleButton';
 import { validifyEmailFormat, validifyPasswordFormat } from 'src/utils/auth/authUtils';
 import { createToast } from 'src/utils/common/toast';
 
