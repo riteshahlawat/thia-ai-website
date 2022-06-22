@@ -1,6 +1,6 @@
 import React from 'react';
 import { Center, Heading } from '@chakra-ui/react';
-import { ContentContainer } from '../src/modules/common/ContentContainer';
+import { ContentContainer } from '@/components/common/ContentContainer';
 
 type Props = {};
 

@@ -12,9 +12,13 @@ import {
     Grid,
     GridItem,
 } from '@chakra-ui/react';
-import { links, socials } from '../../constants/links';
+import { links, socials } from '@/constants/links';
 import { BiMailSend } from 'react-icons/bi';
+<<<<<<<< HEAD:src/components/common/Footer.tsx
 import { ChakraNextLink } from './ChakraNextLink';
+========
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+>>>>>>>> main:src/components/layout/Footer.tsx
 
 const ListHeader = ({ children }: { children: string }) => {
     return (
@@ -25,6 +29,7 @@ const ListHeader = ({ children }: { children: string }) => {
 };
 
 export const Footer = () => {
+    const iconBackgroundColor = useColorModeValue('thia.gray.200', 'thia.gray.900');
     return (
         <Box as='footer' bg='inherit' color={useColorModeValue('thia.text-base', 'thia.text-dark')}>
             <Grid
@@ -51,7 +56,7 @@ export const Footer = () => {
                                         variant='secondary'
                                         _hover={{
                                             borderRadius: '3xl',
-                                            bg: useColorModeValue('thia.gray.200', 'thia.gray.900'),
+                                            bg: iconBackgroundColor,
                                         }}
                                     >
                                         {icon}

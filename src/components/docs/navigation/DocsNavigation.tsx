@@ -1,10 +1,10 @@
 import { Box, Flex, IconButton, useColorModeValue, VStack } from '@chakra-ui/react';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
 import { useState } from 'react';
-import { ChakraNextLink } from '../../common/ChakraNextLink';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { useRouter } from 'next/router';
 import { Tree } from './DocTree';
-import { TreeNode } from 'src/types/DocsTypes';
+import { TreeNode } from '@/types/DocsTypes';
 
 export const DocsNavigation = ({ tree }: { tree: TreeNode[] }) => {
     const [expanded, setExpanded] = useState(false);

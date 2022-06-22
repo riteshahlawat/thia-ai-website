@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { TreeNode } from 'src/types/DocsTypes';
+import { TreeNode } from '@/types/DocsTypes';
 import { Box, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 
 export const DocsChildCard = ({ slug, title, description }: TreeNode) => {
