@@ -29,11 +29,11 @@ import {
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
-import { EmptyLayout } from '../src/layouts/EmptyLayout';
+import { EmptyLayout } from '@/components/pageLayouts/EmptyLayout';
 import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
-import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
-import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
-import { GoogleButton } from '../src/auth/GoogleButton';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
+import { GoogleButton } from '@/auth/GoogleButton';
 import { validifyEmailFormat } from 'src/utils/auth/authUtils';
 import { createToast } from 'src/utils/common/toast';
 
