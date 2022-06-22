@@ -1,9 +1,5 @@
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react';
-<<<<<<<< HEAD:src/modules/navbar/NavContainer.tsx
-import { ContentContainer } from '../common/ContentContainer';
-========
 import { ContentContainer } from '@/components/common/ContentContainer';
->>>>>>>> main:src/components/layout/Navbar/NavContainer.tsx
 
 export const NavContainer = ({ children }: { children?: React.ReactNode }) => {
     return (

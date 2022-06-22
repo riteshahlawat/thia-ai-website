@@ -16,11 +16,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
 import { useAuth, useSigninCheck, useUser } from 'reactfire';
-<<<<<<<< HEAD:src/modules/navbar/NavLinks.tsx
-import { links } from '../../constants/links';
-========
 import { links } from '@/constants/links';
->>>>>>>> main:src/components/layout/Navbar/NavLinks.tsx
 
 const navItemLinks = [
     links.docs.index,

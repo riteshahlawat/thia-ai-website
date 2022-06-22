@@ -14,11 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { links, socials } from '@/constants/links';
 import { BiMailSend } from 'react-icons/bi';
-<<<<<<<< HEAD:src/components/common/Footer.tsx
-import { ChakraNextLink } from './ChakraNextLink';
-========
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
->>>>>>>> main:src/components/layout/Footer.tsx
 
 const ListHeader = ({ children }: { children: string }) => {
     return (
