@@ -1,9 +1,9 @@
 {
-  "apps": [
-    {
-      "name": "website",
-      "script": "npm",
-      "args": "run prod"
-    }
-  ]
+    "apps": [
+        {
+            "name": "website",
+            "script": "npm",
+            "args": "run prod"
+        }
+    ]
 }

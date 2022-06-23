@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-const nextConfig = {
+const { withContentlayer } = require('next-contentlayer');
+
+module.exports = withContentlayer({
     reactStrictMode: true,
     webpack: config => {
         config.module.rules.push({
@@ -11,6 +13,5 @@ const nextConfig = {
 
         return config;
     },
-};
-
-module.exports = nextConfig;
+    devIndicators: { autoPrerender: true },
+});

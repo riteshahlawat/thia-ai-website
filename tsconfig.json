@@ -1,5 +1,15 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "contentlayer/generated": ["./.contentlayer/generated"],
+            "@/components/*": ["src/components/*"],
+            "@/constants/*": ["src/constants/*"],
+            "@/hooks/*": ["src/hooks/*"],
+            "@/utils/*": ["src/utils/*"],
+            "@/types/*": ["src/types/*"],
+            "@/auth/*": ["src/auth/*"]
+        },
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
@@ -15,6 +25,6 @@
         "jsx": "preserve",
         "incremental": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".contentlayer/generated"],
     "exclude": ["node_modules"]
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 
 const Support: NextPage = () => {
-  return <div>Support</div>;
+    return <div>Support</div>;
 };
 
 export default Support;

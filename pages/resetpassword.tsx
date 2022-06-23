@@ -14,13 +14,14 @@ import { FirebaseError } from 'firebase/app';
 import { AuthErrorCodes, sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useAuth } from 'reactfire';
-import { AuthTemplatePage } from '../src/auth/AuthTemplatePage';
-import { ChakraNextLink } from '../src/modules/common/ChakraNextLink';
-import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
+import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 
 type Props = {};
 
-const text = "Enter the email address associated with your account and a link will be sent to your inbox to reset your password.";
+const text =
+    'Enter the email address associated with your account and a link will be sent to your inbox to reset your password.';
 
 const ResetPassword: NextPageWithLayout = (props: Props) => {
     const [emailAddress, setEmailAddress] = useState('');
@@ -89,7 +90,7 @@ const ResetPassword: NextPageWithLayout = (props: Props) => {
                     value={emailAddress}
                     bg={useColorModeValue('white', 'black')}
                     onBlur={() => setEmailFocusedOnce(true)}
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                         const val = e.target.value;
                         // Email address input handling
                         const emailAddressPattern =
