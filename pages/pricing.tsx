@@ -24,6 +24,57 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE as string, {
     typescript: true,
 });
 
+type ProductWithPrice = Stripe.Product & { price: Stripe.Price };
+type DetailsType = { data: Stripe.Metadata; prevData: { metadata: Stripe.Metadata; name: string } };
+
+const metadataExcerpts: any = {
+    num_models: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Models per month`,
+    num_datasets: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Datasets per month`,
+    num_exports: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Exports per month`,
+    max_classes: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} classes per dataset`,
+    max_images: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} images per dataset`,
+    image_classification: () => `Image classification`,
+    object_detection: () => `Object detection*`,
+    training: () => `Training`,
+    testing: () => `Testing`,
+    lite_exports: () => `Lite exports`,
+    optimized_exports: () => `Optimized exports`,
+    model_deployments: () => `Model deployments`,
+    remote_gpu_training: () => `Remote GPU training`,
+    cloud_model_backups: () => `Cloud model backups`,
+};
+
+const Details = ({ data, prevData }: DetailsType) => {
+    const { type, tier, ...metadata } = data;
+    const { metadata: prevMetadata, name: prevName } = prevData;
+    const { type: prevType, tier: prevTier, ...prevPartialMetadata } = prevMetadata;
+
+    const filteredData = Object.fromEntries(
+        Object.entries(metadata).filter(
+            ([key]) => metadata[key] !== 'false' && metadata[key] !== prevPartialMetadata[key]
+        )
+    );
+
+    const color = useColorModeValue('thia.gray.700', 'thia.gray.500');
+    return (
+        <Box w='full' p={5} pt={7}>
+            <Text fontWeight='semi-bold'>
+                {prevName ? `Everything from ${prevName}, plus:` : 'Get the basics, free:'}
+            </Text>
+            <Box pt={2}>
+                {Object.keys(filteredData).map((key: any, index: number) => (
+                    <Flex key={index} align='center' gap={3} color={color}>
+                        <MdCheck color='green' />
+                        <Text key={index} py={1}>
+                            {metadataExcerpts[key](metadata[key])}
+                        </Text>
+                    </Flex>
+                ))}
+            </Box>
+        </Box>
+    );
+};
+
 const Card = ({ plan, numPlans }: { plan: ProductWithPrice; numPlans: number }) => {
     const free = !plan.price.unit_amount;
     const last = parseInt(plan.metadata.tier) === numPlans;
@@ -69,58 +120,6 @@ const Card = ({ plan, numPlans }: { plan: ProductWithPrice; numPlans: number }) 
                 </Button>
             </Box>
         </VStack>
-    );
-};
-
-type ProductWithPrice = Stripe.Product & { price: Stripe.Price };
-
-const metadataExcerpts: any = {
-    num_models: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Models per month`,
-    num_datasets: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Datasets per month`,
-    num_exports: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Exports per month`,
-    max_classes: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} classes per dataset`,
-    max_images: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} images per dataset`,
-    image_classification: () => `Image classification`,
-    object_detection: () => `Object detection*`,
-    training: () => `Training`,
-    testing: () => `Testing`,
-    lite_exports: () => `Lite exports`,
-    optimized_exports: () => `Optimized exports`,
-    model_deployments: () => `Model deployments`,
-    remote_gpu_training: () => `Remote GPU training`,
-    cloud_model_backups: () => `Cloud model backups`,
-};
-
-type DetailsType = { data: Stripe.Metadata; prevData: { metadata: Stripe.Metadata; name: string } };
-
-const Details = ({ data, prevData }: DetailsType) => {
-    const { type, tier, ...metadata } = data;
-    const { metadata: prevMetadata, name: prevName } = prevData;
-    const { type: prevType, tier: prevTier, ...prevPartialMetadata } = prevMetadata;
-
-    const filteredData = Object.fromEntries(
-        Object.entries(metadata).filter(
-            ([key]) => metadata[key] !== 'false' && metadata[key] !== prevPartialMetadata[key]
-        )
-    );
-
-    const color = useColorModeValue('thia.gray.700', 'thia.gray.500');
-    return (
-        <Box w='full' p={5} pt={7}>
-            <Text fontWeight='semi-bold'>
-                {prevName ? `Everything from ${prevName}, plus:` : 'Get the basics, free:'}
-            </Text>
-            <Box pt={2}>
-                {Object.keys(filteredData).map((key: any, index: number) => (
-                    <Flex key={index} align='center' gap={3} color={color}>
-                        <MdCheck color='green' />
-                        <Text key={index} py={1}>
-                            {metadataExcerpts[key](metadata[key])}
-                        </Text>
-                    </Flex>
-                ))}
-            </Box>
-        </Box>
     );
 };
 
