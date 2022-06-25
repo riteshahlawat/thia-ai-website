@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { MdChevronRight } from 'react-icons/md';
 import Stripe from 'stripe';
+import { MdCheck } from 'react-icons/md';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE as string, {
     apiVersion: '2020-08-27',
@@ -74,11 +75,11 @@ const Card = ({ plan, numPlans }: { plan: ProductWithPrice; numPlans: number }) 
 type ProductWithPrice = Stripe.Product & { price: Stripe.Price };
 
 const metadataExcerpts: any = {
-    num_models: (data: string) => `${data} Models per month`,
-    num_datasets: (data: string) => `${data} Datasets per month`,
-    num_exports: (data: string) => `${data} Exports per month`,
-    max_classes: (data: string) => `${data} classes per dataset`,
-    max_images: (data: string) => `${data} images per dataset`,
+    num_models: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Models per month`,
+    num_datasets: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Datasets per month`,
+    num_exports: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} Exports per month`,
+    max_classes: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} classes per dataset`,
+    max_images: (d: string) => `${d === 'Infinity' ? 'Unlimited' : d} images per dataset`,
     image_classification: () => `Image classification`,
     object_detection: () => `Object detection*`,
     training: () => `Training`,
@@ -90,25 +91,43 @@ const metadataExcerpts: any = {
     cloud_model_backups: () => `Cloud model backups`,
 };
 
-const Details = ({ data }: { data: Stripe.Metadata }) => {
+type DetailsType = { data: Stripe.Metadata; prevData: { metadata: Stripe.Metadata; name: string } };
+
+const Details = ({ data, prevData }: DetailsType) => {
     const { type, tier, ...metadata } = data;
+    const { metadata: prevMetadata, name: prevName } = prevData;
+    const { type: prevType, tier: prevTier, ...prevPartialMetadata } = prevMetadata;
+
+    const filteredData = Object.fromEntries(
+        Object.entries(metadata).filter(
+            ([key]) => metadata[key] !== 'false' && metadata[key] !== prevPartialMetadata[key]
+        )
+    );
+
     return (
-        <Box w='full' p={5}>
-            {Object.keys(metadata).map((key: any, index: number) => (
-                <>
-                    {metadata[key] !== 'false' && (
+        <Box w='full' p={5} pt={7}>
+            <Text fontWeight='semi-bold'>
+                {prevName ? `Everything from ${prevName}, plus:` : 'Get the basics, free:'}
+            </Text>
+            <Box pt={2}>
+                {Object.keys(filteredData).map((key: any, index: number) => (
+                    <Flex
+                        align='center'
+                        gap={3}
+                        color={useColorModeValue('thia.gray.700', 'thia.gray.500')}
+                    >
+                        <MdCheck color='green' />
                         <Text key={index} py={1}>
                             {metadataExcerpts[key](metadata[key])}
                         </Text>
-                    )}
-                </>
-            ))}
+                    </Flex>
+                ))}
+            </Box>
         </Box>
     );
 };
 
 const Pricing: NextPage = ({ plans }: any) => {
-    // const metadata = plans.map(plan => plan.metadata)
     return (
         <ContentContainer>
             <Center h='full' minH='var(--fullHeightWithoutNav)' pb='var(--header-height)'>
@@ -117,7 +136,13 @@ const Pricing: NextPage = ({ plans }: any) => {
                         {plans.map((plan: ProductWithPrice, i: number) => (
                             <GridItem key={i}>
                                 <Card plan={plan} numPlans={plans.length} />
-                                <Details data={plan.metadata}></Details>
+                                <Details
+                                    data={plan.metadata}
+                                    prevData={{
+                                        metadata: i ? plans[i - 1].metadata : {},
+                                        name: i ? plans[i - 1].name : '',
+                                    }}
+                                ></Details>
                             </GridItem>
                         ))}
                     </Grid>
