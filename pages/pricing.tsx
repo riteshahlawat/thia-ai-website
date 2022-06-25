@@ -104,6 +104,7 @@ const Details = ({ data, prevData }: DetailsType) => {
         )
     );
 
+    const color = useColorModeValue('thia.gray.700', 'thia.gray.500');
     return (
         <Box w='full' p={5} pt={7}>
             <Text fontWeight='semi-bold'>
@@ -111,11 +112,7 @@ const Details = ({ data, prevData }: DetailsType) => {
             </Text>
             <Box pt={2}>
                 {Object.keys(filteredData).map((key: any, index: number) => (
-                    <Flex
-                        align='center'
-                        gap={3}
-                        color={useColorModeValue('thia.gray.700', 'thia.gray.500')}
-                    >
+                    <Flex key={index} align='center' gap={3} color={color}>
                         <MdCheck color='green' />
                         <Text key={index} py={1}>
                             {metadataExcerpts[key](metadata[key])}
