@@ -62,7 +62,7 @@ const Details = ({ data, prevData }: DetailsType) => {
                 {prevName ? `Everything from ${prevName}, plus:` : 'Get the basics, free:'}
             </Text>
             <Box pt={2}>
-                {Object.keys(filteredData).map((key: any, index: number) => (
+                {Object.keys(filteredData).map((key, index: number) => (
                     <Flex key={index} align='center' gap={3} color={color}>
                         <MdCheck color='green' />
                         <Text key={index} py={1}>
