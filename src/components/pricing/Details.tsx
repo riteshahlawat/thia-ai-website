@@ -18,7 +18,7 @@ const summarys: { [plan: string]: (d: Stripe.Metadata) => SummaryItemType[] } = 
     Standard: (d: Stripe.Metadata) => [
         { excerpt: `${d.num_models} ${uc(d.num_models) ? 'models' : 'models per month'}` },
         { excerpt: `${d.num_datasets} ${uc(d.num_datasets) ? 'datasets' : 'datasets per month'}` },
-        { excerpt: `${d.max_classes} classes per dataset` },
+        { excerpt: `${d.num_classes} classes per dataset` },
         { excerpt: `${d.num_images} images per dataset` },
         { excerpt: 'Object detection' },
         { excerpt: 'Lite exports' },
@@ -27,7 +27,7 @@ const summarys: { [plan: string]: (d: Stripe.Metadata) => SummaryItemType[] } = 
     Ultimate: (d: Stripe.Metadata) => [
         { excerpt: `${d.num_models} ${uc(d.num_models) ? 'models' : 'models per month'}` },
         { excerpt: `${d.num_datasets} ${uc(d.num_datasets) ? 'datasets' : 'datasets per month'}` },
-        { excerpt: `${d.max_classes} classes per dataset` },
+        { excerpt: `${d.num_classes} classes per dataset` },
         { excerpt: `${d.num_images} images per dataset` },
         { excerpt: 'Model deployments' },
         { excerpt: 'Remote GPU training' },
