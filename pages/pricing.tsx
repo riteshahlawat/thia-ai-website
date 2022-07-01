@@ -4,6 +4,7 @@ import { ContentContainer } from 'src/components/common/ContentContainer';
 import { Center, Container } from '@chakra-ui/react';
 import Stripe from 'stripe';
 import { Summary } from '@/components/pricing/Summary';
+import { Comparison } from '@/components/pricing/Comparison';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE as string, {
     apiVersion: '2020-08-27',
@@ -18,6 +19,7 @@ const Pricing: NextPage = ({ plans }: any) => {
                     <Summary plans={plans} />
                 </Container>
             </Center>
+            <Comparison plans={plans} />
         </ContentContainer>
     );
 };
