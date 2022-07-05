@@ -25,9 +25,9 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
         num_classes: { order: 4, excerpt: 'Classes per dataset' },
         num_images: { order: 5, excerpt: 'Images per dataset' },
         image_classification: { order: 6, excerpt: 'Image Classification' },
-        object_detection: { order: 7, excerpt: 'Object Detection' },
+        testing: { order: 7, excerpt: 'Testing' },
         training: { order: 8, excerpt: 'Training' },
-        testing: { order: 9, excerpt: 'Testing' },
+        object_detection: { order: 9, excerpt: 'Object Detection' },
         lite_exports: { order: 10, excerpt: 'Lite exports' },
         optimized_exports: { order: 11, excerpt: 'Optimized exports' },
         model_deployments: { order: 12, excerpt: 'Model deployments' },
@@ -43,13 +43,16 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     const out: { [key: string]: string[] } = {};
     for (const obj of metadata) {
         for (const key of Object.keys(obj)) {
-            if (!out.hasOwnProperty(key)) {
-                out[key] = [obj[key]];
-            } else {
-                out[key].push(obj[key]);
-            }
+            if (!out.hasOwnProperty(key)) out[key] = [obj[key]];
+            else out[key].push(obj[key]);
         }
     }
+    const sorted: { [key: string]: string[] } = Object.keys(out)
+        .sort((a, b) => data[a].order - data[b].order)
+        .reduce((acc: { [key: string]: string[] }, key): {} => {
+            acc[key] = out[key];
+            return acc;
+        }, {});
 
     const r = (str: string) => {
         if (str === 'true') {
@@ -88,7 +91,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {Object.entries(out).map(([key, val]) => (
+                    {Object.entries(sorted).map(([key, val]) => (
                         <Tr key={key}>
                             <Td textAlign='center'>
                                 <Text casing='capitalize'>{data[key].excerpt}</Text>
