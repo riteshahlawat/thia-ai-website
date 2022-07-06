@@ -14,13 +14,13 @@ import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardD
  * Class that manages all Backend Requests.
  */
 export class BackendRequestHandler {
-	private static instance: BackendRequestHandler;
-	private backendRequest!: AxiosInstance;
+    private static instance: BackendRequestHandler;
+    private backendRequest!: AxiosInstance;
 
-	// Test
-	private pingBackendSecureBR!: PingBackendSecureBackendRequest;
-	// New User
-	private setNewUserRolesBR!: PostNewUserClaimsBackendRequest;
+    // Test
+    private pingBackendSecureBR!: PingBackendSecureBackendRequest;
+    // New User
+    private setNewUserRolesBR!: PostNewUserClaimsBackendRequest;
     // New Credit Card
     private saveNewCreditCardBR!: PostNewCreditCardBackendRequest;
     // Update Credit Card
@@ -38,29 +38,29 @@ export class BackendRequestHandler {
     // Detach Credit Card
     private detachCreditCardBR!: PostDetachCreditCardBackendRequest;
 
-	/**
-	 * Private constructor.
-	 */
-	private constructor() {}
+    /**
+     * Private constructor.
+     */
+    private constructor() {}
 
-	/**
-	 * Returns instance of the class.
-	 *
-	 * @returns Instance.
-	 */
-	public static getInstance(): BackendRequestHandler {
-		if (!BackendRequestHandler.instance) {
-			BackendRequestHandler.instance = new BackendRequestHandler();
-		}
+    /**
+     * Returns instance of the class.
+     *
+     * @returns Instance.
+     */
+    public static getInstance(): BackendRequestHandler {
+        if (!BackendRequestHandler.instance) {
+            BackendRequestHandler.instance = new BackendRequestHandler();
+        }
 
-		return BackendRequestHandler.instance;
-	}
+        return BackendRequestHandler.instance;
+    }
 
-	public initInstances = (backendRequest: AxiosInstance) => {
-		this.backendRequest = backendRequest;
+    public initInstances = (backendRequest: AxiosInstance) => {
+        this.backendRequest = backendRequest;
 
-		this.pingBackendSecureBR = new PingBackendSecureBackendRequest(this.backendRequest);
-		this.setNewUserRolesBR = new PostNewUserClaimsBackendRequest(this.backendRequest);
+        this.pingBackendSecureBR = new PingBackendSecureBackendRequest(this.backendRequest);
+        this.setNewUserRolesBR = new PostNewUserClaimsBackendRequest(this.backendRequest);
         this.saveNewCreditCardBR = new PostNewCreditCardBackendRequest(this.backendRequest);
         this.updateDefaultCreditCardBR = new PostUpdateDefaultCreditCardBackendRequest(this.backendRequest);
         this.subscribeStandardPlanBR = new PostSubscribeStandardPlanBackendRequest(this.backendRequest);
@@ -71,13 +71,17 @@ export class BackendRequestHandler {
         this.detachCreditCardBR = new PostDetachCreditCardBackendRequest(this.backendRequest);
 	};
 
-	public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
-		return this.pingBackendSecureBR.run(config, idToken);
-	};
+    public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
+        return this.pingBackendSecureBR.run(config, idToken);
+    };
 
-	public setNewUserRoles = async (idToken: string, data: PostNewUserClaimsData, config?: AxiosRequestConfig) => {
-		return this.setNewUserRolesBR.run(config, [idToken, data]);
-	};
+    public setNewUserRoles = async (
+        idToken: string,
+        data: PostNewUserClaimsData,
+        config?: AxiosRequestConfig
+    ) => {
+        return this.setNewUserRolesBR.run(config, [idToken, data]);
+    };
 
     public saveNewCreditCard = async (idToken: string, data: PostNewCreditCardData, config?: AxiosRequestConfig) => {
         return this.saveNewCreditCardBR.run(config, [idToken, data])

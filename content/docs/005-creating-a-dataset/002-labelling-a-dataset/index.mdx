@@ -1,0 +1,77 @@
+---
+title: Labelling A Dataset
+description: How to label a dataset and shortcuts to make it quicker.
+---
+
+# Labelling A Dataset
+
+## Creating A New Dataset
+
+The following are the steps to create an image classification dataset:
+
+1. Navigate to the model you wish to train by selecting it in the `Models` page.
+2. If missing a dataset, create one by clicking `Add` in the `Datasets` section, then fill in the dataset name.
+   ![Add Dataset][1]
+   ![Create Dataset][2]
+
+    > **_Note_**: The dataset name must contain only alphanumeric characters, dashes, or underscores - no whitespace.
+
+---
+
+## Adding Images To A Dataset
+
+The following are the steps to add images an existing image classification dataset:
+
+1. Navigate to the model you wish to train by selecting it in the `Models` page.
+2. Navigate to the respective dataset page by clicking on `Edit`.
+   ![Edit Dataset][3]
+3. Add images to your dataset to be uploaded by either selecting the images manually or if your images are in a single folder, select the folder that contains all the images.
+4. It is best to review the images before you upload. Click the trash icon to remove an image from being uploaded. Once ready, click the `Upload` button to upload the images.
+   ![Upload Images][4]
+5. While uploading the images, you can view it's progress as well.
+   ![Image Upload Status][5]
+
+---
+
+## Labelling Images Of A Dataset
+
+Once you've uploaded images to your dataset, it's time to label them. The following are
+the steps to label the images of an existing image classification dataset:
+
+1. Navigate to the respective dataset page by clicking on `Edit`.
+2. Add the labels for your dataset.
+   ![Add Label][6]
+    > **_Note_**: The label name must contain only alphanumeric characters, dashes, or underscores - no whitespace.
+3. An image will be `unlabelled` by default, to label a selected image click the respective label on the right panel.
+   ![Add Label][7]
+4. Continue labelling the rest of the images. Use the `>` button to navigate to the next page and use the `<` button to navigate to the previous page.
+
+> **_Note_**: We understand that labelling all images one by one is extremely boring. Our **next** release will allow you to submit label files.
+
+---
+
+## Advance Labelling Tips
+
+Labelling is a tedious process. We've added some shortcuts to make the experience smoother.
+
+### Navigating Through The Dataset
+
+Instead of clicking each image to navigate to it, use arrow keys `←` and `→` to navigate between images _(automatically changes pages as well)_.
+
+### Assigning Labels Shortcuts
+
+To assign the selected image a label, press the number on the keyboard corresponding to the label's order. Ex:  
+To assign the current image with the `dog` category, press `1` on the keyboard.
+
+![Label Image Shortcut][8]
+
+> **_Note_**: You can drag and drop the labels in the left panel to change their order for the shortcut.
+
+[1]: /docs/ui/image-classification-dataset-creation/1.jpg 'Add Dataset Button'
+[2]: /docs/ui/image-classification-dataset-creation/2.jpg 'Create Dataset'
+[3]: /docs/ui/image-classification-dataset-creation/3.jpg 'Edit Dataset'
+[4]: /docs/ui/image-classification-dataset-creation/4.jpg 'Upload Images'
+[5]: /docs/ui/image-classification-dataset-creation/5.jpg 'Image Upload Status'
+[6]: /docs/ui/image-classification-dataset-creation/6.jpg 'Add Label'
+[7]: /docs/ui/image-classification-dataset-creation/7.jpg 'Label Image'
+[8]: /docs/ui/image-classification-dataset-creation/8.jpg 'Label Image Shortcut'

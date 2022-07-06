@@ -29,9 +29,9 @@ npm run prod
 
 ### What needs to be done:
 
-- Page design/mockup
-- need to pick theme colors, style guide
-- fix chakra flashing issue
-- SEO, we can use next-seo package
-- Logo and Icon design
-- authentication (firebase)
+-   Page design/mockup
+-   need to pick theme colors, style guide
+-   fix chakra flashing issue
+-   SEO, we can use next-seo package
+-   Logo and Icon design
+-   authentication (firebase)
