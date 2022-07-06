@@ -66,7 +66,7 @@ export const Prose = {
         pre: {
             p: '4',
             rounded: 'md',
-            bg: 'var(--gray-950) !important',
+            bg: 'var(--gray-990) !important',
             // color: mode('black', 'white')(props),
             overflow: 'auto',
             code: {
