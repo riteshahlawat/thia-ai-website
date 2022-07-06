@@ -1,7 +1,14 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { PingBackendSecureBackendRequest } from './requests/get/pingBackendSecure';
+import { PostCancelSubscriptionPlanBackendRequest, PostCancelSubscriptionPlanData } from './requests/post/cancelSubscriptionPlan';
+import { PostDetachCreditCardBackendRequest, PostDetachCreditCardData } from './requests/post/detachCreditCard';
+import { PostListCreditCardsBackendRequest, PostListCreditCardsData } from './requests/post/listCreditCards';
+import { PostListSubscriptionPlanBackendRequest, PostListSubscriptionPlanData } from './requests/post/listSubscriptionPlan';
 import { PostNewCreditCardBackendRequest, PostNewCreditCardData } from './requests/post/saveNewCreditCard';
 import { PostNewUserClaimsBackendRequest, PostNewUserClaimsData } from './requests/post/setNewUserRoles';
+import { PostSubscribePremiumPlanBackendRequest, PostSubscribePremiumPlanData } from './requests/post/subscribePremiumPlan';
+import { PostSubscribeStandardPlanBackendRequest, PostSubscribeStandardPlanData } from './requests/post/subscribeStandardPlan';
+import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardData } from './requests/post/updateDefaultCreditCard';
 
 /**
  * Class that manages all Backend Requests.
@@ -16,6 +23,20 @@ export class BackendRequestHandler {
 	private setNewUserRolesBR!: PostNewUserClaimsBackendRequest;
     // New Credit Card
     private saveNewCreditCardBR!: PostNewCreditCardBackendRequest;
+    // Update Credit Card
+    private updateDefaultCreditCardBR!: PostUpdateDefaultCreditCardBackendRequest;
+    // Subscribe Standard Plan
+    private subscribeStandardPlanBR!: PostSubscribeStandardPlanBackendRequest;
+    // Subscribe Premium Plan
+    private subscribePremiumPlanBR!: PostSubscribePremiumPlanBackendRequest;
+    // List Subscription Plan
+    private listSubscriptionPlanBR!: PostListSubscriptionPlanBackendRequest;
+    // Cancel Subscription Plan
+    private cancelSubscriptionPlanBR!: PostCancelSubscriptionPlanBackendRequest;
+    // List Credit Cards
+    private listCreditCardsBR!: PostListCreditCardsBackendRequest;
+    // Detach Credit Card
+    private detachCreditCardBR!: PostDetachCreditCardBackendRequest;
 
 	/**
 	 * Private constructor.
@@ -41,6 +62,13 @@ export class BackendRequestHandler {
 		this.pingBackendSecureBR = new PingBackendSecureBackendRequest(this.backendRequest);
 		this.setNewUserRolesBR = new PostNewUserClaimsBackendRequest(this.backendRequest);
         this.saveNewCreditCardBR = new PostNewCreditCardBackendRequest(this.backendRequest);
+        this.updateDefaultCreditCardBR = new PostUpdateDefaultCreditCardBackendRequest(this.backendRequest);
+        this.subscribeStandardPlanBR = new PostSubscribeStandardPlanBackendRequest(this.backendRequest);
+        this.subscribePremiumPlanBR = new PostSubscribePremiumPlanBackendRequest(this.backendRequest);
+        this.listSubscriptionPlanBR = new PostListSubscriptionPlanBackendRequest(this.backendRequest);
+        this.cancelSubscriptionPlanBR = new PostCancelSubscriptionPlanBackendRequest(this.backendRequest);
+        this.listCreditCardsBR = new PostListCreditCardsBackendRequest(this.backendRequest);
+        this.detachCreditCardBR = new PostDetachCreditCardBackendRequest(this.backendRequest);
 	};
 
 	public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -54,4 +82,33 @@ export class BackendRequestHandler {
     public saveNewCreditCard = async (idToken: string, data: PostNewCreditCardData, config?: AxiosRequestConfig) => {
         return this.saveNewCreditCardBR.run(config, [idToken, data])
     }
+
+    public updateDefaultCreditCard = async (idToken: string, data: PostUpdateDefaultCreditCardData, config?: AxiosRequestConfig) => {
+        return this.updateDefaultCreditCardBR.run(config, [idToken, data])
+    }
+
+    public subscribeStandardPlan = async(idToken: string, data: PostSubscribeStandardPlanData, config?: AxiosRequestConfig) => {
+        return this.subscribeStandardPlanBR.run(config, [idToken, data])
+    }
+
+    public subscribePremiumPlan = async(idToken: string, data: PostSubscribePremiumPlanData, config?: AxiosRequestConfig) => {
+        return this.subscribePremiumPlanBR.run(config, [idToken, data])
+    }
+
+    public listSubscriptionPlan = async(idToken: string, data: PostListSubscriptionPlanData, config?: AxiosRequestConfig) => {
+        return this.listSubscriptionPlanBR.run(config, [idToken, data])
+    }
+
+    public cancelSubscriptionPlan = async(idToken: string, data: PostCancelSubscriptionPlanData, config?: AxiosRequestConfig) => {
+        return this.cancelSubscriptionPlanBR.run(config, [idToken, data])
+    }
+
+    public listCreditCards = async(idToken: string, data: PostListCreditCardsData, config?: AxiosRequestConfig) => {
+        return this.listCreditCardsBR.run(config, [idToken, data])
+    }
+
+    public detachCreditCard = async(idToken: string, data: PostDetachCreditCardData, config?: AxiosRequestConfig) => {
+        return this.detachCreditCardBR.run(config, [idToken, data])
+    }
+
 }

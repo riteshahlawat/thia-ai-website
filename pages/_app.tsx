@@ -20,7 +20,7 @@ type AppPropsWithLayout = AppProps & {
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
 
-    const stripePromise = loadStripe('pk_test_51IMUEAGP4toduWVo8bPxZpkYmQyNvRpzym23FDP7oLkHEdQvvYA6PtAgdDLA1DiyYPdU7NVwdf7KV0NVEQrdjMVr00LCNelIlV')
+    const stripePromise = loadStripe('pk_live_51LDKK1IdzODCxCioPg4HCQd4Jxd4oDdc3rw15YyDUQvEZZsI0YliDOLW9FW1wJRC4fVwf97utkvvocdaVIvMCiRf00fM5BbKK3')
     const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
     return (

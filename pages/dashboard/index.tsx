@@ -13,6 +13,10 @@ const Dashboard = (props: Props) => {
         if (!user) router.push('/login');
     }, [user, router]);
 
+    if (user){
+        const idToken = user.getIdToken();
+        console.log(idToken);
+    }
 
     return <Box>Welcome, {user?.uid}</Box>;
 };

@@ -28,7 +28,7 @@ function submitCardElement() {
 
         return paymentMethod.id;
     };
-
+    
     const handleSubmit = async (event: FormEvent) => {
         if (user) {
             event.preventDefault();
@@ -40,21 +40,25 @@ function submitCardElement() {
             }
 
             const idToken = await user.getIdToken();
-            console.log(idToken);
             const [isError, response] = await BackendRequestHandler.getInstance().saveNewCreditCard(
                 idToken,
                 {
-                    uid: user?.uid,
+                    uid: user.uid,
                     paymentMethodID: paymentMethodID,
                 }
             );
 
             if (!isError) {
-                // No error with request
                 console.log(response);
-
-                // const clientSecret = response.client_secret;
-                // stripe?.confirmCardSetup(clientSecret);
+                const clientSecret = response.client_secret;
+                stripe?.confirmCardSetup(clientSecret);
+                await BackendRequestHandler.getInstance().updateDefaultCreditCard(
+                    idToken,
+                    {
+                        uid: response.customer,
+                        paymentMethodID: response.payment_method,
+                    }
+                )
             }
         }
     };
