@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import { ContentContainer } from 'src/components/common/ContentContainer';
-import { Center, Container } from '@chakra-ui/react';
+import { Box, Center, Container, Heading, VStack } from '@chakra-ui/react';
 import Stripe from 'stripe';
 import { Summary } from '@/components/pricing/Summary';
 import { Comparison } from '@/components/pricing/Comparison';
@@ -15,9 +15,21 @@ const Pricing: NextPage = ({ plans }: any) => {
     return (
         <ContentContainer>
             <Center h='full' minH='var(--fullHeightWithoutNav)' pb='var(--header-height)'>
-                <Container maxW='container.xl'>
+                <VStack>
+                    <Box w='full'>
+                        <Heading
+                            as='h1'
+                            fontSize={[64, 64, 84, 84, 84]}
+                            fontWeight='bold'
+                            letterSpacing='tighter'
+                            maxW='800px'
+                            pb={16}
+                        >
+                            Choose the plan that&apos;s right for you.
+                        </Heading>
+                    </Box>
                     <Summary plans={plans} />
-                </Container>
+                </VStack>
             </Center>
             <Comparison plans={plans} />
         </ContentContainer>

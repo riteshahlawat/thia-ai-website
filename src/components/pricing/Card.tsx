@@ -12,17 +12,20 @@ export const Card = ({ plan, numPlans, children }: CardType) => {
         <VStack
             as={motion.div}
             w='full'
-            p={10}
-            bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+            p={{ base: 7, lg: 10 }}
+            bg={useColorModeValue('white', 'thia.gray.990')}
             rounded='xl'
             align='start'
             spacing={3}
             justify='space-between'
             border='2px'
-            borderColor={useColorModeValue(
-                last ? 'thia.purple.200' : 'thia.gray.100',
-                last ? 'thia.purple.800' : 'thia.gray.950'
-            )}
+            borderColor='transparent'
+            _hover={{
+                border: '2px',
+                borderColor: useColorModeValue('thia.purple.200', 'thia.purple.800'),
+            }}
+            transitionDuration='300ms'
+            shadow='2xl'
         >
             <Heading>{plan.name}</Heading>
             <Text>{plan.description}</Text>
