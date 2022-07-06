@@ -9,8 +9,9 @@ export const Summary = ({ plans }: { plans: ProductWithPrice[] }) => {
         <Grid templateColumns='repeat(3, 1fr)' gap={10} px={10}>
             {plans.map((plan: ProductWithPrice, i: number) => (
                 <GridItem key={i}>
-                    <Card plan={plan} numPlans={plans.length} />
-                    <Details plan={plan} prevName={i ? plans[i - 1].name : ''} />
+                    <Card plan={plan} numPlans={plans.length}>
+                        <Details plan={plan} prevName={i ? plans[i - 1].name : ''} />
+                    </Card>
                 </GridItem>
             ))}
         </Grid>

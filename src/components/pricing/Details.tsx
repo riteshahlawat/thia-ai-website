@@ -39,7 +39,7 @@ export const Details = ({ plan, prevName }: { plan: ProductWithPrice; prevName: 
     const color = useColorModeValue('thia.gray.700', 'thia.gray.500');
 
     return (
-        <Box w='full' p={5} pt={7}>
+        <Box w='full' pt={3}>
             <Text fontWeight='semi-bold'>
                 {prevName ? `Everything from ${prevName}, plus:` : 'Get the basics, free:'}
             </Text>

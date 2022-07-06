@@ -4,7 +4,7 @@ import { CardType } from '@/types/PricingTypes';
 import { MdChevronRight } from 'react-icons/md';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
-export const Card = ({ plan, numPlans }: CardType) => {
+export const Card = ({ plan, numPlans, children }: CardType) => {
     const free = !plan.price.unit_amount;
     const last = parseInt(plan.metadata.tier) === numPlans;
 
@@ -40,8 +40,10 @@ export const Card = ({ plan, numPlans }: CardType) => {
             <Text color='thia.gray.700' fontSize='sm'>
                 {free ? 'No credit card required*' : 'Billed monthly, cancel anytime'}
             </Text>
-            <Box pt={5}>
+            {children && <Box>{children}</Box>}
+            <Box pt={5} w='full'>
                 <Button
+                    w='full'
                     variant={free ? 'secondary' : 'primaryOutline'}
                     rightIcon={free ? <MdChevronRight /> : undefined}
                 >
