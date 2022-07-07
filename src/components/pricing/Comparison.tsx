@@ -12,13 +12,14 @@ import {
     Text,
     Th,
     Thead,
+    Tooltip,
     Tr,
     useColorModeValue,
 } from '@chakra-ui/react';
-import { MdCheck } from 'react-icons/md';
+import { MdCheck, MdInfoOutline } from 'react-icons/md';
 
 export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
-    const data: { [key: string]: { order: number; excerpt: string } } = {
+    const data: { [key: string]: { order: number; excerpt: string; info?: string } } = {
         num_models: { order: 1, excerpt: 'Number of Models' },
         num_datasets: { order: 2, excerpt: 'Number of Datasets' },
         num_exports: { order: 3, excerpt: 'Exports per month' },
@@ -27,12 +28,28 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
         image_classification: { order: 6, excerpt: 'Image Classification' },
         testing: { order: 7, excerpt: 'Testing' },
         training: { order: 8, excerpt: 'Training' },
-        object_detection: { order: 9, excerpt: 'Object Detection' },
-        lite_exports: { order: 10, excerpt: 'Lite exports' },
-        optimized_exports: { order: 11, excerpt: 'Optimized exports' },
-        model_deployments: { order: 12, excerpt: 'Model deployments' },
-        remote_gpu_training: { order: 13, excerpt: 'Remote GPU training' },
-        cloud_model_backups: { order: 14, excerpt: 'Cloud model backups' },
+        object_detection: { order: 9, excerpt: 'Object Detection', info: 'Feature coming soon' },
+        lite_exports: { order: 10, excerpt: 'Lite exports', info: 'Feature coming soon' },
+        optimized_exports: {
+            order: 11,
+            excerpt: 'Optimized exports',
+            info: 'Feature coming soon',
+        },
+        model_deployments: {
+            order: 12,
+            excerpt: 'Model deployments',
+            info: 'Feature coming soon',
+        },
+        remote_gpu_training: {
+            order: 13,
+            excerpt: 'Remote GPU training',
+            info: 'Feature coming in the near future',
+        },
+        cloud_model_backups: {
+            order: 14,
+            excerpt: 'Cloud model backups',
+            info: 'Feature coming in the future',
+        },
     };
 
     const metadata = plans.map(({ metadata }) => {
@@ -66,6 +83,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
 
     const headerColor = useColorModeValue('thia.gray.900', 'thia.gray.100');
     const borderColor = useColorModeValue('thia.gray.100', 'thia.gray.950');
+    const tooltipColor = useColorModeValue('thia.gray.900', 'thia.gray.200');
     return (
         <Box
             rounded='2xl'
@@ -104,7 +122,21 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                         {Object.entries(sorted).map(([key, val]) => (
                             <Tr key={key}>
                                 <Td textAlign='center' borderColor={borderColor}>
-                                    <Text casing='capitalize'>{data[key].excerpt}</Text>
+                                    <Flex gap={2}>
+                                        <Text casing='capitalize'>{data[key].excerpt}</Text>{' '}
+                                        {data[key].info && (
+                                            <Tooltip
+                                                hasArrow
+                                                placement='right'
+                                                label={data[key].info}
+                                                bg={tooltipColor}
+                                            >
+                                                <Box>
+                                                    <MdInfoOutline color='5e1fff' fontSize={20} />
+                                                </Box>
+                                            </Tooltip>
+                                        )}
+                                    </Flex>
                                 </Td>
                                 {val.map((v, i) => (
                                     <Td key={i} borderColor={borderColor}>
