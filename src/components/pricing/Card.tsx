@@ -18,7 +18,7 @@ export const Card = ({ plan, children }: CardType) => {
             border='2px'
             borderColor={useColorModeValue('thia.gray.50', 'black')}
             transitionDuration='300ms'
-            shadow='2xl'
+            shadow='xl'
             _hover={{
                 border: '2px',
                 borderColor: useColorModeValue('thia.purple.200', 'thia.purple.800'),

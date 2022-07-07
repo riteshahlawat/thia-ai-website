@@ -69,7 +69,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     return (
         <Box
             rounded='2xl'
-            shadow='2xl'
+            shadow='xl'
             overflow='hidden'
             my={16}
             border='2px'
