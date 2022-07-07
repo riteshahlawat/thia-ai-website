@@ -19,8 +19,8 @@ import { MdCheck } from 'react-icons/md';
 
 export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     const data: { [key: string]: { order: number; excerpt: string } } = {
-        num_models: { order: 1, excerpt: 'Models per month' },
-        num_datasets: { order: 2, excerpt: 'Datasets per month' },
+        num_models: { order: 1, excerpt: 'Number of Models' },
+        num_datasets: { order: 2, excerpt: 'Number of Datasets' },
         num_exports: { order: 3, excerpt: 'Exports per month' },
         num_classes: { order: 4, excerpt: 'Classes per dataset' },
         num_images: { order: 5, excerpt: 'Images per dataset' },
@@ -65,46 +65,57 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     };
 
     const headerColor = useColorModeValue('thia.gray.900', 'thia.gray.100');
+    const borderColor = useColorModeValue('thia.gray.100', 'thia.gray.950');
     return (
-        <TableContainer py={10} id='comparison-table'>
-            <Table>
-                <Thead bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}>
-                    <Tr>
-                        <Th></Th>
-                        {plans.map((plan, i) => (
-                            <Th key={i} color={headerColor}>
-                                <Center py={3}>
-                                    <Flex direction='column' px={5} gap={1}>
-                                        <Heading>{plan.name}</Heading>
-                                        <Flex gap={1}>
-                                            <Box as='span'>
-                                                ${' '}
-                                                {plan.price.unit_amount !== null &&
-                                                    plan.price.unit_amount / 100}
-                                            </Box>
-                                            <Text color='thia.gray.700'>/ month</Text>
+        <Box
+            rounded='2xl'
+            shadow='2xl'
+            overflow='hidden'
+            my={16}
+            border='2px'
+            bg={useColorModeValue('white', 'thia.gray.990')}
+            borderColor={useColorModeValue('thia.gray.100', 'black')}
+        >
+            <TableContainer id='comparison-table'>
+                <Table>
+                    <Thead bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}>
+                        <Tr>
+                            <Th borderColor={borderColor} />
+                            {plans.map((plan, i) => (
+                                <Th key={i} color={headerColor} borderColor={borderColor}>
+                                    <Center py={3}>
+                                        <Flex direction='column' px={5} gap={1}>
+                                            <Heading>{plan.name}</Heading>
+                                            <Flex gap={1}>
+                                                <Box as='span'>
+                                                    ${' '}
+                                                    {plan.price.unit_amount !== null &&
+                                                        plan.price.unit_amount / 100}
+                                                </Box>
+                                                <Text color='thia.gray.700'>/ month</Text>
+                                            </Flex>
                                         </Flex>
-                                    </Flex>
-                                </Center>
-                            </Th>
-                        ))}
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {Object.entries(sorted).map(([key, val]) => (
-                        <Tr key={key}>
-                            <Td textAlign='center'>
-                                <Text casing='capitalize'>{data[key].excerpt}</Text>
-                            </Td>
-                            {val.map((v, i) => (
-                                <Td key={i}>
-                                    <Center>{r(v)}</Center>
-                                </Td>
+                                    </Center>
+                                </Th>
                             ))}
                         </Tr>
-                    ))}
-                </Tbody>
-            </Table>
-        </TableContainer>
+                    </Thead>
+                    <Tbody>
+                        {Object.entries(sorted).map(([key, val]) => (
+                            <Tr key={key}>
+                                <Td textAlign='center' borderColor={borderColor}>
+                                    <Text casing='capitalize'>{data[key].excerpt}</Text>
+                                </Td>
+                                {val.map((v, i) => (
+                                    <Td key={i} borderColor={borderColor}>
+                                        <Center>{r(v)}</Center>
+                                    </Td>
+                                ))}
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 };

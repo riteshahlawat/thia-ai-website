@@ -12,11 +12,11 @@ export const Card = ({ plan, children }: CardType) => {
             p={{ base: 7, lg: 10 }}
             bg={useColorModeValue('white', 'thia.gray.990')}
             rounded='xl'
-            align='start'
+            align='center'
             spacing={3}
             justify='space-between'
             border='2px'
-            borderColor='transparent'
+            borderColor={useColorModeValue('thia.gray.50', 'black')}
             transitionDuration='300ms'
             shadow='2xl'
             _hover={{
@@ -25,7 +25,9 @@ export const Card = ({ plan, children }: CardType) => {
             }}
         >
             <Heading>{plan.name}</Heading>
-            <Text>{plan.description}</Text>
+            <Text color={useColorModeValue('thia.gray.800', 'thia.gray.300')}>
+                {plan.description}
+            </Text>
             <Flex textAlign='start' gap={1}>
                 <Box as='span' fontSize={24} pt={5}>
                     $

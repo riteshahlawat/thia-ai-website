@@ -5,30 +5,30 @@ import Stripe from 'stripe';
 
 const uc = (s: string) => s === 'Unlimited';
 const summarys: { [plan: string]: (d: Stripe.Metadata) => SummaryItemType[] } = {
-    Free: (d: Stripe.Metadata) => [
-        { excerpt: `${d.num_models} ${uc(d.num_models) ? 'models' : 'models per month'}` },
-        { excerpt: `${d.num_datasets} ${uc(d.num_datasets) ? 'datasets' : 'datasets per month'}` },
-        { excerpt: `${d.num_exports} ${uc(d.num_exports) ? 'exports' : 'exports per month'}` },
-        { excerpt: `${d.num_classes} classes per dataset` },
-        { excerpt: `${d.num_images} images per dataset` },
+    Free: ({ num_models, num_datasets, num_exports, num_images, num_classes }: Stripe.Metadata) => [
+        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
+        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
+        { excerpt: `${num_exports} ${uc(num_exports) ? 'exports' : 'exports per month'}` },
+        { excerpt: `${num_classes} classes per dataset` },
+        { excerpt: `${num_images} images per dataset` },
         { excerpt: 'Image classification' },
         { excerpt: 'Training' },
         { excerpt: 'Testing' },
     ],
-    Standard: (d: Stripe.Metadata) => [
-        { excerpt: `${d.num_models} ${uc(d.num_models) ? 'models' : 'models per month'}` },
-        { excerpt: `${d.num_datasets} ${uc(d.num_datasets) ? 'datasets' : 'datasets per month'}` },
-        { excerpt: `${d.num_classes} classes per dataset` },
-        { excerpt: `${d.num_images} images per dataset` },
+    Standard: ({ num_models, num_datasets, num_images, num_classes }: Stripe.Metadata) => [
+        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
+        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
+        { excerpt: `${num_classes} classes per dataset` },
+        { excerpt: `${num_images} images per dataset` },
         { excerpt: 'Object detection' },
         { excerpt: 'Lite exports' },
         { excerpt: 'Optimized exports' },
     ],
-    Ultimate: (d: Stripe.Metadata) => [
-        { excerpt: `${d.num_models} ${uc(d.num_models) ? 'models' : 'models per month'}` },
-        { excerpt: `${d.num_datasets} ${uc(d.num_datasets) ? 'datasets' : 'datasets per month'}` },
-        { excerpt: `${d.num_classes} classes per dataset` },
-        { excerpt: `${d.num_images} images per dataset` },
+    Ultimate: ({ num_models, num_datasets, num_images, num_classes }: Stripe.Metadata) => [
+        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
+        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
+        { excerpt: `${num_classes} classes per dataset` },
+        { excerpt: `${num_images} images per dataset` },
         { excerpt: 'Model deployments' },
         { excerpt: 'Remote GPU training' },
         { excerpt: 'Cloud model backups' },
