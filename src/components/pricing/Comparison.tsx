@@ -66,7 +66,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
 
     const headerColor = useColorModeValue('thia.gray.900', 'thia.gray.100');
     return (
-        <TableContainer p={10}>
+        <TableContainer py={10} id='comparison-table'>
             <Table>
                 <Thead bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}>
                     <Tr>

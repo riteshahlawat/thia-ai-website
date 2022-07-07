@@ -1,16 +1,13 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { CardType } from '@/types/PricingTypes';
 import { MdChevronRight } from 'react-icons/md';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
-export const Card = ({ plan, numPlans, children }: CardType) => {
+export const Card = ({ plan, children }: CardType) => {
     const free = !plan.price.unit_amount;
-    const last = parseInt(plan.metadata.tier) === numPlans;
 
     return (
         <VStack
-            as={motion.div}
             w='full'
             p={{ base: 7, lg: 10 }}
             bg={useColorModeValue('white', 'thia.gray.990')}
@@ -20,12 +17,12 @@ export const Card = ({ plan, numPlans, children }: CardType) => {
             justify='space-between'
             border='2px'
             borderColor='transparent'
+            transitionDuration='300ms'
+            shadow='2xl'
             _hover={{
                 border: '2px',
                 borderColor: useColorModeValue('thia.purple.200', 'thia.purple.800'),
             }}
-            transitionDuration='300ms'
-            shadow='2xl'
         >
             <Heading>{plan.name}</Heading>
             <Text>{plan.description}</Text>
