@@ -132,7 +132,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                                                 bg={tooltipColor}
                                             >
                                                 <Box>
-                                                    <MdInfoOutline color='5e1fff' fontSize={20} />
+                                                    <MdInfoOutline color='#5e1fff' fontSize={20} />
                                                 </Box>
                                             </Tooltip>
                                         )}
