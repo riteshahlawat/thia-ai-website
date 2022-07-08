@@ -7,7 +7,7 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: 'Poppins' sans-serif;
+    font-family: 'IBM Plex Sans' sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -19,7 +19,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Poppins' sans-serif;
+    font-family: 'IBM Plex Sans' sans-serif;
 }
 
 :root {

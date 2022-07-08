@@ -17,8 +17,8 @@ export const theme = extendTheme(
     {
         config,
         fonts: {
-            body: `'Poppins', sans-serif`,
-            Heading: `'Poppins', sans-serif`,
+            body: `'IBM Plex Sans', sans-serif`,
+            Heading: `'IBM Plex Sans', sans-serif`,
         },
         colors: {
             thia: {
