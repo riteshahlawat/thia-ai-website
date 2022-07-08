@@ -10,11 +10,13 @@ import { BaseLayout } from '@/components/pageLayouts/BaseLayout';
 import { ProgressBar } from '@/hooks/progressBar';
 import { ChakraProvider } from '@chakra-ui/react';
 import { FirebaseAppProvider } from 'reactfire';
-import { firebaseConfig } from '../firebase/firebase';
+import { getFirebaseConfig } from '../firebase/firebase';
 import { AuthComponent } from '@/auth/AuthComponent';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
+
+const firebaseConfig = getFirebaseConfig();
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
