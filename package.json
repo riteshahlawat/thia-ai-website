@@ -39,7 +39,6 @@
         "remark-math": "^5.1.1",
         "remark-mdx-images": "^1.0.3",
         "rimraf": "^3.0.2",
-        "rooks": "^5.11.8",
         "sharp": "^0.30.4",
         "stripe": "^9.9.0"
     },
