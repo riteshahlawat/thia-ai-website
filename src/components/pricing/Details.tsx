@@ -3,32 +3,39 @@ import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { MdCheck } from 'react-icons/md';
 import Stripe from 'stripe';
 
-const uc = (s: string) => s === 'Unlimited';
+const u = (s: string) => s === 'Unlimited'; // unlimited check
+const n = (s: string) => (Number(s) ? Number(s).toLocaleString('US-en') : s); // number check
+
+const modelExcerpt = (m: string) => `${u(m) ? '' : 'Max'} ${n(m)} models`;
+const datasetExcerpt = (d: string) => `${u(d) ? '' : 'Max'} ${n(d)} datasets`;
+const imagesExcerpt = (i: string) => `${n(i)} images per dataset`;
+const classesExcerpt = (c: string) => `${n(c)} classes per dataset`;
+
 const summarys: { [plan: string]: (d: Stripe.Metadata) => SummaryItemType[] } = {
     Free: ({ num_models, num_datasets, num_exports, num_images, num_classes }: Stripe.Metadata) => [
-        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
-        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
-        { excerpt: `${num_exports} ${uc(num_exports) ? 'exports' : 'exports per month'}` },
-        { excerpt: `${num_classes} classes per dataset` },
-        { excerpt: `${num_images} images per dataset` },
+        { excerpt: modelExcerpt(num_models) },
+        { excerpt: datasetExcerpt(num_datasets) },
+        { excerpt: `${num_exports} ${u(num_exports) ? 'exports' : 'exports per month'}` },
+        { excerpt: classesExcerpt(num_classes) },
+        { excerpt: imagesExcerpt(num_images) },
         { excerpt: 'Image classification' },
         { excerpt: 'Training' },
         { excerpt: 'Testing' },
     ],
     Standard: ({ num_models, num_datasets, num_images, num_classes }: Stripe.Metadata) => [
-        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
-        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
-        { excerpt: `${num_classes} classes per dataset` },
-        { excerpt: `${num_images} images per dataset` },
+        { excerpt: modelExcerpt(num_models) },
+        { excerpt: datasetExcerpt(num_datasets) },
+        { excerpt: classesExcerpt(num_classes) },
+        { excerpt: imagesExcerpt(num_images) },
         { excerpt: 'Object detection' },
         { excerpt: 'Lite exports' },
         { excerpt: 'Optimized exports' },
     ],
     Ultimate: ({ num_models, num_datasets, num_images, num_classes }: Stripe.Metadata) => [
-        { excerpt: uc(num_models) ? `${num_models} models` : `Max ${num_models} models` },
-        { excerpt: uc(num_datasets) ? `${num_datasets} datasets` : `Max ${num_datasets} datasets` },
-        { excerpt: `${num_classes} classes per dataset` },
-        { excerpt: `${num_images} images per dataset` },
+        { excerpt: modelExcerpt(num_models) },
+        { excerpt: datasetExcerpt(num_datasets) },
+        { excerpt: classesExcerpt(num_classes) },
+        { excerpt: imagesExcerpt(num_images) },
         { excerpt: 'Model deployments' },
         { excerpt: 'Remote GPU training' },
         { excerpt: 'Cloud model backups' },

@@ -76,13 +76,9 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
         }, {});
 
     const r = (str: string) => {
-        if (str === 'true') {
-            return <MdCheck fontSize='24px' color='green' />;
-        } else if (str === 'false') {
-            return '';
-        } else {
-            return str;
-        }
+        if (str === 'true') return <MdCheck fontSize='24px' color='green' />;
+        else if (str === 'false') return '';
+        else return Number(str) ? Number(str).toLocaleString('US-en') : str;
     };
 
     const activePlan = plans[active];
