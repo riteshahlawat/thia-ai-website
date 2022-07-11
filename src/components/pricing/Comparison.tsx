@@ -188,6 +188,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                                 <Tr key={i}>
                                     <Td px={5} py={1} borderColor={borderColor}>
                                         {data[key].excerpt}
+                                        {data[key].info && ' *'}
                                     </Td>
                                     <Td px={5} py={1} borderColor={borderColor}>
                                         {r(val[active])}
@@ -196,6 +197,14 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                             ))}
                         </Tbody>
                     </Table>
+                    <Box
+                        px={5}
+                        py={1}
+                        fontSize='sm'
+                        color={useColorModeValue('thia.gray.500', 'thia.gray.700')}
+                    >
+                        * Feature in development
+                    </Box>
                 </TableContainer>
             </Box>
         </Box>
