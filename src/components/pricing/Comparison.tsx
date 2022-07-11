@@ -166,7 +166,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                         <Thead>
                             <Tr>
                                 <Th px={5} py={2} color={headerColor} borderColor={borderColor}>
-                                    <Flex direction='column' pb={2} gap={1}>
+                                    <Flex direction='column' py={3} gap={1}>
                                         <Heading>{activePlan.name}</Heading>
                                         <Flex gap={1}>
                                             <Box as='span'>
