@@ -89,6 +89,7 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     const headerColor = useColorModeValue('thia.gray.900', 'thia.gray.100');
     const borderColor = useColorModeValue('thia.gray.100', 'thia.gray.950');
     const tooltipColor = useColorModeValue('thia.gray.900', 'thia.gray.200');
+    const subtextColor = useColorModeValue('thia.gray.500', 'thia.gray.700');
 
     return (
         <Box id='comparison-table'>
@@ -189,7 +190,11 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                                 <Tr key={i}>
                                     <Td px={5} py={1} borderColor={borderColor}>
                                         {data[key].excerpt}
-                                        {data[key].info && ' *'}
+                                        {data[key].info && (
+                                            <Box as='span' color={subtextColor}>
+                                                {' *'}
+                                            </Box>
+                                        )}
                                     </Td>
                                     <Td px={5} py={1} borderColor={borderColor}>
                                         {r(val[active])}
@@ -202,7 +207,8 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                         px={5}
                         py={1}
                         fontSize='sm'
-                        color={useColorModeValue('thia.gray.500', 'thia.gray.700')}
+                        color={subtextColor}
+                        display={{ base: 'table', lg: 'none' }}
                     >
                         * Feature in development
                     </Box>
