@@ -17,7 +17,8 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 import { MdCheck, MdInfoOutline } from 'react-icons/md';
-import { SlideButton, SlideButtonGroup } from '../common/SlideButtonGroup';
+import { SlideButtonGroup } from '../buttons/SlideButtonGroup/SlideButtonGroup';
+import { SlideButton } from '../buttons/SlideButtonGroup/SlideButton';
 
 export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
     const [active, setActive] = useState(0);
