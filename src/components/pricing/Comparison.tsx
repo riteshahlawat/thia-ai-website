@@ -84,14 +84,21 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
         }
     };
 
+    const activePlan = plans[active];
     const headerColor = useColorModeValue('thia.gray.900', 'thia.gray.100');
     const borderColor = useColorModeValue('thia.gray.100', 'thia.gray.950');
     const tooltipColor = useColorModeValue('thia.gray.900', 'thia.gray.200');
-    const activePlan = plans[active];
+
     return (
-        <>
+        <Box id='comparison-table'>
+            <Box mb={5} display={{ base: 'block', lg: 'none' }}>
+                <SlideButtonGroup>
+                    {plans.map((plan, i) => (
+                        <SlideButton key={i} label={plan.name} callback={() => setActive(i)} />
+                    ))}
+                </SlideButtonGroup>
+            </Box>
             <Box
-                display={{ base: 'none', lg: 'block' }}
                 rounded='2xl'
                 shadow='xl'
                 overflow='hidden'
@@ -99,8 +106,8 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                 bg={useColorModeValue('white', 'thia.gray.990')}
                 borderColor={useColorModeValue('thia.gray.100', 'black')}
             >
-                <TableContainer id={'comparison-table'}>
-                    <Table>
+                <TableContainer>
+                    <Table display={{ base: 'none', lg: 'table' }}>
                         <Thead bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}>
                             <Tr>
                                 <Th borderColor={borderColor} />
@@ -155,54 +162,42 @@ export const Comparison = ({ plans }: { plans: ProductWithPrice[] }) => {
                             ))}
                         </Tbody>
                     </Table>
+                    <Table size='sx' display={{ base: 'table', lg: 'none' }}>
+                        <Thead>
+                            <Tr>
+                                <Th px={5} py={2} color={headerColor} borderColor={borderColor}>
+                                    <Flex direction='column' pb={2} gap={1}>
+                                        <Heading>{activePlan.name}</Heading>
+                                        <Flex gap={1}>
+                                            <Box as='span'>
+                                                ${' '}
+                                                {activePlan.price.unit_amount &&
+                                                    activePlan.price.unit_amount / 100}
+                                            </Box>
+                                            <Text color='thia.gray.700'>/ month</Text>
+                                        </Flex>
+                                    </Flex>
+                                </Th>
+                                <Th color={headerColor} borderColor={borderColor}>
+                                    Features
+                                </Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {Object.entries(sorted).map(([key, val], i) => (
+                                <Tr key={i}>
+                                    <Td px={5} py={1} borderColor={borderColor}>
+                                        {data[key].excerpt}
+                                    </Td>
+                                    <Td px={5} py={1} borderColor={borderColor}>
+                                        {r(val[active])}
+                                    </Td>
+                                </Tr>
+                            ))}
+                        </Tbody>
+                    </Table>
                 </TableContainer>
             </Box>
-            <Box display={{ base: 'block', lg: 'none' }}>
-                <SlideButtonGroup>
-                    {plans.map((plan, i) => (
-                        <SlideButton key={i} label={plan.name} callback={() => setActive(i)} />
-                    ))}
-                </SlideButtonGroup>
-                <Box
-                    mt={5}
-                    p={5}
-                    rounded='xl'
-                    bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}
-                >
-                    <TableContainer id='comparison-table2'>
-                        <Table size='sx'>
-                            <Thead>
-                                <Tr>
-                                    <Th color={headerColor} borderColor={borderColor}>
-                                        <Flex direction='column' pb={5} gap={1}>
-                                            <Heading>{activePlan.name}</Heading>
-                                            <Flex gap={1}>
-                                                <Box as='span'>
-                                                    ${' '}
-                                                    {activePlan.price.unit_amount &&
-                                                        activePlan.price.unit_amount / 100}
-                                                </Box>
-                                                <Text color='thia.gray.700'>/ month</Text>
-                                            </Flex>
-                                        </Flex>
-                                    </Th>
-                                    <Th color={headerColor} borderColor={borderColor}>
-                                        Features
-                                    </Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {Object.entries(sorted).map(([key, val], i) => (
-                                    <Tr key={i}>
-                                        <Td borderColor={borderColor}>{data[key].excerpt}</Td>
-                                        <Td borderColor={borderColor}>{r(val[active])}</Td>
-                                    </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                </Box>
-            </Box>
-        </>
+        </Box>
     );
 };
