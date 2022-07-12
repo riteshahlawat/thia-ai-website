@@ -7,6 +7,7 @@ import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { ImageBox } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { SeoPage } from '@/seo/SeoPage';
 
 const variants = {
     initial: { opacity: 0, width: '40%', height: '40%' },
@@ -42,11 +43,9 @@ const ImageBoxData = [
 
 const Home: NextPage = () => {
     return (
-        <>
+        <SeoPage title='' description='AutoML ran within your ecosystem'>
             <Head>
                 <title>Thia</title>
-                <meta name='description' content='Thia on web' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <Box w='full'>
                 <Section>
@@ -164,7 +163,7 @@ const Home: NextPage = () => {
                     </Flex>
                 </Section>
             </Box>
-        </>
+        </SeoPage>
     );
 };
 

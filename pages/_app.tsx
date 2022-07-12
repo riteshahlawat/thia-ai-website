@@ -15,7 +15,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AuthProvider } from '@/auth/AuthProvider';
 import { getFirebaseConfig } from '../firebase/firebase';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
-import { DefaultSeo } from '@/seo/DefaultSeo';
+import { DefaultSeo } from '@/components/seo/DefaultSeo';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
 

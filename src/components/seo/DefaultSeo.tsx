@@ -22,8 +22,8 @@ export const DefaultSeo = () => {
             site_name: title,
         },
         twitter: {
-            handle: '@thia',
-            site: '@site',
+            handle: '@lasithaamuwala',
+            site: '@ThiaAutoML',
             cardType: 'summary_large_image',
         },
     };
