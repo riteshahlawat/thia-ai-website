@@ -166,9 +166,9 @@ const Billing = (props: Props) => {
 
     useEffect(() => {
         const fetchSubscriptionAndCreditCards = async () => {
-            if (!user) {
+            if (user === null) {
                 router.push('/signin');
-            } else {
+            } else if (user) {
                 const idToken = await user.getIdToken();
                 const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
                 if (!isError) {
