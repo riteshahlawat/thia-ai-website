@@ -216,25 +216,28 @@ const Billing = (props: Props) => {
                 <Heading>Billing</Heading>
             </Center>
             <Center p={6}>
-                <Button onClick={onOpen}>Add a Card</Button>
+                <Button onClick={onOpen} colorScheme='thia.purple'>
+                    Add a Card
+                </Button>
             </Center>
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <FormControl>
-                                <CardElement options={CARD_ELEMENT_OPTIONS} />
-                            </FormControl>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button onClick={onClose} mr={2}>
-                                Cancel
-                            </Button>
-                            <Button onClick={handleSubmit}>Add your card</Button>
-                        </ModalFooter>
-                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalHeader></ModalHeader>
+                    <ModalBody>
+                        <FormControl>
+                            <CardElement options={CARD_ELEMENT_OPTIONS} />
+                        </FormControl>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={onClose} mr={2} colorScheme='thia.gray'>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleSubmit} colorScheme='thia.purple'>
+                            Add your card
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
             <Center>
