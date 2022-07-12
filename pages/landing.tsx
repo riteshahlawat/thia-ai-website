@@ -7,7 +7,7 @@ import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { ImageBox } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
-import { SeoPage } from '@/seo/SeoPage';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 const variants = {
     initial: { opacity: 0, width: '40%', height: '40%' },
