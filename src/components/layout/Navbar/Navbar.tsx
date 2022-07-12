@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { NavLinks } from './NavLinks';
-import { NavToggle } from './NavToggle';
 import { NavContainer } from './NavContainer';
+import { NavToggle } from './NavToggle';
+import { NavLinks } from './NavLinks';
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
