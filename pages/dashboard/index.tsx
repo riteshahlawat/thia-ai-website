@@ -18,7 +18,12 @@ const Dashboard = (props: Props) => {
         }
     }, [user, router]);
 
-    return <Box>Welcome, {user?.displayName}</Box>;
+    if (user){
+        const idToken = user.getIdToken();
+        console.log(idToken);
+    }
+
+    return <Box>Welcome, {user?.uid}</Box>;
 };
 
 export default Dashboard;
