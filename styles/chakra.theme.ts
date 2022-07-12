@@ -5,6 +5,7 @@ import { withProse } from '@nikolovlazar/chakra-ui-prose';
 import { Link } from './components/link';
 import { Button } from './components/button';
 import { Prose } from './components/prose';
+import { Menu } from './components/menu';
 
 // Add color mode config
 const config: ThemeConfig = {
@@ -74,6 +75,7 @@ export const theme = extendTheme(
         components: {
             Link,
             Button,
+            Menu,
         },
     },
     withProse(Prose)
