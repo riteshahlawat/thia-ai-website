@@ -1,5 +1,4 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
 import { FormEvent } from 'react';
 import { useUser } from 'reactfire';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
@@ -28,7 +27,7 @@ function submitCardElement() {
 
         return paymentMethod.id;
     };
-    
+
     const handleSubmit = async (event: FormEvent) => {
         if (user) {
             event.preventDefault();
@@ -52,13 +51,10 @@ function submitCardElement() {
                 console.log(response);
                 const clientSecret = response.client_secret;
                 stripe?.confirmCardSetup(clientSecret);
-                await BackendRequestHandler.getInstance().updateDefaultCreditCard(
-                    idToken,
-                    {
-                        uid: response.customer,
-                        paymentMethodID: response.payment_method,
-                    }
-                )
+                await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
+                    uid: response.customer,
+                    paymentMethodID: response.payment_method,
+                });
             }
         }
     };
