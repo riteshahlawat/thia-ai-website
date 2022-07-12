@@ -48,17 +48,15 @@ the steps to label the images of an existing image classification dataset:
 
 > **_Note_**: We understand that labelling all images one by one is extremely boring. Our **next** release will allow you to submit label files.
 
----
+### Advance Labelling Tips
 
-## Advance Labelling Tips
+We've added some shortcuts to make labelling experience smoother.
 
-Labelling is a tedious process. We've added some shortcuts to make the experience smoother.
-
-### Navigating Through The Dataset
+#### Navigating Through The Dataset
 
 Instead of clicking each image to navigate to it, use arrow keys `←` and `→` to navigate between images _(automatically changes pages as well)_.
 
-### Assigning Labels Shortcuts
+#### Assigning Labels Shortcuts
 
 To assign the selected image a label, press the number on the keyboard corresponding to the label's order. Ex:  
 To assign the current image with the `dog` category, press `1` on the keyboard.
@@ -66,6 +64,85 @@ To assign the current image with the `dog` category, press `1` on the keyboard.
 ![Label Image Shortcut][8]
 
 > **_Note_**: You can drag and drop the labels in the left panel to change their order for the shortcut.
+
+---
+
+## Batch Labelling
+
+Labelling images one-by-one is a tedious process. If you already have the labels of your dataset you can quickly label the
+dataset by uploading the label file. See [below][12] for the format of the label file.
+
+1. Navigate to the respective dataset page.
+2. Click on the `Dataset Batch Labelling` button to open the Batch Labelling dialog.
+   ![Batch Labelling][9]
+3. Drag and drop the label file.
+   ![Drag and Drop Label File][10]
+4. Upload the file and wait for the batch labelling to finish. It may take a few minutes to an hour depending on the size of
+   your dataset, progress is visible through a progress bar.
+   ![Drag and Drop Label File Progress][11]
+    > **Note**: Make sure you have all the labels in your label file added to the dataset or else it won't work
+
+### Label File Format
+
+The label file is a JSON file representing an object with the keys being the file name _(without the extension)_ and the value being its corresponding label. For example:
+
+```JSON
+{
+  "cat.1": "cat",
+  "cat.2": "cat",
+  "cat.3": "cat",
+  "cat.4": "cat",
+  "cat.5": "cat",
+  "dog.1": "dog",
+  "dog.2": "dog",
+  "dog.3": "dog",
+  "dog.4": "dog",
+  "dog.5": "dog",
+  // ...
+}
+```
+
+If your images are stored in separate folders by class name like:
+
+```less
+main_directory/
+...cat/
+......cat.1.jpg
+......cat.2.jpg
+...dog/
+......dog.1.jpg
+......dog.2.jpg
+```
+
+Running the following script with `python script.py path/to/main_directory` will generate a `labels.json` file automatically:
+
+```python
+import argparse
+import os
+from pathlib import Path
+import json
+
+
+def main(directory: str):
+    dir_path = Path(directory)
+    if not dir_path.is_dir():
+        raise Exception("Directory is not a valid directory")
+    labels = {}
+    for label_dir_path in dir_path.iterdir():
+        if label_dir_path.is_dir():
+            label = label_dir_path.stem
+            for image_path in label_dir_path.iterdir():
+                labels[image_path.stem] = label
+    with open('labels.json', 'w', encoding='utf-8') as f:
+        json.dump(labels, f, indent=4)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Generate JSON labels file from images in a directory')
+    parser.add_argument('directory', help='Directory of images')
+    args = parser.parse_args()
+    main(args.directory)
+```
 
 [1]: /docs/ui/image-classification-dataset-creation/1.jpg 'Add Dataset Button'
 [2]: /docs/ui/image-classification-dataset-creation/2.jpg 'Create Dataset'
@@ -75,3 +152,7 @@ To assign the current image with the `dog` category, press `1` on the keyboard.
 [6]: /docs/ui/image-classification-dataset-creation/6.jpg 'Add Label'
 [7]: /docs/ui/image-classification-dataset-creation/7.jpg 'Label Image'
 [8]: /docs/ui/image-classification-dataset-creation/8.jpg 'Label Image Shortcut'
+[9]: /docs/ui/image-classification-dataset-creation/9.jpg 'Dataset Batch Labelling'
+[10]: /docs/ui/image-classification-dataset-creation/10.jpg 'Drag and Drop Label File'
+[11]: /docs/ui/image-classification-dataset-creation/11.jpg 'Drag and Drop Label File Progress'
+[12]: #label-file-format 'Label File Format'

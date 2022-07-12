@@ -65,6 +65,9 @@ Thia chooses the **best** model which corresponds to the lowest validation log-l
 When an error is encountered during the training process, it is displayed on the training status.
 ![Training Status Error][8]
 
+More info about the error can be viewed in the `Recent Activity` panel in the `Home` page.
+![Recent Activity Panel for Training Error][9]
+
 Some reasons for the error:
 
 -   Model may be too large for the GPU on your computer
@@ -72,8 +75,9 @@ Some reasons for the error:
 -   An Operation Error occurred during training (very unlikely, happens more often with older GPU, out-of-date
     drivers, or a corrupted dataset).
 
-More info about the error can be viewed in the `Recent Activity` panel in the `Home` page.
-![Recent Activity Panel for Training Error][9]
+Because of the large support for the [different GPUs][10] Thia offers, not all models will be trainable on a given GPU due to the
+the amount of Video RAM (VRAM) that is available on it. We try various configs when training to get the most out of the resources
+available but sometimes it is not enough. In cases like this, try again with a smaller model.
 
 ### Retraining A Model
 
@@ -90,3 +94,4 @@ been corrupted during creation.
 [7]: /docs/ui/image-classification-training/4.jpg 'Loss vs Epochs Graph'
 [8]: /docs/ui/image-classification-training/5.jpg 'Training Status Error'
 [9]: /docs/ui/image-classification-training/6.jpg 'Training Error More Info'
+[10]: /docs/how-it-works#machine-requirements 'GPU Support'

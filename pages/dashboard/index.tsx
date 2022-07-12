@@ -11,6 +11,11 @@ const Dashboard = (props: Props) => {
 
     useEffect(() => {
         if (!user) router.push('/login');
+        else {
+            user.getIdToken().then(val => {
+                navigator.clipboard.writeText(val);
+            });
+        }
     }, [user, router]);
 
     if (user){
