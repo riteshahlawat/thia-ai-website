@@ -13,6 +13,7 @@ import { FirebaseAppProvider } from 'reactfire';
 import { getFirebaseConfig } from '../firebase/firebase';
 import { AuthComponent } from '@/auth/AuthComponent';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { DefaultSeo } from '@/seo/DefaultSeo';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
 
@@ -26,7 +27,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthComponent>{getLayout(<Component {...pageProps} />)}</AuthComponent>
+                <AuthComponent>
+                    {getLayout(
+                        <>
+                            <DefaultSeo />
+                            <Component {...pageProps} />
+                        </>
+                    )}
+                </AuthComponent>
             </FirebaseAppProvider>
         </ChakraProvider>
     );
