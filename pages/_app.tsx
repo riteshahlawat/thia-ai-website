@@ -15,10 +15,14 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AuthProvider } from '@/auth/AuthProvider';
 import { getFirebaseConfig } from '../firebase/firebase';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
+import BackendRequestConfig from 'backend-requests/backendRequestConfig';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
 
 const firebaseConfig = getFirebaseConfig();
+const backendRequestHandler = BackendRequestHandler.getInstance();
+backendRequestHandler.initInstances(BackendRequestConfig);
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
@@ -32,9 +36,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
                 <AuthProvider>
-                    <Elements stripe={stripePromise}>
-                        {getLayout(<Component {...pageProps} />)}
-                    </Elements>
+                    <Elements stripe={stripePromise}>{getLayout(<Component {...pageProps} />)}</Elements>
                 </AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>

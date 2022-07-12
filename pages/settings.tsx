@@ -10,8 +10,8 @@ const Settings = (props: Props) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!user) router.push('/login');
-    });
+        if (!user) router.push('/signin');
+    }, [user]);
 
     return (
         <Center>
@@ -20,10 +20,10 @@ const Settings = (props: Props) => {
                     <Tab>General</Tab>
                 </TabList>
                 <TabPanels>
-                <TabPanel>
-                    <Box>General</Box>
-                </TabPanel>
-            </TabPanels>
+                    <TabPanel>
+                        <Box>General</Box>
+                    </TabPanel>
+                </TabPanels>
             </Tabs>
         </Center>
     );

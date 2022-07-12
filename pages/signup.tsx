@@ -44,8 +44,6 @@ const SignUp: NextPageWithLayout = () => {
 
     const toast = useToast();
     const router = useRouter();
-    const backendRequestHandler = BackendRequestHandler.getInstance();
-    backendRequestHandler.initInstances(BackendRequestConfig);
 
     const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
     const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
@@ -121,17 +119,14 @@ const SignUp: NextPageWithLayout = () => {
                 // Password input handling
                 setUserRegistrationErrorMessages({
                     ...userRegistrationErrorMessages,
-                    password: !validifyPasswordFormat(val)
-                        ? 'Weak password, 6 alpha-num charactors are required'
-                        : '',
+                    password: !validifyPasswordFormat(val) ? 'Weak password, 6 alpha-num charactors are required' : '',
                 });
                 break;
             case 'passwordRetype':
                 // Password retype input handling
                 setUserRegistrationErrorMessages({
                     ...userRegistrationErrorMessages,
-                    passwordRetype:
-                        val !== userRegistrationDetails.password ? "Passwords don't match" : '',
+                    passwordRetype: val !== userRegistrationDetails.password ? "Passwords don't match" : '',
                 });
                 break;
         }
@@ -140,11 +135,7 @@ const SignUp: NextPageWithLayout = () => {
     const registerNewAccount = async () => {
         let userRegistrationDetailsFilledOut = true;
         for (const registrationDetailKey in userRegistrationDetails) {
-            if (
-                userRegistrationDetails[
-                    registrationDetailKey as keyof typeof userRegistrationDetails
-                ].trim() == ''
-            ) {
+            if (userRegistrationDetails[registrationDetailKey as keyof typeof userRegistrationDetails].trim() == '') {
                 userRegistrationDetailsFilledOut = false;
                 break;
             }
@@ -155,11 +146,7 @@ const SignUp: NextPageWithLayout = () => {
         }
         let userRegistrationErrorExists = false;
         for (const errorMessageKey in userRegistrationErrorMessages) {
-            if (
-                userRegistrationErrorMessages[
-                    errorMessageKey as keyof typeof userRegistrationErrorMessages
-                ] != ''
-            ) {
+            if (userRegistrationErrorMessages[errorMessageKey as keyof typeof userRegistrationErrorMessages] != '') {
                 userRegistrationErrorExists = true;
                 break;
             }
@@ -170,12 +157,10 @@ const SignUp: NextPageWithLayout = () => {
             return;
         }
         setEmailRegisteringLoading(true);
-        const stripe = require('stripe')('sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb');
-        createUserWithEmailAndPassword(
-            auth,
-            userRegistrationDetails.emailAddress,
-            userRegistrationDetails.password
-        )
+        const stripe = require('stripe')(
+            'sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb'
+        );
+        createUserWithEmailAndPassword(auth, userRegistrationDetails.emailAddress, userRegistrationDetails.password)
             .then(async userCredential => {
                 await updateProfile(userCredential.user, {
                     displayName: userRegistrationDetails.fullName,
@@ -188,7 +173,7 @@ const SignUp: NextPageWithLayout = () => {
                     await stripe.customers.create({
                         email: userRegistrationDetails.emailAddress,
                         description: 'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
-                    })
+                    });
                     console.log(userRegistrationDetails);
                     setEmailRegisteringLoading(false);
                 } else {
@@ -220,13 +205,7 @@ const SignUp: NextPageWithLayout = () => {
     return (
         <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
             <VStack spacing={6} py={1} w='full'>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.fullName &&
-                        userRegistrationErrorMessages.fullName != ''
-                    }
-                >
+                <FormControl isRequired isInvalid={userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''}>
                     <FormLabel fontSize='sm'>Name</FormLabel>
                     <Input
                         bg={useColorModeValue('white', 'black')}
@@ -237,16 +216,11 @@ const SignUp: NextPageWithLayout = () => {
                         onBlur={handleRegistrationInputsFocused}
                         onChange={handleRegistrationInputsChange}
                     />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.fullName}
-                    </FormErrorMessage>
+                    <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
                 </FormControl>
                 <FormControl
                     isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.emailAddress &&
-                        userRegistrationErrorMessages.emailAddress != ''
-                    }
+                    isInvalid={userRegistrationFocusedOnce.emailAddress && userRegistrationErrorMessages.emailAddress != ''}
                 >
                     <FormLabel fontSize='sm'>Email</FormLabel>
                     <Input
@@ -257,17 +231,9 @@ const SignUp: NextPageWithLayout = () => {
                         onBlur={handleRegistrationInputsFocused}
                         onChange={handleRegistrationInputsChange}
                     />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.emailAddress}
-                    </FormErrorMessage>
+                    <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.emailAddress}</FormErrorMessage>
                 </FormControl>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.password &&
-                        userRegistrationErrorMessages.password != ''
-                    }
-                >
+                <FormControl isRequired isInvalid={userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''}>
                     <FormLabel fontSize='sm'>Password</FormLabel>
                     <Input
                         bg={useColorModeValue('white', 'black')}
@@ -277,16 +243,11 @@ const SignUp: NextPageWithLayout = () => {
                         onBlur={handleRegistrationInputsFocused}
                         onChange={handleRegistrationInputsChange}
                     />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.password}
-                    </FormErrorMessage>
+                    <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.password}</FormErrorMessage>
                 </FormControl>
                 <FormControl
                     isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.passwordRetype &&
-                        userRegistrationErrorMessages.passwordRetype != ''
-                    }
+                    isInvalid={userRegistrationFocusedOnce.passwordRetype && userRegistrationErrorMessages.passwordRetype != ''}
                 >
                     <FormLabel fontSize='sm'>Re-type Password</FormLabel>
                     <Input
@@ -297,17 +258,10 @@ const SignUp: NextPageWithLayout = () => {
                         onBlur={handleRegistrationInputsFocused}
                         onChange={handleRegistrationInputsChange}
                     />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.passwordRetype}
-                    </FormErrorMessage>
+                    <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.passwordRetype}</FormErrorMessage>
                 </FormControl>
             </VStack>
-            <Button
-                w='full'
-                variant='primary'
-                onClick={registerNewAccount}
-                isLoading={emailRegisteringLoading}
-            >
+            <Button w='full' variant='primary' onClick={registerNewAccount} isLoading={emailRegisteringLoading}>
                 Sign up
             </Button>
             <HStack w='full'>

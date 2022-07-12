@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Stripe from 'stripe';
 import type { NextPage } from 'next';
 import { ContentContainer } from 'src/components/common/ContentContainer';
@@ -7,7 +7,14 @@ import { Summary } from '@/components/pricing/Summary';
 import { Comparison } from '@/components/pricing/Comparison';
 import { MdArrowDownward } from 'react-icons/md';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_LIVE as string, {
+export const getStripeKey = (): string => {
+    if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
+        return process.env.STRIPE_SECRET_KEY_TEST as string;
+    }
+    return process.env.STRIPE_SECRET_KEY_LIVE as string;
+};
+
+const stripe = new Stripe(getStripeKey(), {
     apiVersion: '2020-08-27',
     typescript: true,
 });
