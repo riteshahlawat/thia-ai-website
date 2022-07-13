@@ -1,8 +1,13 @@
 import React from 'react';
 import type { NextPage } from 'next';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 const Download: NextPage = () => {
-    return <div>Download</div>;
+    return (
+        <SeoPage title='Download' description='Download Thia today!'>
+            Download
+        </SeoPage>
+    );
 };
 
 export default Download;

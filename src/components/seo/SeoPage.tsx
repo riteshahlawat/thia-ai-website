@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {
     title: string;
-    description: string;
+    description?: string;
     children?: React.ReactNode;
     [rest: string]: any;
 };

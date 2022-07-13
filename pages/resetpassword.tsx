@@ -17,6 +17,7 @@ import { useAuth } from 'reactfire';
 import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 type Props = {};
 
@@ -81,45 +82,47 @@ const ResetPassword: NextPageWithLayout = (props: Props) => {
     };
 
     return (
-        <AuthTemplatePage heading='Reset Password' text={text}>
-            <FormControl isRequired isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
-                <FormLabel>Email Address</FormLabel>
-                <Input
-                    type='email'
-                    placeholder='Enter Email Address'
-                    value={emailAddress}
-                    bg={useColorModeValue('white', 'black')}
-                    onBlur={() => setEmailFocusedOnce(true)}
-                    onChange={(e: any) => {
-                        const val = e.target.value;
-                        // Email address input handling
-                        const emailAddressPattern =
-                            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                        if (!val.match(emailAddressPattern)) {
-                            // Invalid email address pattern
-                            setEmailErrorMessage('Invalid email address');
-                        } else setEmailErrorMessage('');
-                        setEmailAddress(val);
-                    }}
-                />
-                <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
-            </FormControl>
-            <Button variant='primary' w='full' onClick={forgorPassword}>
-                Reset Password
-            </Button>
-            <Flex gap={3} fontSize='sm'>
-                <Text>Don&quot;t have an account?</Text>
-                <ChakraNextLink
-                    href='/signup'
-                    styleProps={{
-                        variant: 'primaryLink',
-                        fontWeight: 'bold',
-                    }}
-                >
-                    Sign up
-                </ChakraNextLink>
-            </Flex>
-        </AuthTemplatePage>
+        <SeoPage title='Forgot your password?'>
+            <AuthTemplatePage heading='Reset Password' text={text}>
+                <FormControl isRequired isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
+                    <FormLabel>Email Address</FormLabel>
+                    <Input
+                        type='email'
+                        placeholder='Enter Email Address'
+                        value={emailAddress}
+                        bg={useColorModeValue('white', 'black')}
+                        onBlur={() => setEmailFocusedOnce(true)}
+                        onChange={(e: any) => {
+                            const val = e.target.value;
+                            // Email address input handling
+                            const emailAddressPattern =
+                                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+                            if (!val.match(emailAddressPattern)) {
+                                // Invalid email address pattern
+                                setEmailErrorMessage('Invalid email address');
+                            } else setEmailErrorMessage('');
+                            setEmailAddress(val);
+                        }}
+                    />
+                    <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                </FormControl>
+                <Button variant='primary' w='full' onClick={forgorPassword}>
+                    Reset Password
+                </Button>
+                <Flex gap={3} fontSize='sm'>
+                    <Text>Don&quot;t have an account?</Text>
+                    <ChakraNextLink
+                        href='/signup'
+                        styleProps={{
+                            variant: 'primaryLink',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Sign up
+                    </ChakraNextLink>
+                </Flex>
+            </AuthTemplatePage>
+        </SeoPage>
     );
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth, useSigninCheck, useUser } from 'reactfire';
 import { Box, Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { NextSeo } from 'next-seo';
+import Head from 'next/head';
 
 type Props = {};
 
@@ -16,7 +16,9 @@ const Settings = (props: Props) => {
 
     return (
         <>
-            <NextSeo title='Settings' />
+            <Head>
+                <title>Settings</title>
+            </Head>
             <Center>
                 <Tabs>
                     <TabList>

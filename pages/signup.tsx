@@ -35,6 +35,7 @@ import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { GoogleButton } from '@/auth/GoogleButton';
 import { validifyEmailFormat, validifyPasswordFormat } from 'src/utils/auth/authUtils';
 import { createToast } from 'src/utils/common/toast';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 const SignUp: NextPageWithLayout = () => {
     const { data: user } = useUser();
@@ -170,7 +171,9 @@ const SignUp: NextPageWithLayout = () => {
             return;
         }
         setEmailRegisteringLoading(true);
-        const stripe = require('stripe')('sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb');
+        const stripe = require('stripe')(
+            'sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb'
+        );
         createUserWithEmailAndPassword(
             auth,
             userRegistrationDetails.emailAddress,
@@ -187,8 +190,9 @@ const SignUp: NextPageWithLayout = () => {
                     toast(createToast('Info', 'Email verification sent, check your email'));
                     await stripe.customers.create({
                         email: userRegistrationDetails.emailAddress,
-                        description: 'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
-                    })
+                        description:
+                            'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
+                    });
                     console.log(userRegistrationDetails);
                     setEmailRegisteringLoading(false);
                 } else {
@@ -218,121 +222,123 @@ const SignUp: NextPageWithLayout = () => {
     });
 
     return (
-        <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
-            <VStack spacing={6} py={1} w='full'>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.fullName &&
-                        userRegistrationErrorMessages.fullName != ''
-                    }
+        <SeoPage title='Join Thia'>
+            <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
+                <VStack spacing={6} py={1} w='full'>
+                    <FormControl
+                        isRequired
+                        isInvalid={
+                            userRegistrationFocusedOnce.fullName &&
+                            userRegistrationErrorMessages.fullName != ''
+                        }
+                    >
+                        <FormLabel fontSize='sm'>Name</FormLabel>
+                        <Input
+                            bg={useColorModeValue('white', 'black')}
+                            name='fullName'
+                            placeholder='Full Name'
+                            autoFocus
+                            type='text'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='sm'>
+                            {userRegistrationErrorMessages.fullName}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isRequired
+                        isInvalid={
+                            userRegistrationFocusedOnce.emailAddress &&
+                            userRegistrationErrorMessages.emailAddress != ''
+                        }
+                    >
+                        <FormLabel fontSize='sm'>Email</FormLabel>
+                        <Input
+                            bg={useColorModeValue('white', 'black')}
+                            name='emailAddress'
+                            placeholder='E-mail Address'
+                            type='text'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='sm'>
+                            {userRegistrationErrorMessages.emailAddress}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isRequired
+                        isInvalid={
+                            userRegistrationFocusedOnce.password &&
+                            userRegistrationErrorMessages.password != ''
+                        }
+                    >
+                        <FormLabel fontSize='sm'>Password</FormLabel>
+                        <Input
+                            bg={useColorModeValue('white', 'black')}
+                            name='password'
+                            placeholder='Password'
+                            type='password'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='sm'>
+                            {userRegistrationErrorMessages.password}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isRequired
+                        isInvalid={
+                            userRegistrationFocusedOnce.passwordRetype &&
+                            userRegistrationErrorMessages.passwordRetype != ''
+                        }
+                    >
+                        <FormLabel fontSize='sm'>Re-type Password</FormLabel>
+                        <Input
+                            bg={useColorModeValue('white', 'black')}
+                            name='passwordRetype'
+                            placeholder='Re-type Password'
+                            type='password'
+                            onBlur={handleRegistrationInputsFocused}
+                            onChange={handleRegistrationInputsChange}
+                        />
+                        <FormErrorMessage fontSize='sm'>
+                            {userRegistrationErrorMessages.passwordRetype}
+                        </FormErrorMessage>
+                    </FormControl>
+                </VStack>
+                <Button
+                    w='full'
+                    variant='primary'
+                    onClick={registerNewAccount}
+                    isLoading={emailRegisteringLoading}
                 >
-                    <FormLabel fontSize='sm'>Name</FormLabel>
-                    <Input
-                        bg={useColorModeValue('white', 'black')}
-                        name='fullName'
-                        placeholder='Full Name'
-                        autoFocus
-                        type='text'
-                        onBlur={handleRegistrationInputsFocused}
-                        onChange={handleRegistrationInputsChange}
-                    />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.fullName}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.emailAddress &&
-                        userRegistrationErrorMessages.emailAddress != ''
-                    }
-                >
-                    <FormLabel fontSize='sm'>Email</FormLabel>
-                    <Input
-                        bg={useColorModeValue('white', 'black')}
-                        name='emailAddress'
-                        placeholder='E-mail Address'
-                        type='text'
-                        onBlur={handleRegistrationInputsFocused}
-                        onChange={handleRegistrationInputsChange}
-                    />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.emailAddress}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.password &&
-                        userRegistrationErrorMessages.password != ''
-                    }
-                >
-                    <FormLabel fontSize='sm'>Password</FormLabel>
-                    <Input
-                        bg={useColorModeValue('white', 'black')}
-                        name='password'
-                        placeholder='Password'
-                        type='password'
-                        onBlur={handleRegistrationInputsFocused}
-                        onChange={handleRegistrationInputsChange}
-                    />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.password}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl
-                    isRequired
-                    isInvalid={
-                        userRegistrationFocusedOnce.passwordRetype &&
-                        userRegistrationErrorMessages.passwordRetype != ''
-                    }
-                >
-                    <FormLabel fontSize='sm'>Re-type Password</FormLabel>
-                    <Input
-                        bg={useColorModeValue('white', 'black')}
-                        name='passwordRetype'
-                        placeholder='Re-type Password'
-                        type='password'
-                        onBlur={handleRegistrationInputsFocused}
-                        onChange={handleRegistrationInputsChange}
-                    />
-                    <FormErrorMessage fontSize='sm'>
-                        {userRegistrationErrorMessages.passwordRetype}
-                    </FormErrorMessage>
-                </FormControl>
-            </VStack>
-            <Button
-                w='full'
-                variant='primary'
-                onClick={registerNewAccount}
-                isLoading={emailRegisteringLoading}
-            >
-                Sign up
-            </Button>
-            <HStack w='full'>
-                <Divider />
-                <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
-                    OR
-                </Text>
-                <Divider />
-            </HStack>
-            <GoogleButton onCLick={googleLogin} isLoading={googleRegisteringLoading}>
-                Sign up with Google
-            </GoogleButton>
-            <Flex gap={3} fontSize='sm'>
-                <Text>Already have an account?</Text>
-                <ChakraNextLink
-                    href='/signin'
-                    styleProps={{
-                        variant: 'primaryLink',
-                        fontWeight: 'bold',
-                    }}
-                >
-                    Sign in
-                </ChakraNextLink>
-            </Flex>
-        </AuthTemplatePage>
+                    Sign up
+                </Button>
+                <HStack w='full'>
+                    <Divider />
+                    <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
+                        OR
+                    </Text>
+                    <Divider />
+                </HStack>
+                <GoogleButton onCLick={googleLogin} isLoading={googleRegisteringLoading}>
+                    Sign up with Google
+                </GoogleButton>
+                <Flex gap={3} fontSize='sm'>
+                    <Text>Already have an account?</Text>
+                    <ChakraNextLink
+                        href='/signin'
+                        styleProps={{
+                            variant: 'primaryLink',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Sign in
+                    </ChakraNextLink>
+                </Flex>
+            </AuthTemplatePage>
+        </SeoPage>
     );
 };
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import type { NextPage } from 'next';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 const PageNotFound: NextPage = () => {
-    return <div>404</div>;
+    return <SeoPage title='Page not found'> 404</SeoPage>;
 };
 
 export default PageNotFound;
