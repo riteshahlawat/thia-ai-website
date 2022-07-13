@@ -8,7 +8,6 @@ import {
     GoogleAuthProvider,
     signInWithRedirect,
     signInWithEmailAndPassword,
-    sendEmailVerification,
     AuthErrorCodes,
     getRedirectResult,
 } from 'firebase/auth';
@@ -22,10 +21,10 @@ import {
     FormLabel,
     HStack,
     Checkbox,
-    useToast,
     useColorModeValue,
     Divider,
-    Flex,
+    Alert,
+    CloseButton,
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
@@ -34,12 +33,224 @@ import { NextPageWithLayout } from '../src/types/NextPageWithLayout';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
 import { GoogleButton } from '@/auth/GoogleButton';
-import { validifyEmailFormat } from 'src/utils/auth/authUtils';
-import { createToast } from 'src/utils/common/toast';
 import { SeoPage } from '@/components/seo/SeoPage';
+import { Field, FieldProps, Form, Formik } from 'formik';
+import * as yup from 'yup';
+
+const singupSchema = yup.object({
+    email: yup.string().email('Please enter a valid email address').required('Email is required'),
+    password: yup.string().required('Password is required'),
+});
+
+type FormValues = { email: string; password: string };
 
 const SignIn: NextPageWithLayout = () => {
     const auth = useAuth();
+    const router = useRouter();
+    const { data: user } = useUser();
+
+    const initialValues: FormValues = { email: '', password: '' };
+    const [values, setValues] = useState(initialValues);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [emailSignInLoading, setEmailSignInLoading] = useState(false);
+
+    const backendRequestHandler = BackendRequestHandler.getInstance();
+    backendRequestHandler.initInstances(BackendRequestConfig);
+
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account consent' });
+
+    const googleLogin = async () => await signInWithRedirect(auth, provider);
+
+    const emailLogin = ({ email, password }: FormValues) => {
+        setEmailSignInLoading(true);
+        signInWithEmailAndPassword(auth, email, password)
+            .then(async userCredential => {
+                if (!userCredential.user.emailVerified) {
+                    await auth.signOut();
+                    setErrorMessage('Email address is not verified');
+                    setEmailSignInLoading(false);
+                } else {
+                    const idToken = await userCredential.user.getIdToken();
+                    const instance = BackendRequestHandler.getInstance();
+                    await instance.setNewUserRoles(idToken, { uid: userCredential.user.uid });
+                    router.push('/dashboard');
+                }
+            })
+            .catch(({ code: errorCode }: FirebaseError) => {
+                if (firebaseErrorCodeCheck(errorCode)) {
+                    setErrorMessage('Invalid email or password');
+                } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
+                    setErrorMessage('Invalid email address');
+                }
+
+                setEmailSignInLoading(false);
+            });
+    };
+
+    const onSubmit = (values: FormValues) => {
+        setValues(values);
+        emailLogin(values);
+    };
+
+    const firebaseErrorCodeCheck = (code: string) =>
+        code == AuthErrorCodes.INVALID_PASSWORD ||
+        code == AuthErrorCodes.USER_DELETED ||
+        code == AuthErrorCodes.INTERNAL_ERROR;
+
+    const getOAuthResponse = async () => {
+        const result = await getRedirectResult(auth);
+        if (result) {
+            const idToken = await result.user.getIdToken();
+            await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
+                uid: result.user.uid,
+            });
+            // setGoogleSignInLoading(true);
+            router.push('/dashboard');
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // Send that result to backend to create custom token
+        }
+    };
+
+    useEffect(() => {
+        if (user) router.push('/');
+        getOAuthResponse();
+        const signInOnEnter = async (event: KeyboardEvent) => {
+            if (event.key === 'Enter') await emailLogin(values);
+        };
+        window.addEventListener('keypress', signInOnEnter);
+        return () => window.removeEventListener('keypress', signInOnEnter);
+        // useEffect would have too many dependencies to where it would basically change
+        // each refresh so no point in adding them all.
+    });
+
+    return (
+        <SeoPage title='Sign in to Thia'>
+            <AuthTemplatePage
+                heading='Log in to your account'
+                text='Start training on your own hardware'
+            >
+                <VStack spacing={5} w='full'>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={singupSchema}
+                        onSubmit={values => onSubmit(values)}
+                    >
+                        {({ errors, touched }) => (
+                            <Form style={{ width: '100%' }} noValidate>
+                                <VStack spacing={5} w='full'>
+                                    {errorMessage && (
+                                        <Alert
+                                            bg='#ff42422e'
+                                            rounded='md'
+                                            status='error'
+                                            border='1px'
+                                            borderColor='#ff4242a3'
+                                            justifyContent='space-between'
+                                        >
+                                            {errorMessage}
+                                            <CloseButton
+                                                rounded='full'
+                                                onClick={() => setErrorMessage('')}
+                                                color='#ff4242a3'
+                                            />
+                                        </Alert>
+                                    )}
+                                    <Field name='email'>
+                                        {({ field, form }: FieldProps) => (
+                                            <FormControl
+                                                isRequired
+                                                isInvalid={!!errors.email && touched.email}
+                                            >
+                                                <FormLabel htmlFor='email'>Email Address</FormLabel>
+                                                <Input
+                                                    {...field}
+                                                    autoFocus
+                                                    id='email'
+                                                    type='email'
+                                                    placeholder='Email Address'
+                                                    bg={useColorModeValue('white', 'black')}
+                                                />
+
+                                                <FormErrorMessage>
+                                                    {form.errors.email}
+                                                </FormErrorMessage>
+                                            </FormControl>
+                                        )}
+                                    </Field>
+                                    <Field name='password'>
+                                        {({ field, form }: FieldProps) => (
+                                            <FormControl
+                                                isRequired
+                                                isInvalid={!!errors.password && touched.password}
+                                            >
+                                                <FormLabel htmlFor='password'>Password</FormLabel>
+                                                <Input
+                                                    {...field}
+                                                    id='password'
+                                                    type='password'
+                                                    placeholder='Password'
+                                                    bg={useColorModeValue('white', 'black')}
+                                                />
+                                                <FormErrorMessage>
+                                                    {form.errors.password}
+                                                </FormErrorMessage>
+                                            </FormControl>
+                                        )}
+                                    </Field>
+                                    <HStack justify='space-between' w='full' align='baseline'>
+                                        <Checkbox
+                                            size='sm'
+                                            // isChecked={rememberMe}
+                                            // onChange={(e: any) => setRememberMe(e.target.checked)}
+                                        >
+                                            <Text fontSize='sm'>Remember me</Text>
+                                        </Checkbox>
+                                        <ChakraNextLink
+                                            href='/resetpassword'
+                                            styleProps={{
+                                                fontSize: 'sm',
+                                                variant: 'primaryLink',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            Forgot password
+                                        </ChakraNextLink>
+                                    </HStack>
+                                    <Button
+                                        w='full'
+                                        type='submit'
+                                        colorScheme='gray'
+                                        variant='primary'
+                                        isLoading={emailSignInLoading}
+                                    >
+                                        Sign in
+                                    </Button>
+                                </VStack>
+                            </Form>
+                        )}
+                    </Formik>
+                    <HStack w='full'>
+                        <Divider />
+                        <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
+                            OR
+                        </Text>
+                        <Divider />
+                    </HStack>
+                    <GoogleButton onCLick={googleLogin}>Sign in with Google</GoogleButton>
+                </VStack>
+            </AuthTemplatePage>
+        </SeoPage>
+    );
+};
+
+SignIn.getLayout = function getLayout(page: ReactElement) {
+    return <EmptyLayout>{page}</EmptyLayout>;
+};
+
+export default SignIn;
+
+/**const auth = useAuth();
     const router = useRouter();
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
@@ -176,6 +387,16 @@ const SignIn: NextPageWithLayout = () => {
         // each refresh so no point in adding them all.
     });
 
+    const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmailErrorMessage(!validifyEmailFormat(e.target.value) ? 'Invalid email address' : '');
+        setEmailAddress(e.target.value);
+    };
+
+    const handlePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPasswordErrorMessage(e.target.value.trim().length == 0 ? 'Enter a password' : '');
+        setPassword(e.target.value);
+    };
+
     return (
         <SeoPage title='Sign in to Thia'>
             <AuthTemplatePage
@@ -192,14 +413,7 @@ const SignIn: NextPageWithLayout = () => {
                             bg={useColorModeValue('white', 'black')}
                             value={emailAddress}
                             onBlur={() => setEmailFocusedOnce(true)}
-                            onChange={({ target }: any) => {
-                                setEmailErrorMessage(
-                                    !validifyEmailFormat(target.value)
-                                        ? 'Invalid email address'
-                                        : ''
-                                );
-                                setEmailAddress(target.value);
-                            }}
+                            onChange={handleEmailInput}
                         />
                         <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
                     </FormControl>
@@ -213,12 +427,7 @@ const SignIn: NextPageWithLayout = () => {
                             placeholder='Password'
                             bg={useColorModeValue('white', 'black')}
                             onBlur={() => setPasswordFocusedOnce(true)}
-                            onChange={({ target }: any) => {
-                                setPasswordErrorMessage(
-                                    target.value.trim().length == 0 ? 'Enter a password' : ''
-                                );
-                                setPassword(target.value);
-                            }}
+                            onChange={handlePasswordInput}
                             type='password'
                         />
                         <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
@@ -284,11 +493,4 @@ const SignIn: NextPageWithLayout = () => {
                 </Flex>
             </AuthTemplatePage>
         </SeoPage>
-    );
-};
-
-SignIn.getLayout = function getLayout(page: ReactElement) {
-    return <EmptyLayout>{page}</EmptyLayout>;
-};
-
-export default SignIn;
+    ); */
