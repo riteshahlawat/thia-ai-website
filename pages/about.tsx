@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 interface MemberType {
     name: string;
@@ -122,7 +123,7 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
 
 const About: NextPage = () => {
     return (
-        <>
+        <SeoPage title='About us' description='What is Thia about?'>
             <Center h='var(--fullHeightWithoutNav)' pb='var(--header-height)'>
                 <VStack spacing={5} align='center' textAlign='center' maxW='7xl'>
                     <Text
@@ -168,7 +169,7 @@ const About: NextPage = () => {
                     </VStack>
                 </ContentContainer>
             </Box>
-        </>
+        </SeoPage>
     );
 };
 

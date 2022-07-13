@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAuth, useSigninCheck, useUser } from 'reactfire';
 import { Box, Center, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { SeoPage } from '@/components/seo/SeoPage';
 import { NextSeo } from 'next-seo';
 
 type Props = {};
