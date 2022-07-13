@@ -39,12 +39,12 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { CardElement, PaymentElement } from '@stripe/react-stripe-js';
+import { CardElement, Elements, PaymentElement } from '@stripe/react-stripe-js';
 import submitCardElement from '../src/hooks/submitCardElement';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
-
-type Props = {};
+import { loadStripe } from '@stripe/stripe-js';
+import { getStripePublicKey } from './_app';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -155,11 +155,18 @@ const CreditCards = ({ creditCards }: any) => {
         </Box>
     );
 };
-
-const Billing = (props: Props) => {
+const BillingParent = () => {
+    const stripePromise = loadStripe(getStripePublicKey());
+    return (
+        <Elements stripe={stripePromise}>
+            <Billing />
+        </Elements>
+    );
+};
+const Billing = () => {
     const router = useRouter();
-    const { handleSubmit } = submitCardElement();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { handleSubmit, isCardSubmitting } = submitCardElement(onClose, onClose);
     const { data: user } = useUser();
     const [subscription, setSubscription] = useState<any[]>([]);
     const [creditCards, setCreditCards] = useState<any[]>([]);
@@ -187,7 +194,7 @@ const Billing = (props: Props) => {
     }, [user]);
 
     if (!subscription) {
-        return '';
+        return <></>;
     }
 
     const useHandleStandardSubscription = async () => {
@@ -234,8 +241,8 @@ const Billing = (props: Props) => {
                         <Button onClick={onClose} mr={2} colorScheme='thia.gray'>
                             Cancel
                         </Button>
-                        <Button onClick={handleSubmit} colorScheme='thia.purple'>
-                            Add your card
+                        <Button onClick={handleSubmit} colorScheme='thia.purple' isLoading={isCardSubmitting} loadingText='Adding card'>
+                            Add card
                         </Button>
                     </ModalFooter>
                 </ModalContent>
@@ -344,4 +351,4 @@ const Billing = (props: Props) => {
     );
 };
 
-export default Billing;
+export default BillingParent;

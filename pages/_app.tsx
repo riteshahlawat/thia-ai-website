@@ -24,20 +24,21 @@ const firebaseConfig = getFirebaseConfig();
 const backendRequestHandler = BackendRequestHandler.getInstance();
 backendRequestHandler.initInstances(BackendRequestConfig);
 
+export const getStripePublicKey = (): string => {
+    if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
+        return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST as string;
+    }
+    return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_LIVE as string;
+};
+
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
 
-    const stripePromise = loadStripe(
-        'pk_live_51LDKK1IdzODCxCioPg4HCQd4Jxd4oDdc3rw15YyDUQvEZZsI0YliDOLW9FW1wJRC4fVwf97utkvvocdaVIvMCiRf00fM5BbKK3'
-    );
     const getLayout = Component.getLayout ?? (page => <BaseLayout>{page}</BaseLayout>);
-
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthProvider>
-                    <Elements stripe={stripePromise}>{getLayout(<Component {...pageProps} />)}</Elements>
-                </AuthProvider>
+                <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>
     );

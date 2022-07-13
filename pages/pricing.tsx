@@ -7,14 +7,14 @@ import { Summary } from '@/components/pricing/Summary';
 import { Comparison } from '@/components/pricing/Comparison';
 import { MdArrowDownward } from 'react-icons/md';
 
-export const getStripeKey = (): string => {
+export const getStripeSecretKey = (): string => {
     if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
         return process.env.STRIPE_SECRET_KEY_TEST as string;
     }
     return process.env.STRIPE_SECRET_KEY_LIVE as string;
 };
 
-const stripe = new Stripe(getStripeKey(), {
+const stripe = new Stripe(getStripeSecretKey(), {
     apiVersion: '2020-08-27',
     typescript: true,
 });
@@ -25,14 +25,7 @@ const Pricing: NextPage = ({ plans }: any) => {
             <Center h='full' minH='var(--fullHeightWithoutNav)' py='calc(var(--header-height)/2)'>
                 <VStack>
                     <Box w='full'>
-                        <Heading
-                            as='h1'
-                            fontSize={[64, 64, 84, 84, 84]}
-                            fontWeight='bold'
-                            letterSpacing='tighter'
-                            maxW='800px'
-                            pb={16}
-                        >
+                        <Heading as='h1' fontSize={[64, 64, 84, 84, 84]} fontWeight='bold' letterSpacing='tighter' maxW='800px' pb={16}>
                             Choose the plan that&apos;s right for you.
                         </Heading>
                     </Box>
