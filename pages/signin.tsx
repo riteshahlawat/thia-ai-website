@@ -122,7 +122,7 @@ const SignIn: NextPageWithLayout = () => {
 
         window.addEventListener('keypress', signInOnEnter);
         return () => window.removeEventListener('keypress', signInOnEnter);
-    }, [user]);
+    });
 
     return (
         <SeoPage title='Sign in to Thia'>
