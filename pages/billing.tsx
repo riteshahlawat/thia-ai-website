@@ -118,31 +118,33 @@ const Subscription = ({ subscription }: SubscriptionProps) => {
         <Box>
             <Heading fontSize='lg'>{subscription.id}</Heading>
             <Box>Status: {subscription.status}</Box>
-            {/* <Box>Card Last 4 Numbers: {subscription.default_payment_method.card?.last4}</Box> */}
             <Button onClick={cancelSubscription}>Cancel Subscription</Button>
         </Box>
     );
 };
 
-const CreditCards = ({ creditCards }: any) => {
+interface CreditCardProps {
+    creditCard: Stripe.PaymentMethod;
+}
+const CreditCards = ({ creditCard }: CreditCardProps) => {
     const { data: user } = useUser();
 
     const handleClick = async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().detachCreditCard(idToken, {
-                paymentMethodID: creditCards.id,
+                paymentMethodID: creditCard.id,
             });
         }
     };
 
     return (
         <Box>
-            <Heading>{creditCards.id}</Heading>
+            <Heading fontSize='lg'>{creditCard.id}</Heading>
             <Box>
-                Expiry Date: {creditCards.card.exp_month}/{creditCards.card.exp_year}
+                Expiry Date: {creditCard.card?.exp_month}/{creditCard.card?.exp_year}
             </Box>
-            <Box>Card Last 4 Numbers: {creditCards.card.last4}</Box>
+            <Box>Card Last 4 Numbers: {creditCard.card?.last4}</Box>
             <Button onClick={handleClick}>Remove Credit Card</Button>
         </Box>
     );
@@ -282,9 +284,12 @@ const Billing = () => {
             </Modal>
             <Center>
                 <Heading>Cards</Heading>
+            </Center>
+
+            <Center>
                 <Box>
                     {creditCards.map(cc => {
-                        <CreditCards key={cc.id} creditCards={cc} />;
+                        return <CreditCards key={cc.id} creditCard={cc} />;
                     })}
                 </Box>
             </Center>
@@ -303,43 +308,8 @@ const Billing = () => {
                         })}
                     </Box>
                 </Center>
+                <Divider my='4' />
                 <Stack spacing={4} width={'100%'} direction={'column'}>
-                    <Stack
-                        p={5}
-                        alignItems={'center'}
-                        justifyContent={{
-                            base: 'flex-start',
-                            md: 'space-around',
-                        }}
-                        direction={{
-                            base: 'column',
-                            md: 'row',
-                        }}
-                    >
-                        <Stack
-                            width={{
-                                base: '100%',
-                                md: '40%',
-                            }}
-                            textAlign={'center'}
-                        >
-                            <Heading size={'lg'}>
-                                The Right Plan for <Text color='thia.purple.400'>Your Business</Text>
-                            </Heading>
-                        </Stack>
-                        <Stack
-                            width={{
-                                base: '100%',
-                                md: '60%',
-                            }}
-                        >
-                            <Text textAlign={'center'}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam quod in iure vero. Facilis magnam, sed
-                                officiis commodi labore odit.
-                            </Text>
-                        </Stack>
-                    </Stack>
-                    <Divider />
                     <PackageTier title={'Standard'} typePlan='$40.00' options={options} />
                     <Popover>
                         <PopoverTrigger>
