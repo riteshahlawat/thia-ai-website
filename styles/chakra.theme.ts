@@ -7,6 +7,7 @@ import { Button } from './components/button';
 import { Prose } from './components/prose';
 import { Menu } from './components/menu';
 import { Modal } from './components/modal';
+import { Popover } from './components/popover';
 
 // Add color mode config
 const config: ThemeConfig = {
@@ -78,6 +79,7 @@ export const theme = extendTheme(
             Button,
             Menu,
             Modal,
+            Popover,
         },
     },
     withProse(Prose)
