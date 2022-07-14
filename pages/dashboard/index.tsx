@@ -10,7 +10,7 @@ const Dashboard = (props: Props) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!user) router.push('/login');
+        if (!user) router.push('/signin');
         else {
             user.getIdToken().then(val => {
                 navigator.clipboard.writeText(val);
@@ -18,7 +18,7 @@ const Dashboard = (props: Props) => {
         }
     }, [user, router]);
 
-    if (user){
+    if (user) {
         const idToken = user.getIdToken();
         console.log(idToken);
     }

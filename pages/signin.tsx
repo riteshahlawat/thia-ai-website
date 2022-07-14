@@ -3,7 +3,6 @@ import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth, useUser } from 'reactfire';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
-
 import {
     GoogleAuthProvider,
     signInWithRedirect,
@@ -15,16 +14,12 @@ import {
     Button,
     VStack,
     Text,
-    Input,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
     HStack,
     Checkbox,
-    useColorModeValue,
     Divider,
     Alert,
     CloseButton,
+    Flex,
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import BackendRequestConfig from '../backend-requests/backendRequestConfig';
@@ -34,25 +29,33 @@ import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
 import { GoogleButton } from '@/auth/GoogleButton';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Field, FieldProps, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as yup from 'yup';
+import { InputFormControl } from '@/components/common/InputFormControl';
 
-const singupSchema = yup.object({
+// destucture firebase error codes
+const { INVALID_EMAIL, INVALID_PASSWORD, INTERNAL_ERROR, USER_DELETED } = AuthErrorCodes;
+
+// form validation schemea
+const singinSchema = yup.object({
     email: yup.string().email('Please enter a valid email address').required('Email is required'),
     password: yup.string().required('Password is required'),
 });
 
-type FormValues = { email: string; password: string };
+type SignInValues = { email: string; password: string };
 
 const SignIn: NextPageWithLayout = () => {
     const auth = useAuth();
     const router = useRouter();
     const { data: user } = useUser();
 
-    const initialValues: FormValues = { email: '', password: '' };
+    // initial form values
+    const initialValues: SignInValues = { email: '', password: '' };
+
     const [values, setValues] = useState(initialValues);
     const [errorMessage, setErrorMessage] = useState('');
-    const [emailSignInLoading, setEmailSignInLoading] = useState(false);
+    const [isEmailSignInLoading, setEmailSignInLoading] = useState(false);
+    const [isGoogleSignInLoading, setGoogleSignInLoading] = useState(false);
 
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
@@ -60,9 +63,8 @@ const SignIn: NextPageWithLayout = () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account consent' });
 
-    const googleLogin = async () => await signInWithRedirect(auth, provider);
-
-    const emailLogin = ({ email, password }: FormValues) => {
+    // flow for log in in with email and password
+    const emailLogin = ({ email, password }: SignInValues) => {
         setEmailSignInLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then(async userCredential => {
@@ -77,10 +79,10 @@ const SignIn: NextPageWithLayout = () => {
                     router.push('/dashboard');
                 }
             })
-            .catch(({ code: errorCode }: FirebaseError) => {
-                if (firebaseErrorCodeCheck(errorCode)) {
+            .catch(({ code }: FirebaseError) => {
+                if (code === INVALID_PASSWORD || code === USER_DELETED || code === INTERNAL_ERROR) {
                     setErrorMessage('Invalid email or password');
-                } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
+                } else if (code === INVALID_EMAIL) {
                     setErrorMessage('Invalid email address');
                 }
 
@@ -88,15 +90,13 @@ const SignIn: NextPageWithLayout = () => {
             });
     };
 
-    const onSubmit = (values: FormValues) => {
+    // login with google redirect
+    const googleLogin = async () => await signInWithRedirect(auth, provider);
+
+    const onSubmit = (values: SignInValues) => {
         setValues(values);
         emailLogin(values);
     };
-
-    const firebaseErrorCodeCheck = (code: string) =>
-        code == AuthErrorCodes.INVALID_PASSWORD ||
-        code == AuthErrorCodes.USER_DELETED ||
-        code == AuthErrorCodes.INTERNAL_ERROR;
 
     const getOAuthResponse = async () => {
         const result = await getRedirectResult(auth);
@@ -105,24 +105,24 @@ const SignIn: NextPageWithLayout = () => {
             await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
                 uid: result.user.uid,
             });
-            // setGoogleSignInLoading(true);
+            setGoogleSignInLoading(true);
             router.push('/dashboard');
             const credential = GoogleAuthProvider.credentialFromResult(result);
             // Send that result to backend to create custom token
         }
     };
 
+    const signInOnEnter = async (event: KeyboardEvent) => {
+        if (event.key === 'Enter') await emailLogin(values);
+    };
+
     useEffect(() => {
         if (user) router.push('/');
         getOAuthResponse();
-        const signInOnEnter = async (event: KeyboardEvent) => {
-            if (event.key === 'Enter') await emailLogin(values);
-        };
+
         window.addEventListener('keypress', signInOnEnter);
         return () => window.removeEventListener('keypress', signInOnEnter);
-        // useEffect would have too many dependencies to where it would basically change
-        // each refresh so no point in adding them all.
-    });
+    }, [user]);
 
     return (
         <SeoPage title='Sign in to Thia'>
@@ -133,8 +133,8 @@ const SignIn: NextPageWithLayout = () => {
                 <VStack spacing={5} w='full'>
                     <Formik
                         initialValues={initialValues}
-                        validationSchema={singupSchema}
-                        onSubmit={values => onSubmit(values)}
+                        validationSchema={singinSchema}
+                        onSubmit={onSubmit}
                     >
                         {({ errors, touched }) => (
                             <Form style={{ width: '100%' }} noValidate>
@@ -156,48 +156,23 @@ const SignIn: NextPageWithLayout = () => {
                                             />
                                         </Alert>
                                     )}
-                                    <Field name='email'>
-                                        {({ field, form }: FieldProps) => (
-                                            <FormControl
-                                                isRequired
-                                                isInvalid={!!errors.email && touched.email}
-                                            >
-                                                <FormLabel htmlFor='email'>Email Address</FormLabel>
-                                                <Input
-                                                    {...field}
-                                                    autoFocus
-                                                    id='email'
-                                                    type='email'
-                                                    placeholder='Email Address'
-                                                    bg={useColorModeValue('white', 'black')}
-                                                />
-
-                                                <FormErrorMessage>
-                                                    {form.errors.email}
-                                                </FormErrorMessage>
-                                            </FormControl>
-                                        )}
-                                    </Field>
-                                    <Field name='password'>
-                                        {({ field, form }: FieldProps) => (
-                                            <FormControl
-                                                isRequired
-                                                isInvalid={!!errors.password && touched.password}
-                                            >
-                                                <FormLabel htmlFor='password'>Password</FormLabel>
-                                                <Input
-                                                    {...field}
-                                                    id='password'
-                                                    type='password'
-                                                    placeholder='Password'
-                                                    bg={useColorModeValue('white', 'black')}
-                                                />
-                                                <FormErrorMessage>
-                                                    {form.errors.password}
-                                                </FormErrorMessage>
-                                            </FormControl>
-                                        )}
-                                    </Field>
+                                    <InputFormControl
+                                        autofocus
+                                        isRequired
+                                        name='email'
+                                        type='email'
+                                        label='Email Address'
+                                        errors={errors.email}
+                                        touched={touched.email}
+                                    />
+                                    <InputFormControl
+                                        isRequired
+                                        name='password'
+                                        type='password'
+                                        label='Password'
+                                        errors={errors.password}
+                                        touched={touched.password}
+                                    />
                                     <HStack justify='space-between' w='full' align='baseline'>
                                         <Checkbox
                                             size='sm'
@@ -222,7 +197,7 @@ const SignIn: NextPageWithLayout = () => {
                                         type='submit'
                                         colorScheme='gray'
                                         variant='primary'
-                                        isLoading={emailSignInLoading}
+                                        isLoading={isEmailSignInLoading}
                                     >
                                         Sign in
                                     </Button>
@@ -237,7 +212,21 @@ const SignIn: NextPageWithLayout = () => {
                         </Text>
                         <Divider />
                     </HStack>
-                    <GoogleButton onCLick={googleLogin}>Sign in with Google</GoogleButton>
+                    <GoogleButton onCLick={googleLogin} isLoading={isGoogleSignInLoading}>
+                        Sign in with Google
+                    </GoogleButton>
+                    <Flex gap={3} fontSize='sm'>
+                        <Text>New to Thia?</Text>
+                        <ChakraNextLink
+                            href='/signup'
+                            styleProps={{
+                                variant: 'primaryLink',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Sign up
+                        </ChakraNextLink>
+                    </Flex>
                 </VStack>
             </AuthTemplatePage>
         </SeoPage>
