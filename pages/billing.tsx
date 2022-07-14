@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth, useSigninCheck, useUser } from 'reactfire';
+import { useUser } from 'reactfire';
 import {
     Box,
     Button,
@@ -23,20 +23,13 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
     PopoverHeader,
     PopoverTrigger,
     Portal,
-    Spinner,
     Stack,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
     Text,
-    useColorModeValue,
     useDisclosure,
+    useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { CardElement, Elements, PaymentElement } from '@stripe/react-stripe-js';
@@ -44,7 +37,9 @@ import submitCardElement from '../src/hooks/submitCardElement';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import { loadStripe } from '@stripe/stripe-js';
+import Stripe from 'stripe';
 import { getStripePublicKey } from './_app';
+import { IdTokenResult } from 'firebase/auth';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -76,12 +71,6 @@ interface PackageTierProps {
     checked?: boolean;
 }
 const PackageTier = ({ title, options, typePlan, checked = false }: PackageTierProps) => {
-    const colorTextLight = checked ? 'white' : 'purple.600';
-    const bgColorLight = checked ? 'purple.400' : 'gray.300';
-
-    const colorTextDark = checked ? 'white' : 'purple.500';
-    const bgColorDark = checked ? 'purple.400' : 'gray.300';
-
     return (
         <Stack
             p={3}
@@ -110,10 +99,13 @@ const PackageTier = ({ title, options, typePlan, checked = false }: PackageTierP
     );
 };
 
-const Subscription = ({ subscription }: any) => {
+interface SubscriptionProps {
+    subscription: Stripe.Subscription;
+}
+const Subscription = ({ subscription }: SubscriptionProps) => {
     const { data: user } = useUser();
 
-    const handleClick = async () => {
+    const cancelSubscription = async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().cancelSubscriptionPlan(idToken, {
@@ -124,10 +116,10 @@ const Subscription = ({ subscription }: any) => {
 
     return (
         <Box>
-            <Heading>{subscription.id}</Heading>
+            <Heading fontSize='lg'>{subscription.id}</Heading>
             <Box>Status: {subscription.status}</Box>
-            <Box>Card Last 4 Numbers: {subscription.default_payment_method?.card?.last4}</Box>
-            <Button onClick={handleClick}>Cancel Subscription</Button>
+            {/* <Box>Card Last 4 Numbers: {subscription.default_payment_method.card?.last4}</Box> */}
+            <Button onClick={cancelSubscription}>Cancel Subscription</Button>
         </Box>
     );
 };
@@ -168,28 +160,42 @@ const Billing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { handleSubmit, isCardSubmitting } = submitCardElement(onClose, onClose);
     const { data: user } = useUser();
-    const [subscription, setSubscription] = useState<any[]>([]);
-    const [creditCards, setCreditCards] = useState<any[]>([]);
+    const toast = useToast();
+    const [subscription, setSubscription] = useState<Stripe.Subscription[]>([]);
+    const [creditCards, setCreditCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
+    const [subscriptionChanging, setSubscriptionChanging] = useState(false);
+
+    const fetchClaims = async () => {
+        if (user) {
+            const idToken = await user.getIdTokenResult(true);
+            console.log('Role:', idToken.claims.role);
+
+            setUserIdToken(idToken);
+        }
+    };
+
+    const fetchSubscriptionAndCreditCards = async () => {
+        if (user) {
+            const idToken = await user.getIdToken();
+            const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
+            if (!isError) {
+                console.log(response);
+                setSubscription(response.data);
+            }
+            const [isError2, response2] = await BackendRequestHandler.getInstance().listCreditCards(idToken);
+            if (!isError2) {
+                console.log(response2);
+                setCreditCards(response2.data);
+            }
+        }
+    };
 
     useEffect(() => {
-        const fetchSubscriptionAndCreditCards = async () => {
-            if (user === null) {
-                router.push('/signin');
-            } else if (user) {
-                const idToken = await user.getIdToken();
-                const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
-                if (!isError) {
-                    console.log(response);
-                    setSubscription(response.data);
-                }
-                const [isError2, response2] = await BackendRequestHandler.getInstance().listCreditCards(idToken);
-                if (!isError2) {
-                    console.log(response2);
-                    setCreditCards(response2.data);
-                }
-            }
-        };
-
+        if (user === null) {
+            router.push('/signin');
+        }
+        fetchClaims();
         fetchSubscriptionAndCreditCards();
     }, [user]);
 
@@ -197,23 +203,50 @@ const Billing = () => {
         return <></>;
     }
 
-    const useHandleStandardSubscription = async () => {
-        const { data: user } = useUser();
+    const subscribeToStandardPlan = async () => {
         if (user) {
+            setSubscriptionChanging(true);
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().subscribeStandardPlan(idToken, {
                 uid: user.uid,
             });
+            if (isError) {
+                toast({
+                    title: 'Error',
+                    description: response['message'],
+                    status: 'error',
+                    duration: 2500,
+                    isClosable: false,
+                });
+            } else {
+                await fetchClaims();
+                await fetchSubscriptionAndCreditCards();
+            }
+
+            setSubscriptionChanging(false);
         }
     };
 
-    const useHandlePremiumSubscription = async () => {
-        const { data: user } = useUser();
+    const subscribeToUltimatePlan = async () => {
         if (user) {
+            setSubscriptionChanging(true);
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().subscribePremiumPlan(idToken, {
                 uid: user.uid,
             });
+            if (isError) {
+                toast({
+                    title: 'Error',
+                    description: response['message'],
+                    status: 'error',
+                    duration: 2500,
+                    isClosable: false,
+                });
+            } else {
+                await fetchClaims();
+                await fetchSubscriptionAndCreditCards();
+            }
+            setSubscriptionChanging(false);
         }
     };
 
@@ -261,9 +294,12 @@ const Billing = () => {
             <Box py={6} px={5}>
                 <Center>
                     <Heading>Change Subscription Plan</Heading>
+                </Center>
+
+                <Center>
                     <Box>
                         {subscription.map(s => {
-                            <Subscription key={s.id} subscription={s} />;
+                            return <Subscription key={s.id} subscription={s} />;
                         })}
                     </Box>
                 </Center>
@@ -304,13 +340,13 @@ const Billing = () => {
                         </Stack>
                     </Stack>
                     <Divider />
-                    <PackageTier title={'Standard'} typePlan='$9.99' options={options} />
+                    <PackageTier title={'Standard'} typePlan='$40.00' options={options} />
                     <Popover>
                         <PopoverTrigger>
-                            <Button>Get Started</Button>
+                            <Button variant='primaryOutline'>Get Started</Button>
                         </PopoverTrigger>
                         <Portal>
-                            <PopoverContent color='white' bg='thia.purple.400' borderColor='thia.purple.400'>
+                            <PopoverContent>
                                 <PopoverArrow />
                                 <PopoverHeader>
                                     <Center>Confirm your subscription plan!</Center>
@@ -318,20 +354,27 @@ const Billing = () => {
                                 <PopoverCloseButton />
                                 <PopoverBody>
                                     <Center>
-                                        <Button onClick={useHandleStandardSubscription}>Confirm</Button>
+                                        <Button
+                                            onClick={subscribeToStandardPlan}
+                                            colorScheme='thia.purple'
+                                            isLoading={subscriptionChanging}
+                                            loadingText='Confirming'
+                                        >
+                                            Confirm
+                                        </Button>
                                     </Center>
                                 </PopoverBody>
                             </PopoverContent>
                         </Portal>
                     </Popover>
                     <Divider />
-                    <PackageTier title={'Premium'} typePlan='$49.99' options={options} />
+                    <PackageTier title={'Premium'} typePlan='$80.00' options={options} />
                     <Popover>
                         <PopoverTrigger>
-                            <Button>Get Started</Button>
+                            <Button variant='primaryOutline'>Get Started</Button>
                         </PopoverTrigger>
                         <Portal>
-                            <PopoverContent color='white' bg='thia.purple.400' borderColor='thia.purple.400'>
+                            <PopoverContent>
                                 <PopoverArrow />
                                 <PopoverHeader>
                                     <Center>Confirm your subscription plan!</Center>
@@ -339,7 +382,14 @@ const Billing = () => {
                                 <PopoverCloseButton />
                                 <PopoverBody>
                                     <Center>
-                                        <Button onClick={useHandlePremiumSubscription}>Confirm</Button>
+                                        <Button
+                                            onClick={subscribeToUltimatePlan}
+                                            colorScheme='thia.purple'
+                                            isLoading={subscriptionChanging}
+                                            loadingText='Confirming'
+                                        >
+                                            Confirm
+                                        </Button>
                                     </Center>
                                 </PopoverBody>
                             </PopoverContent>
