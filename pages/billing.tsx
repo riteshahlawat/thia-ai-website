@@ -105,9 +105,11 @@ interface SubscriptionProps {
 }
 const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
     const { data: user } = useUser();
+    const [subscriptionCancelling, setSubscriptionCancelling] = useState(false);
 
     const cancelSubscription = async () => {
         if (user) {
+            setSubscriptionCancelling(true);
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().cancelSubscriptionPlan(idToken, {
                 subscriptionID: subscription.id,
@@ -115,6 +117,7 @@ const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
             if (!isError) {
                 await loadData();
             }
+            setSubscriptionCancelling(false);
         }
     };
 
@@ -122,7 +125,9 @@ const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
         <Box>
             <Heading fontSize='lg'>{subscription.id}</Heading>
             <Box>Status: {subscription.status}</Box>
-            <Button onClick={cancelSubscription}>Cancel Subscription</Button>
+            <Button onClick={cancelSubscription} isLoading={subscriptionCancelling} loadingText='Cancelling'>
+                Cancel Subscription
+            </Button>
         </Box>
     );
 };
@@ -134,9 +139,12 @@ interface CreditCardProps {
 }
 const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardProps) => {
     const { data: user } = useUser();
+    const [changingDefaultCard, setChangingDefaultCard] = useState(false);
+    const [removingCard, setRemovingCard] = useState(false);
 
-    const removeCreditCard = async () => {
+    const removeCard = async () => {
         if (user) {
+            setRemovingCard(true);
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().detachCreditCard(idToken, {
                 paymentMethodID: creditCard.id,
@@ -144,6 +152,7 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
             if (!isError) {
                 await loadData();
             }
+            setRemovingCard(false);
         }
     };
 
@@ -151,7 +160,7 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
         if (defaultCreditCardID && creditCard.id === defaultCreditCardID) {
             return (
                 <Heading fontSize='sm' color='thia.purple.500'>
-                    Default Credit Card
+                    Default Card
                 </Heading>
             );
         }
@@ -159,6 +168,7 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
 
     const setDefaultCreditCard = async () => {
         if (user) {
+            setChangingDefaultCard(true);
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
                 uid: user.uid,
@@ -167,12 +177,17 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
             if (!isError) {
                 await loadData();
             }
+            setChangingDefaultCard(false);
         }
     };
 
     const renderSetDefaultButton = () => {
         if ((defaultCreditCardID && creditCard.id !== defaultCreditCardID) || defaultCreditCardID === null) {
-            return <Button onClick={setDefaultCreditCard}>Set Default Credit Card</Button>;
+            return (
+                <Button onClick={setDefaultCreditCard} isLoading={changingDefaultCard} loadingText='Updating'>
+                    Set Default Card
+                </Button>
+            );
         }
     };
 
@@ -184,7 +199,9 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
             </Box>
             <Box>Card Last 4 Numbers: {creditCard.card?.last4}</Box>
             {renderDefaultCreditCard()}
-            <Button onClick={removeCreditCard}>Remove Credit Card</Button>
+            <Button onClick={removeCard} isLoading={removingCard} loadingText='Removing'>
+                Remove Credit Card
+            </Button>
             {renderSetDefaultButton()}
         </Box>
     );
@@ -250,7 +267,7 @@ const Billing = () => {
 
             const [isError3, response3] = await BackendRequestHandler.getInstance().getDefaultCreditCard(idToken);
             if (!isError3) {
-                console.log('Default Credit Card:', response3);
+                console.log('Default Card:', response3);
                 setDefaultCreditCardID(response3);
             }
         }
