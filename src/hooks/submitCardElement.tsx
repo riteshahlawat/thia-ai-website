@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useUser } from 'reactfire';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 
-function submitCardElement(onSuccess: () => void, onFail: () => void) {
+function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>, defaultCreditCardID: string | null) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
     const stripe = useStripe();
@@ -53,10 +53,14 @@ function submitCardElement(onSuccess: () => void, onFail: () => void) {
                 await stripe.confirmCardSetup(clientSecret, {
                     payment_method: paymentMethodID,
                 });
-                await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
-                    uid: user.uid,
-                    paymentMethodID,
-                });
+                if (!defaultCreditCardID) {
+                    // If the user does not have a default credit card, then update the new card to be their default
+                    await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
+                        uid: user.uid,
+                        paymentMethodID,
+                    });
+                }
+
                 toast({
                     title: 'Success',
                     description: 'Card was added to your account',
@@ -64,9 +68,8 @@ function submitCardElement(onSuccess: () => void, onFail: () => void) {
                     duration: 2500,
                     isClosable: false,
                 });
-                onSuccess();
+                await onSuccess();
             } else {
-                console.log(response);
                 toast({
                     title: 'Error',
                     description: response['message'],
@@ -74,7 +77,7 @@ function submitCardElement(onSuccess: () => void, onFail: () => void) {
                     duration: 2500,
                     isClosable: false,
                 });
-                onFail();
+                await onFail();
             }
             setSubmitLoading(false);
         }

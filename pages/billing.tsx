@@ -39,7 +39,7 @@ import { BackendRequestHandler } from '../backend-requests/backendRequestHandler
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
 import { getStripePublicKey } from './_app';
-import { IdTokenResult } from 'firebase/auth';
+import { IdTokenResult, User } from 'firebase/auth';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -101,8 +101,9 @@ const PackageTier = ({ title, options, typePlan, checked = false }: PackageTierP
 
 interface SubscriptionProps {
     subscription: Stripe.Subscription;
+    loadData: () => Promise<void>;
 }
-const Subscription = ({ subscription }: SubscriptionProps) => {
+const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
     const { data: user } = useUser();
 
     const cancelSubscription = async () => {
@@ -111,6 +112,9 @@ const Subscription = ({ subscription }: SubscriptionProps) => {
             const [isError, response] = await BackendRequestHandler.getInstance().cancelSubscriptionPlan(idToken, {
                 subscriptionID: subscription.id,
             });
+            if (!isError) {
+                await loadData();
+            }
         }
     };
 
@@ -125,16 +129,50 @@ const Subscription = ({ subscription }: SubscriptionProps) => {
 
 interface CreditCardProps {
     creditCard: Stripe.PaymentMethod;
+    defaultCreditCardID: string | null;
+    loadData: () => Promise<void>;
 }
-const CreditCards = ({ creditCard }: CreditCardProps) => {
+const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardProps) => {
     const { data: user } = useUser();
 
-    const handleClick = async () => {
+    const removeCreditCard = async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().detachCreditCard(idToken, {
                 paymentMethodID: creditCard.id,
             });
+            if (!isError) {
+                await loadData();
+            }
+        }
+    };
+
+    const renderDefaultCreditCard = () => {
+        if (defaultCreditCardID && creditCard.id === defaultCreditCardID) {
+            return (
+                <Heading fontSize='sm' color='thia.purple.500'>
+                    Default Credit Card
+                </Heading>
+            );
+        }
+    };
+
+    const setDefaultCreditCard = async () => {
+        if (user) {
+            const idToken = await user.getIdToken();
+            const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
+                uid: user.uid,
+                paymentMethodID: creditCard.id,
+            });
+            if (!isError) {
+                await loadData();
+            }
+        }
+    };
+
+    const renderSetDefaultButton = () => {
+        if ((defaultCreditCardID && creditCard.id !== defaultCreditCardID) || defaultCreditCardID === null) {
+            return <Button onClick={setDefaultCreditCard}>Set Default Credit Card</Button>;
         }
     };
 
@@ -145,7 +183,9 @@ const CreditCards = ({ creditCard }: CreditCardProps) => {
                 Expiry Date: {creditCard.card?.exp_month}/{creditCard.card?.exp_year}
             </Box>
             <Box>Card Last 4 Numbers: {creditCard.card?.last4}</Box>
-            <Button onClick={handleClick}>Remove Credit Card</Button>
+            {renderDefaultCreditCard()}
+            <Button onClick={removeCreditCard}>Remove Credit Card</Button>
+            {renderSetDefaultButton()}
         </Box>
     );
 };
@@ -160,13 +200,30 @@ const BillingParent = () => {
 const Billing = () => {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { handleSubmit, isCardSubmitting } = submitCardElement(onClose, onClose);
     const { data: user } = useUser();
     const toast = useToast();
     const [subscription, setSubscription] = useState<Stripe.Subscription[]>([]);
     const [creditCards, setCreditCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [defaultCreditCardID, setDefaultCreditCardID] = useState<string | null>(null);
     const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
     const [subscriptionChanging, setSubscriptionChanging] = useState(false);
+    const [dataLoading, setDataLoading] = useState(false);
+
+    const loadData = async () => {
+        setDataLoading(true);
+        await fetchClaims();
+        await fetchSubscriptionAndCreditCards();
+        setDataLoading(false);
+    };
+
+    const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
+        async () => {
+            onClose();
+            await loadData();
+        },
+        onClose,
+        defaultCreditCardID
+    );
 
     const fetchClaims = async () => {
         if (user) {
@@ -182,13 +239,19 @@ const Billing = () => {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
             if (!isError) {
-                console.log(response);
+                console.log('Subscription:', response.data.length);
                 setSubscription(response.data);
             }
             const [isError2, response2] = await BackendRequestHandler.getInstance().listCreditCards(idToken);
             if (!isError2) {
-                console.log(response2);
+                console.log('Cards:', response2.data.length);
                 setCreditCards(response2.data);
+            }
+
+            const [isError3, response3] = await BackendRequestHandler.getInstance().getDefaultCreditCard(idToken);
+            if (!isError3) {
+                console.log('Default Credit Card:', response3);
+                setDefaultCreditCardID(response3);
             }
         }
     };
@@ -197,8 +260,7 @@ const Billing = () => {
         if (user === null) {
             router.push('/signin');
         }
-        fetchClaims();
-        fetchSubscriptionAndCreditCards();
+        loadData();
     }, [user]);
 
     if (!subscription) {
@@ -221,8 +283,7 @@ const Billing = () => {
                     isClosable: false,
                 });
             } else {
-                await fetchClaims();
-                await fetchSubscriptionAndCreditCards();
+                await loadData();
             }
 
             setSubscriptionChanging(false);
@@ -245,8 +306,7 @@ const Billing = () => {
                     isClosable: false,
                 });
             } else {
-                await fetchClaims();
-                await fetchSubscriptionAndCreditCards();
+                await loadData();
             }
             setSubscriptionChanging(false);
         }
@@ -276,7 +336,7 @@ const Billing = () => {
                         <Button onClick={onClose} mr={2} colorScheme='thia.gray'>
                             Cancel
                         </Button>
-                        <Button onClick={handleSubmit} colorScheme='thia.purple' isLoading={isCardSubmitting} loadingText='Adding card'>
+                        <Button onClick={addCardToUser} colorScheme='thia.purple' isLoading={isCardSubmitting} loadingText='Adding card'>
                             Add card
                         </Button>
                     </ModalFooter>
@@ -289,7 +349,7 @@ const Billing = () => {
             <Center>
                 <Box>
                     {creditCards.map(cc => {
-                        return <CreditCards key={cc.id} creditCard={cc} />;
+                        return <CreditCards key={cc.id} creditCard={cc} defaultCreditCardID={defaultCreditCardID} loadData={loadData} />;
                     })}
                 </Box>
             </Center>
@@ -304,7 +364,7 @@ const Billing = () => {
                 <Center>
                     <Box>
                         {subscription.map(s => {
-                            return <Subscription key={s.id} subscription={s} />;
+                            return <Subscription key={s.id} subscription={s} loadData={loadData} />;
                         })}
                     </Box>
                 </Center>

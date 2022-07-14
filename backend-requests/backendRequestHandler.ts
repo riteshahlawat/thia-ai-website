@@ -1,4 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { GetDefaultCreditCardBackendRequest } from './requests/get/getDefaultCreditCard';
 import { PingBackendSecureBackendRequest } from './requests/get/pingBackendSecure';
 import { PostCancelSubscriptionPlanBackendRequest, PostCancelSubscriptionPlanData } from './requests/post/cancelSubscriptionPlan';
 import { PostDetachCreditCardBackendRequest, PostDetachCreditCardData } from './requests/post/detachCreditCard';
@@ -37,6 +38,8 @@ export class BackendRequestHandler {
     private listCreditCardsBR!: PostListCreditCardsBackendRequest;
     // Detach Credit Card
     private detachCreditCardBR!: PostDetachCreditCardBackendRequest;
+    // Get User's Default Credit Card
+    private getDefaultCreditCardBR!: GetDefaultCreditCardBackendRequest;
 
     /**
      * Private constructor.
@@ -69,6 +72,7 @@ export class BackendRequestHandler {
         this.cancelSubscriptionPlanBR = new PostCancelSubscriptionPlanBackendRequest(this.backendRequest);
         this.listCreditCardsBR = new PostListCreditCardsBackendRequest(this.backendRequest);
         this.detachCreditCardBR = new PostDetachCreditCardBackendRequest(this.backendRequest);
+        this.getDefaultCreditCardBR = new GetDefaultCreditCardBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -109,5 +113,9 @@ export class BackendRequestHandler {
 
     public detachCreditCard = async (idToken: string, data: PostDetachCreditCardData, config?: AxiosRequestConfig) => {
         return this.detachCreditCardBR.run(config, [idToken, data]);
+    };
+
+    public getDefaultCreditCard = async (idToken: string, config?: AxiosRequestConfig) => {
+        return this.getDefaultCreditCardBR.run(config, idToken);
     };
 }
