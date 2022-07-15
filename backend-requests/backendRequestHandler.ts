@@ -3,8 +3,8 @@ import { GetDefaultCreditCardBackendRequest } from './requests/get/getDefaultCre
 import { PingBackendSecureBackendRequest } from './requests/get/pingBackendSecure';
 import { PostCancelSubscriptionPlanBackendRequest, PostCancelSubscriptionPlanData } from './requests/post/cancelSubscriptionPlan';
 import { PostDetachCreditCardBackendRequest, PostDetachCreditCardData } from './requests/post/detachCreditCard';
-import { PostListCreditCardsBackendRequest, PostListCreditCardsData } from './requests/post/listCreditCards';
-import { PostListSubscriptionPlanBackendRequest } from './requests/post/listSubscriptionPlan';
+import { PostListCreditCardsBackendRequest, PostListCreditCardsData } from './requests/get/listCreditCards';
+import { PostListSubscriptionPlanBackendRequest } from './requests/get/listSubscriptionPlan';
 import { PostNewCreditCardBackendRequest, PostNewCreditCardData } from './requests/post/saveNewCreditCard';
 import { PostNewUserClaimsBackendRequest, PostNewUserClaimsData } from './requests/post/setNewUserRoles';
 import { PostSubscribePremiumPlanBackendRequest } from './requests/post/subscribePremiumPlan';
