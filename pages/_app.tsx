@@ -17,6 +17,7 @@ import { getFirebaseConfig } from '../firebase/firebase';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 import BackendRequestConfig from 'backend-requests/backendRequestConfig';
+import { DefaultSeo } from '@/components/seo/DefaultSeo';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
 
@@ -38,7 +39,10 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-                <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+                <AuthProvider>
+                    <DefaultSeo />
+                    {getLayout(<Component {...pageProps} />)}
+                </AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>
     );

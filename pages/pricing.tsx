@@ -6,6 +6,7 @@ import { Box, Center, Heading, Link, useColorModeValue, VStack } from '@chakra-u
 import { Summary } from '@/components/pricing/Summary';
 import { Comparison } from '@/components/pricing/Comparison';
 import { MdArrowDownward } from 'react-icons/md';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 export const getStripeSecretKey = (): string => {
     if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
@@ -21,34 +22,36 @@ const stripe = new Stripe(getStripeSecretKey(), {
 
 const Pricing: NextPage = ({ plans }: any) => {
     return (
-        <ContentContainer>
-            <Center h='full' minH='var(--fullHeightWithoutNav)' py='calc(var(--header-height)/2)'>
-                <VStack>
-                    <Box w='full'>
-                        <Heading as='h1' fontSize={[64, 64, 84, 84, 84]} fontWeight='bold' letterSpacing='tighter' maxW='800px' pb={16}>
-                            Choose the plan that&apos;s right for you.
-                        </Heading>
-                    </Box>
-                    <Summary plans={plans} />
-                    <Box pt={16}>
-                        <Link
-                            fontSize='2xl'
-                            fontWeight='extrabold'
-                            display='flex'
-                            flexDirection='column'
-                            alignItems='center'
-                            color={useColorModeValue('black', 'white')}
-                            href='#comparison-table'
-                            _hover={{ color: 'thia.purple.500' }}
-                        >
-                            Compare all features
-                            <MdArrowDownward />
-                        </Link>
-                    </Box>
-                </VStack>
-            </Center>
-            <Comparison plans={plans} />
-        </ContentContainer>
+        <SeoPage title='Pricing' description="Choose the plan that's right for you">
+            <ContentContainer>
+                <Center h='full' minH='var(--fullHeightWithoutNav)' py='calc(var(--header-height)/2)'>
+                    <VStack>
+                        <Box w='full'>
+                            <Heading as='h1' fontSize={[64, 64, 84, 84, 84]} fontWeight='bold' letterSpacing='tighter' maxW='800px' pb={16}>
+                                Choose the plan that&apos;s right for you.
+                            </Heading>
+                        </Box>
+                        <Summary plans={plans} />
+                        <Box pt={16}>
+                            <Link
+                                fontSize='2xl'
+                                fontWeight='extrabold'
+                                display='flex'
+                                flexDirection='column'
+                                alignItems='center'
+                                color={useColorModeValue('black', 'white')}
+                                href='#comparison-table'
+                                _hover={{ color: 'thia.purple.500' }}
+                            >
+                                Compare all features
+                                <MdArrowDownward />
+                            </Link>
+                        </Box>
+                    </VStack>
+                </Center>
+                <Comparison plans={plans} />
+            </ContentContainer>
+        </SeoPage>
     );
 };
 
