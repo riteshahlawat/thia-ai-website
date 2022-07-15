@@ -15,28 +15,33 @@ import { loadStripe } from '@stripe/stripe-js';
 import { AuthProvider } from '@/auth/AuthProvider';
 import { getFirebaseConfig } from '../firebase/firebase';
 import { NextPageWithLayout } from '@/types/NextPageWithLayout';
+import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
+import BackendRequestConfig from 'backend-requests/backendRequestConfig';
 import { DefaultSeo } from '@/components/seo/DefaultSeo';
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout };
 
 const firebaseConfig = getFirebaseConfig();
+const backendRequestHandler = BackendRequestHandler.getInstance();
+backendRequestHandler.initInstances(BackendRequestConfig);
+
+export const getStripePublicKey = (): string => {
+    if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
+        return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST as string;
+    }
+    return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_LIVE as string;
+};
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
 
-    const stripePromise = loadStripe(
-        'pk_live_51LDKK1IdzODCxCioPg4HCQd4Jxd4oDdc3rw15YyDUQvEZZsI0YliDOLW9FW1wJRC4fVwf97utkvvocdaVIvMCiRf00fM5BbKK3'
-    );
     const getLayout = Component.getLayout ?? (page => <BaseLayout>{page}</BaseLayout>);
-
     return (
         <ChakraProvider theme={theme}>
             <FirebaseAppProvider firebaseConfig={firebaseConfig}>
                 <AuthProvider>
-                    <Elements stripe={stripePromise}>
-                        <DefaultSeo />
-                        {getLayout(<Component {...pageProps} />)}
-                    </Elements>
+                    <DefaultSeo />
+                    {getLayout(<Component {...pageProps} />)}
                 </AuthProvider>
             </FirebaseAppProvider>
         </ChakraProvider>
