@@ -360,6 +360,12 @@ const Billing = () => {
                     Add a Card
                 </Button>
             </Center>
+            <Center>
+                <Heading>Role</Heading>
+            </Center>
+            <Center>
+                <Text>Current Role: {userIdToken?.claims.role}</Text>
+            </Center>
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
                 <ModalContent>
