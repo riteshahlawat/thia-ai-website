@@ -105,6 +105,7 @@ interface SubscriptionProps {
 }
 const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
     const { data: user } = useUser();
+    const toast = useToast();
     const [subscriptionCancelling, setSubscriptionCancelling] = useState(false);
 
     const cancelSubscription = async () => {
@@ -116,6 +117,14 @@ const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
             });
             if (!isError) {
                 await loadData();
+            } else {
+                toast({
+                    title: 'Error',
+                    description: response['message'],
+                    status: 'error',
+                    duration: 2500,
+                    isClosable: false,
+                });
             }
             setSubscriptionCancelling(false);
         }
@@ -132,13 +141,15 @@ const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
     );
 };
 
-interface CreditCardProps {
-    creditCard: Stripe.PaymentMethod;
-    defaultCreditCardID: string | null;
+interface CardProps {
+    card: Stripe.PaymentMethod;
+    defaultCardID: string | null;
     loadData: () => Promise<void>;
 }
-const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardProps) => {
+const Card = ({ card, defaultCardID, loadData }: CardProps) => {
     const { data: user } = useUser();
+    const toast = useToast();
+
     const [changingDefaultCard, setChangingDefaultCard] = useState(false);
     const [removingCard, setRemovingCard] = useState(false);
 
@@ -146,18 +157,26 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
         if (user) {
             setRemovingCard(true);
             const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().detachCreditCard(idToken, {
-                paymentMethodID: creditCard.id,
+            const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, {
+                paymentMethodID: card.id,
             });
             if (!isError) {
                 await loadData();
+            } else {
+                toast({
+                    title: 'Error',
+                    description: response['message'],
+                    status: 'error',
+                    duration: 2500,
+                    isClosable: false,
+                });
             }
             setRemovingCard(false);
         }
     };
 
-    const renderDefaultCreditCard = () => {
-        if (defaultCreditCardID && creditCard.id === defaultCreditCardID) {
+    const renderDefaultCard = () => {
+        if (defaultCardID && card.id === defaultCardID) {
             return (
                 <Heading fontSize='sm' color='thia.purple.500'>
                     Default Card
@@ -166,25 +185,32 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
         }
     };
 
-    const setDefaultCreditCard = async () => {
+    const setDefaultCard = async () => {
         if (user) {
             setChangingDefaultCard(true);
             const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
-                uid: user.uid,
-                paymentMethodID: creditCard.id,
+            const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
+                paymentMethodID: card.id,
             });
             if (!isError) {
                 await loadData();
+            } else {
+                toast({
+                    title: 'Error',
+                    description: response['message'],
+                    status: 'error',
+                    duration: 2500,
+                    isClosable: false,
+                });
             }
             setChangingDefaultCard(false);
         }
     };
 
     const renderSetDefaultButton = () => {
-        if ((defaultCreditCardID && creditCard.id !== defaultCreditCardID) || defaultCreditCardID === null) {
+        if ((defaultCardID && card.id !== defaultCardID) || defaultCardID === null) {
             return (
-                <Button onClick={setDefaultCreditCard} isLoading={changingDefaultCard} loadingText='Updating'>
+                <Button onClick={setDefaultCard} isLoading={changingDefaultCard} loadingText='Updating'>
                     Set Default Card
                 </Button>
             );
@@ -193,14 +219,14 @@ const CreditCards = ({ creditCard, defaultCreditCardID, loadData }: CreditCardPr
 
     return (
         <Box>
-            <Heading fontSize='lg'>{creditCard.id}</Heading>
+            <Heading fontSize='lg'>{card.id}</Heading>
             <Box>
-                Expiry Date: {creditCard.card?.exp_month}/{creditCard.card?.exp_year}
+                Expiry Date: {card.card?.exp_month}/{card.card?.exp_year}
             </Box>
-            <Box>Card Last 4 Numbers: {creditCard.card?.last4}</Box>
-            {renderDefaultCreditCard()}
+            <Box>Card Last 4 Numbers: {card.card?.last4}</Box>
+            {renderDefaultCard()}
             <Button onClick={removeCard} isLoading={removingCard} loadingText='Removing'>
-                Remove Credit Card
+                Remove Card
             </Button>
             {renderSetDefaultButton()}
         </Box>
@@ -220,8 +246,8 @@ const Billing = () => {
     const { data: user } = useUser();
     const toast = useToast();
     const [subscription, setSubscription] = useState<Stripe.Subscription[]>([]);
-    const [creditCards, setCreditCards] = useState<Stripe.PaymentMethod[]>([]);
-    const [defaultCreditCardID, setDefaultCreditCardID] = useState<string | null>(null);
+    const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [defaultCardID, setDefaultCardID] = useState<string | null>(null);
     const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
     const [subscriptionChanging, setSubscriptionChanging] = useState(false);
     const [dataLoading, setDataLoading] = useState(false);
@@ -229,7 +255,7 @@ const Billing = () => {
     const loadData = async () => {
         setDataLoading(true);
         await fetchClaims();
-        await fetchSubscriptionAndCreditCards();
+        await fetchSubscriptionAndCards();
         setDataLoading(false);
     };
 
@@ -239,7 +265,7 @@ const Billing = () => {
             await loadData();
         },
         onClose,
-        defaultCreditCardID
+        defaultCardID
     );
 
     const fetchClaims = async () => {
@@ -251,7 +277,7 @@ const Billing = () => {
         }
     };
 
-    const fetchSubscriptionAndCreditCards = async () => {
+    const fetchSubscriptionAndCards = async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
@@ -259,16 +285,16 @@ const Billing = () => {
                 console.log('Subscription:', response.data.length);
                 setSubscription(response.data);
             }
-            const [isError2, response2] = await BackendRequestHandler.getInstance().listCreditCards(idToken);
+            const [isError2, response2] = await BackendRequestHandler.getInstance().listCards(idToken);
             if (!isError2) {
                 console.log('Cards:', response2.data.length);
-                setCreditCards(response2.data);
+                setCards(response2.data);
             }
 
-            const [isError3, response3] = await BackendRequestHandler.getInstance().getDefaultCreditCard(idToken);
+            const [isError3, response3] = await BackendRequestHandler.getInstance().getDefaultCard(idToken);
             if (!isError3) {
                 console.log('Default Card:', response3);
-                setDefaultCreditCardID(response3);
+                setDefaultCardID(response3);
             }
         }
     };
@@ -288,9 +314,7 @@ const Billing = () => {
         if (user) {
             setSubscriptionChanging(true);
             const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().subscribeStandardPlan(idToken, {
-                uid: user.uid,
-            });
+            const [isError, response] = await BackendRequestHandler.getInstance().subscribeStandardPlan(idToken);
             if (isError) {
                 toast({
                     title: 'Error',
@@ -302,7 +326,6 @@ const Billing = () => {
             } else {
                 await loadData();
             }
-
             setSubscriptionChanging(false);
         }
     };
@@ -310,10 +333,8 @@ const Billing = () => {
     const subscribeToUltimatePlan = async () => {
         if (user) {
             setSubscriptionChanging(true);
-            const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().subscribePremiumPlan(idToken, {
-                uid: user.uid,
-            });
+            const idToken = await user.getIdToken(false);
+            const [isError, response] = await BackendRequestHandler.getInstance().subscribePremiumPlan(idToken);
             if (isError) {
                 toast({
                     title: 'Error',
@@ -365,8 +386,8 @@ const Billing = () => {
 
             <Center>
                 <Box>
-                    {creditCards.map(cc => {
-                        return <CreditCards key={cc.id} creditCard={cc} defaultCreditCardID={defaultCreditCardID} loadData={loadData} />;
+                    {cards.map(cc => {
+                        return <Card key={cc.id} card={cc} defaultCardID={defaultCardID} loadData={loadData} />;
                     })}
                 </Box>
             </Center>
@@ -374,10 +395,6 @@ const Billing = () => {
                 <Heading>Current Subscription</Heading>
             </Center>
             <Box py={6} px={5}>
-                <Center>
-                    <Heading>Change Subscription Plan</Heading>
-                </Center>
-
                 <Center>
                     <Box>
                         {subscription.map(s => {

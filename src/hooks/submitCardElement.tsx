@@ -44,7 +44,6 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
 
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().saveNewCreditCard(idToken, {
-                uid: user.uid,
                 paymentMethodID,
             });
 
@@ -55,8 +54,7 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
                 });
                 if (!defaultCreditCardID) {
                     // If the user does not have a default credit card, then update the new card to be their default
-                    await BackendRequestHandler.getInstance().updateDefaultCreditCard(idToken, {
-                        uid: user.uid,
+                    await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
                         paymentMethodID,
                     });
                 }
