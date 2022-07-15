@@ -1,5 +1,5 @@
 import { ComponentStyleConfig } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 export const Button: ComponentStyleConfig = {
     // Styles for the base style
@@ -15,7 +15,7 @@ export const Button: ComponentStyleConfig = {
     sizes: {},
     // Styles for the visual style variations
     variants: {
-        primary: (props: any) => ({
+        primary: (props: StyleFunctionProps) => ({
             bg: mode('thia.purple.50', 'thia.purple.700')(props),
             color: mode('thia.purple.900', 'white')(props),
             _hover: { bg: mode('thia.purple.100', 'thia.purple.600')(props), borderRadius: 'lg' },
