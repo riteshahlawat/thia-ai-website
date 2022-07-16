@@ -38,7 +38,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
-import { getStripePublicKey } from './_app';
 import { IdTokenResult, User } from 'firebase/auth';
 
 const CARD_ELEMENT_OPTIONS = {
@@ -232,14 +231,16 @@ const Card = ({ card, defaultCardID, loadData }: CardProps) => {
         </Box>
     );
 };
+
 const BillingParent = () => {
-    const stripePromise = loadStripe(getStripePublicKey());
+    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
     return (
         <Elements stripe={stripePromise}>
             <Billing />
         </Elements>
     );
 };
+
 const Billing = () => {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();

@@ -8,14 +8,7 @@ import { Comparison } from '@/components/pricing/Comparison';
 import { MdArrowDownward } from 'react-icons/md';
 import { SeoPage } from '@/components/seo/SeoPage';
 
-export const getStripeSecretKey = (): string => {
-    if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
-        return process.env.STRIPE_SECRET_KEY_TEST as string;
-    }
-    return process.env.STRIPE_SECRET_KEY_LIVE as string;
-};
-
-const stripe = new Stripe(getStripeSecretKey(), {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2020-08-27',
     typescript: true,
 });

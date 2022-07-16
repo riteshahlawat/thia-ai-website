@@ -25,13 +25,6 @@ const firebaseConfig = getFirebaseConfig();
 const backendRequestHandler = BackendRequestHandler.getInstance();
 backendRequestHandler.initInstances(BackendRequestConfig);
 
-export const getStripePublicKey = (): string => {
-    if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
-        return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST as string;
-    }
-    return process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_LIVE as string;
-};
-
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     ProgressBar();
 
