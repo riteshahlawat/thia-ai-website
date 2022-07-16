@@ -36,9 +36,7 @@ export const Button: ComponentStyleConfig = {
         secondaryGhost: (props: any) => ({
             bg: 'transparent',
             _hover: { bg: mode('thia.gray.100', 'whiteAlpha.200')(props) },
-            _active: {
-                bg: mode('thia.gray.200', 'whiteAlpha.300')(props),
-            },
+            _active: { bg: mode('thia.gray.200', 'whiteAlpha.300')(props) },
         }),
     },
 
