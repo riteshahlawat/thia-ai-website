@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import { Button, HStack, Text, VStack, Divider, Flex, CloseButton, Alert, Box } from '@chakra-ui/react';
+import { Button, HStack, Text, VStack, Divider, Flex, CloseButton, Alert, Box, useColorModeValue } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import {
     GoogleAuthProvider,
@@ -56,6 +56,8 @@ const SignUp: NextPageWithLayout = () => {
     const [isGoogleSignUpLoading, setGoogleSignUpLoading] = useState(false);
     const [isEmailSignUpLoading, setEmailSignUpLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+    const [email, setEmail] = useState('');
     // backend
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
@@ -74,18 +76,21 @@ const SignUp: NextPageWithLayout = () => {
                 uid: result.user.uid,
             });
             setGoogleSignUpLoading(true);
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            // Send that result to backend to create custom token
+            router.push('/pricing');
         }
     };
+
+    useEffect(() => {
+        getOAuthResponse();
+    });
 
     // on sign up click
     const onSubmit = (values: SignUpValues) => registerNewAccount(values);
 
     // register new user
     const registerNewAccount = async ({ name, email, password }: SignUpValues) => {
+        setEmail(email);
         setEmailSignUpLoading(true);
-
         createUserWithEmailAndPassword(auth, email, password)
             .then(async userCredential => {
                 await updateProfile(userCredential.user, { displayName: name });
@@ -94,6 +99,7 @@ const SignUp: NextPageWithLayout = () => {
                     await sendEmailVerification(userCredential.user);
                     await auth.signOut();
                     setEmailSignUpLoading(false);
+                    setEmailVerificationSent(true);
                 } else {
                     // Email already verified (don't know when this will happen but it's here in case it does)
                 }
@@ -105,109 +111,123 @@ const SignUp: NextPageWithLayout = () => {
                     setErrorMessage('Weak password');
                 } else if (errorCode == AuthErrorCodes.INVALID_EMAIL) {
                     setErrorMessage('Invalid email');
+                } else {
+                    setErrorMessage('Oops! Something went wrong, Please come back later, or try again.');
                 }
                 setEmailSignUpLoading(false);
             });
     };
 
-    useEffect(() => {
-        if (user) router.push('/');
-        getOAuthResponse();
-    });
-
+    const textColor = useColorModeValue('thia.gray.800', 'thia.gray.300');
+    const textColorBold = useColorModeValue('black', 'white');
     return (
         <SeoPage title='Join Thia'>
-            <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
-                <VStack spacing={3} py={1} w='full'>
-                    <Formik initialValues={initialValues} validationSchema={singupSchema} onSubmit={onSubmit}>
-                        {({ errors, touched }) => (
-                            <Form style={{ width: '100%' }} noValidate>
-                                <VStack spacing={3} py={1} w='full'>
-                                    {errorMessage && (
-                                        <Alert
-                                            bg='#ff42422e'
-                                            rounded='md'
-                                            status='error'
-                                            border='1px'
-                                            borderColor='#ff4242a3'
-                                            justifyContent='space-between'
-                                        >
-                                            {errorMessage}
-                                            <CloseButton rounded='full' onClick={() => setErrorMessage('')} color='#ff4242a3' />
-                                        </Alert>
-                                    )}
-                                    <InputFormControl
-                                        autoFocus
-                                        isRequired
-                                        label='Name'
-                                        name='name'
-                                        type='text'
-                                        errors={errors.name}
-                                        touched={touched.name}
-                                    />
-                                    <InputFormControl
-                                        isRequired
-                                        label='Email Address'
-                                        name='email'
-                                        type='email'
-                                        errors={errors.email}
-                                        touched={touched.email}
-                                    />
-                                    <InputFormControl
-                                        isRequired
-                                        label='Password'
-                                        name='password'
-                                        type='Password'
-                                        errors={errors.password}
-                                        touched={touched.password}
-                                    />
-                                    <InputFormControl
-                                        isRequired
-                                        label='Re-type Password'
-                                        name='retypePassword'
-                                        type='Password'
-                                        errors={errors.retypePassword}
-                                        touched={touched.retypePassword}
-                                    />
-                                    <Box w='full' pt={3}>
-                                        <Button
-                                            w='full'
-                                            type='submit'
-                                            variant='primary'
-                                            colorScheme='gray'
-                                            isLoading={isEmailSignUpLoading}
-                                        >
-                                            Sign Up
-                                        </Button>
-                                    </Box>
-                                </VStack>
-                            </Form>
-                        )}
-                    </Formik>
-                    <HStack w='full'>
-                        <Divider />
-                        <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
-                            OR
-                        </Text>
-                        <Divider />
-                    </HStack>
-                    <GoogleButton onCLick={googleLogin} isLoading={isGoogleSignUpLoading}>
-                        Sign up with Google
-                    </GoogleButton>
-                    <Flex gap={3} pt={3} fontSize='sm'>
-                        <Text>Already have an account?</Text>
-                        <ChakraNextLink
-                            href='/signin'
-                            styleProps={{
-                                variant: 'primaryLink',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            Sign in
-                        </ChakraNextLink>
-                    </Flex>
-                </VStack>
-            </AuthTemplatePage>
+            {emailVerificationSent ? (
+                <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
+                    <VStack spacing={3} py={1} w='full'>
+                        <Formik initialValues={initialValues} validationSchema={singupSchema} onSubmit={onSubmit}>
+                            {({ errors, touched }) => (
+                                <Form style={{ width: '100%' }} noValidate>
+                                    <VStack spacing={3} py={1} w='full'>
+                                        {errorMessage && (
+                                            <Alert
+                                                bg='#ff42422e'
+                                                rounded='md'
+                                                status='error'
+                                                border='1px'
+                                                borderColor='#ff4242a3'
+                                                justifyContent='space-between'
+                                            >
+                                                {errorMessage}
+                                                <CloseButton rounded='full' onClick={() => setErrorMessage('')} color='#ff4242a3' />
+                                            </Alert>
+                                        )}
+                                        <InputFormControl
+                                            autoFocus
+                                            isRequired
+                                            label='Name'
+                                            name='name'
+                                            type='text'
+                                            errors={errors.name}
+                                            touched={touched.name}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Email Address'
+                                            name='email'
+                                            type='email'
+                                            errors={errors.email}
+                                            touched={touched.email}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Password'
+                                            name='password'
+                                            type='Password'
+                                            errors={errors.password}
+                                            touched={touched.password}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Re-type Password'
+                                            name='retypePassword'
+                                            type='Password'
+                                            errors={errors.retypePassword}
+                                            touched={touched.retypePassword}
+                                        />
+                                        <Box w='full' pt={3}>
+                                            <Button
+                                                w='full'
+                                                type='submit'
+                                                variant='primary'
+                                                colorScheme='gray'
+                                                isLoading={isEmailSignUpLoading}
+                                            >
+                                                Sign Up
+                                            </Button>
+                                        </Box>
+                                    </VStack>
+                                </Form>
+                            )}
+                        </Formik>
+                        <HStack w='full'>
+                            <Divider />
+                            <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
+                                OR
+                            </Text>
+                            <Divider />
+                        </HStack>
+                        <GoogleButton onCLick={googleLogin} isLoading={isGoogleSignUpLoading}>
+                            Sign up with Google
+                        </GoogleButton>
+                        <Flex gap={3} pt={3} fontSize='sm'>
+                            <Text>Already have an account?</Text>
+                            <ChakraNextLink
+                                href='/signin'
+                                styleProps={{
+                                    variant: 'primaryLink',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Sign in
+                            </ChakraNextLink>
+                        </Flex>
+                    </VStack>
+                </AuthTemplatePage>
+            ) : (
+                <AuthTemplatePage heading='Verify your email'>
+                    <Text align='center' color={textColor}>
+                        we&apos;ve sent an email to{' '}
+                        <Box as='span' fontWeight='bold' letterSpacing='wider' color={textColorBold}>
+                            {email}
+                        </Box>{' '}
+                        to verify your email address and activate your account. The link expires in 24 hours
+                    </Text>
+                    <Button w='full' type='submit' variant='primary' colorScheme='gray' isLoading={isEmailSignUpLoading}>
+                        Resend verification email
+                    </Button>
+                </AuthTemplatePage>
+            )}
         </SeoPage>
     );
 };

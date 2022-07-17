@@ -5,7 +5,7 @@ import Image from 'next/image';
 type Props = {
     children: React.ReactNode;
     heading: string;
-    text: string;
+    text?: string;
 };
 
 export const AuthTemplatePage = ({ children, heading, text }: Props) => {

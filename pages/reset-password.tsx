@@ -1,15 +1,4 @@
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Input,
-    Text,
-    useColorModeValue,
-    useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, Text, useColorModeValue, useToast } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import { AuthErrorCodes, sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
@@ -21,8 +10,7 @@ import { SeoPage } from '@/components/seo/SeoPage';
 
 type Props = {};
 
-const text =
-    'Enter the email address associated with your account and a link will be sent to your inbox to reset your password.';
+const text = 'Enter the email address associated with your account and a link will be sent to your inbox to reset your password.';
 
 const ResetPassword: NextPageWithLayout = (props: Props) => {
     const [emailAddress, setEmailAddress] = useState('');
