@@ -3,9 +3,7 @@ import { useAuth, useSigninCheck, useUser } from 'reactfire';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-type Props = {};
-
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
     const { data: user } = useUser();
     const router = useRouter();
 
@@ -23,7 +21,7 @@ const Dashboard = (props: Props) => {
         console.log(idToken);
     }
 
-    return <Box>Welcome, {user?.uid}</Box>;
+    return <Box>Welcome, {user?.displayName}</Box>;
 };
 
 export default Dashboard;

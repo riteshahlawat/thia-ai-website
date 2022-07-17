@@ -11,8 +11,8 @@ const Settings = (props: Props) => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!user) router.push('/login');
-    });
+        if (!user) router.push('/signin');
+    }, [user]);
 
     return (
         <>

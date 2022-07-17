@@ -271,9 +271,7 @@ export default SignIn;
     // I will unironically fire anyone who changes this :D
 
     const firebaseErrorCodeCheck = (code: string) =>
-        code == AuthErrorCodes.INVALID_PASSWORD ||
-        code == AuthErrorCodes.USER_DELETED ||
-        code == AuthErrorCodes.INTERNAL_ERROR;
+        code == AuthErrorCodes.INVALID_PASSWORD || code == AuthErrorCodes.USER_DELETED || code == AuthErrorCodes.INTERNAL_ERROR;
 
     const resendEmailVerification = () => {
         if (password.trim() == '' || emailAddress.trim() == '') {
@@ -388,10 +386,7 @@ export default SignIn;
 
     return (
         <SeoPage title='Sign in to Thia'>
-            <AuthTemplatePage
-                heading='Log in to your account'
-                text='Start training on your own hardware'
-            >
+            <AuthTemplatePage heading='Log in to your account' text='Start training on your own hardware'>
                 <VStack spacing={6} w='full'>
                     <FormControl isRequired isInvalid={emailFocusedOnce && emailErrorMessage != ''}>
                         <FormLabel>Email Address</FormLabel>
@@ -402,32 +397,39 @@ export default SignIn;
                             bg={useColorModeValue('white', 'black')}
                             value={emailAddress}
                             onBlur={() => setEmailFocusedOnce(true)}
+<<<<<<< HEAD
                             onChange={handleEmailInput}
+=======
+                            onChange={({ target }: any) => {
+                                setEmailErrorMessage(!validifyEmailFormat(target.value) ? 'Invalid email address' : '');
+                                setEmailAddress(target.value);
+                            }}
+>>>>>>> main
                         />
                         <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
                     </FormControl>
-                    <FormControl
-                        isRequired
-                        isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}
-                    >
+                    <FormControl isRequired isInvalid={passwordFocusedOnce && passwordErrorMessage != ''}>
                         <FormLabel>Password</FormLabel>
                         <Input
                             value={password}
                             placeholder='Password'
                             bg={useColorModeValue('white', 'black')}
                             onBlur={() => setPasswordFocusedOnce(true)}
+<<<<<<< HEAD
                             onChange={handlePasswordInput}
+=======
+                            onChange={({ target }: any) => {
+                                setPasswordErrorMessage(target.value.trim().length == 0 ? 'Enter a password' : '');
+                                setPassword(target.value);
+                            }}
+>>>>>>> main
                             type='password'
                         />
                         <FormErrorMessage>{passwordErrorMessage}</FormErrorMessage>
                     </FormControl>
                 </VStack>
                 <HStack justify='space-between' w='full' align='baseline'>
-                    <Checkbox
-                        size='sm'
-                        isChecked={rememberMe}
-                        onChange={(e: any) => setRememberMe(e.target.checked)}
-                    >
+                    <Checkbox size='sm' isChecked={rememberMe} onChange={(e: any) => setRememberMe(e.target.checked)}>
                         <Text fontSize='sm'>Remember me</Text>
                     </Checkbox>
                     <ChakraNextLink
@@ -441,12 +443,7 @@ export default SignIn;
                         Forgot password
                     </ChakraNextLink>
                 </HStack>
-                <Button
-                    variant='primary'
-                    w='full'
-                    onClick={emailLogin}
-                    isLoading={emailSignInLoading}
-                >
+                <Button variant='primary' w='full' onClick={emailLogin} isLoading={emailSignInLoading}>
                     Sign in
                 </Button>
                 <Button
