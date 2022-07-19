@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth, useUser } from 'reactfire';
@@ -54,25 +54,6 @@ const SignIn: NextPageWithLayout = () => {
         await signInWithRedirect(auth, provider);
     };
 
-    const getOAuthResponse = async () => {
-        setGoogleSignInLoading(true);
-        await getRedirectResult(auth)
-            .then(async result => {
-                if (result) {
-                    const idToken = await result.user.getIdToken();
-                    await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
-                    router.push('/dashboard');
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    // Send that result to backend to create custom token
-                }
-                setGoogleSignInLoading(false);
-            })
-            .catch(error => {
-                setGoogleSignInLoading(false);
-                setErrorMessage(error.message);
-            });
-    };
-
     // flow for log in in with email and password
     const emailLogin = ({ email, password }: SignInValues) => {
         setEmailSignInLoading(true);
@@ -95,7 +76,6 @@ const SignIn: NextPageWithLayout = () => {
                 } else if (code === INVALID_EMAIL) {
                     setErrorMessage('Invalid email address');
                 }
-
                 setEmailSignInLoading(false);
             });
     };
@@ -104,8 +84,27 @@ const SignIn: NextPageWithLayout = () => {
     const onSubmit = (values: SignInValues) => emailLogin(values);
 
     useEffect(() => {
+        const getOAuthResponse = async () => {
+            await getRedirectResult(auth)
+                .then(async result => {
+                    if (result) {
+                        setGoogleSignInLoading(true);
+                        const idToken = await result.user.getIdToken();
+                        await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
+                        router.push('/dashboard');
+                    }
+                })
+                .catch(error => {
+                    setGoogleSignInLoading(false);
+                    setErrorMessage(error.message);
+                });
+        };
         getOAuthResponse();
-    }, []);
+    }, [auth, router]);
+
+    useEffect(() => {
+        if (user && !isEmailSignInLoading) router.push('/');
+    }, [user, router]);
 
     return (
         <SeoPage title='Sign in to Thia'>
