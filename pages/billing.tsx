@@ -248,6 +248,7 @@ const Billing = () => {
     const toast = useToast();
     const [subscription, setSubscription] = useState<Stripe.Subscription[]>([]);
     const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [invoices, setInvoices] = useState<Stripe.Invoice[]>();
     const [defaultCardID, setDefaultCardID] = useState<string | null>(null);
     const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
     const [subscriptionChanging, setSubscriptionChanging] = useState(false);
@@ -296,6 +297,12 @@ const Billing = () => {
             if (!isError3) {
                 console.log('Default Card:', response3);
                 setDefaultCardID(response3);
+            }
+
+            const [isError4, response4] = await BackendRequestHandler.getInstance().listInvoices(idToken);
+            if (!isError4) {
+                console.log('invoices:', response4.data);
+                setInvoices(response4.data);
             }
         }
     };
