@@ -104,7 +104,7 @@ const SignIn: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (user && !isEmailSignInLoading) router.push('/');
-    }, [user, router]);
+    }, [user, router, isEmailSignInLoading]);
 
     return (
         <SeoPage title='Sign in to Thia'>

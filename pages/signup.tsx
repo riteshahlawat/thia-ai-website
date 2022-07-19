@@ -72,27 +72,26 @@ const SignUp: NextPageWithLayout = () => {
         await signInWithRedirect(auth, provider);
     };
 
-    const getOAuthResponse = async () => {
-        setGoogleSignUpLoading(true);
-        await getRedirectResult(auth)
-            .then(async result => {
-                if (result) {
-                    setGoogleSignUpLoading(true);
-                    const idToken = await result.user.getIdToken();
-                    await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
-                    router.push('/dashboard');
-                }
-                setGoogleSignUpLoading(false);
-            })
-            .catch(error => {
-                setGoogleSignUpLoading(false);
-                setErrorMessage(error.message);
-            });
-    };
-
     useEffect(() => {
+        const getOAuthResponse = async () => {
+            setGoogleSignUpLoading(true);
+            await getRedirectResult(auth)
+                .then(async result => {
+                    if (result) {
+                        setGoogleSignUpLoading(true);
+                        const idToken = await result.user.getIdToken();
+                        await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
+                        router.push('/dashboard');
+                    }
+                    setGoogleSignUpLoading(false);
+                })
+                .catch(error => {
+                    setGoogleSignUpLoading(false);
+                    setErrorMessage(error.message);
+                });
+        };
         getOAuthResponse();
-    }, []);
+    }, [auth, router]);
 
     // on sign up click
     const onSubmit = (values: SignUpValues) => registerNewAccount(values);
