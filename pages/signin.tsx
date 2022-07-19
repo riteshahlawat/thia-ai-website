@@ -49,18 +49,28 @@ const SignIn: NextPageWithLayout = () => {
     provider.setCustomParameters({ prompt: 'select_account consent' });
 
     // login with google redirect
-    const googleLogin = async () => await signInWithRedirect(auth, provider);
+    const googleLogin = async () => {
+        setGoogleSignInLoading(true);
+        await signInWithRedirect(auth, provider);
+    };
 
     const getOAuthResponse = async () => {
-        const result = await getRedirectResult(auth);
-        if (result) {
-            const idToken = await result.user.getIdToken();
-            await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
-            setGoogleSignInLoading(true);
-            router.push('/dashboard');
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            // Send that result to backend to create custom token
-        }
+        setGoogleSignInLoading(true);
+        await getRedirectResult(auth)
+            .then(async result => {
+                if (result) {
+                    const idToken = await result.user.getIdToken();
+                    await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
+                    router.push('/dashboard');
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    // Send that result to backend to create custom token
+                }
+                setGoogleSignInLoading(false);
+            })
+            .catch(error => {
+                setGoogleSignInLoading(false);
+                setErrorMessage(error.message);
+            });
     };
 
     // flow for log in in with email and password
@@ -94,9 +104,8 @@ const SignIn: NextPageWithLayout = () => {
     const onSubmit = (values: SignInValues) => emailLogin(values);
 
     useEffect(() => {
-        if (user) router.push('/');
         getOAuthResponse();
-    });
+    }, []);
 
     return (
         <SeoPage title='Sign in to Thia'>

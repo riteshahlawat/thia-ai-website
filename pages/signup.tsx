@@ -55,9 +55,10 @@ const SignUp: NextPageWithLayout = () => {
     // states
     const [isGoogleSignUpLoading, setGoogleSignUpLoading] = useState(false);
     const [isEmailSignUpLoading, setEmailSignUpLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [email, setEmail] = useState('');
+
     // backend
     const backendRequestHandler = BackendRequestHandler.getInstance();
     backendRequestHandler.initInstances(BackendRequestConfig);
@@ -66,30 +67,38 @@ const SignUp: NextPageWithLayout = () => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account consent' });
     // login with google redirect
-    const googleLogin = async () => await signInWithRedirect(auth, provider);
+    const googleLogin = async () => {
+        setGoogleSignUpLoading(true);
+        await signInWithRedirect(auth, provider);
+    };
 
     const getOAuthResponse = async () => {
-        const result = await getRedirectResult(auth);
-        if (result) {
-            const idToken = await result.user.getIdToken();
-            await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
-                uid: result.user.uid,
+        setGoogleSignUpLoading(true);
+        await getRedirectResult(auth)
+            .then(async result => {
+                if (result) {
+                    setGoogleSignUpLoading(true);
+                    const idToken = await result.user.getIdToken();
+                    await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
+                    router.push('/dashboard');
+                }
+                setGoogleSignUpLoading(false);
+            })
+            .catch(error => {
+                setGoogleSignUpLoading(false);
+                setErrorMessage(error.message);
             });
-            setGoogleSignUpLoading(true);
-            router.push('/pricing');
-        }
     };
 
     useEffect(() => {
         getOAuthResponse();
-    });
+    }, []);
 
     // on sign up click
     const onSubmit = (values: SignUpValues) => registerNewAccount(values);
 
     // register new user
     const registerNewAccount = async ({ name, email, password }: SignUpValues) => {
-        setEmail(email);
         setEmailSignUpLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then(async userCredential => {
@@ -98,8 +107,10 @@ const SignUp: NextPageWithLayout = () => {
                     // Send verification email
                     await sendEmailVerification(userCredential.user);
                     await auth.signOut();
+                    setEmail(email);
                     setEmailSignUpLoading(false);
                     setEmailVerificationSent(true);
+                    setErrorMessage('');
                 } else {
                     // Email already verified (don't know when this will happen but it's here in case it does)
                 }
@@ -118,11 +129,20 @@ const SignUp: NextPageWithLayout = () => {
             });
     };
 
+    // const resetEmailVerification = async () => {
+    //     if (auth.curprentUser) {
+    //         console.log('pressed2');
+    //         await sendEmailVerification(auth.currentUser)
+    //             .then(async () => await auth.signOut())
+    //             .catch(error => setErrorMessage(error.message));
+    //     }
+    // };
+
     const textColor = useColorModeValue('thia.gray.800', 'thia.gray.300');
     const textColorBold = useColorModeValue('black', 'white');
     return (
         <SeoPage title='Join Thia'>
-            {emailVerificationSent ? (
+            {!emailVerificationSent ? (
                 <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
                     <VStack spacing={3} py={1} w='full'>
                         <Formik initialValues={initialValues} validationSchema={singupSchema} onSubmit={onSubmit}>
@@ -164,6 +184,7 @@ const SignUp: NextPageWithLayout = () => {
                                             label='Password'
                                             name='password'
                                             type='Password'
+                                            placeholder='8+ characters'
                                             errors={errors.password}
                                             touched={touched.password}
                                         />
@@ -222,8 +243,21 @@ const SignUp: NextPageWithLayout = () => {
                             {email}
                         </Box>{' '}
                         to verify your email address and activate your account. The link expires in 24 hours
-                    </Text>
-                    <Button w='full' type='submit' variant='primary' colorScheme='gray' isLoading={isEmailSignUpLoading}>
+                    </Text>{' '}
+                    {errorMessage && (
+                        <Alert
+                            bg='#ff42422e'
+                            rounded='md'
+                            status='error'
+                            border='1px'
+                            borderColor='#ff4242a3'
+                            justifyContent='space-between'
+                        >
+                            {errorMessage}
+                            <CloseButton rounded='full' onClick={() => setErrorMessage('')} color='#ff4242a3' />
+                        </Alert>
+                    )}
+                    <Button w='full' type='submit' variant='primary' colorScheme='gray'>
                         Resend verification email
                     </Button>
                 </AuthTemplatePage>
