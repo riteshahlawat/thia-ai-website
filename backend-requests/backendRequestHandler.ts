@@ -3,13 +3,14 @@ import { GetDefaultCreditCardBackendRequest } from './requests/get/getDefaultCre
 import { PingBackendSecureBackendRequest } from './requests/get/pingBackendSecure';
 import { PostCancelSubscriptionPlanBackendRequest, PostCancelSubscriptionPlanData } from './requests/post/cancelSubscriptionPlan';
 import { PostDetachCreditCardBackendRequest, PostDetachCreditCardData } from './requests/post/detachCreditCard';
-import { PostListCreditCardsBackendRequest, PostListCreditCardsData } from './requests/get/listCreditCards';
+import { PostListCreditCardsBackendRequest } from './requests/get/listCreditCards';
 import { PostListSubscriptionPlanBackendRequest } from './requests/get/listSubscriptionPlan';
 import { PostNewCreditCardBackendRequest, PostNewCreditCardData } from './requests/post/saveNewCreditCard';
 import { PostNewUserClaimsBackendRequest, PostNewUserClaimsData } from './requests/post/setNewUserRoles';
 import { PostSubscribePremiumPlanBackendRequest } from './requests/post/subscribePremiumPlan';
 import { PostSubscribeStandardPlanBackendRequest } from './requests/post/subscribeStandardPlan';
 import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardData } from './requests/post/updateDefaultCreditCard';
+import { ListInvoicesBackendRequest } from './requests/get/listInvoices';
 
 /**
  * Class that manages all Backend Requests.
@@ -40,6 +41,8 @@ export class BackendRequestHandler {
     private detachCreditCardBR!: PostDetachCreditCardBackendRequest;
     // Get User's Default Credit Card
     private getDefaultCreditCardBR!: GetDefaultCreditCardBackendRequest;
+    // List invoices
+    private listInvoiceBR!: ListInvoicesBackendRequest;
 
     /**
      * Private constructor.
@@ -73,6 +76,7 @@ export class BackendRequestHandler {
         this.listCreditCardsBR = new PostListCreditCardsBackendRequest(this.backendRequest);
         this.detachCreditCardBR = new PostDetachCreditCardBackendRequest(this.backendRequest);
         this.getDefaultCreditCardBR = new GetDefaultCreditCardBackendRequest(this.backendRequest);
+        this.listInvoiceBR = new ListInvoicesBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -109,6 +113,10 @@ export class BackendRequestHandler {
 
     public listCards = async (idToken: string, config?: AxiosRequestConfig) => {
         return this.listCreditCardsBR.run(config, idToken);
+    };
+
+    public listInvoices = async (idToken: string, config?: AxiosRequestConfig) => {
+        return this.listInvoiceBR.run(config, idToken);
     };
 
     public detachCard = async (idToken: string, data: PostDetachCreditCardData, config?: AxiosRequestConfig) => {
