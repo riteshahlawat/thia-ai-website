@@ -9,6 +9,11 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!user) router.push('/signin');
+        else {
+            user.getIdToken().then(val => {
+                navigator.clipboard.writeText(val);
+            });
+        }
     }, [user, router]);
 
     if (user) {

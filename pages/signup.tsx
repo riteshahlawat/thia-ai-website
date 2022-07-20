@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import { useRouter } from 'next/router';
-import {
-    Button,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    HStack,
-    Input,
-    Text,
-    useToast,
-    VStack,
-    Divider,
-    Flex,
-    useColorModeValue,
-} from '@chakra-ui/react';
+import { Button, HStack, Text, VStack, Divider, Flex, CloseButton, Alert, Box, useColorModeValue } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import {
     GoogleAuthProvider,
@@ -33,268 +20,247 @@ import { EmptyLayout } from '@/components/pageLayouts/EmptyLayout';
 import { AuthTemplatePage } from '@/auth/AuthTemplatePage';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { GoogleButton } from '@/auth/GoogleButton';
-import { validifyEmailFormat, validifyPasswordFormat } from 'src/utils/auth/authUtils';
-import { createToast } from 'src/utils/common/toast';
 import { SeoPage } from '@/components/seo/SeoPage';
+import { Form, Formik } from 'formik';
+import * as yup from 'yup';
+import YupPassword from 'yup-password';
+import { InputFormControl } from '@/components/common/InputFormControl';
+YupPassword(yup);
+
+const singupSchema = yup.object({
+    name: yup.string().min(3, 'Name must be at least 3 characters.').required('Name is required.'),
+    email: yup.string().required('Email is required.').email('Please enter a valid email address.'),
+    password: yup.string().password().max(50).required('Please enter your password.'),
+    retypePassword: yup
+        .string()
+        .oneOf([yup.ref('password')], 'Passwords do not match.')
+        .required('Please retype your password.'),
+});
+
+type SignUpValues = {
+    name: string;
+    email: string;
+    password: string;
+    retypePassword: string;
+};
 
 const SignUp: NextPageWithLayout = () => {
-    const { data: user } = useUser();
     const auth = useAuth();
+    const router = useRouter();
+    const { data: user } = useUser();
+
+    // initial form values
+    const initialValues: SignUpValues = { name: '', email: '', password: '', retypePassword: '' };
+
+    // states
+    const [isGoogleSignUpLoading, setGoogleSignUpLoading] = useState(false);
+    const [isEmailSignUpLoading, setEmailSignUpLoading] = useState(false);
+    const [emailVerificationSent, setEmailVerificationSent] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [email, setEmail] = useState('');
+
+    // backend
+    const backendRequestHandler = BackendRequestHandler.getInstance();
+    backendRequestHandler.initInstances(BackendRequestConfig);
+
+    // Google stuff
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account consent' });
-
-    const toast = useToast();
-    const router = useRouter();
-
-    const [googleRegisteringLoading, setGoogleRegisteringLoading] = useState(false);
-    const [emailRegisteringLoading, setEmailRegisteringLoading] = useState(false);
-
-    const [userRegistrationDetails, setUserRegistrationDetails] = useState({
-        fullName: '',
-        emailAddress: '',
-        password: '',
-        passwordRetype: '',
-    });
-
-    type UserRegistrationDetailNames = keyof typeof userRegistrationDetails;
-
-    const [userRegistrationErrorMessages, setUserRegistrationErrorMessages] = useState({
-        fullName: '',
-        emailAddress: '',
-        password: '',
-        passwordRetype: '',
-    });
-
-    const [userRegistrationFocusedOnce, setUserRegistrationFocusedOnce] = useState({
-        fullName: false,
-        emailAddress: false,
-        password: false,
-        passwordRetype: false,
-    });
-
-    const googleLogin = async () => await signInWithRedirect(auth, provider);
-
-    const getOAuthResponse = async () => {
-        const result = await getRedirectResult(auth);
-        if (result) {
-            const idToken = await result.user.getIdToken();
-            await BackendRequestHandler.getInstance().setNewUserRoles(idToken, {
-                uid: result.user.uid,
-            });
-            setGoogleRegisteringLoading(true);
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            // Send that result to backend to create custom token
-        }
+    // login with google redirect
+    const googleLogin = async () => {
+        setGoogleSignUpLoading(true);
+        await signInWithRedirect(auth, provider);
     };
 
-    const handleRegistrationInputsFocused = (e: React.FocusEvent<HTMLInputElement>) => {
-        const name: UserRegistrationDetailNames = e.target.name as UserRegistrationDetailNames;
-        setUserRegistrationFocusedOnce({
-            ...userRegistrationFocusedOnce,
-            [name]: true,
-        });
-    };
-
-    const handleRegistrationInputsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        const name: UserRegistrationDetailNames = e.target.name as UserRegistrationDetailNames;
-        setUserRegistrationDetails({ ...userRegistrationDetails, [name]: val });
-        switch (name) {
-            case 'emailAddress':
-                // Email address input handling
-                setUserRegistrationErrorMessages({
-                    ...userRegistrationErrorMessages,
-                    emailAddress: !validifyEmailFormat(val) ? 'Invalid email address' : '',
+    useEffect(() => {
+        const getOAuthResponse = async () => {
+            setGoogleSignUpLoading(true);
+            await getRedirectResult(auth)
+                .then(async result => {
+                    if (result) {
+                        setGoogleSignUpLoading(true);
+                        const idToken = await result.user.getIdToken();
+                        await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
+                        router.push('/dashboard');
+                    }
+                    setGoogleSignUpLoading(false);
+                })
+                .catch(error => {
+                    setGoogleSignUpLoading(false);
+                    setErrorMessage(error.message);
                 });
+        };
+        getOAuthResponse();
+    }, [auth, router]);
 
-                break;
-            case 'fullName':
-                // Full name input handling
-                setUserRegistrationErrorMessages({
-                    ...userRegistrationErrorMessages,
-                    fullName: val.length < 3 ? 'Enter valid name' : '', // Too small
-                });
+    // on sign up click
+    const onSubmit = (values: SignUpValues) => registerNewAccount(values);
 
-                break;
-            case 'password':
-                // Password input handling
-                setUserRegistrationErrorMessages({
-                    ...userRegistrationErrorMessages,
-                    password: !validifyPasswordFormat(val) ? 'Weak password, 6 alpha-num charactors are required' : '',
-                });
-                break;
-            case 'passwordRetype':
-                // Password retype input handling
-                setUserRegistrationErrorMessages({
-                    ...userRegistrationErrorMessages,
-                    passwordRetype: val !== userRegistrationDetails.password ? "Passwords don't match" : '',
-                });
-                break;
-        }
-    };
-
-    const registerNewAccount = async () => {
-        let userRegistrationDetailsFilledOut = true;
-        for (const registrationDetailKey in userRegistrationDetails) {
-            if (userRegistrationDetails[registrationDetailKey as keyof typeof userRegistrationDetails].trim() == '') {
-                userRegistrationDetailsFilledOut = false;
-                break;
-            }
-        }
-        if (!userRegistrationDetailsFilledOut) {
-            toast(createToast('Error', 'Registration not filled out', 'error')); // Not all details filled out
-            return;
-        }
-        let userRegistrationErrorExists = false;
-        for (const errorMessageKey in userRegistrationErrorMessages) {
-            if (userRegistrationErrorMessages[errorMessageKey as keyof typeof userRegistrationErrorMessages] != '') {
-                userRegistrationErrorExists = true;
-                break;
-            }
-        }
-        if (userRegistrationErrorExists) {
-            // Not all details filled out
-            toast(createToast('Error', 'Registration contains an error', 'error'));
-            return;
-        }
-        setEmailRegisteringLoading(true);
-        const stripe = require('stripe')(
-            'sk_test_51IMUEAGP4toduWVoNmCRzHX8NSF0g7XqWElIFCJQ77aIaggcsaMgvCQhdhtJtLw7SMTNGvtiJKuTHQnQ3ecxjUg400dHV8Tyhb'
-        );
-        createUserWithEmailAndPassword(auth, userRegistrationDetails.emailAddress, userRegistrationDetails.password)
+    // register new user
+    const registerNewAccount = async ({ name, email, password }: SignUpValues) => {
+        setEmailSignUpLoading(true);
+        createUserWithEmailAndPassword(auth, email, password)
             .then(async userCredential => {
-                await updateProfile(userCredential.user, {
-                    displayName: userRegistrationDetails.fullName,
-                });
+                await updateProfile(userCredential.user, { displayName: name });
                 if (!userCredential.user.emailVerified) {
                     // Send verification email
                     await sendEmailVerification(userCredential.user);
                     await auth.signOut();
-                    toast(createToast('Info', 'Email verification sent, check your email'));
-                    await stripe.customers.create({
-                        email: userRegistrationDetails.emailAddress,
-                        description: 'My First Test Customer (created for API docs at https://www.stripe.com/docs/api)',
-                    });
-                    console.log(userRegistrationDetails);
-                    setEmailRegisteringLoading(false);
+                    setEmail(email);
+                    setEmailSignUpLoading(false);
+                    setEmailVerificationSent(true);
+                    setErrorMessage('');
                 } else {
                     // Email already verified (don't know when this will happen but it's here in case it does)
                 }
             })
             .catch(({ code: errorCode }: FirebaseError) => {
                 if (errorCode == AuthErrorCodes.EMAIL_EXISTS) {
-                    toast(createToast('Error', 'Email already exists', 'error'));
+                    setErrorMessage('Email address is already associated with an account');
                 } else if (errorCode == AuthErrorCodes.WEAK_PASSWORD) {
-                    toast(createToast('Error', 'Weak password', 'error'));
+                    setErrorMessage('Weak password');
                 } else if (errorCode == AuthErrorCodes.INVALID_EMAIL) {
-                    toast(createToast('Error', 'Invalid email', 'error'));
+                    setErrorMessage('Invalid email');
+                } else {
+                    setErrorMessage('Oops! Something went wrong, Please come back later, or try again.');
                 }
-                setEmailRegisteringLoading(false);
+                setEmailSignUpLoading(false);
             });
     };
 
-    useEffect(() => {
-        if (user) router.push('/');
-        getOAuthResponse();
-        const registerOnEnter = async (event: KeyboardEvent) => {
-            if (event.key == 'Enter') await registerNewAccount();
-        };
-        window.addEventListener('keypress', registerOnEnter);
-        return () => window.removeEventListener('keypress', registerOnEnter);
-    });
+    // const resetEmailVerification = async () => {
+    //     if (auth.curprentUser) {
+    //         console.log('pressed2');
+    //         await sendEmailVerification(auth.currentUser)
+    //             .then(async () => await auth.signOut())
+    //             .catch(error => setErrorMessage(error.message));
+    //     }
+    // };
 
+    const textColor = useColorModeValue('thia.gray.800', 'thia.gray.300');
+    const textColorBold = useColorModeValue('black', 'white');
     return (
         <SeoPage title='Join Thia'>
-            <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
-                <VStack spacing={6} py={1} w='full'>
-                    <FormControl
-                        isRequired
-                        isInvalid={userRegistrationFocusedOnce.fullName && userRegistrationErrorMessages.fullName != ''}
-                    >
-                        <FormLabel fontSize='sm'>Name</FormLabel>
-                        <Input
-                            bg={useColorModeValue('white', 'black')}
-                            name='fullName'
-                            placeholder='Full Name'
-                            autoFocus
-                            type='text'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.fullName}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isRequired
-                        isInvalid={userRegistrationFocusedOnce.emailAddress && userRegistrationErrorMessages.emailAddress != ''}
-                    >
-                        <FormLabel fontSize='sm'>Email</FormLabel>
-                        <Input
-                            bg={useColorModeValue('white', 'black')}
-                            name='emailAddress'
-                            placeholder='E-mail Address'
-                            type='text'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.emailAddress}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isRequired
-                        isInvalid={userRegistrationFocusedOnce.password && userRegistrationErrorMessages.password != ''}
-                    >
-                        <FormLabel fontSize='sm'>Password</FormLabel>
-                        <Input
-                            bg={useColorModeValue('white', 'black')}
-                            name='password'
-                            placeholder='Password'
-                            type='password'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.password}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                        isRequired
-                        isInvalid={userRegistrationFocusedOnce.passwordRetype && userRegistrationErrorMessages.passwordRetype != ''}
-                    >
-                        <FormLabel fontSize='sm'>Re-type Password</FormLabel>
-                        <Input
-                            bg={useColorModeValue('white', 'black')}
-                            name='passwordRetype'
-                            placeholder='Re-type Password'
-                            type='password'
-                            onBlur={handleRegistrationInputsFocused}
-                            onChange={handleRegistrationInputsChange}
-                        />
-                        <FormErrorMessage fontSize='sm'>{userRegistrationErrorMessages.passwordRetype}</FormErrorMessage>
-                    </FormControl>
-                </VStack>
-                <Button w='full' variant='primary' onClick={registerNewAccount} isLoading={emailRegisteringLoading}>
-                    Sign up
-                </Button>
-                <HStack w='full'>
-                    <Divider />
-                    <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
-                        OR
-                    </Text>
-                    <Divider />
-                </HStack>
-                <GoogleButton onCLick={googleLogin} isLoading={googleRegisteringLoading}>
-                    Sign up with Google
-                </GoogleButton>
-                <Flex gap={3} fontSize='sm'>
-                    <Text>Already have an account?</Text>
-                    <ChakraNextLink
-                        href='/signin'
-                        styleProps={{
-                            variant: 'primaryLink',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        Sign in
-                    </ChakraNextLink>
-                </Flex>
-            </AuthTemplatePage>
+            {!emailVerificationSent ? (
+                <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
+                    <VStack spacing={3} py={1} w='full'>
+                        <Formik initialValues={initialValues} validationSchema={singupSchema} onSubmit={onSubmit}>
+                            {({ errors, touched }) => (
+                                <Form style={{ width: '100%' }} noValidate>
+                                    <VStack spacing={3} py={1} w='full'>
+                                        {errorMessage && (
+                                            <Alert
+                                                bg='#ff42422e'
+                                                rounded='md'
+                                                status='error'
+                                                border='1px'
+                                                borderColor='#ff4242a3'
+                                                justifyContent='space-between'
+                                            >
+                                                {errorMessage}
+                                                <CloseButton rounded='full' onClick={() => setErrorMessage('')} color='#ff4242a3' />
+                                            </Alert>
+                                        )}
+                                        <InputFormControl
+                                            autoFocus
+                                            isRequired
+                                            label='Name'
+                                            name='name'
+                                            type='text'
+                                            errors={errors.name}
+                                            touched={touched.name}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Email Address'
+                                            name='email'
+                                            type='email'
+                                            errors={errors.email}
+                                            touched={touched.email}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Password'
+                                            name='password'
+                                            type='Password'
+                                            placeholder='8+ characters'
+                                            errors={errors.password}
+                                            touched={touched.password}
+                                        />
+                                        <InputFormControl
+                                            isRequired
+                                            label='Re-type Password'
+                                            name='retypePassword'
+                                            type='Password'
+                                            errors={errors.retypePassword}
+                                            touched={touched.retypePassword}
+                                        />
+                                        <Box w='full' pt={3}>
+                                            <Button
+                                                w='full'
+                                                type='submit'
+                                                variant='primary'
+                                                colorScheme='gray'
+                                                isLoading={isEmailSignUpLoading}
+                                            >
+                                                Sign Up
+                                            </Button>
+                                        </Box>
+                                    </VStack>
+                                </Form>
+                            )}
+                        </Formik>
+                        <HStack w='full'>
+                            <Divider />
+                            <Text fontSize='sm' whiteSpace='nowrap' color='thia.gray.500'>
+                                OR
+                            </Text>
+                            <Divider />
+                        </HStack>
+                        <GoogleButton onCLick={googleLogin} isLoading={isGoogleSignUpLoading}>
+                            Sign up with Google
+                        </GoogleButton>
+                        <Flex gap={3} pt={3} fontSize='sm'>
+                            <Text>Already have an account?</Text>
+                            <ChakraNextLink
+                                href='/signin'
+                                styleProps={{
+                                    variant: 'primaryLink',
+                                    fontWeight: 'bold',
+                                }}
+                            >
+                                Sign in
+                            </ChakraNextLink>
+                        </Flex>
+                    </VStack>
+                </AuthTemplatePage>
+            ) : (
+                <AuthTemplatePage heading='Verify your email'>
+                    <Text align='center' color={textColor}>
+                        we&apos;ve sent an email to{' '}
+                        <Box as='span' fontWeight='bold' letterSpacing='wider' color={textColorBold}>
+                            {email}
+                        </Box>{' '}
+                        to verify your email address and activate your account. The link expires in 24 hours
+                    </Text>{' '}
+                    {errorMessage && (
+                        <Alert
+                            bg='#ff42422e'
+                            rounded='md'
+                            status='error'
+                            border='1px'
+                            borderColor='#ff4242a3'
+                            justifyContent='space-between'
+                        >
+                            {errorMessage}
+                            <CloseButton rounded='full' onClick={() => setErrorMessage('')} color='#ff4242a3' />
+                        </Alert>
+                    )}
+                    <Button w='full' type='submit' variant='primary' colorScheme='gray'>
+                        Resend verification email
+                    </Button>
+                </AuthTemplatePage>
+            )}
         </SeoPage>
     );
 };

@@ -2,15 +2,15 @@ import { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { IBackendRequest } from '../../base/iBackendRequest';
 
 /**
- * Backend request that sets new user claims for newly signed on users.
+ * Backend request that lists user invoices from stripe.
  */
-export class PostListCreditCardsBackendRequest implements IBackendRequest {
+export class ListInvoicesBackendRequest implements IBackendRequest {
     backendRequest: AxiosInstance;
     actionName: string;
 
     constructor(backendRequest: AxiosInstance) {
         this.backendRequest = backendRequest;
-        this.actionName = 'List Credit Cards';
+        this.actionName = 'List Invoices';
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +24,7 @@ export class PostListCreditCardsBackendRequest implements IBackendRequest {
                     Authorization: `Bearer ${data}`,
                 },
             };
-            const res = await this.backendRequest.get('/users/credit-cards/list', extendedAxiosConfig);
+            const res = await this.backendRequest.get('/users/invoices', extendedAxiosConfig);
             return [false, res.data];
         } catch (_err) {
             const err = _err as AxiosError;

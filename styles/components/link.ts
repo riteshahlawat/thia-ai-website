@@ -9,9 +9,9 @@ export const Link: ComponentStyleConfig = {
     },
     variants: {
         primaryLink: (props: any) => ({
-            color: mode('thia.purple.300', 'thia.purple.500')(props),
-            _hover: { color: mode('thia.purple.400', 'thia.purple.600')(props) },
-            _active: { color: mode('thia.purple.500', 'thia.purple.700')(props) },
+            color: mode('thia.purple.300', 'thia.purple.300')(props),
+            _hover: { color: mode('thia.purple.400', 'thia.purple.400')(props) },
+            _active: { color: mode('thia.purple.500', 'thia.purple.500')(props) },
         }),
     },
 };
