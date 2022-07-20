@@ -111,15 +111,28 @@ const Subscription = ({ subscription, loadData }: SubscriptionProps) => {
         if (user) {
             setSubscriptionCancelling(true);
             const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().cancelSubscriptionPlan(idToken, {
+            const [isError, _response] = await BackendRequestHandler.getInstance().cancelSubscriptionPlan(idToken, {
                 subscriptionID: subscription.id,
             });
             if (!isError) {
+                const response = _response as Stripe.Subscription;
+                if (response.cancel_at) {
+                    const cancelledDate = new Date(response.cancel_at * 1000).toLocaleDateString(undefined, {
+                        dateStyle: 'medium',
+                    });
+                    toast({
+                        title: 'Success',
+                        description: `Subscription will be cancelled on ${cancelledDate}`,
+                        status: 'success',
+                        duration: 2500,
+                        isClosable: false,
+                    });
+                }
                 await loadData();
             } else {
                 toast({
                     title: 'Error',
-                    description: response['message'],
+                    description: _response['message'],
                     status: 'error',
                     duration: 2500,
                     isClosable: false,
