@@ -17,9 +17,9 @@
         "@emotion/styled": "^11.8.1",
         "@fontsource/ibm-plex-sans": "^4.5.11",
         "@fontsource/poppins": "^4.5.8",
-        "@stripe/react-stripe-js": "^1.8.1",
-        "@stripe/stripe-js": "^1.31.0",
         "@nikolovlazar/chakra-ui-prose": "^1.1.0",
+        "@stripe/react-stripe-js": "^1.9.0",
+        "@stripe/stripe-js": "^1.32.0",
         "axios": "^0.27.2",
         "contentlayer": "^0.2.5",
         "firebase": "^9.8.1",
@@ -43,7 +43,7 @@
         "remark-mdx-images": "^1.0.3",
         "rimraf": "^3.0.2",
         "sharp": "^0.30.4",
-        "stripe": "^9.9.0"
+        "stripe": "^9.14.0"
     },
     "devDependencies": {
         "@svgr/webpack": "^6.2.1",
