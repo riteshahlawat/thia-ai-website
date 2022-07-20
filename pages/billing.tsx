@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import { useUser } from 'reactfire';
 import {
     Box,
     Button,
     Center,
     Divider,
+    Flex,
     FormControl,
     FormLabel,
     Heading,
@@ -27,7 +28,10 @@ import {
     PopoverTrigger,
     Portal,
     Stack,
+    Tag,
     Text,
+    useColorMode,
+    useColorModeValue,
     useDisclosure,
     useToast,
 } from '@chakra-ui/react';
@@ -39,6 +43,9 @@ import { BackendRequestHandler } from '../backend-requests/backendRequestHandler
 import { loadStripe } from '@stripe/stripe-js';
 import Stripe from 'stripe';
 import { IdTokenResult, User } from 'firebase/auth';
+import { ContentContainer } from '@/components/common/ContentContainer';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { RiArrowRightUpLine } from 'react-icons/ri';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -145,92 +152,92 @@ interface CardProps {
     defaultCardID: string | null;
     loadData: () => Promise<void>;
 }
-const Card = ({ card, defaultCardID, loadData }: CardProps) => {
-    const { data: user } = useUser();
-    const toast = useToast();
+// const Card = ({ card, defaultCardID, loadData }: CardProps) => {
+//     const { data: user } = useUser();
+//     const toast = useToast();
 
-    const [changingDefaultCard, setChangingDefaultCard] = useState(false);
-    const [removingCard, setRemovingCard] = useState(false);
+//     const [changingDefaultCard, setChangingDefaultCard] = useState(false);
+//     const [removingCard, setRemovingCard] = useState(false);
 
-    const removeCard = async () => {
-        if (user) {
-            setRemovingCard(true);
-            const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, {
-                paymentMethodID: card.id,
-            });
-            if (!isError) {
-                await loadData();
-            } else {
-                toast({
-                    title: 'Error',
-                    description: response['message'],
-                    status: 'error',
-                    duration: 2500,
-                    isClosable: false,
-                });
-            }
-            setRemovingCard(false);
-        }
-    };
+//     const removeCard = async () => {
+//         if (user) {
+//             setRemovingCard(true);
+//             const idToken = await user.getIdToken();
+//             const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, {
+//                 paymentMethodID: card.id,
+//             });
+//             if (!isError) {
+//                 await loadData();
+//             } else {
+//                 toast({
+//                     title: 'Error',
+//                     description: response['message'],
+//                     status: 'error',
+//                     duration: 2500,
+//                     isClosable: false,
+//                 });
+//             }
+//             setRemovingCard(false);
+//         }
+//     };
 
-    const renderDefaultCard = () => {
-        if (defaultCardID && card.id === defaultCardID) {
-            return (
-                <Heading fontSize='sm' color='thia.purple.500'>
-                    Default Card
-                </Heading>
-            );
-        }
-    };
+// const renderDefaultCard = () => {
+//     if (defaultCardID && card.id === defaultCardID) {
+//         return (
+//             <Heading fontSize='sm' color='thia.purple.500'>
+//                 Default Card
+//             </Heading>
+//         );
+//     }
+// };
 
-    const setDefaultCard = async () => {
-        if (user) {
-            setChangingDefaultCard(true);
-            const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
-                paymentMethodID: card.id,
-            });
-            if (!isError) {
-                await loadData();
-            } else {
-                toast({
-                    title: 'Error',
-                    description: response['message'],
-                    status: 'error',
-                    duration: 2500,
-                    isClosable: false,
-                });
-            }
-            setChangingDefaultCard(false);
-        }
-    };
+// const setDefaultCard = async () => {
+//     if (user) {
+//         setChangingDefaultCard(true);
+//         const idToken = await user.getIdToken();
+//         const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
+//             paymentMethodID: card.id,
+//         });
+//         if (!isError) {
+//             await loadData();
+//         } else {
+//             toast({
+//                 title: 'Error',
+//                 description: response['message'],
+//                 status: 'error',
+//                 duration: 2500,
+//                 isClosable: false,
+//             });
+//         }
+//         setChangingDefaultCard(false);
+//     }
+// };
 
-    const renderSetDefaultButton = () => {
-        if ((defaultCardID && card.id !== defaultCardID) || defaultCardID === null) {
-            return (
-                <Button onClick={setDefaultCard} isLoading={changingDefaultCard} loadingText='Updating'>
-                    Set Default Card
-                </Button>
-            );
-        }
-    };
+// const renderSetDefaultButton = () => {
+//     if ((defaultCardID && card.id !== defaultCardID) || defaultCardID === null) {
+//         return (
+//             <Button onClick={setDefaultCard} isLoading={changingDefaultCard} loadingText='Updating'>
+//                 Set Default Card
+//             </Button>
+//         );
+//     }
+// };
 
-    return (
-        <Box>
-            <Heading fontSize='lg'>{card.id}</Heading>
-            <Box>
-                Expiry Date: {card.card?.exp_month}/{card.card?.exp_year}
-            </Box>
-            <Box>Card Last 4 Numbers: {card.card?.last4}</Box>
-            {renderDefaultCard()}
-            <Button onClick={removeCard} isLoading={removingCard} loadingText='Removing'>
-                Remove Card
-            </Button>
-            {renderSetDefaultButton()}
-        </Box>
-    );
-};
+// return (
+//     <Box>
+//         <Heading fontSize='lg'>{card.id}</Heading>
+//         <Box>
+//             Expiry Date: {card.card?.exp_month}/{card.card?.exp_year}
+//         </Box>
+//         <Box>Card Last 4 Numbers: {card.card?.last4}</Box>
+//         {renderDefaultCard()}
+//         <Button onClick={removeCard} isLoading={removingCard} loadingText='Removing'>
+//             Remove Card
+//         </Button>
+//         {renderSetDefaultButton()}
+//     </Box>
+// );
+// };
 
 const BillingParent = () => {
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
@@ -246,7 +253,7 @@ const Billing = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { data: user } = useUser();
     const toast = useToast();
-    const [subscription, setSubscription] = useState<Stripe.Subscription[]>([]);
+    const [subscription, setSubscription] = useState<Stripe.SubscriptionItem[]>([]);
     const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
     const [defaultCardID, setDefaultCardID] = useState<string | null>(null);
     const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
@@ -272,7 +279,7 @@ const Billing = () => {
     const fetchClaims = async () => {
         if (user) {
             const idToken = await user.getIdTokenResult(true);
-            console.log('Role:', idToken.claims.role);
+            console.log('Role:', idToken.claims);
 
             setUserIdToken(idToken);
         }
@@ -282,13 +289,14 @@ const Billing = () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
+            console.log('Subscription:', response);
             if (!isError) {
-                console.log('Subscription:', response.data.length);
+                console.log('Subscription:', response.data);
                 setSubscription(response.data);
             }
             const [isError2, response2] = await BackendRequestHandler.getInstance().listCards(idToken);
             if (!isError2) {
-                console.log('Cards:', response2.data.length);
+                console.log('Cards:', response2.data);
                 setCards(response2.data);
             }
 
@@ -306,10 +314,6 @@ const Billing = () => {
         }
         loadData();
     }, [user]);
-
-    if (!subscription) {
-        return <></>;
-    }
 
     const subscribeToStandardPlan = async () => {
         if (user) {
@@ -351,8 +355,129 @@ const Billing = () => {
         }
     };
 
+    const plan = subscription[0]?.plan;
+    const amount = plan?.amount ?? 0;
+    const interval = plan?.interval ? `${plan.interval}ly` : '--';
+
+    const card = cards[0]?.card;
+    const brand = card?.brand;
+    const exp_month = card?.exp_month;
+    const exp_year = card?.exp_year;
+    const last4 = card?.last4;
+    const expiryDate = `${String(exp_month).padStart(2, '0')}/${exp_year}`;
+
+    const borderColor = useColorModeValue('thia.gray.50', 'thia.gray.990');
+    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
+    const cardBGColor = useColorModeValue('thia.gray.50', 'thia.gray.950');
+
+    // if (!subscription) return <></>;
+
     return (
-        <Box p={20}>
+        <ContentContainer>
+            <Box py={5}>
+                <Box>
+                    <Heading>Billing</Heading>
+                    <Text color={secondaryTextColor} pt={2}>
+                        Manage your billing and payment details
+                    </Text>
+                </Box>
+                <Divider my={5} />
+                <Flex gap={10} flexDir={{ base: 'column', md: 'row' }}>
+                    <Card>
+                        <Flex gap={10} p={5} justify='space-between'>
+                            <Flex flexDir='column' gap={2}>
+                                <Flex gap={2}>
+                                    <Text fontWeight='bold' casing='capitalize'>
+                                        {userIdToken?.claims.role}
+                                    </Text>
+                                    <Tag rounded='full' colorScheme={'purple'} fontWeight='semibold' textTransform='capitalize'>
+                                        {interval}
+                                    </Tag>
+                                </Flex>
+                                <Text fontSize='sm' color={secondaryTextColor}>
+                                    Its free for everyone, especially broke bitches.
+                                </Text>
+                            </Flex>
+                            <Flex gap={1}>
+                                <Text fontWeight='semibold' fontSize='4xl' letterSpacing='wide'>
+                                    {`$${amount / 100}`}
+                                </Text>
+                                <Text
+                                    pb={2}
+                                    fontSize='sm'
+                                    alignSelf='end'
+                                    fontWeight='semibold'
+                                    letterSpacing='wide'
+                                    color={secondaryTextColor}
+                                >
+                                    {`per ${interval}`}
+                                </Text>
+                            </Flex>
+                        </Flex>
+                        <Box w='full' textAlign='end' py={3} px={5} borderTop='2px' borderTopColor={borderColor}>
+                            <ChakraNextLink href='/' styleProps={{ variant: 'purple', fontSize: 'sm' }}>
+                                <Flex align='center' justify='flex-end'>
+                                    Change plan <RiArrowRightUpLine fontSize={18} />
+                                </Flex>
+                            </ChakraNextLink>
+                        </Box>
+                    </Card>
+                    <Card>
+                        <Box p={5} flexBasis={1}>
+                            <Text fontWeight='bold'>Payment Method</Text>
+                            <Text fontSize='sm' color={secondaryTextColor}>
+                                Update or edit your payment details
+                            </Text>
+                            <Box mt={5} p={5} rounded='lg' bg={cardBGColor}>
+                                <Flex gap={5}>
+                                    <Box>{brand}</Box>
+                                    <Box>
+                                        <Text fontSize='sm' fontWeight='semibold'>
+                                            <Box as='span' textTransform='capitalize'>
+                                                {brand}
+                                            </Box>
+                                            {` ending in ${last4}`}
+                                        </Text>
+                                        <Text fontSize='sm' color={secondaryTextColor}>{`Expiry ${expiryDate}`}</Text>
+                                        <Text></Text>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    </Card>
+                </Flex>
+            </Box>
+        </ContentContainer>
+    );
+};
+
+const Card = ({ children }: { children?: React.ReactNode }) => {
+    return (
+        <Box
+            bg={useColorModeValue('transparent', 'thia.gray.990')}
+            w='full'
+            shadow='sm'
+            rounded='lg'
+            border='2px'
+            borderColor={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+        >
+            {children}
+        </Box>
+    );
+};
+
+export default BillingParent;
+
+// export const getServerSideProps = async () => {
+//     const { data: user } = useUser();
+//     if (user) {
+//         const idToken = await user?.getIdToken();
+//         const res = await BackendRequestHandler.getInstance().listSubscriptionPlan(idToken);
+//         console.log(res)
+//     }
+// };
+
+/*        <Box p={20}>
             <Center>
                 <Heading>Billing</Heading>
             </Center>
@@ -468,8 +593,4 @@ const Billing = () => {
                     </Popover>
                 </Stack>
             </Box>
-        </Box>
-    );
-};
-
-export default BillingParent;
+        </Box>*/
