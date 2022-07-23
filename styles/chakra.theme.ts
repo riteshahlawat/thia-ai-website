@@ -20,8 +20,8 @@ export const theme = extendTheme(
     {
         config,
         fonts: {
-            body: `'IBM Plex Sans', sans-serif`,
-            Heading: `'IBM Plex Sans', sans-serif`,
+            body: `'Inter', sans-serif`,
+            heading: `'Inter', sans-serif`,
         },
         colors: {
             thia: {
