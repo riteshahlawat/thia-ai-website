@@ -14,7 +14,7 @@ export const Link: ComponentStyleConfig = {
             _active: { color: mode('thia.purple.500', 'thia.purple.500')(props) },
         }),
         purple: (props: any) => ({
-            color: mode('thia.purple.700', 'thia.purple.200')(props),
+            color: mode('thia.purple.500', 'thia.purple.200')(props),
             _hover: { color: mode('thia.purple.600', 'thia.purple.300')(props) },
             letterSpacing: 'wide',
             fontWeight: 'semibold',
