@@ -1,13 +1,7 @@
 import { mode } from '@chakra-ui/theme-tools';
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 import { withProse } from '@nikolovlazar/chakra-ui-prose';
-
-import { Link } from './components/link';
-import { Button } from './components/button';
-import { Prose } from './components/prose';
-import { Menu } from './components/menu';
-import { Modal } from './components/modal';
-import { Popover } from './components/popover';
+import { components } from './components/ComponentStyles';
 
 // Add color mode config
 const config: ThemeConfig = {
@@ -74,13 +68,7 @@ export const theme = extendTheme(
                 '2xl': '1440px',
             },
         },
-        components: {
-            Link,
-            Button,
-            Menu,
-            Modal,
-            Popover,
-        },
+        components,
     },
-    withProse(Prose)
+    withProse(components.Prose)
 );
