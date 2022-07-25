@@ -62,7 +62,7 @@ import { VscFile } from 'react-icons/vsc';
 import { InvoiceTable } from '@/components/billing/InvoiceTable';
 import { BorderBox } from '@/components/billing/BorderBox';
 import { OverviewCard } from '@/components/billing/OverviewCard';
-import { PaymentDetails } from '@/components/billing/PaymentDetails';
+import { PaymentDetails } from '@/components/billing/PaymentDetails/PaymentDetails';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
