@@ -3,14 +3,23 @@ import { Box, Button, Flex, FormControl, FormLabel, Input, Text, useColorModeVal
 import { CardElement } from '@stripe/react-stripe-js';
 import { MdChevronLeft } from 'react-icons/md';
 
-export const PayemntForm = ({ defaultCard, toModalHomePage }: { defaultCard: string | null; toModalHomePage: () => void }) => {
+type PaymentFormProps = {
+    defaultCard: string | null;
+    toModalHomePage: () => void;
+    onAddCardSuccess: () => void;
+    onAddCardFail?: () => void;
+};
+
+export const PayemntForm = ({ defaultCard, toModalHomePage, onAddCardSuccess, onAddCardFail }: PaymentFormProps) => {
     const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
         async () => {
             console.log('CARD ADDED');
-            // setAddCard(false);
+            onAddCardSuccess();
+            toModalHomePage();
         },
         () => {
             console.log('CARD FAILED');
+            // onAddCardFail();
         },
         defaultCard
     );

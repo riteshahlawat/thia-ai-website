@@ -3,7 +3,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from 'reactfire';
 import Stripe from 'stripe';
 import { BorderBox } from '../BorderBox';
@@ -11,12 +11,14 @@ import { CardPreview } from './CardPreview';
 import { ModalContent } from './ModalContent';
 import { PayemntForm } from './PaymentForm';
 
-export const PaymentDetails = ({ cardList, defaultCard }: { cardList: Stripe.PaymentMethod[]; defaultCard: string | null }) => {
+export const PaymentDetails = () => {
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [currentCard, setCurrentCard] = useState('');
     const [modalPage, setModalPage] = useState(0);
+    const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [defaultCard, setDefaultCard] = useState<string | null>(null);
 
     // returns to modals home page
     const toModalHomePage = () => setModalPage(0);
@@ -32,6 +34,35 @@ export const PaymentDetails = ({ cardList, defaultCard }: { cardList: Stripe.Pay
         setModalPage(0);
         onClose();
     };
+
+    const onAddCardSucess = () => {
+        getCardData();
+    };
+
+    const getCardData = async () => {
+        if (user) {
+            const idToken = await user.getIdToken();
+            const [[isCardListError, cardListRes], [isDefaultCardError, defaultCardRes]] = await Promise.all([
+                BackendRequestHandler.getInstance().listCards(idToken),
+                BackendRequestHandler.getInstance().getDefaultCard(idToken),
+            ]);
+
+            if (!isCardListError) {
+                console.log('Cards:', cardListRes.data);
+                setCards(cardListRes.data);
+            }
+
+            if (!isDefaultCardError) {
+                console.log('Default Card:', defaultCardRes);
+                setDefaultCard(defaultCardRes);
+            }
+        }
+    };
+
+    useEffect(() => {
+        getCardData();
+    }, []);
+
     const { data: user } = useUser();
     const removeCard = async () => {
         console.log('remove');
@@ -54,11 +85,16 @@ export const PaymentDetails = ({ cardList, defaultCard }: { cardList: Stripe.Pay
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <VStack spacing={5} align='start'>
                                 <VStack spacing={5} w='full' pb={1}>
-                                    {cardList.map(({ id, card }, i) => (
-                                        <CardPreview key={i} id={id} card={card} onEditClick={handleEditClick} />
+                                    {cards.map(({ id, card }, i) => (
+                                        <CardPreview
+                                            key={i}
+                                            id={id}
+                                            card={card}
+                                            onEditClick={handleEditClick}
+                                            isDefautlt={defaultCard === id}
+                                        />
                                     ))}
                                 </VStack>
-
                                 <Flex w='full' gap={5}>
                                     <Button w='full' variant='secondary' onClick={onModalClose}>
                                         Close
@@ -76,7 +112,11 @@ export const PaymentDetails = ({ cardList, defaultCard }: { cardList: Stripe.Pay
                     <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <Elements stripe={stripePromise}>
-                                <PayemntForm defaultCard={defaultCard} toModalHomePage={toModalHomePage} />
+                                <PayemntForm
+                                    defaultCard={defaultCard}
+                                    toModalHomePage={toModalHomePage}
+                                    onAddCardSuccess={onAddCardSucess}
+                                />
                             </Elements>
                         </motion.div>
                     </ModalContent>

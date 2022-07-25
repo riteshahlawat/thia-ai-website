@@ -310,32 +310,14 @@ const Billing = () => {
     const fetchSubscriptionAndCards = async () => {
         if (user) {
             const idToken = await user.getIdToken();
-            const data = await Promise.all([
-                BackendRequestHandler.getInstance().listCards(idToken),
+            const [[isInvoiceListError, invoiceListdRes], [isSubscriptionListError, subscriptionListRes]] = await Promise.all([
                 BackendRequestHandler.getInstance().listInvoices(idToken),
-                BackendRequestHandler.getInstance().getDefaultCard(idToken),
                 BackendRequestHandler.getInstance().listSubscriptionPlan(idToken),
             ]);
 
-            const [
-                [isCardListError, cardListRes],
-                [isInvoiceListError, invoiceListdRes],
-                [isDefaultCardError, defaultCardRes],
-                [isSubscriptionListError, subscriptionListRes],
-            ] = data;
-
-            console.log(data)
-            if (!isCardListError) {
-                console.log('Cards:', cardListRes.data);
-                setCards(cardListRes.data);
-            }
             if (!isInvoiceListError) {
                 console.log('invoices:', invoiceListdRes.data);
                 setInvoices(invoiceListdRes.data);
-            }
-            if (!isDefaultCardError) {
-                console.log('Default Card:', defaultCardRes);
-                setDefaultCardID(defaultCardRes);
             }
             if (!isSubscriptionListError) {
                 console.log('Subscription:', subscriptionListRes.data);
@@ -410,7 +392,7 @@ const Billing = () => {
                 <Divider />
                 <Flex gap={10} flexDir={{ base: 'column', md: 'row' }}>
                     <OverviewCard plan={plan} role={role} />
-                    <PaymentDetails defaultCard={defaultCardID} cardList={cards} />
+                    <PaymentDetails />
                 </Flex>
                 <Box mt={3}>
                     <Heading fontSize='lg' fontWeight='semibold'>
