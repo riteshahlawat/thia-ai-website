@@ -42,9 +42,9 @@ export const PayemntForm = ({ defaultCard, toModalHomePage, onAddCardSuccess, on
         },
     };
 
-    const inputBG = useColorModeValue('white', 'thia.gray.990');
+    const inputBG = useColorModeValue('thia.gray.50', 'thia.gray.950');
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
-    const color = 'thia.gray.500';
+    const color = 'thia.gray.600';
     return (
         <VStack spacing={5} align='start'>
             <FormControl>
@@ -115,7 +115,7 @@ export const PayemntForm = ({ defaultCard, toModalHomePage, onAddCardSuccess, on
                 <Button leftIcon={<MdChevronLeft />} flexGrow={1} variant='secondary' onClick={toModalHomePage}>
                     Back
                 </Button>
-                <Button flexGrow={1} variant='primary' onClick={addCardToUser} isLoading={isCardSubmitting} loadingText='...Adding card'>
+                <Button flexGrow={1} variant='primary' onClick={addCardToUser} isLoading={isCardSubmitting} loadingText='Adding card'>
                     Add card
                 </Button>
             </Flex>
