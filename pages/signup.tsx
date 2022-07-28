@@ -150,11 +150,11 @@ const SignUp: NextPageWithLayout = () => {
                                     <VStack spacing={3} py={1} w='full'>
                                         {errorMessage && (
                                             <Alert
-                                                bg='#ff42422e'
+                                                bg='thia.danger'
                                                 rounded='md'
                                                 status='error'
                                                 border='1px'
-                                                borderColor='#ff4242a3'
+                                                borderColor='thia.dangerOutline'
                                                 justifyContent='space-between'
                                             >
                                                 {errorMessage}

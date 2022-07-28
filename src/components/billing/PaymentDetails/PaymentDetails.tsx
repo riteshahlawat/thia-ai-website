@@ -4,13 +4,13 @@ import { useUser } from 'reactfire';
 import { BorderBox } from '../BorderBox';
 import { CardPreview } from './CardPreview';
 import { ModalContent } from './ModalContent';
-import { PayemntForm } from './PaymentForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 import { Box, Button, Flex, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
-import { MdChevronLeft } from 'react-icons/md';
+import { AddPaymentDetails } from './AddPaymentDetails';
+import { EditPaymentDetails } from './EditPaymentDetials';
 
 export const PaymentDetails = () => {
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
@@ -20,11 +20,10 @@ export const PaymentDetails = () => {
     const [modalPage, setModalPage] = useState(0);
     const [currentCard, setCurrentCard] = useState('');
     const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
-    const [defaultCardID, setDefaultCardID] = useState<string | null>(null);
-    const [isRemoveCardLoading, setRemoveCardLoading] = useState(false);
+    const [defaultCardID, setDefaultCardID] = useState<string>('');
 
     // fetch card data
-    const onAddCardSucess = () => getCardData();
+    const getCardDataCallback = () => getCardData();
 
     // returns to modals home page
     const toModalHomePage = () => {
@@ -67,39 +66,11 @@ export const PaymentDetails = () => {
         getCardData();
     }, [user]);
 
-    const removeCard = async () => {
-        setRemoveCardLoading(true);
-        if (user) {
-            const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, { paymentMethodID: currentCard });
+    const getCardById = (id: string) => cards.find(card => card.id === id);
 
-            if (response) {
-                getCardData();
-                toModalHomePage();
-            }
-
-            console.log(response);
-        }
-        setRemoveCardLoading(false);
-    };
-
-    const updateDefaultCard = async () => {
-        if (user) {
-            const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
-                paymentMethodID: currentCard,
-            });
-
-            if (response) {
-                getCardData();
-                toModalHomePage();
-            }
-
-            console.log(response);
-        }
-    };
-
-    const isCurrentCardDefaultCard = currentCard === defaultCardID;
+    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
+    const defaultPaymentMethod = getCardById(defaultCardID);
+    const currentPaymentMethod = getCardById(currentCard);
 
     const renderPage = (page: number) => {
         switch (page) {
@@ -108,18 +79,19 @@ export const PaymentDetails = () => {
                     <ModalContent title='Payment Details' text='Manage your cards and billing details'>
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <VStack spacing={5} align='start'>
-                                <VStack spacing={5} w='full' pb={1}>
-                                    {cards.map(({ id, card }, i) => (
-                                        <CardPreview
-                                            key={i}
-                                            id={id}
-                                            card={card}
-                                            onEditClick={handleEditClick}
-                                            isDefautlt={defaultCardID === id}
-                                        />
-                                    ))}
+                                <VStack spacing={5} w='full'>
+                                    <AnimatePresence>
+                                        {cards.map(({ id, card }, i) => (
+                                            <CardPreview
+                                                key={i}
+                                                id={id}
+                                                card={card}
+                                                onEditClick={handleEditClick}
+                                                isDefautlt={defaultCardID === id}
+                                            />
+                                        ))}
+                                    </AnimatePresence>
                                 </VStack>
-                                {/* {!cards && <Skeleton h={75} w='full' rounded='lg' startColor='blackAlpha.500' endColor='blackAlpha.800' />} */}
                                 <Flex w='full' gap={5}>
                                     <Button w='full' variant='secondary' onClick={onModalClose}>
                                         Close
@@ -135,36 +107,30 @@ export const PaymentDetails = () => {
             case 1:
                 return (
                     <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                            <Elements stripe={stripePromise}>
-                                <PayemntForm
-                                    defaultCard={defaultCardID}
-                                    toModalHomePage={toModalHomePage}
-                                    onAddCardSuccess={onAddCardSucess}
-                                />
-                            </Elements>
-                        </motion.div>
+                        <AddPaymentDetails
+                            defaultCard={defaultCardID}
+                            backButton={toModalHomePage}
+                            onAddCardSuccess={getCardDataCallback}
+                        />
                     </ModalContent>
                 );
             case 2:
                 return (
                     <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
-                        {/* <PayemntForm defaultCard={defaultCardID} /> */}
-                        <Button colorScheme='red' onClick={removeCard} isLoading={isRemoveCardLoading} loadingText='Removing card'>
-                            Delete Card
-                        </Button>
-                        {!isCurrentCardDefaultCard && <Button onClick={updateDefaultCard}>Make Default</Button>}
-                        <Button>Update</Button>
-                        <Button leftIcon={<MdChevronLeft />} flexGrow={1} variant='secondary' onClick={toModalHomePage}>
-                            Back
-                        </Button>
+                        <VStack spacing={5}>
+                            <CardPreview id={currentCard} card={currentPaymentMethod?.card} isDefautlt={defaultCardID === currentCard} />
+                            <EditPaymentDetails
+                                currentCard={currentCard}
+                                defaultCard={defaultCardID}
+                                backButton={toModalHomePage}
+                                updateData={getCardDataCallback}
+                            />
+                        </VStack>
                     </ModalContent>
                 );
         }
     };
 
-    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
-    const defaultPaymentMethod = cards.find(card => card.id === defaultCardID);
     return (
         <>
             <BorderBox>
@@ -187,8 +153,8 @@ export const PaymentDetails = () => {
                 </VStack>
             </BorderBox>
             <Modal isOpen={isOpen} onClose={onModalClose} isCentered size='md'>
-                <ModalOverlay bg='blackAlpha.300' backdropFilter='blur(32px)' />
-                {renderPage(modalPage)}
+                <ModalOverlay bg='blackAlpha.50' backdropFilter='blur(32px)' />
+                <Elements stripe={stripePromise}>{renderPage(modalPage)}</Elements>
             </Modal>
         </>
     );

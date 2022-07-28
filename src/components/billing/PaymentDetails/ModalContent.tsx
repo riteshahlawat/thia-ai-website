@@ -11,7 +11,7 @@ import {
 export const ModalContent = ({ title, text, children }: { title: string; text: string; children?: React.ReactNode }) => {
     const bgColor = useColorModeValue('white', 'thia.gray.990');
     return (
-        <DefaultModalContent py={5} rounded='xl' bg={bgColor}>
+        <DefaultModalContent py={5} rounded='xl' bg={bgColor} overflow='none'>
             <ModalCloseButton />
             <ModalHeader bg={bgColor}>
                 <Heading mb={1}>{title}</Heading>

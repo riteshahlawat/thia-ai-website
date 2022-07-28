@@ -53,6 +53,8 @@ export const theme = extendTheme(
                     950: 'var(--purple-950)',
                     990: 'var(--purple-990)',
                 },
+                danger: '#ff42422e',
+                dangerOutline: '#ff4242a3',
             },
         },
         styles: {
