@@ -5,6 +5,7 @@ import submitCardElement from '@/hooks/submitCardElement';
 import { Box, Button, Flex, FormControl, FormLabel, useColorModeValue, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import Stripe from 'stripe';
+import { PaymentMethodCreateParams } from '@stripe/stripe-js';
 
 type PaymentFormProps = {
     defaultCard: string;
@@ -14,11 +15,11 @@ type PaymentFormProps = {
 };
 
 export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, onAddCardFail }: PaymentFormProps) => {
-    const initialBillingDetails: Stripe.PaymentMethod.BillingDetails = {
-        address: null,
-        email: null,
-        name: null,
-        phone: null,
+    const initialBillingDetails: PaymentMethodCreateParams.BillingDetails = {
+        address: undefined,
+        email: undefined,
+        name: undefined,
+        phone: undefined,
     };
 
     const [billingDetails, setBillingDetails] = useState(initialBillingDetails);
@@ -55,13 +56,13 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
     );
 
     const onSubmit = ({ cardholderName, ...rest }: BillingValuesType) => {
-        const address: Stripe.Address = { ...rest };
+        const address: PaymentMethodCreateParams.BillingDetails.Address = { ...rest };
 
-        const billingDetails: Stripe.PaymentMethod.BillingDetails = {
+        const billingDetails: PaymentMethodCreateParams.BillingDetails = {
             address,
             name: cardholderName,
-            email: null,
-            phone: null,
+            email: undefined,
+            phone: undefined,
         };
         setBillingDetails(billingDetails);
         addCardToUser();

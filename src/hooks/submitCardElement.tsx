@@ -1,6 +1,7 @@
 import { BillingValuesType } from '@/components/billing/PaymentDetails/PaymentForm';
 import { useToast } from '@chakra-ui/react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { PaymentMethodCreateParams } from '@stripe/stripe-js';
 import { FormEvent, useEffect, useState } from 'react';
 import { useUser } from 'reactfire';
 import Stripe from 'stripe';
@@ -10,7 +11,7 @@ function submitCardElement(
     onSuccess: () => void | Promise<void>,
     onFail: () => void | Promise<void>,
     defaultCreditCardID: string | null,
-    billingDetails: Stripe.PaymentMethod.BillingDetails
+    billingDetails: PaymentMethodCreateParams.BillingDetails
 ) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
@@ -28,7 +29,7 @@ function submitCardElement(
         const stripeResponse = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
-            // billing_details: billingDetails,
+            billing_details: billingDetails,
         });
 
         const { error, paymentMethod } = stripeResponse;
