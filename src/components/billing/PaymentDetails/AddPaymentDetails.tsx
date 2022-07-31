@@ -22,7 +22,6 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
         phone: undefined,
     };
 
-    const [billingDetails, setBillingDetails] = useState(initialBillingDetails);
     const CARD_ELEMENT_OPTIONS = {
         style: {
             base: {
@@ -41,10 +40,6 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
         },
     };
 
-    useEffect(() => {
-        console.log(billingDetails);
-    }, [billingDetails]);
-
     const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
         async () => {
             console.log('CARD ADDED');
@@ -55,8 +50,7 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
             console.log('CARD FAILED');
             // onAddCardFail();
         },
-        defaultCard,
-        billingDetails
+        defaultCard
     );
 
     const onSubmit = ({ cardholderName, ...rest }: BillingValuesType) => {
@@ -68,8 +62,7 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
             email: undefined,
             phone: undefined,
         };
-        setBillingDetails(billingDetails);
-        addCardToUser();
+        addCardToUser(billingDetails);
     };
     const formID = 'add-form';
     return (

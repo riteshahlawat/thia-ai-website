@@ -7,19 +7,14 @@ import { useUser } from 'reactfire';
 import Stripe from 'stripe';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 
-function submitCardElement(
-    onSuccess: () => void | Promise<void>,
-    onFail: () => void | Promise<void>,
-    defaultCreditCardID: string | null,
-    billingDetails: PaymentMethodCreateParams.BillingDetails
-) {
+function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>, defaultCreditCardID: string | null) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
     const stripe = useStripe();
     const elements = useElements();
     const { data: user } = useUser();
 
-    const getPaymentMethodID = async () => {
+    const getPaymentMethodID = async (billingDetails: PaymentMethodCreateParams.BillingDetails) => {
         const cardElement = elements?.getElement(CardElement);
 
         if (!stripe || !elements || !cardElement) {
@@ -42,10 +37,10 @@ function submitCardElement(
         return paymentMethod.id;
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (billingDetails: PaymentMethodCreateParams.BillingDetails) => {
         if (user && stripe) {
             setSubmitLoading(true);
-            const paymentMethodID = await getPaymentMethodID();
+            const paymentMethodID = await getPaymentMethodID(billingDetails);
 
             if (!paymentMethodID) {
                 return;
