@@ -1,10 +1,17 @@
+import { BillingValuesType } from '@/components/billing/PaymentDetails/PaymentForm';
 import { useToast } from '@chakra-ui/react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { FormEvent, useEffect, useState } from 'react';
 import { useUser } from 'reactfire';
+import Stripe from 'stripe';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 
-function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>, defaultCreditCardID: string | null) {
+function submitCardElement(
+    onSuccess: () => void | Promise<void>,
+    onFail: () => void | Promise<void>,
+    defaultCreditCardID: string | null,
+    billingDetails: Stripe.PaymentMethod.BillingDetails
+) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
     const stripe = useStripe();
@@ -21,6 +28,7 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
         const stripeResponse = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
+            billing_details: billingDetails,
         });
 
         const { error, paymentMethod } = stripeResponse;
@@ -32,9 +40,8 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
         return paymentMethod.id;
     };
 
-    const handleSubmit = async (event: FormEvent) => {
+    const handleSubmit = async () => {
         if (user && stripe) {
-            event.preventDefault();
             setSubmitLoading(true);
             const paymentMethodID = await getPaymentMethodID();
 

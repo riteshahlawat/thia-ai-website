@@ -52,6 +52,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
     };
 
     const updateDefaultCard = async () => {
+        console.log('poop');
         setCardDefaulting(true);
         if (user) {
             const idToken = await user.getIdToken();
@@ -64,6 +65,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
         setCardDefaulting(false);
     };
 
+    const formID = 'edit-form';
     return (
         <VStack spacing={5} align='start'>
             <Flex w='full' gap={5} justify='space-ar'>
@@ -80,7 +82,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
                     bg='thia.danger'
                     border='1px'
                     borderColor='thia.dangerOutline'
-                    _hover={{ bg: 'thia.danger', rounded: 'xl' }}
+                    _hover={{ bg: 'thia.danger', rounded: 'lg' }}
                     onClick={removeCard}
                     isLoading={isCardRemoving}
                     loadingText='Removing card'
@@ -94,7 +96,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
                     <Box
                         w='full'
                         bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
-                        p={3}
+                        p={1.5}
                         rounded='lg'
                         border='2px'
                         borderColor={useColorModeValue('thia.gray.100', 'transparent')}
@@ -104,7 +106,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
                     <Box
                         w='full'
                         bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
-                        p={3}
+                        p={1.5}
                         rounded='lg'
                         border='2px'
                         borderColor={useColorModeValue('thia.gray.100', 'transparent')}
@@ -113,12 +115,12 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
                     </Box>
                 </Flex>
             </FormControl>
-            <PaymentForm />
+            <PaymentForm formID={formID} onSubmit={updateDefaultCard} />
             <Flex w='full' gap={5}>
                 <Button w='full' flexBasis='auto' leftIcon={<MdChevronLeft />} variant='secondary' onClick={backButton}>
                     Back
                 </Button>
-                <Button w='full' flexBasis='auto' variant='primary'>
+                <Button type='submit' form={formID} w='full' flexBasis='auto' variant='primary'>
                     Update card
                 </Button>
             </Flex>

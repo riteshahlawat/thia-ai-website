@@ -116,11 +116,11 @@ const SignIn: NextPageWithLayout = () => {
                                 <VStack spacing={3} w='full'>
                                     {errorMessage && (
                                         <Alert
-                                            bg='#ff42422e'
+                                            bg='thia.danger'
                                             rounded='md'
                                             status='error'
                                             border='1px'
-                                            borderColor='#ff4242a3'
+                                            borderColor='thia.dangerOutline'
                                             justifyContent='space-between'
                                         >
                                             {errorMessage}
