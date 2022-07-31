@@ -28,7 +28,7 @@ function submitCardElement(
         const stripeResponse = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
-            billing_details: billingDetails,
+            // billing_details: billingDetails,
         });
 
         const { error, paymentMethod } = stripeResponse;
