@@ -3,7 +3,7 @@ import { MdChevronLeft } from 'react-icons/md';
 import { BillingValuesType, PaymentForm } from './PaymentForm';
 import submitCardElement from '@/hooks/submitCardElement';
 import { Box, Button, Flex, FormControl, FormLabel, useColorModeValue, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Stripe from 'stripe';
 import { PaymentMethodCreateParams } from '@stripe/stripe-js';
 
@@ -40,6 +40,10 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
             },
         },
     };
+
+    useEffect(() => {
+        console.log(billingDetails);
+    }, [billingDetails]);
 
     const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
         async () => {

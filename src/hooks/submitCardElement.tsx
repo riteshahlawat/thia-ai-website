@@ -26,6 +26,7 @@ function submitCardElement(
             return;
         }
 
+        console.log(billingDetails);
         const stripeResponse = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
