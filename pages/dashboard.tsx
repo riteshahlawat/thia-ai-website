@@ -8,18 +8,13 @@ const Dashboard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (!user) router.push('/signin');
-        else {
+        if (user === null) router.push('/signin');
+        else if (user) {
             user.getIdToken().then(val => {
                 navigator.clipboard.writeText(val);
             });
         }
     }, [user, router]);
-
-    if (user) {
-        const idToken = user.getIdToken();
-        console.log(idToken);
-    }
 
     return <Box>Welcome, {user?.displayName}</Box>;
 };
