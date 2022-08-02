@@ -21,7 +21,7 @@ import { InputFormControl } from '@/components/common/InputFormControl';
 const { INVALID_EMAIL, INVALID_PASSWORD, INTERNAL_ERROR, USER_DELETED } = AuthErrorCodes;
 
 // form validation schemea
-const singinSchema = object({
+const signInSchema = object({
     email: string().email('Please enter a valid email address').required('Email is required'),
     password: string().required('Password is required'),
 });
@@ -110,7 +110,7 @@ const SignIn: NextPageWithLayout = () => {
         <SeoPage title='Sign in to Thia'>
             <AuthTemplatePage heading='Log in to your account' text='Start training on your own hardware'>
                 <VStack spacing={3} w='full'>
-                    <Formik initialValues={initialValues} validationSchema={singinSchema} onSubmit={onSubmit}>
+                    <Formik initialValues={initialValues} validationSchema={signInSchema} onSubmit={onSubmit}>
                         {({ errors, touched }) => (
                             <Form style={{ width: '100%' }} noValidate>
                                 <VStack spacing={3} w='full'>

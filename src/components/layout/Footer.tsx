@@ -11,10 +11,15 @@ import {
     Divider,
     Grid,
     GridItem,
+    useToast,
 } from '@chakra-ui/react';
 import { links, socials } from '@/constants/links';
 import { BiMailSend } from 'react-icons/bi';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { Form, Formik } from 'formik';
+import { object, string } from 'yup';
+import { InputFormControl } from '../common/InputFormControl';
+import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 
 const ListHeader = ({ children }: { children: string }) => {
     return (
@@ -24,8 +29,38 @@ const ListHeader = ({ children }: { children: string }) => {
     );
 };
 
+type SubscribeToNewsletterValues = {
+    email: string;
+};
 export const Footer = () => {
+    const toast = useToast();
     const iconBackgroundColor = useColorModeValue('thia.gray.200', 'thia.gray.900');
+    const newsletterInputBG = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+    const subscribeToNewsletterFormikSchema = object({
+        email: string().email('Please enter a valid email address').required('Email is required'),
+    });
+    const subscribeToNewsletter = async ({ email }: SubscribeToNewsletterValues) => {
+        const [isError, response] = await BackendRequestHandler.getInstance().subscribeToNewsletter({
+            email,
+        });
+        if (isError) {
+            toast({
+                title: 'Error',
+                description: response['message'],
+                status: 'error',
+                duration: 2500,
+                isClosable: false,
+            });
+            return;
+        }
+        toast({
+            title: 'Success',
+            description: `${email} is subscribed to our newsletter`,
+            status: 'success',
+            duration: 2500,
+            isClosable: false,
+        });
+    };
     return (
         <Box as='footer' bg='inherit' color={useColorModeValue('thia.text-base', 'thia.text-dark')}>
             <Grid
@@ -65,15 +100,9 @@ export const Footer = () => {
                 <GridItem>
                     <VStack align={'flex-start'}>
                         <ListHeader>Product</ListHeader>
-                        <ChakraNextLink href={links.docs.index.path}>
-                            {links.docs.index.label}
-                        </ChakraNextLink>
-                        <ChakraNextLink href={links.pricing.index.path}>
-                            {links.pricing.index.label}
-                        </ChakraNextLink>
-                        <ChakraNextLink href={links.download.index.path}>
-                            {links.download.index.label}
-                        </ChakraNextLink>
+                        <ChakraNextLink href={links.docs.index.path}>{links.docs.index.label}</ChakraNextLink>
+                        <ChakraNextLink href={links.pricing.index.path}>{links.pricing.index.label}</ChakraNextLink>
+                        <ChakraNextLink href={links.download.index.path}>{links.download.index.label}</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Features</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
                     </VStack>
@@ -99,23 +128,32 @@ export const Footer = () => {
                 </GridItem>
                 <GridItem colSpan={{ base: 3, sm: 2, md: 1 }}>
                     <VStack align={'flex-start'}>
-                        <ListHeader>Subscribe to our newsletter</ListHeader>
-                        <HStack w='full'>
-                            <Input
-                                placeholder={'Your email address'}
-                                variant='filled'
-                                colorScheme='thia.gray'
-                                bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-                                _hover={{
-                                    bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-                                }}
-                            />
-                            <IconButton
-                                aria-label='Subscribe'
-                                variant='primary'
-                                icon={<BiMailSend />}
-                            />
-                        </HStack>
+                        <Formik
+                            initialValues={{ email: '' }}
+                            validationSchema={subscribeToNewsletterFormikSchema}
+                            onSubmit={subscribeToNewsletter}
+                        >
+                            {({ errors, touched }) => (
+                                <Form noValidate>
+                                    <InputFormControl
+                                        autoFocus
+                                        isRequired
+                                        name='email'
+                                        type='email'
+                                        submitButton={
+                                            <IconButton aria-label='Subscribe' variant='primary' type='submit' icon={<BiMailSend />} />
+                                        }
+                                        placeholder='Your email address'
+                                        labelComponent={<ListHeader>Subscribe to our newsletter</ListHeader>}
+                                        variant='filled'
+                                        colorScheme='thia.gray'
+                                        bg={newsletterInputBG}
+                                        errors={errors.email}
+                                        touched={touched.email}
+                                    />
+                                </Form>
+                            )}
+                        </Formik>
                     </VStack>
                 </GridItem>
             </Grid>
