@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Field } from 'formik';
-import {
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Input,
-    useColorModeValue,
-} from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, HStack, Input, useColorModeValue } from '@chakra-ui/react';
 
 type InputFormControlType = {
     errors: string | undefined;
     touched: boolean | undefined;
-    label: string;
+    label?: string;
+    labelComponent?: ReactElement;
+    /**
+     * Only provide submit button component if form is 1 input
+     */
+    submitButton?: ReactElement;
     name: string;
     type: string;
+    placeholder?: string;
     isRequired?: boolean;
     [rest: string]: any;
 };
@@ -22,8 +22,11 @@ export const InputFormControl = ({
     errors,
     touched,
     name,
-    label,
+    label = '',
+    labelComponent,
+    submitButton,
     isRequired = false,
+    placeholder = '',
     type = 'text',
     ...rest
 }: InputFormControlType) => {
@@ -31,8 +34,11 @@ export const InputFormControl = ({
 
     return (
         <FormControl isRequired={isRequired} isInvalid={!!errors && touched}>
-            <FormLabel htmlFor={name}>{label}</FormLabel>
-            <Field as={Input} id={name} name={name} type={type} bg={inputColor} {...rest} />
+            {labelComponent ? labelComponent : <FormLabel htmlFor={name}>{label}</FormLabel>}
+            <HStack>
+                <Field as={Input} id={name} name={name} type={type} bg={inputColor} placeholder={placeholder} {...rest} />
+                {submitButton}
+            </HStack>
             <FormErrorMessage>{errors}</FormErrorMessage>
         </FormControl>
     );
