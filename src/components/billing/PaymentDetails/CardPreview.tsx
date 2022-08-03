@@ -4,14 +4,14 @@ import { MdEdit } from 'react-icons/md';
 import { Box, Flex, HStack, IconButton, Skeleton, Tag, Text, useColorModeValue } from '@chakra-ui/react';
 
 type Props = {
-    id: string;
-    card: Stripe.PaymentMethod.Card | undefined;
+    paymentMethod: Stripe.PaymentMethod;
     onEditClick?: (arg0: string) => void;
     isDefautlt: boolean;
     [key: string]: any;
 };
 
-export const CardPreview = ({ id, card, isDefautlt, onEditClick, ...rest }: Props) => {
+export const CardPreview = ({ paymentMethod, isDefautlt, onEditClick, ...rest }: Props) => {
+    const card = paymentMethod.card;
     const brand = card?.brand ?? '----';
     const exp_month = card?.exp_month ?? '--';
     const exp_year = card?.exp_year ?? '----';
@@ -44,7 +44,7 @@ export const CardPreview = ({ id, card, isDefautlt, onEditClick, ...rest }: Prop
                     </Flex>
 
                     {onEditClick && (
-                        <IconButton aria-label='edit' icon={<MdEdit />} variant='secondary' onClick={() => onEditClick(id ?? '')} />
+                        <IconButton aria-label='edit' icon={<MdEdit />} variant='secondary' onClick={() => onEditClick(paymentMethod.id)} />
                     )}
                 </HStack>
             </Box>

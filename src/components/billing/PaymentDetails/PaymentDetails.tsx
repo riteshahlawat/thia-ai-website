@@ -56,6 +56,8 @@ export const PaymentDetails = () => {
             }
 
             if (!isDefaultCardError) {
+                const defaultPaymentMethod = await BackendRequestHandler.getInstance().getPaymentMethodById(idToken, defaultCardRes);
+                console.log(defaultPaymentMethod);
                 console.log('Default Card:', defaultCardRes);
                 setDefaultCardID(defaultCardRes);
             }
@@ -81,13 +83,12 @@ export const PaymentDetails = () => {
                             <VStack spacing={5} align='start'>
                                 <VStack spacing={5} w='full'>
                                     <AnimatePresence>
-                                        {cards.map(({ id, card }, i) => (
+                                        {cards.map((pm, i) => (
                                             <CardPreview
                                                 key={i}
-                                                id={id}
-                                                card={card}
+                                                paymentMethod={pm}
                                                 onEditClick={handleEditClick}
-                                                isDefautlt={defaultCardID === id}
+                                                isDefautlt={defaultCardID === pm.id}
                                             />
                                         ))}
                                     </AnimatePresence>
@@ -118,7 +119,7 @@ export const PaymentDetails = () => {
                 return (
                     <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
                         <VStack spacing={5}>
-                            <CardPreview id={currentCard} card={currentPaymentMethod?.card} isDefautlt={defaultCardID === currentCard} />
+                            {/* <CardPreview paymentMethod={currentPaymentMethod} isDefautlt={defaultCardID === currentCard} /> */}
                             <EditPaymentDetails
                                 currentCard={currentCard}
                                 defaultCard={defaultCardID}
@@ -141,12 +142,12 @@ export const PaymentDetails = () => {
                             Update or edit your payment details
                         </Text>
                     </Box>
-                    <CardPreview
+                    {/* <CardPreview
                         id={defaultCardID}
-                        card={defaultPaymentMethod?.card}
+                        paymentMethod={defaultPaymentMethod}
                         isDefautlt={!!defaultPaymentMethod?.id}
                         bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
-                    />
+                    /> */}
                     <Button variant='secondary' onClick={onOpen}>
                         Manage cards
                     </Button>

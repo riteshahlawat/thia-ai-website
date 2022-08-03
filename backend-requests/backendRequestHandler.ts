@@ -11,6 +11,7 @@ import { PostSubscribePremiumPlanBackendRequest } from './requests/post/subscrib
 import { PostSubscribeStandardPlanBackendRequest } from './requests/post/subscribeStandardPlan';
 import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardData } from './requests/post/updateDefaultCreditCard';
 import { ListInvoicesBackendRequest } from './requests/get/listInvoices';
+import { GetPaymentMethodByIDBackendRequest, GetPaymentMethodByIDData } from './requests/get/getPaymentMethodByID';
 
 /**
  * Class that manages all Backend Requests.
@@ -43,6 +44,8 @@ export class BackendRequestHandler {
     private getDefaultCreditCardBR!: GetDefaultCreditCardBackendRequest;
     // List invoices
     private listInvoiceBR!: ListInvoicesBackendRequest;
+    // Get Payment Method By ID
+    private getPaymentMethodByIDBR!: GetPaymentMethodByIDBackendRequest;
 
     /**
      * Private constructor.
@@ -77,6 +80,7 @@ export class BackendRequestHandler {
         this.detachCreditCardBR = new PostDetachCreditCardBackendRequest(this.backendRequest);
         this.getDefaultCreditCardBR = new GetDefaultCreditCardBackendRequest(this.backendRequest);
         this.listInvoiceBR = new ListInvoicesBackendRequest(this.backendRequest);
+        this.getPaymentMethodByIDBR = new GetPaymentMethodByIDBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -125,5 +129,9 @@ export class BackendRequestHandler {
 
     public getDefaultCard = async (idToken: string, config?: AxiosRequestConfig) => {
         return this.getDefaultCreditCardBR.run(config, idToken);
+    };
+
+    public getPaymentMethodById = async (idToken: string, data: GetPaymentMethodByIDData, config?: AxiosRequestConfig) => {
+        return this.getPaymentMethodByIDBR.run(config, [idToken, data]);
     };
 }
