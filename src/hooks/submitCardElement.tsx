@@ -1,13 +1,11 @@
-import { BillingValuesType } from '@/components/billing/PaymentDetails/PaymentForm';
 import { useToast } from '@chakra-ui/react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { PaymentMethodCreateParams } from '@stripe/stripe-js';
-import { FormEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useUser } from 'reactfire';
-import Stripe from 'stripe';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 
-function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>, defaultCreditCardID: string | null) {
+function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
     const stripe = useStripe();
@@ -21,7 +19,6 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
             return;
         }
 
-        console.log(billingDetails);
         const stripeResponse = await stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
@@ -53,14 +50,13 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
 
             if (!isError) {
                 const clientSecret = response.client_secret;
-                await stripe.confirmCardSetup(clientSecret, {
-                    payment_method: paymentMethodID,
-                });
+                await stripe.confirmCardSetup(clientSecret, { payment_method: paymentMethodID });
+
+                const [_, defaultCreditCardID] = await BackendRequestHandler.getInstance().getDefaultCard(idToken);
+
                 if (!defaultCreditCardID) {
                     // If the user does not have a default credit card, then update the new card to be their default
-                    await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
-                        paymentMethodID,
-                    });
+                    await BackendRequestHandler.getInstance().updateDefaultCard(idToken, { paymentMethodID });
                 }
 
                 toast({

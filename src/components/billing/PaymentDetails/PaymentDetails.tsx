@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 import { Box, Button, Flex, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
 import { AddPaymentDetails } from './AddPaymentDetails';
-import { EditPaymentDetails } from './EditPaymentDetials';
+import { EditPaymentDetails } from './EditPaymentDetails';
 
 export const PaymentDetails = () => {
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
@@ -20,7 +20,7 @@ export const PaymentDetails = () => {
     const [modalPage, setModalPage] = useState(0);
     const [currentCard, setCurrentCard] = useState('');
     const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
-    const [defaultCardID, setDefaultCardID] = useState<string>('');
+    const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<Stripe.PaymentMethod>();
 
     // fetch card data
     const getCardDataCallback = () => getCardData();
@@ -55,11 +55,14 @@ export const PaymentDetails = () => {
                 setCards(cardListRes.data);
             }
 
-            if (!isDefaultCardError) {
-                const defaultPaymentMethod = await BackendRequestHandler.getInstance().getPaymentMethodById(idToken, defaultCardRes);
-                console.log(defaultPaymentMethod);
-                console.log('Default Card:', defaultCardRes);
-                setDefaultCardID(defaultCardRes);
+            if (!isDefaultCardError && defaultCardRes) {
+                const [isPaymentMethodError, paymentMethodRes] = await BackendRequestHandler.getInstance().getPaymentMethodById(
+                    idToken,
+                    defaultCardRes
+                );
+                setDefaultPaymentMethod(!isPaymentMethodError ? paymentMethodRes : undefined);
+            } else {
+                setDefaultPaymentMethod(undefined);
             }
         }
     };
@@ -68,11 +71,9 @@ export const PaymentDetails = () => {
         getCardData();
     }, [user]);
 
-    const getCardById = (id: string) => cards.find(card => card.id === id);
-
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
-    const defaultPaymentMethod = getCardById(defaultCardID);
-    const currentPaymentMethod = getCardById(currentCard);
+    const currentPaymentMethod = cards.find(card => card.id === currentCard);
+    const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
 
     const renderPage = (page: number) => {
         switch (page) {
@@ -88,7 +89,7 @@ export const PaymentDetails = () => {
                                                 key={i}
                                                 paymentMethod={pm}
                                                 onEditClick={handleEditClick}
-                                                isDefautlt={defaultCardID === pm.id}
+                                                isDefault={defaultPaymentMethod?.id === pm.id}
                                             />
                                         ))}
                                     </AnimatePresence>
@@ -108,24 +109,21 @@ export const PaymentDetails = () => {
             case 1:
                 return (
                     <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
-                        <AddPaymentDetails
-                            defaultCard={defaultCardID}
-                            backButton={toModalHomePage}
-                            onAddCardSuccess={getCardDataCallback}
-                        />
+                        <AddPaymentDetails backButton={toModalHomePage} onAddCardSuccess={getCardDataCallback} />
                     </ModalContent>
                 );
             case 2:
                 return (
                     <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
                         <VStack spacing={5}>
-                            {/* <CardPreview paymentMethod={currentPaymentMethod} isDefautlt={defaultCardID === currentCard} /> */}
-                            <EditPaymentDetails
-                                currentCard={currentCard}
-                                defaultCard={defaultCardID}
-                                backButton={toModalHomePage}
-                                updateData={getCardDataCallback}
-                            />
+                            {currentPaymentMethod && (
+                                <EditPaymentDetails
+                                    isDefault={isDefaultPaymentMethod}
+                                    currentPaymentMethod={currentPaymentMethod}
+                                    backButton={toModalHomePage}
+                                    updateData={getCardDataCallback}
+                                />
+                            )}
                         </VStack>
                     </ModalContent>
                 );
@@ -142,12 +140,13 @@ export const PaymentDetails = () => {
                             Update or edit your payment details
                         </Text>
                     </Box>
-                    {/* <CardPreview
-                        id={defaultCardID}
-                        paymentMethod={defaultPaymentMethod}
-                        isDefautlt={!!defaultPaymentMethod?.id}
-                        bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
-                    /> */}
+                    {defaultPaymentMethod && (
+                        <CardPreview
+                            paymentMethod={defaultPaymentMethod}
+                            isDefault={!!defaultPaymentMethod?.id}
+                            bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
+                        />
+                    )}
                     <Button variant='secondary' onClick={onOpen}>
                         Manage cards
                     </Button>

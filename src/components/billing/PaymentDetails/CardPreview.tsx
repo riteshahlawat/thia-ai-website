@@ -6,11 +6,11 @@ import { Box, Flex, HStack, IconButton, Skeleton, Tag, Text, useColorModeValue }
 type Props = {
     paymentMethod: Stripe.PaymentMethod;
     onEditClick?: (arg0: string) => void;
-    isDefautlt: boolean;
+    isDefault: boolean;
     [key: string]: any;
 };
 
-export const CardPreview = ({ paymentMethod, isDefautlt, onEditClick, ...rest }: Props) => {
+export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: Props) => {
     const card = paymentMethod.card;
     const brand = card?.brand ?? '----';
     const exp_month = card?.exp_month ?? '--';
@@ -31,7 +31,7 @@ export const CardPreview = ({ paymentMethod, isDefautlt, onEditClick, ...rest }:
                             <Text fontSize='sm' fontWeight='semibold' letterSpacing='wide'>
                                 {last4 ? `${brand} **** ${last4}` : <Skeleton height='20px' />}{' '}
                             </Text>
-                            {isDefautlt && (
+                            {isDefault && (
                                 <Box h='full'>
                                     <Tag colorScheme='purple' size='sm' pt={0.5}>
                                         Default

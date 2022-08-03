@@ -1,27 +1,17 @@
-import { CardElement } from '@stripe/react-stripe-js';
 import { MdChevronLeft } from 'react-icons/md';
 import { BillingValuesType, PaymentForm } from './PaymentForm';
-import submitCardElement from '@/hooks/submitCardElement';
 import { Box, Button, Flex, FormControl, FormLabel, useColorModeValue, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import Stripe from 'stripe';
 import { PaymentMethodCreateParams } from '@stripe/stripe-js';
+import { CardElement } from '@stripe/react-stripe-js';
+import submitCardElement from '@/hooks/submitCardElement';
 
 type PaymentFormProps = {
-    defaultCard: string;
     backButton: () => void;
     onAddCardSuccess: () => void;
     onAddCardFail?: () => void;
 };
 
-export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, onAddCardFail }: PaymentFormProps) => {
-    const initialBillingDetails: PaymentMethodCreateParams.BillingDetails = {
-        address: undefined,
-        email: undefined,
-        name: undefined,
-        phone: undefined,
-    };
-
+export const AddPaymentDetails = ({ backButton, onAddCardSuccess, onAddCardFail }: PaymentFormProps) => {
     const CARD_ELEMENT_OPTIONS = {
         style: {
             base: {
@@ -41,29 +31,25 @@ export const AddPaymentDetails = ({ defaultCard, backButton, onAddCardSuccess, o
     };
 
     const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
-        async () => {
-            console.log('CARD ADDED');
+        () => {
             onAddCardSuccess();
             backButton();
         },
         () => {
-            console.log('CARD FAILED');
-            // onAddCardFail();
-        },
-        defaultCard
+            backButton();
+        }
     );
 
     const onSubmit = ({ cardholderName, ...rest }: BillingValuesType) => {
-        const address: PaymentMethodCreateParams.BillingDetails.Address = { ...rest };
-
         const billingDetails: PaymentMethodCreateParams.BillingDetails = {
-            address,
+            address: { ...rest },
             name: cardholderName,
             email: undefined,
             phone: undefined,
         };
         addCardToUser(billingDetails);
     };
+
     const formID = 'add-form';
     return (
         <VStack spacing={5} align='start'>
