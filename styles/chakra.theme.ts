@@ -19,7 +19,7 @@ export const theme = extendTheme(
         },
         colors: {
             thia: {
-                'bg-base': '#ffffff',
+                'bg-base': '#fdfdfd',
                 'bg-dark': '#000000',
                 'text-base': 'var(--purple-990)',
                 'text-dark': '#ffffff',

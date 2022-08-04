@@ -17,13 +17,13 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
     const exp_year = card?.exp_year ?? '----';
     const last4 = card?.last4 ?? '----';
     const expiryDate = `${String(exp_month).padStart(2, '0')}/${exp_year}`;
-    const cardBGColor = useColorModeValue('thia.gray.50', 'thia.gray.950');
+    const cardBGColor = useColorModeValue('white', 'thia.gray.950');
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
 
     return (
         <motion.div style={{ width: '100%' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <Box w='full' p={5} rounded='xl' bg={cardBGColor} shadow='sm' border='2px' borderColor={borderColor} {...rest}>
+            <Box w='full' p={5} rounded='xl' bg={cardBGColor} shadow='sm' border='1px' borderColor={borderColor} {...rest}>
                 <HStack gap={3} flexWrap='nowrap'>
                     <Box>Card</Box>
                     <Flex flexDir='column' flexGrow={1}>
@@ -42,7 +42,6 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
                         <Text fontSize='sm' color={secondaryTextColor}>{`Expires ${expiryDate}`}</Text>
                         <Text></Text>
                     </Flex>
-
                     {onEditClick && (
                         <IconButton aria-label='edit' icon={<MdEdit />} variant='secondary' onClick={() => onEditClick(paymentMethod.id)} />
                     )}

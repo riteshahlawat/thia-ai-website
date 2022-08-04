@@ -34,7 +34,7 @@ type PaymentFormType = {
 };
 
 export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) => {
-    const inputBG = useColorModeValue('thia.gray.50', 'thia.gray.950');
+    const inputBG = useColorModeValue('white', 'thia.gray.950');
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
     const color = 'thia.gray.600';
 
@@ -67,7 +67,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                     bg={inputBG}
                                     _placeholder={{ color }}
                                     borderColor={borderColor}
-                                    border='2px'
+                                    border='1px'
                                 />
                                 <InputFormControl
                                     name='line1'
@@ -80,7 +80,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                     bg={inputBG}
                                     _placeholder={{ color }}
                                     borderColor={borderColor}
-                                    border='2px'
+                                    border='1px'
                                 />
                                 <InputFormControl
                                     name='line2'
@@ -93,7 +93,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                     bg={inputBG}
                                     _placeholder={{ color }}
                                     borderColor={borderColor}
-                                    border='2px'
+                                    border='1px'
                                 />
                                 <Flex gap={3}>
                                     <InputFormControl
@@ -107,7 +107,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                         bg={inputBG}
                                         _placeholder={{ color }}
                                         borderColor={borderColor}
-                                        border='2px'
+                                        border='1px'
                                     />
                                     <InputFormControl
                                         name='postal_code'
@@ -120,7 +120,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                         bg={inputBG}
                                         _placeholder={{ color }}
                                         borderColor={borderColor}
-                                        border='2px'
+                                        border='1px'
                                     />
                                 </Flex>
                                 <Flex gap={3}>
@@ -135,7 +135,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                         bg={inputBG}
                                         _placeholder={{ color }}
                                         borderColor={borderColor}
-                                        border='2px'
+                                        border='1px'
                                     />
                                     <FormControl isRequired isInvalid={!!errors.country && touched.country}>
                                         <Field
@@ -150,7 +150,7 @@ export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) 
                                             bg={inputBG}
                                             _placeholder={{ color }}
                                             borderColor={borderColor}
-                                            border='2px'
+                                            border='1px'
                                         >
                                             {Countries.map(({ name, a2code }) => (
                                                 <option key={a2code} value={a2code}>
