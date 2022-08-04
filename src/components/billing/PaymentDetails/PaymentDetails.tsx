@@ -71,6 +71,7 @@ export const PaymentDetails = () => {
         getCardData();
     }, [user]);
 
+    const cardPreviewBG = useColorModeValue('thia.gray.50', 'thia.gray.950');
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
     const currentPaymentMethod = cards.find(card => card.id === currentCard);
     const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
@@ -141,11 +142,7 @@ export const PaymentDetails = () => {
                         </Text>
                     </Box>
                     {defaultPaymentMethod && (
-                        <CardPreview
-                            paymentMethod={defaultPaymentMethod}
-                            isDefault={!!defaultPaymentMethod?.id}
-                            bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
-                        />
+                        <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} bg={cardPreviewBG} />
                     )}
                     <Button variant='secondary' onClick={onOpen}>
                         Manage cards

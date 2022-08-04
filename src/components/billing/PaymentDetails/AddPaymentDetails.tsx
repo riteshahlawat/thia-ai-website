@@ -35,9 +35,7 @@ export const AddPaymentDetails = ({ backButton, onAddCardSuccess, onAddCardFail 
             onAddCardSuccess();
             backButton();
         },
-        () => {
-            backButton();
-        }
+        () => {}
     );
 
     const onSubmit = ({ cardholderName, ...rest }: BillingValuesType) => {

@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 import { InputFormControl } from '@/components/common/InputFormControl';
 import { Countries } from '@/utils/isoCountries';
+import Stripe from 'stripe';
 
 export type BillingValuesType = {
     cardholderName: string;
@@ -26,22 +27,26 @@ const billingDetailsSchema = yup.object({
     postal_code: yup.string().required('Zip/Postal code is required.'),
 });
 
-const initialValues: BillingValuesType = {
-    cardholderName: '',
-    line1: '',
-    line2: '',
-    city: '',
-    state: '',
-    country: '',
-    postal_code: '',
+type PaymentFormType = {
+    formID: string;
+    onSubmit: (arg0: BillingValuesType) => void;
+    initialData?: Stripe.PaymentMethod.BillingDetails;
 };
 
-type PaymentFormType = { formID: string; onSubmit: (arg0: BillingValuesType) => void };
-
-export const PaymentForm = ({ formID, onSubmit }: PaymentFormType) => {
+export const PaymentForm = ({ formID, onSubmit, initialData }: PaymentFormType) => {
     const inputBG = useColorModeValue('thia.gray.50', 'thia.gray.950');
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
     const color = 'thia.gray.600';
+
+    const initialValues: BillingValuesType = {
+        cardholderName: initialData?.name ?? '',
+        line1: initialData?.address?.line1 ?? '',
+        line2: initialData?.address?.line2 ?? '',
+        city: initialData?.address?.city ?? '',
+        state: initialData?.address?.state ?? '',
+        country: initialData?.address?.country ?? '',
+        postal_code: initialData?.address?.postal_code ?? '',
+    };
 
     return (
         <>

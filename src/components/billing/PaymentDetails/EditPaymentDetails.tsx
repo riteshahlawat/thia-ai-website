@@ -6,15 +6,17 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CardCvcElement, CardExpiryElement } from '@stripe/react-stripe-js';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
 import { Box, Button, Flex, FormControl, FormLabel, useColorModeValue, VStack } from '@chakra-ui/react';
+import Stripe from 'stripe';
+import { CardPreview } from './CardPreview';
 
 type PaymentFormProps = {
-    currentCard: string;
-    defaultCard: string;
+    isDefault: boolean;
+    currentPaymentMethod: Stripe.PaymentMethod;
     backButton: () => void;
     updateData: () => void;
 };
 
-export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updateData }: PaymentFormProps) => {
+export const EditPaymentDetails = ({ isDefault, currentPaymentMethod, backButton, updateData }: PaymentFormProps) => {
     const { data: user } = useUser();
     const [isCardRemoving, setCardRemoving] = useState(false);
     const [isCardDefaulting, setCardDefaulting] = useState(false);
@@ -41,7 +43,9 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
         setCardRemoving(true);
         if (user) {
             const idToken = await user.getIdToken();
-            const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, { paymentMethodID: currentCard });
+            const [isError, response] = await BackendRequestHandler.getInstance().detachCard(idToken, {
+                paymentMethodID: currentPaymentMethod.id,
+            });
 
             if (response) {
                 updateData();
@@ -52,25 +56,28 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
     };
 
     const updateDefaultCard = async () => {
-        console.log('poop');
         setCardDefaulting(true);
         if (user) {
             const idToken = await user.getIdToken();
             const [isError, response] = await BackendRequestHandler.getInstance().updateDefaultCard(idToken, {
-                paymentMethodID: currentCard,
+                paymentMethodID: currentPaymentMethod.id,
             });
 
-            if (response) updateData();
+            if (response) {
+                updateData();
+            }
         }
         setCardDefaulting(false);
     };
 
     const formID = 'edit-form';
+
     return (
         <VStack spacing={5} align='start'>
+            {currentPaymentMethod && <CardPreview paymentMethod={currentPaymentMethod} isDefault={isDefault} />}
             <Flex w='full' gap={5} justify='space-ar'>
                 <AnimatePresence>
-                    {!(defaultCard === currentCard) && (
+                    {!isDefault && (
                         <motion.div exit={{ opacity: 0 }}>
                             <Button onClick={updateDefaultCard} isLoading={isCardDefaulting} variant='secondary'>
                                 Make Default
@@ -115,7 +122,7 @@ export const EditPaymentDetails = ({ defaultCard, currentCard, backButton, updat
                     </Box>
                 </Flex>
             </FormControl>
-            <PaymentForm formID={formID} onSubmit={updateDefaultCard} />
+            <PaymentForm formID={formID} onSubmit={updateDefaultCard} initialData={currentPaymentMethod.billing_details} />
             <Flex w='full' gap={5}>
                 <Button w='full' flexBasis='auto' leftIcon={<MdChevronLeft />} variant='secondary' onClick={backButton}>
                     Back
