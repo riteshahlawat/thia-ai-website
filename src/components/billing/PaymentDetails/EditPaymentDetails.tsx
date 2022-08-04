@@ -73,7 +73,7 @@ export const EditPaymentDetails = ({ isDefault, currentPaymentMethod, backButton
     const formID = 'edit-form';
 
     return (
-        <VStack spacing={5} align='start'>
+        <VStack spacing={5} align='start' px={5}>
             {currentPaymentMethod && <CardPreview paymentMethod={currentPaymentMethod} isDefault={isDefault} />}
             <Flex w='full' gap={5} justify='space-ar'>
                 <AnimatePresence>
@@ -102,20 +102,20 @@ export const EditPaymentDetails = ({ isDefault, currentPaymentMethod, backButton
                 <Flex w='full' gap={3}>
                     <Box
                         w='full'
-                        bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
+                        bg={useColorModeValue('white', 'thia.gray.950')}
                         p={1.5}
                         rounded='lg'
-                        border='2px'
+                        border='1px'
                         borderColor={useColorModeValue('thia.gray.100', 'transparent')}
                     >
                         <CardCvcElement options={CARD_ELEMENT_OPTIONS} />
                     </Box>
                     <Box
                         w='full'
-                        bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
+                        bg={useColorModeValue('white', 'thia.gray.950')}
                         p={1.5}
                         rounded='lg'
-                        border='2px'
+                        border='1px'
                         borderColor={useColorModeValue('thia.gray.100', 'transparent')}
                     >
                         <CardExpiryElement options={CARD_ELEMENT_OPTIONS} />

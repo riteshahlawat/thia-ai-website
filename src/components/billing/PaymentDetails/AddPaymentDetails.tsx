@@ -50,14 +50,14 @@ export const AddPaymentDetails = ({ backButton, onAddCardSuccess, onAddCardFail 
 
     const formID = 'add-form';
     return (
-        <VStack spacing={5} align='start'>
+        <VStack spacing={5} align='start' px={5}>
             <FormControl>
                 <FormLabel pb={1}>Card information</FormLabel>
                 <Box
-                    bg={useColorModeValue('thia.gray.50', 'thia.gray.950')}
+                    bg={useColorModeValue('white', 'thia.gray.950')}
                     p={1.5}
                     rounded='lg'
-                    border='2px'
+                    border='1px'
                     borderColor={useColorModeValue('thia.gray.100', 'transparent')}
                 >
                     <CardElement options={CARD_ELEMENT_OPTIONS} />

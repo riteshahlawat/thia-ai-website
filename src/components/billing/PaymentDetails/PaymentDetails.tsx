@@ -82,7 +82,7 @@ export const PaymentDetails = () => {
                     <ModalContent title='Payment Details' text='Manage your cards and billing details'>
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <VStack spacing={5} align='start'>
-                                <VStack spacing={5} w='full'>
+                                <VStack spacing={5} w='full' maxH='50vh' overflow='auto' px={5}>
                                     <AnimatePresence>
                                         {cards.map((pm, i) => (
                                             <CardPreview
@@ -94,7 +94,7 @@ export const PaymentDetails = () => {
                                         ))}
                                     </AnimatePresence>
                                 </VStack>
-                                <Flex w='full' gap={5}>
+                                <Flex w='full' gap={5} px={5}>
                                     <Button w='full' variant='secondary' onClick={onModalClose}>
                                         Close
                                     </Button>

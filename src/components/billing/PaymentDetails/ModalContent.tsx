@@ -19,7 +19,7 @@ export const ModalContent = ({ title, text, children }: { title: string; text: s
                     {text}
                 </Text>
             </ModalHeader>
-            <ModalBody>{children}</ModalBody>
+            <ModalBody px={0}>{children}</ModalBody>
         </DefaultModalContent>
     );
 };
