@@ -12,7 +12,14 @@ export const Button: ComponentStyleConfig = {
         letterSpacing: 'wider',
     },
     // Styles for the size variations
-    sizes: {},
+    sizes: {
+        xl: {
+            h: 14,
+            minW: 14,
+            fontSize: 'xl',
+            px: 7,
+        },
+    },
     // Styles for the visual style variations
     variants: {
         primary: (props: StyleFunctionProps) => ({
