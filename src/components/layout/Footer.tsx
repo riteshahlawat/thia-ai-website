@@ -136,7 +136,6 @@ export const Footer = () => {
                             {({ errors, touched }) => (
                                 <Form noValidate>
                                     <InputFormControl
-                                        autoFocus
                                         isRequired
                                         name='email'
                                         type='email'
