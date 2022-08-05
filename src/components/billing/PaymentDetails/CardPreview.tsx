@@ -52,7 +52,6 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
         amex: '/cards/amex.svg',
     };
 
-    console.log('gay');
     return (
         <motion.div style={{ width: '100%' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <Box w='full' py={5} px={5} rounded='xl' bg={cardBGColor} shadow='sm' border='1px' borderColor={borderColor} {...rest}>
@@ -72,7 +71,7 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
                         <Flex gap={2}>
                             <Skeleton isLoaded={!!card}>
                                 <Text fontSize='sm' fontWeight='semibold' letterSpacing='wide'>
-                                    {`${brand} **** ${last4}`}
+                                    {`${brand} •••• ${last4}`}
                                 </Text>
                             </Skeleton>
                             {!!card && isDefault && (

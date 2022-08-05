@@ -61,8 +61,8 @@ import { MdClose, MdDone } from 'react-icons/md';
 import { VscFile } from 'react-icons/vsc';
 import { InvoiceTable } from '@/components/billing/InvoiceTable';
 import { BorderBox } from '@/components/billing/BorderBox';
-import { OverviewCard } from '@/components/billing/OverviewCard';
-import { PaymentDetails } from '@/components/billing/PaymentDetails/PaymentDetails';
+import { SubscriptionDetails as SubscriptionDetails } from '@/components/billing/subscriptionDetails/SubscriptionDetails';
+import { PaymentDetails } from '@/components/billing/paymentDetails/PaymentDetails';
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
@@ -327,9 +327,7 @@ const Billing = () => {
     };
 
     useEffect(() => {
-        if (user === null) {
-            router.push('/signin');
-        }
+        if (user === null) router.push('/signin');
         loadData();
     }, [user]);
 
@@ -375,7 +373,6 @@ const Billing = () => {
 
     const plan = subscription[0]?.plan;
     const role = userIdToken?.claims.role as string;
-
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
 
     // if (!subscription) return <></>;
@@ -390,19 +387,23 @@ const Billing = () => {
                     </Text>
                 </Box>
                 <Divider />
-                <Flex gap={10} flexDir={{ base: 'column', md: 'row' }}>
-                    <OverviewCard plan={plan} role={role} />
+                <Flex gap={7} flexDir={{ base: 'column', md: 'row' }}>
+                    <SubscriptionDetails plan={plan} role={role} />
                     <PaymentDetails />
                 </Flex>
-                <Box mt={3}>
-                    <Heading fontSize='lg' fontWeight='semibold'>
-                        Invoices
-                    </Heading>
-                    <Text color={secondaryTextColor} pt={2}>
-                        View and download invoices
-                    </Text>
-                </Box>
-                <InvoiceTable invoices={invoices} />
+                {plan && (
+                    <>
+                        <Box mt={3}>
+                            <Heading fontSize='lg' fontWeight='semibold'>
+                                Invoices
+                            </Heading>
+                            <Text color={secondaryTextColor} pt={2}>
+                                View and download invoices
+                            </Text>
+                        </Box>
+                        <InvoiceTable invoices={invoices} />
+                    </>
+                )}
             </Flex>
         </ContentContainer>
     );

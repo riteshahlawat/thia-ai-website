@@ -1,86 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Stripe from 'stripe';
-import { useUser } from 'reactfire';
 import { BorderBox } from '../BorderBox';
-import { CardPreview } from './CardPreview';
-import { ModalContent } from '../ModalContent';
+import { RiArrowRightUpLine } from 'react-icons/ri';
+import { ChakraNextLink } from '../../common/ChakraNextLink';
+import { Box, Button, Flex, Modal, ModalOverlay, Progress, Tag, Text, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { AnimatePresence, motion } from 'framer-motion';
-import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
-import { Box, Button, Flex, HStack, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
-import { AddPaymentDetails } from './AddPaymentDetails';
-import { EditPaymentDetails } from './EditPaymentDetails';
+import { ModalContent } from '../ModalContent';
 
-export const PaymentDetails = () => {
-    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
-    const { data: user } = useUser();
+export const SubscriptionDetails = ({ plan, role }: { plan: Stripe.Plan; role: string }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const amount = plan?.amount ?? 0;
+    const interval = plan?.interval;
+
+    const borderColor = useColorModeValue('thia.gray.50', 'thia.gray.950');
+    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
 
     const [modalPage, setModalPage] = useState(0);
-    const [currentCard, setCurrentCard] = useState('');
-    const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
-    const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<Stripe.PaymentMethod>();
-
-    // fetch card data
-    const getCardDataCallback = () => getCardData();
-
-    // returns to modals home page
-    const toModalHomePage = () => {
-        setCurrentCard('');
-        setModalPage(0);
-    };
-    // when edit button is pressed
-    const handleEditClick = (cardId: string) => {
-        setCurrentCard(cardId);
-        setModalPage(2);
-    };
-
     // when modal is closed
     const onModalClose = () => {
-        toModalHomePage();
         onClose();
     };
-
-    const getCardData = async () => {
-        if (user) {
-            const idToken = await user.getIdToken();
-            const [[isCardListError, cardListRes], [isDefaultCardError, defaultCardRes]] = await Promise.all([
-                BackendRequestHandler.getInstance().listCards(idToken),
-                BackendRequestHandler.getInstance().getDefaultCard(idToken),
-            ]);
-
-            if (!isCardListError) {
-                console.log('Cards:', cardListRes.data);
-                setCards(cardListRes.data);
-            }
-
-            if (!isDefaultCardError && defaultCardRes) {
-                const [isPaymentMethodError, paymentMethodRes] = await BackendRequestHandler.getInstance().getPaymentMethodById(
-                    idToken,
-                    defaultCardRes
-                );
-                setDefaultPaymentMethod(!isPaymentMethodError ? paymentMethodRes : undefined);
-            } else {
-                setDefaultPaymentMethod(undefined);
-            }
-        }
-    };
-
-    useEffect(() => {
-        getCardData();
-    }, [user]);
-
-    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
-    const currentPaymentMethod = cards.find(card => card.id === currentCard);
-    const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
 
     const renderPage = (page: number) => {
         switch (page) {
             default:
                 return (
                     <ModalContent title='Payment Details' text='Manage your cards and billing details'>
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        {/* <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <VStack spacing={5} align='start'>
                                 <VStack spacing={5} w='full' maxH='50vh' overflow='auto' px={5}>
                                     <AnimatePresence>
@@ -113,19 +59,19 @@ export const PaymentDetails = () => {
                                     </Button>
                                 </Flex>
                             </VStack>
-                        </motion.div>
+                        </motion.div> */}
                     </ModalContent>
                 );
             case 1:
                 return (
                     <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
-                        <AddPaymentDetails backButton={toModalHomePage} onAddCardSuccess={getCardDataCallback} />
+                        {/* <AddPaymentDetails backButton={toModalHomePage} onAddCardSuccess={getCardDataCallback} /> */}
                     </ModalContent>
                 );
             case 2:
                 return (
                     <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
-                        <VStack spacing={5}>
+                        {/* <VStack spacing={5}>
                             {currentPaymentMethod && (
                                 <EditPaymentDetails
                                     isDefault={isDefaultPaymentMethod}
@@ -134,7 +80,7 @@ export const PaymentDetails = () => {
                                     updateData={getCardDataCallback}
                                 />
                             )}
-                        </VStack>
+                        </VStack> */}
                     </ModalContent>
                 );
         }
@@ -143,24 +89,42 @@ export const PaymentDetails = () => {
     return (
         <>
             <BorderBox>
-                <VStack align='start' px={[3, 3, 5, 5, 5]} py={5} gap={3}>
-                    <HStack justify='space-between' w='full'>
+                <Flex flexDir='column' h='full'>
+                    <Flex gap={10} px={[3, 3, 5, 5, 5]} py={5} justify='space-between' flexGrow={1}>
                         <Box>
-                            <Text fontWeight='bold'>Payment method</Text>
+                            <Flex gap={2}>
+                                <Text fontWeight='bold' casing='capitalize'>
+                                    {role}
+                                </Text>
+                                <Tag rounded='full' colorScheme={'purple'} fontWeight='semibold' textTransform='capitalize'>
+                                    {interval ? `${plan.interval}ly` : 'Monthly'}
+                                </Tag>
+                            </Flex>
                             <Text pt={1} fontSize='sm' color={secondaryTextColor}>
-                                Update or edit your payment details
+                                Its free for everyone, especially broke bitches.
                             </Text>
                         </Box>
-                        <Button variant='secondary' onClick={onOpen}>
-                            Manage
-                        </Button>
-                    </HStack>
-                    {defaultPaymentMethod && <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} />}
-                </VStack>
+                        <Flex gap={1} flexShrink={0}>
+                            <Text fontWeight='semibold' fontSize='4xl' letterSpacing='wide'>
+                                {`$${amount / 100}`}
+                            </Text>
+                            <Text pt={6} fontSize='sm' fontWeight='semibold' letterSpacing='wide' color={secondaryTextColor}>
+                                {`per ${interval ?? 'month'}`}
+                            </Text>
+                        </Flex>
+                    </Flex>
+                    <Box p={5}>
+                        <Progress rounded='full' value={20} size='sm' colorScheme='thia.purple' />
+                    </Box>
+
+                    <Button variant='secondary' onClick={onOpen}>
+                        Change plan
+                    </Button>
+                </Flex>
             </BorderBox>
             <Modal isOpen={isOpen} onClose={onModalClose} isCentered size='md'>
                 <ModalOverlay bg='blackAlpha.50' backdropFilter='blur(32px)' />
-                <Elements stripe={stripePromise}>{renderPage(modalPage)}</Elements>
+                {renderPage(modalPage)}
             </Modal>
         </>
     );
