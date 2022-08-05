@@ -1,4 +1,5 @@
 import '@fontsource/ibm-plex-sans';
+import '@fontsource/krona-one';
 import '../styles/katex/katex.min.css';
 import '../styles/globals.css';
 import '../styles/github-dark.min.css';
