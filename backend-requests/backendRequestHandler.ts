@@ -12,6 +12,7 @@ import { PostSubscribeStandardPlanBackendRequest } from './requests/post/subscri
 import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardData } from './requests/post/updateDefaultCreditCard';
 import { ListInvoicesBackendRequest } from './requests/get/listInvoices';
 import { SubscribeToNewsletterBackendRequest, SubscribeToNewsletterData } from './requests/post/subscribeToNewsletter';
+import { GetDownloadMetadataBackendRequest } from './requests/get/getDownloadMetadata';
 
 /**
  * Class that manages all Backend Requests.
@@ -46,6 +47,8 @@ export class BackendRequestHandler {
     private listInvoiceBR!: ListInvoicesBackendRequest;
     // Sendgrid
     private subscribeToNewsletterBR!: SubscribeToNewsletterBackendRequest;
+    // Download Metadata
+    private getDownloadMetadataBR!: GetDownloadMetadataBackendRequest;
 
     /**
      * Private constructor.
@@ -81,6 +84,7 @@ export class BackendRequestHandler {
         this.getDefaultCreditCardBR = new GetDefaultCreditCardBackendRequest(this.backendRequest);
         this.listInvoiceBR = new ListInvoicesBackendRequest(this.backendRequest);
         this.subscribeToNewsletterBR = new SubscribeToNewsletterBackendRequest(this.backendRequest);
+        this.getDownloadMetadataBR = new GetDownloadMetadataBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -133,5 +137,9 @@ export class BackendRequestHandler {
 
     public subscribeToNewsletter = async (data: SubscribeToNewsletterData, config?: AxiosRequestConfig) => {
         return this.subscribeToNewsletterBR.run(config, data);
+    };
+
+    public getDownloadMetadata = async (config?: AxiosRequestConfig) => {
+        return this.getDownloadMetadataBR.run(config);
     };
 }
