@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { useUser } from 'reactfire';
 import { Box, Divider, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
+import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 import { IdTokenResult } from 'firebase/auth';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { InvoiceTable } from '@/components/billing/InvoiceTable';
