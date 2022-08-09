@@ -8,11 +8,11 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
-import { Box, Button, Flex, HStack, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, HStack, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
 import { AddPaymentDetails } from './AddPaymentDetails';
 import { EditPaymentDetails } from './EditPaymentDetails';
 
-export const PaymentDetails = () => {
+export const PaymentOverview = () => {
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string);
     const { data: user } = useUser();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,15 +71,18 @@ export const PaymentDetails = () => {
         getCardData();
     }, [user]);
 
-    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
     const currentPaymentMethod = cards.find(card => card.id === currentCard);
     const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
+
+    const cardBGColor = useColorModeValue('white', 'thia.gray.950');
+    const borderColor = useColorModeValue('thia.gray.100', 'transparent');
+    const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.400');
 
     const renderPage = (page: number) => {
         switch (page) {
             default:
                 return (
-                    <ModalContent title='Payment Details' text='Manage your cards and billing details'>
+                    <ModalContent title='Payment Methods' text='Manage your cards and billing details'>
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                             <VStack spacing={5} align='start'>
                                 <VStack spacing={5} w='full' maxH='50vh' overflow='auto' px={5}>
@@ -94,7 +97,7 @@ export const PaymentDetails = () => {
                                         ))}
                                         {!cards.length && (
                                             <Text textAlign='center' color={secondaryTextColor} fontSize='sm'>
-                                                No cards associated to this account. Add a card to continue.
+                                                You have not added a payment method. Add a card to continue.
                                             </Text>
                                         )}
                                     </AnimatePresence>
@@ -143,7 +146,7 @@ export const PaymentDetails = () => {
     return (
         <>
             <BorderBox>
-                <VStack align='start' px={[3, 3, 5, 5, 5]} py={5} gap={3}>
+                <VStack align='start' px={[3, 3, 5, 5, 5]} py={5} gap={3} h='full'>
                     <HStack justify='space-between' w='full'>
                         <Box>
                             <Text fontWeight='bold'>Payment method</Text>
@@ -155,7 +158,39 @@ export const PaymentDetails = () => {
                             Manage
                         </Button>
                     </HStack>
-                    {defaultPaymentMethod && <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} />}
+                    {cards.length ? (
+                        defaultPaymentMethod ? (
+                            <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} />
+                        ) : (
+                            <Center
+                                p={5}
+                                fontSize='sm'
+                                h='91px'
+                                w='full'
+                                rounded='lg'
+                                bg={cardBGColor}
+                                border='1px'
+                                borderColor={borderColor}
+                                color={secondaryTextColor}
+                            >
+                                You have not set a default payment method.
+                            </Center>
+                        )
+                    ) : (
+                        <Center
+                            p={5}
+                            fontSize='sm'
+                            h='91px'
+                            w='full'
+                            rounded='lg'
+                            bg={cardBGColor}
+                            border='1px'
+                            borderColor={borderColor}
+                            color={secondaryTextColor}
+                        >
+                            You have not added a payment method.
+                        </Center>
+                    )}
                 </VStack>
             </BorderBox>
             <Modal isOpen={isOpen} onClose={onModalClose} isCentered size='md'>
