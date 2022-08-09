@@ -10,7 +10,7 @@ export const InvoiceTable = ({ invoices }: { invoices: Stripe.Invoice[] | undefi
     const monthAndDay = { month: 'short', day: 'numeric' };
 
     const timeToDate = (timestamp: number, options: any = { month: 'short', day: 'numeric', year: 'numeric' }) => {
-        const date = new Date(timestamp);
+        const date = new Date(timestamp * 1000);
         return date.toLocaleString('default', options);
     };
 
