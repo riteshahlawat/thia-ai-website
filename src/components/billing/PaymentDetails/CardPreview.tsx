@@ -38,7 +38,7 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
     const exp_year = card?.exp_year ?? '----';
     const last4 = card?.last4 ?? '----';
     const expiryDate = `${String(exp_month).padStart(2, '0')}/${exp_year}`;
-    const cardBGColor = useColorModeValue('white', 'thia.gray.950');
+    const cardBGColor = useColorModeValue('thia.gray.50', 'thia.gray.950');
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.300');
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
 
@@ -55,20 +55,14 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
     return (
         <motion.div style={{ width: '100%' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <Box w='full' py={5} px={5} rounded='xl' bg={cardBGColor} shadow='sm' border='1px' borderColor={borderColor} {...rest}>
-                <HStack gap={2} flexWrap='nowrap'>
+                <HStack gap={[2, 2, 3, 3, 3]} flexWrap='nowrap'>
                     <Skeleton isLoaded={!!card} h='45px' w='60px'>
-                        <Box
-                            h='full'
-                            position='relative'
-                            border='1px'
-                            rounded='lg'
-                            borderColor={useColorModeValue('thia.gray.100', 'thia.gray.900')}
-                        >
+                        <Box bg={useColorModeValue('white', 'thia.gray.990')} h='full' position='relative' rounded='lg'>
                             {cardIconsUrls.hasOwnProperty(brand) && <Image layout='fill' objectFit='contain' src={cardIconsUrls[brand]} />}
                         </Box>
                     </Skeleton>
                     <Flex flexDir='column' flexGrow={1} gap={1}>
-                        <Flex gap={2}>
+                        <Flex gap={[2, 2, 3, 3, 3]}>
                             <Skeleton isLoaded={!!card}>
                                 <Text fontSize='sm' fontWeight='semibold' letterSpacing='wide'>
                                     {`${brand} •••• ${last4}`}

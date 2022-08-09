@@ -8,7 +8,7 @@ export const BorderBox = ({ children }: { children?: React.ReactNode }) => {
             shadow='sm'
             rounded='lg'
             border='1px'
-            borderColor={useColorModeValue('thia.gray.50', 'thia.gray.990')}
+            borderColor={useColorModeValue('thia.gray.100', 'thia.gray.990')}
             overflow='hidden'
         >
             {children}

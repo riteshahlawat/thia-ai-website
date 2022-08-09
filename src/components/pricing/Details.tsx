@@ -12,7 +12,7 @@ const imagesExcerpt = (i: string) => `${n(i)} images per dataset`;
 const classesExcerpt = (c: string) => `${n(c)} classes per dataset`;
 
 const summarys: { [plan: string]: (d: Stripe.Metadata) => SummaryItemType[] } = {
-    Free: ({ num_models, num_datasets, num_exports, num_images, num_classes }: Stripe.Metadata) => [
+    Freemium: ({ num_models, num_datasets, num_exports, num_images, num_classes }: Stripe.Metadata) => [
         { excerpt: modelExcerpt(num_models) },
         { excerpt: datasetExcerpt(num_datasets) },
         { excerpt: `${num_exports} ${u(num_exports) ? 'exports' : 'exports per month'}` },
