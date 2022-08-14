@@ -65,10 +65,10 @@ export const AddPaymentDetails = ({ backButton, onAddCardSuccess, onAddCardFail 
             </FormControl>
             <PaymentForm formID={formID} onSubmit={onSubmit} />
             <Flex w='full' gap={5}>
-                <Button leftIcon={<MdChevronLeft />} flexGrow={1} variant='secondary' onClick={backButton}>
+                <Button w='50%' leftIcon={<MdChevronLeft />} variant='secondary' onClick={backButton}>
                     Back
                 </Button>
-                <Button flexGrow={1} variant='primary' isLoading={isCardSubmitting} loadingText='Adding card' type='submit' form={formID}>
+                <Button w='50%' variant='primary' isLoading={isCardSubmitting} loadingText='Adding card' type='submit' form={formID}>
                     Add card
                 </Button>
             </Flex>

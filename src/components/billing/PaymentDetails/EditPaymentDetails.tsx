@@ -124,10 +124,11 @@ export const EditPaymentDetails = ({ isDefault, currentPaymentMethod, backButton
             </FormControl>
             <PaymentForm formID={formID} onSubmit={updateDefaultCard} initialData={currentPaymentMethod.billing_details} />
             <Flex w='full' gap={5}>
-                <Button w='full' flexBasis='auto' leftIcon={<MdChevronLeft />} variant='secondary' onClick={backButton}>
+                <Button w='50%' leftIcon={<MdChevronLeft />} variant='secondary' onClick={backButton}>
                     Back
                 </Button>
-                <Button type='submit' form={formID} w='full' flexBasis='auto' variant='primary'>
+                {/* Disabled if nothing is updated */}
+                <Button w='50%' type='submit' form={formID} variant='primary' isDisabled>
                     Update card
                 </Button>
             </Flex>

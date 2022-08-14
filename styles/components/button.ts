@@ -17,7 +17,13 @@ export const Button: ComponentStyleConfig = {
         primary: (props: StyleFunctionProps) => ({
             bg: mode('thia.purple.50', 'thia.purple.700')(props),
             color: mode('thia.purple.900', 'white')(props),
-            _hover: { bg: mode('thia.purple.100', 'thia.purple.600')(props), borderRadius: 'lg' },
+            _hover: {
+                bg: mode('thia.purple.100', 'thia.purple.600')(props),
+                borderRadius: 'lg',
+                _disabled: {
+                    bgColor: mode('thia.purple.50', 'thia.purple.800')(props),
+                },
+            },
             _active: { bg: mode('thia.purple.200', 'thia.purple.700')(props) },
         }),
         primaryOutline: (props: StyleFunctionProps) => ({
@@ -34,7 +40,7 @@ export const Button: ComponentStyleConfig = {
         }),
         secondaryGhost: (props: StyleFunctionProps) => ({
             bg: 'transparent',
-            _hover: { bg: mode('thia.gray.100', 'whiteAlpha.200')(props)},
+            _hover: { bg: mode('thia.gray.100', 'whiteAlpha.200')(props) },
             _active: { bg: mode('thia.gray.200', 'whiteAlpha.300')(props) },
         }),
     },
