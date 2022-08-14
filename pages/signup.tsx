@@ -128,15 +128,6 @@ const SignUp: NextPageWithLayout = () => {
             });
     };
 
-    // const resetEmailVerification = async () => {
-    //     if (auth.curprentUser) {
-    //         console.log('pressed2');
-    //         await sendEmailVerification(auth.currentUser)
-    //             .then(async () => await auth.signOut())
-    //             .catch(error => setErrorMessage(error.message));
-    //     }
-    // };
-
     const textColor = useColorModeValue('thia.gray.800', 'thia.gray.300');
     const textColorBold = useColorModeValue('black', 'white');
     return (
@@ -237,7 +228,7 @@ const SignUp: NextPageWithLayout = () => {
             ) : (
                 <AuthTemplatePage heading='Verify your email'>
                     <Text align='center' color={textColor}>
-                        we&apos;ve sent an email to{' '}
+                        We&apos;ve sent an email to{' '}
                         <Box as='span' fontWeight='bold' letterSpacing='wider' color={textColorBold}>
                             {email}
                         </Box>{' '}
