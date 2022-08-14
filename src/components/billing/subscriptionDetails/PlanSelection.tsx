@@ -345,6 +345,10 @@ export const PlanSelection = ({
             </HStack>
         );
     };
+
+    const bgColor = useColorModeValue('white', 'thia.gray.990');
+    const borderColor1 = useColorModeValue('thia.purple.300', 'thia.purple.700');
+    const borderColor2 = useColorModeValue('thia.gray.100', 'thia.gray.990');
     return (
         <>
             <Stack direction={{ base: 'column', lg: 'row' }} gap={5} align='stretch'>
@@ -357,12 +361,8 @@ export const PlanSelection = ({
                             rounded='xl'
                             w='full'
                             border={name === currentPlan ? '2px' : '1px'}
-                            borderColor={
-                                name === currentPlan
-                                    ? useColorModeValue('thia.purple.300', 'thia.purple.700')
-                                    : useColorModeValue('thia.gray.100', 'thia.gray.990')
-                            }
-                            bg={useColorModeValue('white', 'thia.gray.990')}
+                            borderColor={name === currentPlan ? borderColor1 : borderColor2}
+                            bg={bgColor}
                         >
                             <VStack align='start' gap={3} h='full' justify='space-between'>
                                 <HStack justify='space-between' w='full' fontSize='lg' gap={5} align='start'>
