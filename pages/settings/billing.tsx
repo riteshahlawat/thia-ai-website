@@ -7,10 +7,10 @@ import { BackendRequestHandler } from '../../backend-requests/backendRequestHand
 import { IdTokenResult } from 'firebase/auth';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { InvoiceTable } from '@/components/billing/InvoiceTable';
-import { SubscriptionOverview as SubscriptionOverview } from '@/components/billing/subscriptionDetails/SubscriptionOverview';
+import { SubscriptionOverview as SubscriptionOverview } from '@/components/billing/SubscriptionOverview';
 import { PaymentOverview } from '@/components/billing/PaymentDetails/PaymentOverview';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { PlanSelection } from '@/components/billing/subscriptionDetails/PlanSelection';
+import { PlanSelection } from '@/components/billing/PlanSelection';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2020-08-27',
@@ -36,8 +36,7 @@ const Billing = ({ products }: { products: any }) => {
     const fetchClaims = async () => {
         if (user) {
             const idToken = await user.getIdTokenResult(true);
-            console.log('Role:', idToken.claims);
-
+            // console.log('Role:', idToken.claims);
             setUserIdToken(idToken);
         }
     };
@@ -50,12 +49,11 @@ const Billing = ({ products }: { products: any }) => {
                 BackendRequestHandler.getInstance().listSubscriptionPlan(idToken),
             ]);
 
-            if (!isInvoiceListError) {
-                console.log('invoices:', invoiceListdRes);
-                setInvoices(invoiceListdRes.data);
-            }
+            if (!isInvoiceListError) setInvoices(invoiceListdRes.data);
+            // console.log('invoices:', invoiceListdRes);
+
             if (!isSubscriptionListError) {
-                console.log('subscription:', subscriptionListRes.data[0]);
+                // console.log('subscription:', subscriptionListRes.data[0]);
                 setSubscription(subscriptionListRes.data[0]);
                 setCancelledDate(subscriptionListRes.data[0]?.cancel_at);
             }

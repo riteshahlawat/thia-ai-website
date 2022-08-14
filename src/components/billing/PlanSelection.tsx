@@ -21,7 +21,7 @@ import { useState } from 'react';
 import { MdChevronRight } from 'react-icons/md';
 import { useUser } from 'reactfire';
 import Stripe from 'stripe';
-import { ModalContent } from '../ModalContent';
+import { ModalContent } from './ModalContent';
 
 interface PlanSelectionProps {
     plans: any;
@@ -72,7 +72,6 @@ export const PlanSelection = ({
                     subscriptionID,
                 });
                 if (!isError) {
-                    console.log(_response);
                     const response = _response as Stripe.Subscription;
                     if (response.cancel_at) {
                         const cancelledDate = new Date(response.cancel_at * 1000).toLocaleDateString(undefined, {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Stripe from 'stripe';
-import { BorderBox } from '../BorderBox';
+import { BorderBox } from './BorderBox';
 import { Box, Flex, Progress, Tag, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { RiArrowRightUpLine } from 'react-icons/ri';
@@ -54,7 +54,7 @@ export const SubscriptionOverview = ({ subscription, product, cancelledDate }: S
                                     {`$${amount / 100}`}
                                 </Text>
                                 <Text pt={6} fontSize='sm' fontWeight='semibold' letterSpacing='wide' color={secondaryTextColor}>
-                                    {`per ${interval}`}
+                                    {`/ ${interval}`}
                                 </Text>
                             </Flex>
                         </Flex>
@@ -77,14 +77,14 @@ export const SubscriptionOverview = ({ subscription, product, cancelledDate }: S
                                         <Box as='span' fontWeight='semibold'>
                                             {daysFromNow(cancelledDate * 1000)}
                                         </Box>
-                                        days remaining
+                                        {` days remaining`}
                                     </Text>
                                 )}
                             </Box>
                         )}
                     </VStack>
                     <Box w='full' textAlign='end' py={3} px={5} borderTop='2px' borderTopColor={borderColor}>
-                        <ChakraNextLink href='/' styleProps={{ variant: 'purple', fontSize: 'sm' }}>
+                        <ChakraNextLink href='/pricing' styleProps={{ variant: 'purple', fontSize: 'sm' }}>
                             <Flex align='center' justify='flex-end'>
                                 View plans <RiArrowRightUpLine fontSize={18} />
                             </Flex>

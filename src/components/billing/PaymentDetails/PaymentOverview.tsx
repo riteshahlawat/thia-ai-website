@@ -54,10 +54,8 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
             const idToken = await user.getIdToken();
             const [isCardListError, cardListRes] = await BackendRequestHandler.getInstance().listCards(idToken);
 
-            if (!isCardListError) {
-                console.log('Cards:', cardListRes.data);
-                setCards(cardListRes.data);
-            }
+            if (!isCardListError) setCards(cardListRes.data);
+            // console.log('Cards:', cardListRes.data);
         }
     };
 
