@@ -58,7 +58,9 @@ export const CardPreview = ({ paymentMethod, isDefault, onEditClick, ...rest }: 
                 <HStack gap={[2, 2, 3, 3, 3]} flexWrap='nowrap'>
                     <Skeleton isLoaded={!!card} h='45px' w='60px'>
                         <Box bg={useColorModeValue('white', 'thia.gray.990')} h='full' position='relative' rounded='lg'>
-                            {cardIconsUrls.hasOwnProperty(brand) && <Image layout='fill' objectFit='contain' src={cardIconsUrls[brand]} />}
+                            {cardIconsUrls.hasOwnProperty(brand) && (
+                                <Image alt='profile-picture' layout='fill' objectFit='contain' src={cardIconsUrls[brand]} />
+                            )}
                         </Box>
                     </Skeleton>
                     <Flex flexDir='column' flexGrow={1} gap={1}>

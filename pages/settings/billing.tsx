@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Stripe from 'stripe';
 import { useUser } from 'reactfire';
 import { Box, Divider, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
@@ -27,21 +27,15 @@ const Billing = ({ products }: { products: any }) => {
     const [cancelledDate, setCancelledDate] = useState<number | null>(null);
     const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<Stripe.PaymentMethod>();
 
-    const loadData = async () => {
-        fetchData();
-        fetchClaims();
-        fetchDefaultPaymentMethod();
-    };
-
-    const fetchClaims = async () => {
+    const fetchClaims = useCallback(async () => {
         if (user) {
             const idToken = await user.getIdTokenResult(true);
             // console.log('Role:', idToken.claims);
             setUserIdToken(idToken);
         }
-    };
+    }, [user]);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [[isInvoiceListError, invoiceListdRes], [isSubscriptionListError, subscriptionListRes]] = await Promise.all([
@@ -58,9 +52,9 @@ const Billing = ({ products }: { products: any }) => {
                 setCancelledDate(subscriptionListRes.data[0]?.cancel_at);
             }
         }
-    };
+    }, [user]);
 
-    const fetchDefaultPaymentMethod = async () => {
+    const fetchDefaultPaymentMethod = useCallback(async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isDefaultCardError, defaultCardRes] = await BackendRequestHandler.getInstance().getDefaultCard(idToken);
@@ -74,12 +68,18 @@ const Billing = ({ products }: { products: any }) => {
                 setDefaultPaymentMethod(undefined);
             }
         }
-    };
+    }, [user]);
+
+    const loadData = useCallback(async () => {
+        fetchData();
+        fetchClaims();
+        fetchDefaultPaymentMethod();
+    }, [fetchData, fetchClaims, fetchDefaultPaymentMethod]);
 
     useEffect(() => {
         if (user === null) router.push('/signin');
         loadData();
-    }, [user]);
+    }, [user, router, loadData]);
 
     const role = userIdToken?.claims.role as string;
     const product =

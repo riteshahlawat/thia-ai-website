@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Stripe from 'stripe';
 import { useUser } from 'reactfire';
 import { BorderBox } from '../BorderBox';
@@ -49,7 +49,7 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
         onClose();
     };
 
-    const getCardData = async () => {
+    const getCardData = useCallback(async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isCardListError, cardListRes] = await BackendRequestHandler.getInstance().listCards(idToken);
@@ -57,11 +57,11 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
             if (!isCardListError) setCards(cardListRes.data);
             // console.log('Cards:', cardListRes.data);
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         getCardData();
-    }, [user]);
+    }, [user, getCardData]);
 
     const currentPaymentMethod = cards.find(card => card.id === currentCard);
     const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
