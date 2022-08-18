@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { NavContainer } from './NavContainer';
 import { NavToggle } from './NavToggle';
 import { NavLinks } from './NavLinks';
+import Logo from '@/components/common/Logo';
 
 export const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,7 @@ export const Navbar = () => {
 
     return (
         <NavContainer>
-            <Link href='/'>Thia</Link>
+            <Logo w='120px' />
             <NavToggle toggle={toggle} isOpen={isOpen} />
             <NavLinks isOpen={isOpen} />
         </NavContainer>

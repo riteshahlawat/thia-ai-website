@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Center, Container, Heading, Text, useBreakpointValue, useColorModeValue, VStack } from '@chakra-ui/react';
 import Image from 'next/image';
+import Logo from '@/components/common/Logo';
 
 type Props = {
     children: React.ReactNode;
@@ -31,9 +32,7 @@ export const AuthTemplatePage = ({ children, heading, text }: Props) => {
                         }}
                     >
                         <VStack w='full' spacing={{ base: 4, md: 6 }}>
-                            <Box display='block' width='60px' height='60px'>
-                                <Image src='/icon.png' width='100%' height='100%' layout='responsive' />
-                            </Box>
+                            <Logo w='50px' isIcon />
                             <VStack spacing={3} textAlign='center'>
                                 <Heading size={useBreakpointValue({ base: 'md', md: 'lg' })}>{heading}</Heading>
                                 <Text fontSize={useBreakpointValue({ base: '14px', md: '16px' })}>{text}</Text>

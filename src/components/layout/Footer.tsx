@@ -20,6 +20,7 @@ import { Form, Formik } from 'formik';
 import { object, string } from 'yup';
 import { InputFormControl } from '../common/InputFormControl';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
+import Logo from '../common/Logo';
 
 const ListHeader = ({ children }: { children: string }) => {
     return (
@@ -75,7 +76,7 @@ export const Footer = () => {
             >
                 <GridItem colSpan={{ base: 3, md: 1 }}>
                     <VStack spacing={6} align='flex-start'>
-                        <Box fontSize='3xl'>Thia</Box>
+                        <Logo w='100px' />
                         <Text fontSize={16}>Making AutoML Simple.</Text>
                         <Stack direction={'row'} spacing={6}>
                             {Object.values(socials).map(({ label, path, icon }) => (
