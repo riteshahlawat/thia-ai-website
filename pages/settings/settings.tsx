@@ -12,7 +12,7 @@ const Settings = (props: Props) => {
 
     useEffect(() => {
         if (!user) router.push('/signin');
-    }, [user]);
+    }, [user, router]);
 
     return (
         <>

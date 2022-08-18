@@ -15,8 +15,8 @@ export const Card = ({ plan, children }: CardType) => {
             align='center'
             spacing={3}
             justify='space-between'
-            border='2px'
-            borderColor={useColorModeValue('thia.gray.50', 'black')}
+            border='1px'
+            borderColor={useColorModeValue('thia.gray.100', 'black')}
             transitionDuration='300ms'
             shadow='xl'
             _hover={{

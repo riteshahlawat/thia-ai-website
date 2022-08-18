@@ -3,7 +3,6 @@ import { mode } from '@chakra-ui/theme-tools';
 export const Prose = {
     baseStyle: (props: any) => ({
         h1: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '2em',
             my: '0.67em !important',
@@ -11,7 +10,6 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         h2: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1.5em',
             my: '0.83em !important',
@@ -19,7 +17,6 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         h3: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1.17em',
             my: '1em !important',
@@ -27,7 +24,6 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         h4: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '1em',
             my: '1.33em !important',
@@ -35,7 +31,6 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         h5: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '.83em',
             my: '1.67em !important',
@@ -43,7 +38,6 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         h6: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             display: 'block',
             fontSize: '.67em',
             my: '2.33em !important',
@@ -51,12 +45,10 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         p: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             fontWeight: mode('normal', 'thin')(props),
             color: mode('thia.gray.950', 'thia.gray.300')(props),
         },
         li: {
-            fontFamily: `'IBM Plex Sans', sans-serif`,
             fontWeight: mode('400', '300')(props),
             '&::marker': {
                 color: 'var(--chakra-colors-thia-gray-600) !important',

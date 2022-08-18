@@ -1,13 +1,7 @@
 import { mode } from '@chakra-ui/theme-tools';
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 import { withProse } from '@nikolovlazar/chakra-ui-prose';
-
-import { Link } from './components/link';
-import { Button } from './components/button';
-import { Prose } from './components/prose';
-import { Menu } from './components/menu';
-import { Modal } from './components/modal';
-import { Popover } from './components/popover';
+import { components } from './components/ComponentStyles';
 
 // Add color mode config
 const config: ThemeConfig = {
@@ -20,12 +14,12 @@ export const theme = extendTheme(
     {
         config,
         fonts: {
-            body: `'IBM Plex Sans', sans-serif`,
-            Heading: `'IBM Plex Sans', sans-serif`,
+            body: `'Inter', sans-serif`,
+            heading: `'Inter', sans-serif`,
         },
         colors: {
             thia: {
-                'bg-base': '#ffffff',
+                'bg-base': '#fdfdfd',
                 'bg-dark': '#000000',
                 'text-base': 'var(--purple-990)',
                 'text-dark': '#ffffff',
@@ -59,6 +53,8 @@ export const theme = extendTheme(
                     950: 'var(--purple-950)',
                     990: 'var(--purple-990)',
                 },
+                danger: '#ff42422e',
+                dangerOutline: '#ff4242a3',
             },
         },
         styles: {
@@ -74,13 +70,7 @@ export const theme = extendTheme(
                 '2xl': '1440px',
             },
         },
-        components: {
-            Link,
-            Button,
-            Menu,
-            Modal,
-            Popover,
-        },
+        components,
     },
-    withProse(Prose)
+    withProse(components.Prose)
 );

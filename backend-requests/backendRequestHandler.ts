@@ -11,6 +11,8 @@ import { PostSubscribePremiumPlanBackendRequest } from './requests/post/subscrib
 import { PostSubscribeStandardPlanBackendRequest } from './requests/post/subscribeStandardPlan';
 import { PostUpdateDefaultCreditCardBackendRequest, PostUpdateDefaultCreditCardData } from './requests/post/updateDefaultCreditCard';
 import { ListInvoicesBackendRequest } from './requests/get/listInvoices';
+import { GetPaymentMethodByIDBackendRequest, GetPaymentMethodByIDData } from './requests/get/getPaymentMethodByID';
+import { GetProductByIDBackendRequest, GetProductByIDData } from './requests/get/getProductById';
 import { SubscribeToNewsletterBackendRequest, SubscribeToNewsletterData } from './requests/post/subscribeToNewsletter';
 import { GetDownloadMetadataBackendRequest } from './requests/get/getDownloadMetadata';
 
@@ -49,7 +51,10 @@ export class BackendRequestHandler {
     private subscribeToNewsletterBR!: SubscribeToNewsletterBackendRequest;
     // Download Metadata
     private getDownloadMetadataBR!: GetDownloadMetadataBackendRequest;
-
+    // Get Payment Method By ID
+    private getPaymentMethodByIDBR!: GetPaymentMethodByIDBackendRequest;
+    // Get Product By ID
+    private getProductByIDBR!: GetProductByIDBackendRequest;
     /**
      * Private constructor.
      */
@@ -85,6 +90,8 @@ export class BackendRequestHandler {
         this.listInvoiceBR = new ListInvoicesBackendRequest(this.backendRequest);
         this.subscribeToNewsletterBR = new SubscribeToNewsletterBackendRequest(this.backendRequest);
         this.getDownloadMetadataBR = new GetDownloadMetadataBackendRequest(this.backendRequest);
+        this.getPaymentMethodByIDBR = new GetPaymentMethodByIDBackendRequest(this.backendRequest);
+        this.getProductByIDBR = new GetProductByIDBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -141,5 +148,13 @@ export class BackendRequestHandler {
 
     public getDownloadMetadata = async (config?: AxiosRequestConfig) => {
         return this.getDownloadMetadataBR.run(config);
+    };
+
+    public getPaymentMethodById = async (idToken: string, data: GetPaymentMethodByIDData, config?: AxiosRequestConfig) => {
+        return this.getPaymentMethodByIDBR.run(config, [idToken, data]);
+    };
+
+    public getProductById = async (idToken: string, data: GetProductByIDData, config?: AxiosRequestConfig) => {
+        return this.getProductByIDBR.run(config, [idToken, data]);
     };
 }

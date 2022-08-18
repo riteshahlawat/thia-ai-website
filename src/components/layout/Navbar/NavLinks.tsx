@@ -44,7 +44,7 @@ const SignInSignOut = () => {
                 <MenuList>
                     <MenuItem onClick={() => router.push('/dashboard')}>Dashboard</MenuItem>
                     <MenuItem onClick={() => router.push('/settings')}>Settings</MenuItem>
-                    <MenuItem onClick={() => router.push('/billing')}>Billing</MenuItem>
+                    <MenuItem onClick={() => router.push('/settings/billing')}>Billing and Plans</MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={onSignOut}>Sign Out</MenuItem>
                 </MenuList>

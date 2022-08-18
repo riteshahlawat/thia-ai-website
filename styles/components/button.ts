@@ -7,8 +7,7 @@ export const Button: ComponentStyleConfig = {
         _focus: { boxShadow: 'none' },
         borderRadius: '3xl',
         transition: '250ms',
-        fontFamily: `'IBM Plex Sans', sans-serif`,
-        fontWeight: 600,
+        fontWeight: 500,
         letterSpacing: 'wider',
     },
     // Styles for the size variations
@@ -25,22 +24,28 @@ export const Button: ComponentStyleConfig = {
         primary: (props: StyleFunctionProps) => ({
             bg: mode('thia.purple.50', 'thia.purple.700')(props),
             color: mode('thia.purple.900', 'white')(props),
-            _hover: { bg: mode('thia.purple.100', 'thia.purple.600')(props), borderRadius: 'lg' },
+            _hover: {
+                bg: mode('thia.purple.100', 'thia.purple.600')(props),
+                borderRadius: 'lg',
+                _disabled: {
+                    bgColor: mode('thia.purple.50', 'thia.purple.800')(props),
+                },
+            },
             _active: { bg: mode('thia.purple.200', 'thia.purple.700')(props) },
         }),
-        primaryOutline: (props: any) => ({
+        primaryOutline: (props: StyleFunctionProps) => ({
             bg: 'transparent',
             color: mode('thia.text-base', 'thia.text-dark')(props),
             _hover: { bg: mode('thia.purple.50', 'thia.purple.900')(props), borderRadius: 'lg' },
             _active: { bg: mode('thia.purple.100', 'thia.purple.800')(props) },
             outline: mode('2px solid var(--purple-200)', '2px solid var(--purple-600)')(props),
         }),
-        secondary: (props: any) => ({
+        secondary: (props: StyleFunctionProps) => ({
             bg: mode('blackAlpha.100', 'whiteAlpha.100')(props),
             _hover: { bg: mode('blackAlpha.200', 'whiteAlpha.200')(props), borderRadius: 'lg' },
             _active: { bg: mode('blackAlpha.300', 'whiteAlpha.300')(props) },
         }),
-        secondaryGhost: (props: any) => ({
+        secondaryGhost: (props: StyleFunctionProps) => ({
             bg: 'transparent',
             _hover: { bg: mode('thia.gray.100', 'whiteAlpha.200')(props) },
             _active: { bg: mode('thia.gray.200', 'whiteAlpha.300')(props) },
