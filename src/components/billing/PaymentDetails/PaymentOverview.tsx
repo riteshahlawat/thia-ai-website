@@ -8,7 +8,20 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
-import { Box, Button, Center, Flex, HStack, Modal, ModalOverlay, Text, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Center,
+    Flex,
+    HStack,
+    Modal,
+    ModalOverlay,
+    Skeleton,
+    Text,
+    useColorModeValue,
+    useDisclosure,
+    VStack,
+} from '@chakra-ui/react';
 import { AddPaymentDetails } from './AddPaymentDetails';
 import { EditPaymentDetails } from './EditPaymentDetails';
 
@@ -25,6 +38,7 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
     const [modalPage, setModalPage] = useState(0);
     const [currentCard, setCurrentCard] = useState('');
     const [cards, setCards] = useState<Stripe.PaymentMethod[]>([]);
+    const [cardDataLoaded, setCardDataLoaded] = useState(false);
 
     // fetch card data
     const getCardDataCallback = () => {
@@ -49,19 +63,20 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
         onClose();
     };
 
-    const getCardData = useCallback(async () => {
+    const getCardData = async () => {
         if (user) {
+            setCardDataLoaded(false);
             const idToken = await user.getIdToken();
             const [isCardListError, cardListRes] = await BackendRequestHandler.getInstance().listCards(idToken);
 
             if (!isCardListError) setCards(cardListRes.data);
-            // console.log('Cards:', cardListRes.data);
+            setCardDataLoaded(true);
         }
-    }, [user]);
+    };
 
     useEffect(() => {
         getCardData();
-    }, [user, getCardData]);
+    }, [user]);
 
     const currentPaymentMethod = cards.find(card => card.id === currentCard);
     const isDefaultPaymentMethod = defaultPaymentMethod?.id === currentCard;
@@ -70,8 +85,71 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
     const borderColor = useColorModeValue('thia.gray.100', 'transparent');
     const secondaryTextColor = useColorModeValue('thia.gray.700', 'thia.gray.400');
 
+    const renderCard = () => {
+        if (!cardDataLoaded) {
+            return <Skeleton w='full' h='89px' rounded='md' />;
+        }
+        if (cards.length) {
+            if (defaultPaymentMethod) {
+                return <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} />;
+            } else {
+                return (
+                    <Center
+                        p={5}
+                        fontSize='sm'
+                        h='91px'
+                        w='full'
+                        rounded='lg'
+                        bg={cardBGColor}
+                        border='1px'
+                        borderColor={borderColor}
+                        color={secondaryTextColor}
+                    >
+                        You have not set a default payment method.
+                    </Center>
+                );
+            }
+        } else {
+            return (
+                <Center
+                    p={5}
+                    fontSize='sm'
+                    h='91px'
+                    w='full'
+                    rounded='lg'
+                    bg={cardBGColor}
+                    border='1px'
+                    borderColor={borderColor}
+                    color={secondaryTextColor}
+                >
+                    You have not added a payment method.
+                </Center>
+            );
+        }
+    };
     const renderPage = () => {
         switch (modalPage) {
+            case 1:
+                return (
+                    <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
+                        <AddPaymentDetails backButton={toModalHomePage} onAddCardSuccess={getCardDataCallback} />
+                    </ModalContent>
+                );
+            case 2:
+                return (
+                    <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
+                        <VStack spacing={5}>
+                            {currentPaymentMethod && (
+                                <EditPaymentDetails
+                                    isDefault={isDefaultPaymentMethod}
+                                    currentPaymentMethod={currentPaymentMethod}
+                                    backButton={toModalHomePage}
+                                    updateData={getCardDataCallback}
+                                />
+                            )}
+                        </VStack>
+                    </ModalContent>
+                );
             default:
                 return (
                     <ModalContent title='Payment Methods' text='Manage your cards and billing details'>
@@ -111,27 +189,6 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
                         </motion.div>
                     </ModalContent>
                 );
-            case 1:
-                return (
-                    <ModalContent title='Add a Card' text='Please fill in your card and billing details'>
-                        <AddPaymentDetails backButton={toModalHomePage} onAddCardSuccess={getCardDataCallback} />
-                    </ModalContent>
-                );
-            case 2:
-                return (
-                    <ModalContent title='Edit Card Details' text='Please fill in your card and billing details'>
-                        <VStack spacing={5}>
-                            {currentPaymentMethod && (
-                                <EditPaymentDetails
-                                    isDefault={isDefaultPaymentMethod}
-                                    currentPaymentMethod={currentPaymentMethod}
-                                    backButton={toModalHomePage}
-                                    updateData={getCardDataCallback}
-                                />
-                            )}
-                        </VStack>
-                    </ModalContent>
-                );
         }
     };
 
@@ -150,39 +207,7 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
                             Manage
                         </Button>
                     </HStack>
-                    {cards.length ? (
-                        defaultPaymentMethod ? (
-                            <CardPreview paymentMethod={defaultPaymentMethod} isDefault={!!defaultPaymentMethod?.id} />
-                        ) : (
-                            <Center
-                                p={5}
-                                fontSize='sm'
-                                h='91px'
-                                w='full'
-                                rounded='lg'
-                                bg={cardBGColor}
-                                border='1px'
-                                borderColor={borderColor}
-                                color={secondaryTextColor}
-                            >
-                                You have not set a default payment method.
-                            </Center>
-                        )
-                    ) : (
-                        <Center
-                            p={5}
-                            fontSize='sm'
-                            h='91px'
-                            w='full'
-                            rounded='lg'
-                            bg={cardBGColor}
-                            border='1px'
-                            borderColor={borderColor}
-                            color={secondaryTextColor}
-                        >
-                            You have not added a payment method.
-                        </Center>
-                    )}
+                    {renderCard()}
                 </VStack>
             </BorderBox>
             <Modal isOpen={isOpen} onClose={onModalClose} isCentered size='md'>
