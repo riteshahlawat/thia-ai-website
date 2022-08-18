@@ -24,19 +24,21 @@ const Billing = ({ products }: { products: any }) => {
     const [invoices, setInvoices] = useState<Stripe.Invoice[]>();
     const [userIdToken, setUserIdToken] = useState<IdTokenResult>();
     const [subscription, setSubscription] = useState<Stripe.Subscription>();
+    const [subscriptionDataLoaded, setSubscriptionDataLoaded] = useState(false);
     const [cancelledDate, setCancelledDate] = useState<number | null>(null);
     const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<Stripe.PaymentMethod>();
 
-    const fetchClaims = useCallback(async () => {
+    const fetchClaims = async () => {
         if (user) {
             const idToken = await user.getIdTokenResult(true);
             // console.log('Role:', idToken.claims);
             setUserIdToken(idToken);
         }
-    }, [user]);
+    };
 
-    const fetchData = useCallback(async () => {
+    const fetchData = async () => {
         if (user) {
+            setSubscriptionDataLoaded(false);
             const idToken = await user.getIdToken();
             const [[isInvoiceListError, invoiceListdRes], [isSubscriptionListError, subscriptionListRes]] = await Promise.all([
                 BackendRequestHandler.getInstance().listInvoices(idToken),
@@ -51,10 +53,11 @@ const Billing = ({ products }: { products: any }) => {
                 setSubscription(subscriptionListRes.data[0]);
                 setCancelledDate(subscriptionListRes.data[0]?.cancel_at);
             }
+            setSubscriptionDataLoaded(true);
         }
-    }, [user]);
+    };
 
-    const fetchDefaultPaymentMethod = useCallback(async () => {
+    const fetchDefaultPaymentMethod = async () => {
         if (user) {
             const idToken = await user.getIdToken();
             const [isDefaultCardError, defaultCardRes] = await BackendRequestHandler.getInstance().getDefaultCard(idToken);
@@ -68,13 +71,13 @@ const Billing = ({ products }: { products: any }) => {
                 setDefaultPaymentMethod(undefined);
             }
         }
-    }, [user]);
+    };
 
     const loadData = useCallback(async () => {
         fetchData();
         fetchClaims();
         fetchDefaultPaymentMethod();
-    }, [fetchData, fetchClaims, fetchDefaultPaymentMethod]);
+    }, [user]);
 
     useEffect(() => {
         if (user === null) router.push('/signin');
@@ -114,7 +117,12 @@ const Billing = ({ products }: { products: any }) => {
                     <Box as={Divider} my={7} />
                     <Flex gap={10} flexDir='column'>
                         <Flex gap={7} flexDir={{ base: 'column', lg: 'row' }}>
-                            <SubscriptionOverview subscription={subscription} product={product} cancelledDate={cancelledDate} />
+                            <SubscriptionOverview
+                                subscription={subscription}
+                                product={product}
+                                cancelledDate={cancelledDate}
+                                subscriptionLoaded={subscriptionDataLoaded}
+                            />
                             <PaymentOverview defaultPaymentMethod={defaultPaymentMethod} updateData={fetchDefaultPaymentMethod} />
                         </Flex>
                         <Box>

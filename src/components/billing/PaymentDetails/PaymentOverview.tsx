@@ -87,7 +87,7 @@ export const PaymentOverview = ({ defaultPaymentMethod, updateData }: PaymentOve
 
     const renderCard = () => {
         if (!cardDataLoaded) {
-            return <Skeleton w='full' h='89px' rounded='md' />;
+            return <Skeleton w='full' h='91px' rounded='md' />;
         }
         if (cards.length) {
             if (defaultPaymentMethod) {
