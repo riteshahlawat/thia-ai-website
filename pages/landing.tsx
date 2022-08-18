@@ -150,7 +150,7 @@ const Home: NextPage = () => {
                                     Get Started
                                 </Button>
                             </Link>
-                            <Link href='/singup'>
+                            <Link href='/signup'>
                                 <Button
                                     variant='primaryOutline'
                                     size='lg'
