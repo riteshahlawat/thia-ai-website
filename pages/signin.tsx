@@ -67,7 +67,7 @@ const SignIn: NextPageWithLayout = () => {
                     const idToken = await userCredential.user.getIdToken();
                     const instance = BackendRequestHandler.getInstance();
                     await instance.setNewUserRoles(idToken, { uid: userCredential.user.uid });
-                    router.push('/dashboard');
+                    router.push('/');
                 }
             })
             .catch(({ code }: FirebaseError) => {
@@ -91,7 +91,7 @@ const SignIn: NextPageWithLayout = () => {
                         setGoogleSignInLoading(true);
                         const idToken = await result.user.getIdToken();
                         await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
-                        router.push('/dashboard');
+                        router.push('/');
                     }
                 })
                 .catch(error => {
