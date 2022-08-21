@@ -77,7 +77,7 @@ export const Footer = () => {
                 <GridItem colSpan={{ base: 3, md: 1 }}>
                     <VStack spacing={6} align='flex-start'>
                         <Logo w='100px' />
-                        <Text fontSize={16}>Making AutoML Simple.</Text>
+                        <Text fontSize={16}>AutoML Using Your Hardware.</Text>
                         <Stack direction={'row'} spacing={6}>
                             {Object.values(socials).map(({ label, path, icon }) => (
                                 <ChakraNextLink href={path} key={label}>
@@ -159,7 +159,7 @@ export const Footer = () => {
             </Grid>
             <Divider />
             <Flex justify='space-between' py='8' fontSize='sm' gap={4}>
-                <Text>© 2021 Thia CA, inc. All rights reserved</Text>
+                <Text>© 2022 Thia AI, CA. All rights reserved</Text>
                 <HStack spacing={{ base: 4, md: 8 }} align='start'>
                     <ChakraNextLink href={'#'}>
                         Terms

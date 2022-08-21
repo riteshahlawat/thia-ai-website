@@ -15,6 +15,7 @@ import { GetPaymentMethodByIDBackendRequest, GetPaymentMethodByIDData } from './
 import { GetProductByIDBackendRequest, GetProductByIDData } from './requests/get/getProductById';
 import { SubscribeToNewsletterBackendRequest, SubscribeToNewsletterData } from './requests/post/subscribeToNewsletter';
 import { GetDownloadMetadataBackendRequest } from './requests/get/getDownloadMetadata';
+import { SubmitContactFormBackendRequest, SubmitContactFormData } from './requests/post/submitContactForm';
 
 /**
  * Class that manages all Backend Requests.
@@ -55,6 +56,9 @@ export class BackendRequestHandler {
     private getPaymentMethodByIDBR!: GetPaymentMethodByIDBackendRequest;
     // Get Product By ID
     private getProductByIDBR!: GetProductByIDBackendRequest;
+    // Submit Contact Form
+    private submitContactFormBR!: SubmitContactFormBackendRequest;
+
     /**
      * Private constructor.
      */
@@ -92,6 +96,7 @@ export class BackendRequestHandler {
         this.getDownloadMetadataBR = new GetDownloadMetadataBackendRequest(this.backendRequest);
         this.getPaymentMethodByIDBR = new GetPaymentMethodByIDBackendRequest(this.backendRequest);
         this.getProductByIDBR = new GetProductByIDBackendRequest(this.backendRequest);
+        this.submitContactFormBR = new SubmitContactFormBackendRequest(this.backendRequest);
     };
 
     public pingBackendSecure = async (idToken: string, config?: AxiosRequestConfig) => {
@@ -156,5 +161,9 @@ export class BackendRequestHandler {
 
     public getProductById = async (idToken: string, data: GetProductByIDData, config?: AxiosRequestConfig) => {
         return this.getProductByIDBR.run(config, [idToken, data]);
+    };
+
+    submitContactForm = async (data: SubmitContactFormData, config?: AxiosRequestConfig) => {
+        return this.submitContactFormBR.run(config, data);
     };
 }

@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { useUser } from 'reactfire';
 import { Box, Divider, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
+import { BackendRequestHandler } from '../backend-requests/backendRequestHandler';
 import { IdTokenResult } from 'firebase/auth';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { InvoiceTable } from '@/components/billing/InvoiceTable';
@@ -27,6 +27,11 @@ const Billing = ({ products }: { products: any }) => {
     const [subscriptionDataLoaded, setSubscriptionDataLoaded] = useState(false);
     const [cancelledDate, setCancelledDate] = useState<number | null>(null);
     const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<Stripe.PaymentMethod>();
+
+    useEffect(() => {
+        if (user === null) router.push('/signin');
+        loadData();
+    }, [user]);
 
     const fetchClaims = async () => {
         if (user) {
@@ -79,11 +84,6 @@ const Billing = ({ products }: { products: any }) => {
         fetchDefaultPaymentMethod();
     }, [user]);
 
-    useEffect(() => {
-        if (user === null) router.push('/signin');
-        loadData();
-    }, [user, router, loadData]);
-
     const role = userIdToken?.claims.role as string;
     const product =
         products.find((p: Stripe.Product) => p.id === subscription?.items.data[0].plan?.product) ??
@@ -114,7 +114,7 @@ const Billing = ({ products }: { products: any }) => {
                             Manage your billing and payment details
                         </Text>
                     </Box>
-                    <Box as={Divider} my={7} />
+                    <Divider my={7} />
                     <Flex gap={10} flexDir='column'>
                         <Flex gap={7} flexDir={{ base: 'column', lg: 'row' }}>
                             <SubscriptionOverview

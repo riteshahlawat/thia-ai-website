@@ -42,9 +42,7 @@ const SignInSignOut = () => {
                     </Flex>
                 </MenuButton>
                 <MenuList>
-                    <MenuItem onClick={() => router.push('/dashboard')}>Dashboard</MenuItem>
-                    <MenuItem onClick={() => router.push('/settings')}>Settings</MenuItem>
-                    <MenuItem onClick={() => router.push('/settings/billing')}>Billing and Plans</MenuItem>
+                    <MenuItem onClick={() => router.push('/billing')}>Billing and Plans</MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={onSignOut}>Sign Out</MenuItem>
                 </MenuList>

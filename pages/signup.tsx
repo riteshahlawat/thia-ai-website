@@ -27,7 +27,7 @@ import YupPassword from 'yup-password';
 import { InputFormControl } from '@/components/common/InputFormControl';
 YupPassword(yup);
 
-const singupSchema = yup.object({
+const signupSchema = yup.object({
     name: yup.string().min(3, 'Name must be at least 3 characters.').required('Name is required.'),
     email: yup.string().required('Email is required.').email('Please enter a valid email address.'),
     password: yup.string().password().max(50).required('Please enter your password.'),
@@ -81,7 +81,7 @@ const SignUp: NextPageWithLayout = () => {
                         setGoogleSignUpLoading(true);
                         const idToken = await result.user.getIdToken();
                         await BackendRequestHandler.getInstance().setNewUserRoles(idToken, { uid: result.user.uid });
-                        router.push('/dashboard');
+                        router.push('/');
                     }
                     setGoogleSignUpLoading(false);
                 })
@@ -135,7 +135,7 @@ const SignUp: NextPageWithLayout = () => {
             {!emailVerificationSent ? (
                 <AuthTemplatePage heading='Join Thia today' text='Sign up to start training'>
                     <VStack spacing={3} py={1} w='full'>
-                        <Formik initialValues={initialValues} validationSchema={singupSchema} onSubmit={onSubmit}>
+                        <Formik initialValues={initialValues} validationSchema={signupSchema} onSubmit={onSubmit}>
                             {({ errors, touched }) => (
                                 <Form style={{ width: '100%' }} noValidate>
                                     <VStack spacing={3} py={1} w='full'>
