@@ -1,24 +1,28 @@
 import { Section } from '../common/Section';
 import { RevealOnView } from '../common/RevealOnView';
+import Image from 'next/future/image';
 import { Box, Button, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import Link from 'next/link';
 
-interface ImageBoxProps {
+export interface ImageBoxProps {
     label: string;
     heading: string;
-    direction: string;
+    direction: 'left' | 'right';
     description: string;
+    imageSrc: string;
+    learnMoreURL: string;
 }
 
-export const ImageBox = ({ label, heading, direction, description }: ImageBoxProps) => {
+export const ImageBox = ({ label, heading, direction, description, imageSrc, learnMoreURL }: ImageBoxProps) => {
     return (
         <RevealOnView>
-            <Section my={{ base: 16, md: 64 }}>
+            <Section my={{ base: 16, lg: 64 }}>
                 <Flex
                     align='center'
-                    mx={[0, 0, 5, 16, 20]}
+                    mx={[0, 0, 0, 8, 12]}
                     direction={{
                         base: 'column',
-                        md: direction === 'right' ? 'row-reverse' : 'row',
+                        lg: direction === 'right' ? 'row-reverse' : 'row',
                     }}
                     gap={[10, 10, 12, 12, 16]}
                 >
@@ -28,7 +32,8 @@ export const ImageBox = ({ label, heading, direction, description }: ImageBoxPro
                         p={[0, 0, 4, 4, 4]}
                         justify='center'
                         minW='50%'
-                        textAlign={{ base: 'center', md: 'start' }}
+                        maxW={{ base: 'none', lg: '50%' }}
+                        textAlign={{ base: 'center', lg: 'start' }}
                     >
                         <Text
                             casing='uppercase'
@@ -38,23 +43,19 @@ export const ImageBox = ({ label, heading, direction, description }: ImageBoxPro
                         >
                             {label}
                         </Text>
-                        <Heading fontWeight='semibold' fontSize={{ base: '3xl', md: '5xl' }}>
+                        <Heading fontWeight='semibold' fontSize={{ base: '3xl', lg: '5xl' }}>
                             {heading}
                         </Heading>
                         <Text>{description}</Text>
                         <Box pt={5}>
-                            <Button variant='primaryOutline'>Learn More</Button>
+                            <Link href={learnMoreURL}>
+                                <Button variant='primaryOutline'>Learn More</Button>
+                            </Link>
                         </Box>
                     </Flex>
-                    <Box
-                        p={4}
-                        h='450px'
-                        w='100%'
-                        maxW={{ base: '100%', md: '50%' }}
-                        flexShrink={0}
-                        backgroundImage='linear-gradient(90deg, rgba(71,0,255,1) 0%, rgba(119,66,255,1) 100%)'
-                        rounded='xl'
-                    />
+                    <Box display='block' rounded='xl' overflow='hidden' w={{ base: '100%', lg: '50%' }}>
+                        <Image src={imageSrc} alt='figure-1' sizes='100vw' style={{ width: '100%', height: 'auto' }} />
+                    </Box>
                 </Flex>
             </Section>
         </RevealOnView>

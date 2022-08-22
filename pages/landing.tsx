@@ -5,7 +5,7 @@ import { Section } from '@/components/common/Section';
 
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
-import { ImageBox } from '@/components/landing/ImageBox';
+import { ImageBox, ImageBoxProps } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 
 const variants = {
@@ -18,25 +18,30 @@ const variants = {
     },
 };
 
-const ImageBoxData = [
+const ImageBoxData: ImageBoxProps[] = [
     {
-        label: 'Train your model',
-        heading: `Train your computer vision model on Thia's engine`,
-        description:
-            'Thia makes training models a breeze! Import your dataset, label, and click train',
+        label: 'Train',
+        heading: `Train a computer vision model`,
+        description: 'Thia makes training models a breeze! Import your dataset, train, and get real-time training feedback in the UI',
         direction: 'left',
+        imageSrc: '/showcase/training_job_graph.jpg',
+        learnMoreURL: 'docs/training-a-model',
     },
     {
-        label: 'Export your model',
-        heading: 'Export the model in an optimized format',
-        description: `Once trained, Thia can export an optimized model format that you can convert and use in any environment of your choice`,
+        label: 'Evaluate',
+        heading: 'Predict using your own data',
+        description: `Once trained, Thia allows you to run predictions on your own data without having to export the model`,
         direction: 'right',
+        imageSrc: '/showcase/model_predictions.jpg',
+        learnMoreURL: 'docs/evaluating-a-model',
     },
     {
-        label: 'Serve your model',
-        heading: 'Skip implementation and serve directly onto a machine',
-        description: `Bypass the headache of using the exported model entirely and let Thia package it all up to be served on a linux machone and generate predictions via out REST API.`,
+        label: 'Export',
+        heading: 'Export your trained model',
+        description: `Once satisfied with your trained model, Thia can export it in an optimized model format in the environment of your choice`,
         direction: 'left',
+        imageSrc: '/showcase/export_model.jpg',
+        learnMoreURL: 'docs/using-a-model',
     },
 ];
 
@@ -50,37 +55,18 @@ const Home: NextPage = () => {
             <Box w='full'>
                 <Section>
                     <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
-                        <Heading
-                            px={10}
-                            fontSize={{ base: '6xl', md: '8xl' }}
-                            lineHeight='shorter'
-                            textAlign='center'
-                        >
+                        <Heading px={10} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
                             AutoML ran within your ecosystem
                         </Heading>
 
-                        <Flex
-                            w='full'
-                            gap={{ base: 6, md: 10 }}
-                            justify='center'
-                            maxW='26rem'
-                            flexWrap={{ base: 'wrap', md: 'nowrap' }}
-                        >
+                        <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
                             <Link href='/pricing'>
-                                <Button
-                                    variant='secondary'
-                                    size='lg'
-                                    flexBasis={{ base: '100%', md: '50%' }}
-                                >
+                                <Button variant='secondary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     View Pricing
                                 </Button>
                             </Link>
                             <Link href='/download'>
-                                <Button
-                                    variant='primary'
-                                    size='lg'
-                                    flexBasis={{ base: '100%', md: '50%' }}
-                                >
+                                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     Download
                                 </Button>
                             </Link>
@@ -109,10 +95,10 @@ const Home: NextPage = () => {
                         >
                             <Box display='block' rounded='xl' overflow='hidden'>
                                 <Image
-                                    src='/thia.svg'
+                                    src='/showcase/dataset_page.jpg'
                                     alt='figure-1'
-                                    width={962}
-                                    height={556}
+                                    width={1906}
+                                    height={1375}
                                     layout='responsive'
                                     objectPosition='top'
                                     objectFit='contain'
@@ -124,38 +110,20 @@ const Home: NextPage = () => {
                 <ImageBox {...ImageBoxData[0]} />
                 <ImageBox {...ImageBoxData[1]} />
                 <ImageBox {...ImageBoxData[2]} />
-                <Section
-                    bg={useColorModeValue('thia.gray.100', 'whiteAlpha.50')}
-                    py={{ base: 10, md: 20 }}
-                >
+                <Section bg={useColorModeValue('thia.gray.100', 'whiteAlpha.50')} py={{ base: 10, md: 20 }}>
                     <Flex direction='column' align='center' gap={10} textAlign='center'>
                         <Heading fontSize='5xl'>Ready to Start?</Heading>
                         <Text fontSize='lg'>
-                            Integrate Thia into your app easily with our documentation or take the
-                            tutorial to get started!
+                            Integrate Thia into your app easily with our documentation or take the tutorial to get started!
                         </Text>
-                        <Flex
-                            w='full'
-                            gap={{ base: 6, md: 10 }}
-                            justify='center'
-                            maxW='26rem'
-                            flexWrap={{ base: 'wrap', md: 'nowrap' }}
-                        >
+                        <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
                             <Link href='/docs/#getstarted'>
-                                <Button
-                                    variant='primary'
-                                    size='lg'
-                                    flexBasis={{ base: '100%', md: '50%' }}
-                                >
+                                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     Get Started
                                 </Button>
                             </Link>
                             <Link href='/signup'>
-                                <Button
-                                    variant='primaryOutline'
-                                    size='lg'
-                                    flexBasis={{ base: '100%', md: '50%' }}
-                                >
+                                <Button variant='primaryOutline' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     Sign up for free
                                 </Button>
                             </Link>

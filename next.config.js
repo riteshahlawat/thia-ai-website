@@ -14,4 +14,9 @@ module.exports = withContentlayer({
         return config;
     },
     devIndicators: { autoPrerender: true },
+    experimental: {
+        images: {
+            allowFutureImage: true,
+        },
+    },
 });
