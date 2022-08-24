@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useUser } from 'reactfire';
 import { BackendRequestHandler } from '../../backend-requests/backendRequestHandler';
 
-function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>) {
+function useSubmitCardElement(onSuccess: () => void | Promise<void>, onFail: () => void | Promise<void>) {
     const [submitLoading, setSubmitLoading] = useState(false);
     const toast = useToast();
     const stripe = useStripe();
@@ -87,4 +87,4 @@ function submitCardElement(onSuccess: () => void | Promise<void>, onFail: () => 
     };
 }
 
-export default submitCardElement;
+export default useSubmitCardElement;

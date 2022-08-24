@@ -3,7 +3,7 @@ import { BillingValuesType, PaymentForm } from './PaymentForm';
 import { Box, Button, Flex, FormControl, FormLabel, useColorModeValue, VStack } from '@chakra-ui/react';
 import { PaymentMethodCreateParams } from '@stripe/stripe-js';
 import { CardElement } from '@stripe/react-stripe-js';
-import submitCardElement from '@/hooks/submitCardElement';
+import useSubmitCardElement from '@/hooks/submitCardElement';
 
 type PaymentFormProps = {
     backButton: () => void;
@@ -30,7 +30,7 @@ export const AddPaymentDetails = ({ backButton, onAddCardSuccess, onAddCardFail 
         },
     };
 
-    const { handleSubmit: addCardToUser, isCardSubmitting } = submitCardElement(
+    const { handleSubmit: addCardToUser, isCardSubmitting } = useSubmitCardElement(
         () => {
             onAddCardSuccess();
             backButton();
