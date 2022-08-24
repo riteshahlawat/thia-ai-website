@@ -13,7 +13,7 @@ module.exports = withContentlayer({
 
         return config;
     },
-    devIndicators: { autoPrerender: true },
+    devIndicators: { buildActivity: true, buildActivityPosition: 'bottom-right' },
     experimental: {
         images: {
             allowFutureImage: true,

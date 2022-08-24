@@ -54,7 +54,14 @@ export const ImageBox = ({ label, heading, direction, description, imageSrc, lea
                         </Box>
                     </Flex>
                     <Box display='block' rounded='xl' overflow='hidden' w={{ base: '100%', lg: '50%' }}>
-                        <Image src={imageSrc} alt='figure-1' sizes='100vw' style={{ width: '100%', height: 'auto' }} />
+                        <Image
+                            src={imageSrc}
+                            alt='figure-1'
+                            sizes='100vw'
+                            width={100}
+                            height={100}
+                            style={{ width: '100%', height: 'auto' }}
+                        />
                     </Box>
                 </Flex>
             </Section>
