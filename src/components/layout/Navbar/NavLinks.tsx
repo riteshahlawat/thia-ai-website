@@ -20,7 +20,7 @@ import { useAuth, useSigninCheck, useUser } from 'reactfire';
 import { links } from '@/constants/links';
 import { MdArrowDropDown } from 'react-icons/md';
 
-const navItemLinks = [links.docs.index, links.pricing.index, links.download.index, links.support.index];
+const navItemLinks = [links.docs.index, links.pricing.index, links.download.index, links.changelog.index, links.support.index];
 
 const SignInSignOut = () => {
     const { data: user } = useUser();

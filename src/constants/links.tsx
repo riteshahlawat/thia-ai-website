@@ -16,10 +16,11 @@ export const links: { [key: string]: LinkObjType } = {
     download: { index: { path: { pathname: '/download' }, icon: null, label: 'Download' } },
     support: { index: { path: { pathname: '/support' }, icon: null, label: 'Support' } },
     docs: { index: { path: { pathname: '/docs' }, icon: null, label: 'Docs' } },
+    changelog: { index: { path: { pathname: '/changelog' }, icon: null, label: 'Changelog' } },
 };
 
 export const socials: LinkObjType = {
-    twitter: { path: '#', icon: <FaTwitter />, label: 'Twitter' },
+    twitter: { path: 'https://twitter.com/thia_ai', icon: <FaTwitter />, label: 'Twitter' },
     linkedin: { path: '#', icon: <FaLinkedin />, label: 'LinkedIn' },
     github: { path: '#', icon: <FaGithub />, label: 'Github' },
 };

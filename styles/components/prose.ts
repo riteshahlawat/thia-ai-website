@@ -45,13 +45,14 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         p: {
-            fontWeight: mode('normal', 'thin')(props),
-            color: mode('thia.gray.950', 'thia.gray.300')(props),
+            fontWeight: mode('normal', 'normal')(props),
+            color: mode('thia.gray.950', 'thia.gray.500')(props),
         },
         li: {
             fontWeight: mode('400', '300')(props),
             '&::marker': {
-                color: 'var(--chakra-colors-thia-gray-600) !important',
+                color: mode('var(--chakra-colors-thia-purple-600) !important', 'var(--chakra-colors-thia-purple-200) !important')(props),
+                content: `"—"`,
             },
             color: mode('thia.gray.950', 'thia.gray.300')(props),
         },
@@ -93,10 +94,7 @@ export const Prose = {
             },
         },
         hr: {
-            borderColor: mode(
-                'var(--chakra-colors-thia-gray-300) !important',
-                'var(--chakra-colors-thia-gray-600) !important'
-            )(props),
+            borderColor: mode('var(--chakra-colors-thia-gray-300) !important', 'var(--chakra-colors-thia-gray-600) !important')(props),
             opacity: mode('1 !important', '0.5 !important')(props),
         },
         blockquote: {
