@@ -45,7 +45,7 @@ const ChangeLog = ({ logs }: Props) => {
                     <Heading fontSize='56px'>Changelog</Heading>
                     <Text color='thia.gray.500'>Read about the newest updates and improvments to Thia.</Text>
                     <Text>
-                        <Link variant='purple'>Subscribe to our newsletter</Link>&nbsp;&nbsp;·&nbsp;&nbsp;
+                        <Link variant='purple' href='#newsletter'>Subscribe to our newsletter</Link>&nbsp;&nbsp;·&nbsp;&nbsp;
                         <Link variant='purple' href={socials.twitter.path as string} isExternal>
                             Follow us on Twitter
                         </Link>

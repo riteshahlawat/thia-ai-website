@@ -138,6 +138,7 @@ export const Footer = () => {
                                 <Form noValidate>
                                     <InputFormControl
                                         isRequired
+                                        id='newsletter'
                                         name='email'
                                         type='email'
                                         submitButton={
