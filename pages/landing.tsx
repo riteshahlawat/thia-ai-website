@@ -50,13 +50,13 @@ const Home: NextPage = () => {
         <>
             <Head>
                 <title>Thia</title>
-                <meta name='description' content='AutoML ran within your ecosystem' />
+                <meta name='description' content='AutoML within your ecosystem' />
             </Head>
             <Box w='full'>
                 <Section>
                     <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
                         <Heading px={10} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
-                            AutoML ran within your ecosystem
+                            AutoML within your ecosystem
                         </Heading>
 
                         <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>

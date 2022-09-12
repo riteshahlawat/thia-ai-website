@@ -77,7 +77,7 @@ export const Footer = () => {
                 <GridItem colSpan={{ base: 3, md: 1 }}>
                     <VStack spacing={6} align='flex-start'>
                         <Logo w='100px' />
-                        <Text fontSize={16}>AutoML Using Your Hardware.</Text>
+                        <Text fontSize={16}>AutoML within your ecosystem.</Text>
                         <Stack direction={'row'} spacing={6}>
                             {Object.values(socials).map(({ label, path, icon }) => (
                                 <ChakraNextLink href={path} key={label}>
@@ -135,7 +135,7 @@ export const Footer = () => {
                             onSubmit={subscribeToNewsletter}
                         >
                             {({ errors, touched }) => (
-                                <Form noValidate>
+                                <Form noValidate id='subscribeToNewsletter'>
                                     <InputFormControl
                                         isRequired
                                         name='email'

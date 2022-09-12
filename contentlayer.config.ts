@@ -28,6 +28,7 @@ const contentLayerConfig = makeSource({
                 '.png': 'dataurl',
                 '.jpg': 'dataurl',
             };
+            options.target = ['es6'];
             return options;
         },
     },
