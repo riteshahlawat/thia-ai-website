@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ContentContainer } from '@/components/common/ContentContainer';
-import { Box, Divider, Flex, Heading, HStack, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, HStack, Link, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { allChangelogs, Changelog } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { socials } from '@/constants/links';
@@ -23,16 +23,18 @@ const Log = React.memo(({ log }: { log: Changelog }) => {
 
     return (
         <>
-            <Divider my='10' borderColor='thia.gray.800' />
+            <Divider my={{ base: 2, md: 10 }} borderColor='thia.gray.800' />
             <Flex
                 w='full'
                 align={{ base: 'initial', md: 'flex-start' }}
                 justify={{ base: 'flex-start', md: 'initial' }}
                 flexDir={{ base: 'column', md: 'row' }}
-                pt={10}
-                pb={16}
+                pt={{ base: 5, md: 10 }}
+                pb={{ base: 10, md: 16 }}
             >
                 <Box
+                    position={{ base: 'static', md: 'sticky' }}
+                    top='calc(var(--header-height) + 1em)'
                     w={{ base: 'full', md: '25%' }}
                     mr={{ base: '0', md: '24px' }}
                     mb={{ base: '24px', md: '0' }}
@@ -42,7 +44,6 @@ const Log = React.memo(({ log }: { log: Changelog }) => {
                     <Text>Release {log.version}</Text>
                     <Text mt='1'>{date}</Text>
                 </Box>
-
                 <Prose as='article'>
                     <MDXComponent components={components} />
                 </Prose>
@@ -62,9 +63,9 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
 
     return (
         <SeoPage title='Changelog' description='Read about the newest updates and improvments to Thia'>
-            <ContentContainer mt='24'>
+            <ContentContainer mt={{ base: 5, md: 24 }}>
                 <HStack>
-                    <Box w='25%' mr='24px' flexShrink={0}></Box>
+                    <Box w={{ base: 0, md: '25%' }} mr={{ base: 0, md: '24px' }} flexShrink={0}></Box>
                     <VStack pt='10' pb='8' align='flex-start'>
                         <Heading fontSize='56px'>Changelog</Heading>
                         <Text color='thia.gray.500'>Read about the newest updates and improvments to Thia</Text>
