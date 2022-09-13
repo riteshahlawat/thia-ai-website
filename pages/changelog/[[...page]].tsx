@@ -1,15 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { Box, Divider, Flex, Heading, HStack, Link, Text, VStack } from '@chakra-ui/react';
 import { allChangelogs, Changelog } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { socials } from '@/constants/links';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { SeoPage } from '@/components/seo/SeoPage';
+import { useRouter } from 'next/router';
+import { Pagination } from '@/components/pagination';
+import Image from 'next/image';
 
-type Props = { logs: Changelog[] };
-
+const logsPerPage = 5;
 const components = { Image };
 
 const Log = React.memo(({ log }: { log: Changelog }) => {
@@ -52,9 +53,15 @@ const Log = React.memo(({ log }: { log: Changelog }) => {
 
 Log.displayName = 'Log';
 
-const ChangeLog = React.memo(({ logs }: Props) => {
+type Props = { logs: Changelog[]; totalLogs: number; currentPage: number };
+
+const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
+    const router = useRouter();
+
+    const paginate = (number: number) => router.push(`/changelog/${number}`);
+
     return (
-        <SeoPage title='Changelog' description='Read Thia updates'>
+        <SeoPage title='Changelog' description='Read about the newest updates and improvments to Thia'>
             <ContentContainer mt='24'>
                 <HStack>
                     <Box w='25%' mr='24px' flexShrink={0}></Box>
@@ -72,22 +79,31 @@ const ChangeLog = React.memo(({ logs }: Props) => {
                         </Text>
                     </VStack>
                 </HStack>
-
                 <VStack>
                     {logs.map((log: Changelog, i: number) => {
                         return <Log key={i} log={log} />;
                     })}
+                    <Pagination currentPage={currentPage} itemsPerPage={logsPerPage} totalItems={totalLogs} paginate={paginate} />;
                 </VStack>
             </ContentContainer>
         </SeoPage>
     );
 });
 
-ChangeLog.displayName = 'ChangeLog';
-
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ params }: any) => {
+    const currentPage = Number(params.page ?? 1);
     const logs = allChangelogs.sort((a: Changelog, b: Changelog) => +new Date(b.createdAt) - +new Date(a.createdAt));
-    return { props: { logs } };
+    const totalLogs = logs.length;
+
+    if (isNaN(currentPage)) return { notFound: true };
+    if (currentPage < 1 || currentPage > Math.ceil(totalLogs / logsPerPage)) return { notFound: true };
+
+    const indexOfLastLog = currentPage * logsPerPage;
+    const indexOfFirstLog = indexOfLastLog - logsPerPage;
+    const currentLogs = logs.slice(indexOfFirstLog, indexOfLastLog);
+
+    return { props: { logs: currentLogs, totalLogs, currentPage: currentPage } };
 };
 
+ChangeLog.displayName = 'ChangeLog';
 export default ChangeLog;
