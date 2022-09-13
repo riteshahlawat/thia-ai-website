@@ -5,7 +5,7 @@ import { NavToggle } from './NavToggle';
 import { NavLinks } from './NavLinks';
 import Logo from '@/components/common/Logo';
 
-export const Navbar = () => {
+export const Navinderbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(isOpen => !isOpen);

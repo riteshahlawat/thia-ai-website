@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from '@/components/layout/Navbar/Navbar';
+import { Navinderbar } from '@/components/layout/Navbar/Navbar';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 export const DocsLayout = ({ children }: Props) => {
     return (
         <>
-            <Navbar />
+            <Navinderbar />
             <Box bg={useColorModeValue('thia.gray.50', 'thia.gray.990')}>{children}</Box>
         </>
     );
