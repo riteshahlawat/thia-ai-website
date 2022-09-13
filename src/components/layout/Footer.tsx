@@ -135,8 +135,9 @@ export const Footer = () => {
                             onSubmit={subscribeToNewsletter}
                         >
                             {({ errors, touched }) => (
-                                <Form noValidate id='subscribeToNewsletter'>
+                                <Form noValidate>
                                     <InputFormControl
+                                        id='subscribeToNewsletter'
                                         isRequired
                                         name='email'
                                         type='email'
