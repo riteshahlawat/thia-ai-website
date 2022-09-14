@@ -59,7 +59,7 @@ export const SignInSignOut = () => {
                         _focus={{ boxShadow: 'none' }}
                         _active={{ bg: 'brand.primary.dark' }}
                     >
-                        Try Thia for free
+                        Sign up
                     </Button>
                 </Link>
             </>
