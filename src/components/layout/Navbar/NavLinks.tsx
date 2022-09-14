@@ -1,28 +1,15 @@
-import {
-    Box,
-    Button,
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Stack,
-    useColorMode,
-    useColorModeValue,
-    Avatar,
-    Flex,
-    MenuDivider,
-} from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { MdOutlineLightMode, MdDarkMode } from 'react-icons/md';
-import { useAuth, useSigninCheck, useUser } from 'reactfire';
+import { useAuth, useUser } from 'reactfire';
 import { links } from '@/constants/links';
 import { MdArrowDropDown } from 'react-icons/md';
+import { ToggleColorMode } from '../ToggleColorMode';
+import { Box, Button, Menu, MenuButton, MenuItem, MenuList, Stack, Avatar, Flex, MenuDivider, useColorModeValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
-const navItemLinks = [links.docs.index, links.pricing.index, links.download.index, links.changelog.index, links.support.index];
+const navItemLinks = [links.docs, links.pricing, links.download, links.changelog, links.support];
 
-const SignInSignOut = () => {
+export const SignInSignOut = () => {
     const { data: user } = useUser();
     const auth = useAuth();
     const router = useRouter();
@@ -53,6 +40,7 @@ const SignInSignOut = () => {
             <>
                 <Link href='/signin'>
                     <Button
+                        size={{ base: 'sm', md: 'md' }}
                         fontSize='sm'
                         variant='secondary'
                         borderRadius={100}
@@ -64,13 +52,14 @@ const SignInSignOut = () => {
                 </Link>
                 <Link href='/signup'>
                     <Button
+                        size={{ base: 'sm', md: 'md' }}
                         fontSize='sm'
                         variant='primary'
                         borderRadius={100}
                         _focus={{ boxShadow: 'none' }}
                         _active={{ bg: 'brand.primary.dark' }}
                     >
-                        Try Thia for Free
+                        Try Thia for free
                     </Button>
                 </Link>
             </>
@@ -78,33 +67,47 @@ const SignInSignOut = () => {
     }
 };
 
-export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
-    const { toggleColorMode: toggleMode } = useColorMode();
-    const SwitchIcon = useColorModeValue(MdDarkMode, MdOutlineLightMode);
-    const text = useColorModeValue('dark', 'light');
-
+export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => void }) => {
+    const router = useRouter();
+    const buttonBG = useColorModeValue('blackAlpha.100', 'whiteAlpha.200');
+    const buttonTextColor = useColorModeValue('thia.gray.700', 'thia.gray.400');
+    const buttonActiveTextColor = useColorModeValue('black', 'white');
     return (
-        <Box display={{ base: isOpen ? 'block' : 'none', md: 'block' }} flexBasis={{ base: '100%', md: 'auto' }}>
-            <Stack spacing={5} align='center' direction={{ base: 'column', md: 'row' }}>
+        <Box
+            left={0}
+            right={0}
+            margin='0 !important'
+            top='var(--header-height)'
+            w={{ base: 'full', md: 'auto' }}
+            height={{ base: '100vh', md: 'auto' }}
+            position={{ base: 'absolute', md: 'static' }}
+            visibility={{ base: isOpen ? 'visible' : 'hidden', md: 'visible' }}
+            bg={{ base: useColorModeValue('thia.bg-base', 'thia.bg-dark'), md: 'transparent' }}
+            transition='opacity 500ms 0ms'
+            opacity={{ base: isOpen ? 1 : 0, md: 1 }}
+        >
+            <Stack h='full' spacing={{ base: 0, md: 3 }} align='center' direction={{ base: 'column', md: 'row' }}>
                 {Object.values(navItemLinks).map(({ path, label }) => (
                     <Link href={path} key={label}>
-                        <Button key={label} fontSize='sm' fontWeight='normal' borderRadius={100} variant='secondaryGhost'>
+                        <Button
+                            h={{ base: 'var(--header-height)', md: 10 }}
+                            key={label}
+                            fontSize={{ base: 'md', md: 'sm' }}
+                            w={{ base: 'full', md: 'auto' }}
+                            borderRadius={{ base: 0, md: 100 }}
+                            variant='secondaryGhost'
+                            color={{
+                                base: buttonTextColor,
+                                md: path === router.asPath ? buttonActiveTextColor : buttonTextColor,
+                            }}
+                            bg={{ base: 'inherit', md: path === router.asPath ? buttonBG : 'inherit' }}
+                            onClick={toggle}
+                        >
                             {label}
                         </Button>
                     </Link>
                 ))}
-                <IconButton
-                    size='md'
-                    fontSize='xl'
-                    color='current'
-                    variant='secondary'
-                    onClick={toggleMode}
-                    icon={<SwitchIcon />}
-                    ml={{ base: '0', md: '3' }}
-                    aria-label={`Switch to ${text} mode`}
-                    _hover={{ bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200') }}
-                />
-                <SignInSignOut />
+                <ToggleColorMode w={{ base: '100vw', md: 'auto' }} rounded={{ base: 'none', md: 'full' }} />
             </Stack>
         </Box>
     );

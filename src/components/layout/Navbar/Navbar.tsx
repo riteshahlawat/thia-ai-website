@@ -1,30 +1,27 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { NavContainer } from './NavContainer';
 import { NavToggle } from './NavToggle';
-import { NavLinks } from './NavLinks';
+import { NavLinks, SignInSignOut } from './NavLinks';
+import { Box, HStack } from '@chakra-ui/react';
 import Logo from '@/components/common/Logo';
 
-export const Navbar = () => {
+export const Navinderbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(isOpen => !isOpen);
 
     return (
-        <NavContainer>
-            <Logo w='120px' />
-            <NavToggle toggle={toggle} isOpen={isOpen} />
-            <NavLinks isOpen={isOpen} />
-        </NavContainer>
+        <Box bg='black'>
+            <NavContainer>
+                <Box flexShrink={0}>
+                    <Logo w='100px' />
+                </Box>
+                <NavLinks isOpen={isOpen} toggle={toggle} />
+                <HStack>
+                    <SignInSignOut />
+                    <NavToggle toggle={toggle} isOpen={isOpen} />
+                </HStack>
+            </NavContainer>
+        </Box>
     );
 };
-
-// search bar
-{
-    /*
-  <InputGroup>
-    <InputLeftElement pointerEvents='none' children={<SearchIcon color='gray.300' />} />
-    <Input variant='filled' placeholder='Search the docs' />
-  </InputGroup>
-*/
-}

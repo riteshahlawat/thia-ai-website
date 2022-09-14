@@ -1,18 +1,3 @@
-import {
-    Box,
-    Stack,
-    Text,
-    Input,
-    IconButton,
-    useColorModeValue,
-    Flex,
-    VStack,
-    HStack,
-    Divider,
-    Grid,
-    GridItem,
-    useToast,
-} from '@chakra-ui/react';
 import { links, socials } from '@/constants/links';
 import { BiMailSend } from 'react-icons/bi';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
@@ -20,6 +5,7 @@ import { Form, Formik } from 'formik';
 import { object, string } from 'yup';
 import { InputFormControl } from '../common/InputFormControl';
 import { BackendRequestHandler } from 'backend-requests/backendRequestHandler';
+import { Box, Stack, Text, IconButton, useColorModeValue, Flex, VStack, HStack, Divider, Grid, GridItem, useToast } from '@chakra-ui/react';
 import Logo from '../common/Logo';
 
 const ListHeader = ({ children }: { children: string }) => {
@@ -101,9 +87,9 @@ export const Footer = () => {
                 <GridItem>
                     <VStack align={'flex-start'}>
                         <ListHeader>Product</ListHeader>
-                        <ChakraNextLink href={links.docs.index.path}>{links.docs.index.label}</ChakraNextLink>
-                        <ChakraNextLink href={links.pricing.index.path}>{links.pricing.index.label}</ChakraNextLink>
-                        <ChakraNextLink href={links.download.index.path}>{links.download.index.label}</ChakraNextLink>
+                        <ChakraNextLink href={links.docs.path}>{links.docs.label}</ChakraNextLink>
+                        <ChakraNextLink href={links.pricing.path}>{links.pricing.label}</ChakraNextLink>
+                        <ChakraNextLink href={links.download.path}>{links.download.label}</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Features</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
                     </VStack>

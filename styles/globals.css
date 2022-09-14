@@ -39,7 +39,7 @@ body {
     --gray-950: rgb(26, 26, 26);
     --gray-990: rgb(15, 15, 15);
 
-    --header-height: 72px;
+    --header-height: 60px;
     --footer-height: 362px;
     --fullHeightWithoutNav: calc(100vh - var(--header-height));
 }
