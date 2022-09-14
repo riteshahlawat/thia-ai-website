@@ -94,7 +94,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                             key={label}
                             fontSize={{ base: 'md', md: 'sm' }}
                             w={{ base: 'full', md: 'auto' }}
-                            borderRadius={{ base: 0, md: 100 }}
+                            borderRadius={{ base: 'none', md: 100 }}
                             variant='secondaryGhost'
                             color={{
                                 base: buttonTextColor,
