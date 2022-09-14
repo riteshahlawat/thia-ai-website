@@ -5,7 +5,7 @@ type Props = { children?: React.ReactNode; [key: string]: any };
 
 export const ContentContainer = ({ children, ...rest }: Props) => {
     return (
-        <Container maxW='container.2xl' px={[3, 5, 8, 8, 8]} h='full' {...rest}>
+        <Container maxW='container.xl' px={[3, 5, 8, 8, 8]} h='full' {...rest}>
             {children}
         </Container>
     );
