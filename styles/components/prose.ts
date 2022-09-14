@@ -52,7 +52,7 @@ export const Prose = {
             fontWeight: mode('400', '300')(props),
             '&::marker': {
                 color: mode('var(--chakra-colors-thia-purple-600) !important', 'var(--chakra-colors-thia-purple-200) !important')(props),
-                content: `"—"`,
+                content: `"–"`,
             },
             color: mode('thia.gray.950', 'thia.gray.300')(props),
         },
