@@ -6,7 +6,7 @@ export const Button: ComponentStyleConfig = {
     baseStyle: {
         _focus: { boxShadow: 'none' },
         borderRadius: '3xl',
-        transition: '250ms',
+        transitionDuration: '300ms',
         fontWeight: 500,
         letterSpacing: 'wider',
     },
@@ -47,8 +47,10 @@ export const Button: ComponentStyleConfig = {
         }),
         secondaryGhost: (props: StyleFunctionProps) => ({
             bg: 'transparent',
-            _hover: { bg: mode('thia.gray.100', 'whiteAlpha.200')(props) },
-            _active: { bg: mode('thia.gray.200', 'whiteAlpha.300')(props) },
+            fontWeight: 'medium',
+            color: mode('thia.gray.700', 'thia.gray.400')(props),
+            _hover: { bg: mode('blackAlpha.100', 'whiteAlpha.200')(props), color: mode('black', 'white')(props) },
+            _active: { bg: mode('blackAlpha.300', 'whiteAlpha.300')(props), color: mode('black', 'white')(props) },
         }),
     },
 
