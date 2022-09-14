@@ -85,8 +85,8 @@ export const NavLinks = ({ isOpen }: { isOpen: boolean }) => {
                             fontSize='sm'
                             borderRadius={100}
                             variant='secondaryGhost'
-                            color={path.pathname === router.asPath ? buttonActiveTextColor : buttonTextColor}
-                            bg={path.pathname === router.asPath ? buttonBG : 'inherit'}
+                            // color={path.pathname === router.asPath ? buttonActiveTextColor : buttonTextColor}
+                            // bg={path.pathname === router.asPath ? buttonBG : 'inherit'}
                         >
                             {label}
                         </Button>
