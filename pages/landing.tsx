@@ -55,7 +55,7 @@ const Home: NextPage = () => {
             <Box w='full'>
                 <Section>
                     <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
-                        <Heading px={10} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
+                        <Heading px={{base: 0, md:10}} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
                             AutoML within your ecosystem
                         </Heading>
 
