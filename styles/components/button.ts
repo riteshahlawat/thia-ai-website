@@ -6,7 +6,7 @@ export const Button: ComponentStyleConfig = {
     baseStyle: {
         _focus: { boxShadow: 'none' },
         borderRadius: '3xl',
-        transitionDuration: '300ms',
+        transition: '300ms',
         fontWeight: 500,
         letterSpacing: 'wider',
     },

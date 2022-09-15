@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { MdClose } from 'react-icons/md';
-import { HiMenuAlt4 } from 'react-icons/hi';
+import { HiMenuAlt3 } from 'react-icons/hi';
 
 export const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => {
     return (
@@ -13,7 +13,7 @@ export const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: bool
                 variant='ghost'
                 color='current'
                 ml={{ base: '0', md: '3' }}
-                icon={isOpen ? <MdClose /> : <HiMenuAlt4 />}
+                icon={isOpen ? <MdClose /> : <HiMenuAlt3 />}
                 borderRadius={100}
                 _focus={{ boxShadow: 'none' }}
             />

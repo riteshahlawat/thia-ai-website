@@ -65,7 +65,7 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
         <SeoPage title='Changelog' description='Read about the newest updates and improvments to Thia'>
             <ContentContainer mt={{ base: 5, md: 24 }}>
                 <HStack>
-                    <Box w={{ base: 0, md: '25%' }} mr={{ base: 0, md: '24px' }} flexShrink={0}></Box>
+                    <Box w={{ base: 0, md: '25%' }} mr={{ base: 0, md: '24px' }} flexShrink={0}/>
                     <VStack pt='10' pb='8' align='flex-start'>
                         <Heading fontSize='56px'>Changelog</Heading>
                         <Text color='thia.gray.500'>Read about the newest updates and improvments to Thia</Text>

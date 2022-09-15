@@ -60,9 +60,9 @@ const Support: NextPage = () => {
     return (
         <SeoPage title='Support'>
             <ContentContainer>
-                <Box mt='12' mb='10' ml='3'>
-                    <Heading fontSize={{ base: '6xl', md: '7xl', '2xl': '8xl' }}>Contact Us</Heading>
-                    <Text color={secondaryTextColor} pt={2} fontSize={{ base: 'lg', md: 'xl' }} ml='2'>
+                <Box  mt={{ base: 5, md: 24 }} mb='10'>
+                    <Heading fontSize='56px'>Contact Us</Heading>
+                    <Text pt={2} color='thia.gray.500'>
                         Let&apos;s start a conversation
                     </Text>
                 </Box>
