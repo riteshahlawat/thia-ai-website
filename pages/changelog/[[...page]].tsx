@@ -66,7 +66,7 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
             title='Changelog'
             description='Read about the newest updates and improvments to Thia'
             openGraph={{
-                images: [{ url: 'https://thia.tech/api/og?name=Thia&stage=changelog' }],
+                images: [{ url: 'https://thia.tech/api/og/image?name=Thia&stage=changelog' }],
             }}
         >
             <ContentContainer mt={{ base: 5, md: 24 }}>
