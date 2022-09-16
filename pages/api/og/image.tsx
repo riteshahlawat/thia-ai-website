@@ -10,7 +10,7 @@ export default withOGImage<'query', QueryParams>({
         // include HTML template here
         react: ({ name, stage }) => (
             <h1>
-                ${name} - ${stage}
+                {name} - {stage}
             </h1>
         ),
     },
