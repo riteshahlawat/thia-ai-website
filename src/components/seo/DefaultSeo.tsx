@@ -2,7 +2,7 @@ import { DefaultSeo as DefaultNextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-const title = process.env.NEXT_PUBLIC_TITLE;
+const name = process.env.NEXT_PUBLIC_SITE_NAME;
 const description = process.env.NEXT_PUBLIC_DESCRIPTION;
 
 export const DefaultSeo = () => {
@@ -10,16 +10,16 @@ export const DefaultSeo = () => {
     const url = `${baseUrl}${asPath}`;
 
     const SEO = {
-        titleTemplate: `%s - ${title}`,
+        titleTemplate: `%s - ${name}`,
         description,
         canonical: url,
         openGraph: {
-            title,
+            title: `%s - ${name}`,
             description,
             type: 'website',
             locale: 'en-CA',
             url,
-            site_name: title,
+            site_name: name,
         },
         twitter: {
             handle: '@lasithaamuwala',
