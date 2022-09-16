@@ -62,10 +62,16 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
     const paginate = (number: number) => router.push(`/changelog/${number}`);
 
     return (
-        <SeoPage title='Changelog' description='Read about the newest updates and improvments to Thia'>
+        <SeoPage
+            title='Changelog'
+            description='Read about the newest updates and improvments to Thia'
+            openGraph={{
+                images: [{ url: 'https://thia.tech/api/og?name=Thia&stage=changelog' }],
+            }}
+        >
             <ContentContainer mt={{ base: 5, md: 24 }}>
                 <HStack>
-                    <Box w={{ base: 0, md: '25%' }} mr={{ base: 0, md: '24px' }} flexShrink={0}/>
+                    <Box w={{ base: 0, md: '25%' }} mr={{ base: 0, md: '24px' }} flexShrink={0} />
                     <VStack pt='10' pb='8' align='flex-start'>
                         <Heading fontSize='56px'>Changelog</Heading>
                         <Text color='thia.gray.500'>Read about the newest updates and improvments to Thia</Text>
