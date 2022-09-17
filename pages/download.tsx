@@ -71,11 +71,12 @@ const Download: NextPage = () => {
                 >
                     <VStack maxW={{ base: 'full', lg: '38%' }} alignItems='flex-start' spacing='8'>
                         <Heading
-                            fontSize={{ base: '6xl', md: '7xl', lg: '5xl', xl: '6xl', '2xl': '7xl' }}
+                             fontSize={[64, 64, 84, 84, 84]} 
                             noOfLines={{ base: 4, md: 3 }}
-                            fontFamily='Krona One, sans-serif'
+                            fontWeight='bold'
+                            letterSpacing='tighter'
                         >
-                            GET THIA FOR WINDOWS
+                            Get Thia for Windows
                         </Heading>
                         <Text fontSize={{ base: 'xl', lg: 'lg', xl: 'xl' }}>
                             Start training, testing, and deploying models using your hardware
