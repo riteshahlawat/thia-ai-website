@@ -5,7 +5,7 @@ import { HiMenuAlt3 } from 'react-icons/hi';
 
 export const NavToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => {
     return (
-        <Box display={{ base: 'block', md: 'none' }} onClick={toggle}>
+        <Box display={{ base: 'block', md: 'none' }} onClick={toggle} pr='12px'>
             <IconButton
                 size='md'
                 fontSize='2xl'
