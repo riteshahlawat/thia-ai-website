@@ -1,3 +1,4 @@
+import { Heading } from '@chakra-ui/react';
 import { withOGImage } from 'next-api-og-image';
 
 interface QueryParams {
@@ -9,13 +10,15 @@ export default withOGImage<'query', QueryParams>({
     template: {
         // include HTML template here
         react: ({ name, stage }) => (
-            <h1>
+            <Heading>
                 {name} - {stage}
-            </h1>
+            </Heading>
         ),
     },
-    cacheControl: 'public, max-age=604800, immutable',
-    dev: {
-        inspectHtml: false,
-    },
+
 });
+
+// cacheControl: 'public, max-age=604800, immutable',
+// dev: {
+//     inspectHtml: false,
+// },
