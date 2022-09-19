@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Image from 'next/image';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { useUser } from 'reactfire';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { FiDownload } from 'react-icons/fi';
 import { Box, Button, Flex, Heading, HStack, Text, useBreakpointValue, useToast, VStack } from '@chakra-ui/react';
@@ -70,12 +69,7 @@ const Download: NextPage = () => {
                     flexDir={{ base: 'column', lg: 'row' }}
                 >
                     <VStack maxW={{ base: 'full', lg: '38%' }} alignItems='flex-start' spacing='8'>
-                        <Heading
-                             fontSize={[64, 64, 84, 84, 84]} 
-                            noOfLines={{ base: 4, md: 3 }}
-                            fontWeight='bold'
-                            letterSpacing='tighter'
-                        >
+                        <Heading fontSize={[64, 64, 84, 84, 84]} fontWeight='bold' letterSpacing='tighter'>
                             Get Thia for Windows
                         </Heading>
                         <Text fontSize={{ base: 'xl', lg: 'lg', xl: 'xl' }}>
