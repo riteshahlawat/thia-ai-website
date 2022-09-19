@@ -69,7 +69,7 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
                 images: [
                     {
                         url: 'https://thia.tech/changelog/og-image.jpg',
-                        type: 'image/png',
+                        type: 'image/jpeg',
                         width: 1200,
                         height: 630,
                         alt: 'Thia Release Version',
