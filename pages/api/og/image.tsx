@@ -9,16 +9,10 @@ interface QueryParams {
 export default withOGImage<'query', QueryParams>({
     template: {
         // include HTML template here
-        react: ({ name, stage }) => (
-            <Heading>
-                {name} - {stage}
-            </Heading>
-        ),
+        html: ({ name }) => `<h1>${name}</h1>`,
     },
-
+    cacheControl: 'public, max-age=604800, immutable',
+    dev: {
+        inspectHtml: false,
+    },
 });
-
-// cacheControl: 'public, max-age=604800, immutable',
-// dev: {
-//     inspectHtml: false,
-// },
