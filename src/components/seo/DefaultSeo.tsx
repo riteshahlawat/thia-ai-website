@@ -23,7 +23,7 @@ export const DefaultSeo = () => {
         },
         twitter: {
             handle: '@lasithaamuwala',
-            site: '@ThiaAutoML',
+            site: '@thia_ai',
             cardType: 'summary_large_image',
         },
     };
