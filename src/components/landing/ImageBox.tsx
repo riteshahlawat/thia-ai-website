@@ -3,6 +3,7 @@ import { RevealOnView } from '../common/RevealOnView';
 import Image from 'next/future/image';
 import { Box, Button, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react';
 import Link from 'next/link';
+import { ChakraNextLink } from '../common/ChakraNextLink';
 
 export interface ImageBoxProps {
     label: string;
@@ -48,9 +49,9 @@ export const ImageBox = ({ label, heading, direction, description, imageSrc, lea
                         </Heading>
                         <Text>{description}</Text>
                         <Box pt={5}>
-                            <Link href={learnMoreURL}>
+                            <ChakraNextLink href={learnMoreURL}>
                                 <Button variant='primaryOutline'>Learn More</Button>
-                            </Link>
+                            </ChakraNextLink>
                         </Box>
                     </Flex>
                     <Box display='block' rounded='xl' overflow='hidden' w={{ base: '100%', lg: '50%' }}>
