@@ -10,11 +10,14 @@ interface LinkObjType {
 }
 
 export const links: LinkObjType = {
+    docs: { path: '/docs', icon: null, label: 'Docs' },
+    blog: { path: '/blog', icon: null, label: 'Blog' },
+    about: { path: '/about', icon: null, label: 'About us' },
     landing: { path: '/', icon: null, label: 'Home' },
     pricing: { path: '/pricing', icon: null, label: 'Pricing' },
-    download: { path: '/download', icon: null, label: 'Download' },
     support: { path: '/support', icon: null, label: 'Support' },
-    docs: { path: '/docs', icon: null, label: 'Docs' },
+    careers: { path: '/careers', icon: null, label: 'Careers' },
+    download: { path: '/download', icon: null, label: 'Download' },
     changelog: { path: '/changelog', icon: null, label: 'Changelog' },
 };
 
