@@ -1,22 +1,11 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import { ContentContainer } from '@/components/common/ContentContainer';
-import {
-    Box,
-    Button,
-    Center,
-    Circle,
-    Flex,
-    Heading,
-    IconButton,
-    Text,
-    useColorModeValue,
-    VStack,
-    Link,
-} from '@chakra-ui/react';
+import { Box, Button, Center, Circle, Flex, Heading, IconButton, Text, useColorModeValue, VStack, Link } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { SeoPage } from '@/components/seo/SeoPage';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
 interface MemberType {
     name: string;
@@ -45,34 +34,11 @@ const teamData: Array<MemberType> = [
     },
     {
         name: 'Lasitha Amuwala',
-        role: 'Developer',
+        role: 'Co-Founder',
         imgPath: '/team/lasitha_amuwala.jpg',
         socials: [
             { name: 'LinkedIn', path: 'https://www.linkedin.com/in/lasitha-amuwala/' },
             { name: 'Github', path: 'https://github.com/lasitha-amuwala' },
-        ],
-    },
-    {
-        name: 'Michelle Lenartowicz',
-        role: 'Business',
-        imgPath: '/team/michelle_lenartowicz.jpg',
-        socials: [{ name: 'LinkedIn', path: 'https://www.linkedin.com/in/michellelenartowicz/' }],
-    },
-    {
-        name: 'David Chan',
-        role: 'Developer',
-        socials: [
-            { name: 'LinkedIn', path: 'https://www.linkedin.com/in/dchan0013/' },
-            { name: 'Github', path: 'https://github.com/occamsrazor0013' },
-        ],
-    },
-    {
-        name: 'Agamjot Saini',
-        role: 'Developer',
-        imgPath: '/team/agamjot_saini.jpg',
-        socials: [
-            { name: 'LinkedIn', path: 'https://www.linkedin.com/in/agamjot-saini/' },
-            { name: 'Github', path: 'https://github.com/agamjot-saini' },
         ],
     },
 ];
@@ -81,19 +47,8 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
     const socialButtonHoverBG = useColorModeValue('thia.gray.200', 'thia.gray.900');
     return (
         <VStack p={5} gap={1}>
-            <Circle
-                size='175px'
-                pos='relative'
-                overflow='hidden'
-                bg={useColorModeValue('blackAlpha.100', 'alphaWhite.100')}
-            >
-                <Image
-                    alt={name}
-                    layout='fill'
-                    src={imgPath ?? '/team/placeholder.png'}
-                    objectFit='contain'
-                    quality={100}
-                />
+            <Circle size='175px' pos='relative' overflow='hidden' bg={useColorModeValue('blackAlpha.100', 'alphaWhite.100')}>
+                <Image alt={name} layout='fill' src={imgPath ?? '/team/placeholder.png'} objectFit='contain' quality={100} />
             </Circle>
             <Text fontSize='md' fontWeight={600} letterSpacing='wider' pt={2}>
                 {name}
@@ -101,7 +56,7 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
             <Text fontSize='sm'>{role}</Text>
             <Flex gap={2}>
                 {socials.map(({ path, name }) => (
-                    <Link href={path} key={name} isExternal>
+                    <ChakraNextLink href={path} key={name}>
                         <IconButton
                             key={name}
                             rounded='full'
@@ -114,7 +69,7 @@ const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
                         >
                             {socialIcons[name]}
                         </IconButton>
-                    </Link>
+                    </ChakraNextLink>
                 ))}
             </Flex>
         </VStack>
@@ -157,15 +112,12 @@ const About: NextPage = () => {
                 <ContentContainer py={{ base: 10, md: 20 }}>
                     <VStack spacing={8}>
                         <Heading fontSize='5xl'>Intrested in Thia?</Heading>
-                        <Text fontSize='lg'>
-                            What to work with us? Get more information about our teams, locations,
-                            and culture.
-                        </Text>
-                        <Link href='/careers'>
+                        <Text fontSize='lg'>What to work with us? Get more information about our teams, locations, and culture.</Text>
+                        <ChakraNextLink href='/careers'>
                             <Button variant='primary' size='lg'>
                                 View Careers
                             </Button>
-                        </Link>
+                        </ChakraNextLink>
                     </VStack>
                 </ContentContainer>
             </Box>

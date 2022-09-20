@@ -9,13 +9,16 @@ interface props {
     children?: React.ReactNode;
     linkProps?: LinkProps;
     styleProps?: Object;
+    isExternal?: boolean;
 }
 
 // Next link with chakraUI link style
-export const ChakraNextLink = ({ href, children, linkProps, styleProps }: props) => {
+export const ChakraNextLink = ({ href, children, linkProps, isExternal, styleProps }: props) => {
     return (
         <NextLink href={href} {...linkProps} passHref>
-            <Link {...styleProps}>{children}</Link>
+            <Link isExternal={isExternal} {...styleProps}>
+                {children}
+            </Link>
         </NextLink>
     );
 };

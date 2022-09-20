@@ -1,7 +1,7 @@
 import { AspectRatio, Box, useColorModeValue } from '@chakra-ui/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
+import { ChakraNextLink } from './ChakraNextLink';
 
 type Props = {
     w: string;
@@ -11,7 +11,7 @@ type Props = {
 const Logo = ({ w, isIcon }: Props) => {
     const logoPath = useColorModeValue('/logo/thia-logo-light.svg', '/logo/thia-logo-dark.svg');
     return (
-        <Link href='/'>
+        <ChakraNextLink href='/'>
             <Box position='relative' w={w} cursor='pointer'>
                 <AspectRatio ratio={isIcon ? 1 : 60 / 13}>
                     <Image
@@ -22,7 +22,7 @@ const Logo = ({ w, isIcon }: Props) => {
                     />
                 </AspectRatio>
             </Box>
-        </Link>
+        </ChakraNextLink>
     );
 };
 

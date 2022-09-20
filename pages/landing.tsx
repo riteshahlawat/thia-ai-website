@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Section } from '@/components/common/Section';
 
@@ -7,6 +6,7 @@ import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { ImageBox, ImageBoxProps } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
 const variants = {
     initial: { opacity: 0, width: '40%', height: '40%' },
@@ -55,21 +55,21 @@ const Home: NextPage = () => {
             <Box w='full'>
                 <Section>
                     <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
-                        <Heading px={{base: 0, md:10}} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
+                        <Heading px={{ base: 0, md: 10 }} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
                             AutoML within your ecosystem
                         </Heading>
 
                         <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                            <Link href='/pricing'>
-                                <Button variant='secondary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                            <ChakraNextLink href='/pricing'>
+                                <Button variant='secondary' size='lg' px='10' flexBasis={{ base: '100%', md: '50%' }}>
                                     View Pricing
                                 </Button>
-                            </Link>
-                            <Link href='/download'>
-                                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                            </ChakraNextLink>
+                            <ChakraNextLink href='/download'>
+                                <Button variant='primary' size='lg' px='10' flexBasis={{ base: '100%', md: '50%' }}>
                                     Download
                                 </Button>
-                            </Link>
+                            </ChakraNextLink>
                         </Flex>
                     </VStack>
                 </Section>
@@ -117,16 +117,16 @@ const Home: NextPage = () => {
                             Integrate Thia into your app easily with our documentation or take the tutorial to get started!
                         </Text>
                         <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                            <Link href='/docs/#getstarted'>
-                                <Button variant='primary' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                            <ChakraNextLink href='/docs/getting-started'>
+                                <Button variant='primary' px='10' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     Get Started
                                 </Button>
-                            </Link>
-                            <Link href='/signup'>
-                                <Button variant='primaryOutline' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
+                            </ChakraNextLink>
+                            <ChakraNextLink href='/signup'>
+                                <Button variant='primaryOutline' px='10' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
                                     Sign up for free
                                 </Button>
-                            </Link>
+                            </ChakraNextLink>
                         </Flex>
                     </Flex>
                 </Section>

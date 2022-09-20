@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth, useUser } from 'reactfire';
 import { links } from '@/constants/links';
@@ -19,6 +18,7 @@ import {
     useBreakpointValue,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
 const navItemLinks = [links.docs, links.pricing, links.download, links.changelog, links.support];
 
@@ -51,7 +51,7 @@ export const SignInSignOut = () => {
     } else {
         return (
             <>
-                <Link href='/signin'>
+                <ChakraNextLink href='/signin'>
                     <Button
                         size={{ base: 'sm', md: 'md' }}
                         fontSize='sm'
@@ -62,8 +62,8 @@ export const SignInSignOut = () => {
                     >
                         Sign in
                     </Button>
-                </Link>
-                <Link href='/signup'>
+                </ChakraNextLink>
+                <ChakraNextLink href='/signup'>
                     <Button
                         size={{ base: 'sm', md: 'md' }}
                         fontSize='sm'
@@ -74,7 +74,7 @@ export const SignInSignOut = () => {
                     >
                         Sign up
                     </Button>
-                </Link>
+                </ChakraNextLink>
             </>
         );
     }
@@ -158,7 +158,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                     <Stack h='full' spacing={{ base: 0, md: 3 }} align='center' direction={{ base: 'column', md: 'row' }}>
                         {Object.values(navItemLinks).map(({ path, label }) => (
                             <Box as={motion.div} variants={listItem} key={label} w='full'>
-                                <Link href={path}>
+                                <ChakraNextLink href={path}>
                                     <Button
                                         h={{ base: 'var(--header-height)', md: 10 }}
                                         key={label}
@@ -175,7 +175,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                                     >
                                         {label}
                                     </Button>
-                                </Link>
+                                </ChakraNextLink>
                             </Box>
                         ))}
                         <Box as={motion.div} variants={listItem}>
