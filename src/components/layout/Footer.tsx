@@ -19,13 +19,16 @@ const ListHeader = ({ children }: { children: string }) => {
 type SubscribeToNewsletterValues = {
     email: string;
 };
+
 export const Footer = () => {
     const toast = useToast();
     const iconBackgroundColor = useColorModeValue('thia.gray.200', 'thia.gray.900');
     const newsletterInputBG = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
+
     const subscribeToNewsletterFormikSchema = object({
         email: string().email('Please enter a valid email address').required('Email is required'),
     });
+
     const subscribeToNewsletter = async ({ email }: SubscribeToNewsletterValues) => {
         const [isError, response] = await BackendRequestHandler.getInstance().subscribeToNewsletter({
             email,
@@ -48,13 +51,14 @@ export const Footer = () => {
             isClosable: false,
         });
     };
+
     return (
         <Box as='footer' bg='inherit' color={useColorModeValue('thia.text-base', 'thia.text-dark')}>
             <Grid
                 templateColumns={{
                     base: '1fr 1fr 1fr',
                     md: '2fr 1fr 1fr 1fr',
-                    lg: '2fr 1fr 1fr 1fr 2fr',
+                    lg: '2fr 1fr 1fr 2fr',
                 }}
                 fontSize='sm'
                 gap={8}
@@ -87,32 +91,35 @@ export const Footer = () => {
                 <GridItem>
                     <VStack align={'flex-start'}>
                         <ListHeader>Product</ListHeader>
-                        <ChakraNextLink href={links.docs.path}>{links.docs.label}</ChakraNextLink>
-                        <ChakraNextLink href={links.pricing.path}>{links.pricing.label}</ChakraNextLink>
-                        <ChakraNextLink href={links.download.path}>{links.download.label}</ChakraNextLink>
-                        <ChakraNextLink href={'#'}>Features</ChakraNextLink>
-                        <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
+                        {[links.docs, links.pricing, links.download, links.changelog].map(({ path, label }) => (
+                            <ChakraNextLink href={path} key={label}>
+                                {label}
+                            </ChakraNextLink>
+                        ))}
                     </VStack>
                 </GridItem>
                 <GridItem>
                     <VStack align={'flex-start'}>
                         <ListHeader>Company</ListHeader>
-                        <ChakraNextLink href={'/about'}>About us</ChakraNextLink>
-                        <ChakraNextLink href={'#'}>Blog</ChakraNextLink>
-                        <ChakraNextLink href={'#'}>Contact us</ChakraNextLink>
-                        <ChakraNextLink href={'/careers'}>Careers</ChakraNextLink>
-                        <ChakraNextLink href={'#'}>Partners</ChakraNextLink>
+                        {[links.about, links.blog, links.support, links.careers].map(({ path, label }) => (
+                            <ChakraNextLink href={path} key={label}>
+                                {label}
+                            </ChakraNextLink>
+                        ))}
                     </VStack>
                 </GridItem>
-                <GridItem>
+                {/* <GridItem>
                     <VStack align={'flex-start'}>
                         <ListHeader>Support</ListHeader>
+                        <ChakraNextLink href={'#'}>Partners</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Help Center</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Fourms</ChakraNextLink>
                         <ChakraNextLink href={'#'}>Guides</ChakraNextLink>
                         <ChakraNextLink href={'#'}>FAQ</ChakraNextLink>
+                        <ChakraNextLink href={'#'}>Features</ChakraNextLink>
+                         <ChakraNextLink href={'#'}>Tutorials</ChakraNextLink>
                     </VStack>
-                </GridItem>
+                </GridItem> */}
                 <GridItem colSpan={{ base: 3, sm: 2, md: 1 }}>
                     <VStack align={'flex-start'}>
                         <Formik
@@ -121,7 +128,7 @@ export const Footer = () => {
                             onSubmit={subscribeToNewsletter}
                         >
                             {({ errors, touched }) => (
-                                <Form noValidate>
+                                <Box as={Form} noValidate w='full'>
                                     <InputFormControl
                                         id='subscribeToNewsletter'
                                         isRequired
@@ -138,7 +145,7 @@ export const Footer = () => {
                                         errors={errors.email}
                                         touched={touched.email}
                                     />
-                                </Form>
+                                </Box>
                             )}
                         </Formik>
                     </VStack>
