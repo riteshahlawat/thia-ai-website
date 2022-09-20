@@ -98,7 +98,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
         closed: {
             opacity: 0,
             transition: {
-                duration: 0.63,
+                duration: 0.64,
                 ease: [0.74, 0, 0.19, 1.02],
             },
         },
