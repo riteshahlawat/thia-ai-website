@@ -157,8 +157,8 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                 <Box as={motion.div} variants={list}>
                     <Stack h='full' spacing={{ base: 0, md: 3 }} align='center' direction={{ base: 'column', md: 'row' }}>
                         {Object.values(navItemLinks).map(({ path, label }) => (
-                            <Box as={motion.div} variants={listItem} w='full'>
-                                <Link href={path} key={label}>
+                            <Box as={motion.div} variants={listItem} key={label} w='full'>
+                                <Link href={path}>
                                     <Button
                                         h={{ base: 'var(--header-height)', md: 10 }}
                                         key={label}
