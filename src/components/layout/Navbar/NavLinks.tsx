@@ -107,7 +107,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                 display: 'none',
             },
         },
-        notMobile: { opacity: 1 },
+        notMobile: { display: 'block', opacity: 1 },
     };
 
     const list = {
