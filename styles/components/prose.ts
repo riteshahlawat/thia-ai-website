@@ -109,6 +109,10 @@ export const Prose = {
                     'var(--chakra-colors-thia-gray-300) !important',
                     'var(--chakra-colors-thia-gray-600) !important'
                 )(props),
+                th: {
+                    border: '2px solid',
+                    borderColor: mode('thia.gray.300', 'thia.gray.600'),
+                },
             },
             tbody: {
                 tr: {
@@ -116,13 +120,15 @@ export const Prose = {
                         'var(--chakra-colors-thia-gray-300) !important',
                         'var(--chakra-colors-thia-gray-600) !important'
                     )(props),
+
+                    fontWeight: 'light',
+
+                    td: {
+                        border: '1px solid',
+                        borderColor: mode('thia.gray.300', 'thia.gray.600'),
+                    },
                 },
             },
         },
     }),
 };
-// a: {
-//     color: mode('thia.gray.300', 'thia.gray.800')(props),
-//     _hover: { textDecoration: 'none' },
-//     _focus: { boxShadow: 'none' },
-// },
