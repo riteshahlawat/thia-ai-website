@@ -1,6 +1,39 @@
 ---
 title: Benchmarks
-description: In depth training/evaluation benchmarks on different datasets.
+description: Training/evaluation benchmarks on different datasets and models.
 ---
 
 # Benchmarks
+
+We have evaluated on a variety of different datasets across all 5 of our image classification model sizes.
+The datasets are varied in number of classes, number of images, and the different classification industries
+(e.g. medicine, agriculture, animals, etc).
+
+> **Note:** All training was performed on a MSI RTX 3080 with 8GB of VRAM
+
+#### Deciding Which Model Size To Train On
+
+Smaller models are faster and less accurate, but with smaller datasets and lower number of classes,
+smaller models can surpass larger models in accuracy.
+
+## Summary of Datasets
+
+| **Dataset Name**      | **Num Classes** | **Num Images** |
+| --------------------- | --------------- | -------------- |
+| ASIRRA (Cats vs Dogs) | 2               | 25,000         |
+
+### ASIRRA Dataset (Cats vs Dogs)
+
+[ASIRRA][1] (Animal Species Image Recognition for Restricting Access) is a CAPTCHA that works by asking users to identify
+photographs of cats and dogs. The original dataset consists of over three million images of cats and dogs. [This][2] dataset
+however, is a subset of the original with 25 thousand images (divided evenly between the two classes).
+
+| **Model Size** | **Batch Size** | **# of Epochs** | **Accuracy** | **AU PRC** | **Log Loss** | **Total Training Time** | **Unoptimized Model Size (MB)** |
+| -------------- | -------------- | --------------- | ------------ | ---------- | ------------ | ----------------------- | ------------------------------- |
+| Extra Small    | 64             | 6               | 98.68%       | 0.9974     | 0.2222       | 28m                     | 74                              |
+| Small          | 32             | 7               | 98.1%        | 0.9978     | 0.2317       | 31m                     | 157                             |
+| Medium         | 8              | 12              | 97.36%       | 0.9941     | 0.2464       | 1h 35m                  | 244                             |
+| Large          | 4              | 26              | 97.24%       | 0.996      | 0.2448       | 8h 32m                  | 625                             |
+
+[1]: https://www.microsoft.com/en-us/research/publication/asirra-a-captcha-that-exploits-interest-aligned-manual-image-categorization/ 'ASIRRA Dataset'
+[2]: https://www.kaggle.com/c/dogs-vs-cats 'Subset Dataset'
