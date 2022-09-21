@@ -90,19 +90,24 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
     const menuVariant = {
         opened: {
             opacity: 1,
+            display: 'block',
             transition: {
-                duration: 0.63,
-                ease: [0.74, 0, 0.19, 1.02],
+                duration: 0.7,
+                ease: 'easeIn',
             },
         },
         closed: {
             opacity: 0,
             transition: {
-                duration: 0.64,
-                ease: [0.74, 0, 0.19, 1.02],
+                duration: 0.7,
+                ease: 'easeOut',
+                delay: 0.5,
+            },
+            transitionEnd: {
+                display: 'none',
             },
         },
-        notMobile: { opacity: 1 },
+        notMobile: { display: 'block', opacity: 1 },
     };
 
     const list = {
