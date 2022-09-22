@@ -21,9 +21,9 @@ const Author = defineNestedType(() => ({
     fields: {
         name: { type: 'string', required: true },
         position: { type: 'string', required: true },
-        // handle: { type: 'string', required: true },
-        // link: { type: 'string', required: true },
-        // avatar: { type: 'string', required: true },
+        handle: { type: 'string', required: true },
+        link: { type: 'string', required: true },
+        avatar: { type: 'string', required: false },
     },
 }));
 
@@ -37,11 +37,12 @@ export const Post = defineDocumentType(() => ({
             description: 'The title of the blog',
             required: true,
         },
-        // postDescription:{
-        //     type: 'string',
-        //     description: 'description excerpt of the post',
-        //     required:
-        // }
+        date: { type: 'date', required: true },
+        description: {
+            type: 'string',
+            description: 'description excerpt of the post',
+            required: true,
+        },
         coverImage: {
             type: 'nested',
             of: CoverImage,
@@ -55,7 +56,7 @@ export const Post = defineDocumentType(() => ({
     },
     computedFields: {
         readingTime: { type: 'json', resolve: post => readingTime(post.body.raw) },
-        url: { type: 'string', resolve: post => `/posts/${post._raw.flattenedPath}` },
+        url: { type: 'string', resolve: post => post._raw.flattenedPath },
         // last_edited: { type: 'date', resolve: getLastEditedDate },
     },
 }));

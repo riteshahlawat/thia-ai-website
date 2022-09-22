@@ -20,7 +20,7 @@ import {
 import { motion } from 'framer-motion';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
-const navItemLinks = [links.docs, links.pricing, links.download, links.changelog, links.support];
+const navItemLinks = [links.docs, links.pricing, links.download, links.changelog, links.blog];
 
 export const SignInSignOut = () => {
     const { data: user } = useUser();
