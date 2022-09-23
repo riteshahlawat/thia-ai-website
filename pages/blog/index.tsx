@@ -35,7 +35,7 @@ const Blog = ({ post }: { post: Post[] }) => {
                     </Heading>
                     <Text color={textColor}>Read the latest articles written by team Thia.</Text>
                 </Box>
-                <Heading pt={3} pb={3}>
+                <Heading pt={3} pb={5}>
                     All Posts
                 </Heading>
                 <VStack w='full' gap={2}>
@@ -48,8 +48,8 @@ const Blog = ({ post }: { post: Post[] }) => {
                                     rounded='lg'
                                     as={motion.div}
                                     w='full'
-                                    whileHover={{ scale: 1.02, transition: { duration: 0.2, ease: 'easeInOut' } }}
-                                    whileTap={{ scale: 1.02, transition: { duration: 0.2, ease: 'easeInOut' } }}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 1.02 }}
                                     pb={5}
                                 >
                                     <Box w='full'>
