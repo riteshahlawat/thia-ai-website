@@ -2,6 +2,7 @@ import { ContentContainer } from '@/components/common/ContentContainer';
 import { Footer } from '@/components/layout/Footer';
 import { SeoPage } from '@/components/seo/SeoPage';
 import { Headings } from '@/components/docs/DocHeadings';
+import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { Avatar, Box, Container, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
@@ -40,7 +41,7 @@ const Blog = ({ post }: Props) => {
                     </HStack>
                 </Flex>
                 <Box lineHeight='7' color='thia.gray.100'>
-                    <MDXComponent components={components} />
+                    <Prose><MDXComponent components={components} /></Prose>
                 </Box>
             </ContentContainer>
         </SeoPage>
