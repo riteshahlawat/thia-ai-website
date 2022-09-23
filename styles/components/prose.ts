@@ -11,7 +11,7 @@ export const Prose = {
         },
         h2: {
             display: 'block',
-            fontSize: '1.5em',
+            fontSize: '1.5em !important',
             my: '0.83em !important',
             mx: '0 !important',
             letterSpacing: '.07em',

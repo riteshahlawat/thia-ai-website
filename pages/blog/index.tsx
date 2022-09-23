@@ -1,10 +1,8 @@
 import React from 'react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Box, Container, Heading, HStack, Text, useColorMode, useColorModeValue, VStack } from '@chakra-ui/react';
-import { AuthErrorCodes } from 'firebase/auth';
+import { Box, Heading, HStack, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/common/ContentContainer';
 

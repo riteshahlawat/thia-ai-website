@@ -1,19 +1,19 @@
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { Footer } from '@/components/layout/Footer';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Headings } from '@/components/docs/DocHeadings';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { Avatar, Box, Container, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import Image from 'next/image';
+import { Headings } from '@/components/docs/DocHeadings';
 type Props = { post: Post };
 
-const components = { 
-     ...Headings, 
-     Image, 
- };
+const components = {
+    ...Headings,
+    Image,
+};
 
 const Blog = ({ post }: Props) => {
     const [date, setDate] = useState<string>('');
@@ -41,7 +41,9 @@ const Blog = ({ post }: Props) => {
                     </HStack>
                 </Flex>
                 <Box lineHeight='7' color='thia.gray.100'>
-                    <Prose><MDXComponent components={components} /></Prose>
+                    <Prose>
+                        <MDXComponent components={components} />
+                    </Prose>
                 </Box>
             </ContentContainer>
         </SeoPage>
