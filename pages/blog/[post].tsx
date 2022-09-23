@@ -1,21 +1,27 @@
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { Footer } from '@/components/layout/Footer';
 import { SeoPage } from '@/components/seo/SeoPage';
+import { Headings } from '@/components/docs/DocHeadings';
 import { Avatar, Box, Container, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import React, { useState, useEffect } from 'react';
-
+import Image from 'next/image';
 type Props = { post: Post };
+
+const components = { 
+     ...Headings, 
+     Image, 
+ };
 
 const Blog = ({ post }: Props) => {
     const [date, setDate] = useState<string>('');
+    const MDXComponent = useMDXComponent(post.body.code);
 
     useEffect(() => {
         setDate(new Date(post.date).toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' }));
     }, []);
 
-    const MDXComponent = useMDXComponent(post.body.code);
     return (
         <SeoPage title={post.title}>
             <ContentContainer as='article' maxW='container.md' pt={{ base: 12, md: 24 }} pb={10}>
@@ -34,7 +40,7 @@ const Blog = ({ post }: Props) => {
                     </HStack>
                 </Flex>
                 <Box lineHeight='7' color='thia.gray.100'>
-                    <MDXComponent />
+                    <MDXComponent components={components} />
                 </Box>
             </ContentContainer>
         </SeoPage>
