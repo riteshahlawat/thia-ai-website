@@ -1,14 +1,10 @@
 import React from 'react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Box, Container, Heading, HStack, Text, useColorMode, useColorModeValue, VStack } from '@chakra-ui/react';
-import { AuthErrorCodes } from 'firebase/auth';
-import Link from 'next/link';
-import Image from 'next/image';
+import { Box, Heading, HStack, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/common/ContentContainer';
-
-type Props = {};
+import Link from 'next/link';
 
 export const getStaticProps = async () => {
     const posts = allPosts
@@ -33,7 +29,7 @@ const Blog = ({ posts }: { posts: Post[] }) => {
     return (
         <SeoPage title='Blog'>
             <ContentContainer maxW='container.md'>
-                <Box py={10}>
+                <Box pt={10} pb={{ base: 5, md: 10 }}>
                     <Heading pb={4} fontSize='56px'>
                         Blog
                     </Heading>
