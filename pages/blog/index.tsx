@@ -11,18 +11,22 @@ import { ContentContainer } from '@/components/common/ContentContainer';
 type Props = {};
 
 export const getStaticProps = async () => {
-    const post = allPosts.map(({ title, url, author, readingTime, coverImage, description }) => ({
-        title,
-        url,
-        author,
-        readingTime,
-        coverImage,
-        description,
-    }));
-    return { props: { post } };
+    const posts = allPosts
+        .map(({ url, date, title, author, readingTime, coverImage, description }) => ({
+            url,
+            date,
+            title,
+            author,
+            readingTime,
+            coverImage,
+            description,
+        }))
+        .sort((a: Partial<Post>, b: Partial<Post>) => +new Date(b.date as string) - +new Date(a.date as string));
+
+    return { props: { posts } };
 };
 
-const Blog = ({ post }: { post: Post[] }) => {
+const Blog = ({ posts }: { posts: Post[] }) => {
     const bgColor = useColorModeValue('blackAlpha.50', 'whiteAlpha.100');
     const textColor = useColorModeValue('thia.gray.700', 'thia.gray.500');
 
@@ -39,7 +43,7 @@ const Blog = ({ post }: { post: Post[] }) => {
                     All Posts
                 </Heading>
                 <VStack w='full' gap={2}>
-                    {post.map(({ title, author, readingTime, coverImage, url, description }, i) => (
+                    {posts.map(({ title, readingTime, url, description }, i) => (
                         <Link href={url} key={i}>
                             <a style={{ width: '100%' }}>
                                 <Box
