@@ -1,6 +1,6 @@
 ---
 title: Our Origin Story
-date: 2022-09-23
+date: 2022-09-28
 author:
     name: Ritesh Ahlawat
     position: Founder
@@ -12,61 +12,109 @@ coverImage:
     alt: post-image
     width: 1200
     height: 630
-description: What inspired our inception, and where our founders are from.
+description: Read on what insipired our inception.
 ---
 
-## Introduction
+![Chapter 1][1]
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+<br />
+
+> _“There is no finish line. There are only mile markers.”_
+>
+> — Michael Ventura
 
 ### Hackathon
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+Unlike Zapier, which came [directly][2] from a hackathon the three founders attended, I
+experienced the issue **Thia** eventually was created to solve at a hackathon with some friends _(although I didn't
+know it at the time)_.
+
+Let's set the stage 🥁... It was an environment-based hackathon _(real original)_. Our idea? Users enter their address and get
+an estimate on how much they could save on electricity if solar panels were installed on their house. Finding the amount
+of sunlight falling at a location was easy to do, but as a second year student, I was utterly bewildered on how to get
+the roof area of a house from satellite imagery.
+
+In comes AutoML to the rescue!!
+
+<img src='/blog/our-origins/yippee.gif' alt='Celebration' title='Yippee!!!' width='300' />
+
+Using Google's AutoML service, we trained an object detection model to get an estimated bounding box of roofs using
+top-down satellite imagery. While we didn't win any prizes, it was definitely fun... _until we got the bill_. **$495**.
+
+![Google AutoML Bill][3]
 
 ### Stealth Mode
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+Let's say that the _slight inconvenience_ of having to pay the bill as a student made me a little irritated. So I spent a year
+teaching myself machine learning and getting experience in it just so I could do what AutoML did, myself. In doing so, I
+acquired a newfound passion. In addition to the many projects I did using my new knowledge, I worked with machine learning in
+both the industry, and in research for over a year. At this point I was thinking that my career was going to go end up in machine
+learning research. That was until I was talking with my friends about the hackathon I had done a year ago and the idea struck me:
 
-### Break Time
+_I've been training and using machine learning models on a commercial-grade GPU... so why isn't there an AutoML provider
+that uses the **user's hardware**?_
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+I researched to see if this was viable — technology wise. A week later, I was so sure of this venture that I immediately incorporated. A startup
+in stealth mode is not considered to be a [good][4] decision. However, in this case I wasn't operating in stealth mode because I was afraid someone
+would steal my idea. Rather, I was afraid that people would think my idea was stupid. I only told a select few friends and described the venture
+as a "project", despite my intent of treating it like a business.
 
-### Rejections...
+#### Timeline of Development:
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+-   Incorporated May 4th 2021 and started development.
+-   _Proof of Technology_ finished September 2021 while working full-time.
+-   No development was done between September - December 2021 due to taking a heavy course load and working part-time in research.
+-   Resumed development on January 2022 with a lighter course load, still working part-time.
+-   Finished development of prototype on May 2022.
+-   Applied to incubators and accelerators.
+-   Got denied.
+-   Applied to some more :D.
+-   Denied.
 
-### Wait... there's more??
+### Co Founder
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+Getting denied from accelerators as a startup is a normal occurrence. In my case it was due to not having any
+user traction/customer validation. For **Thia**, we plan on adding a lot of helpful features such as more models, model deployments,
+and _Remote Engine_ (allows you to use a virtual machine with a GPU instead of your own GPU — which is useful if you don't have a GPU
+on your machine). Actively developing these intricate features, especially being a full-time student, was going to be _difficult_ to
+say the least. Something that would speed things up and help share the load? A co-founder.
 
-## Now what?
+#### Mission Impossible: Acquire a Co-Founder
 
-Ullamco et nostrud magna commodo nostrud occaecat quis pariatur id ipsum. Ipsum
-consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
-Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
-fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
-pariatur.
+A co-founder is a very vital component in your startup journey if you have one. They mitigate risk for potential investors, provide
+support, and help you make tough calls. They are your analogue as they are in the same boat as you. Whatever pains your business
+is going through, they feel it. Conversely, you have someone to celebrate with when your business is succeeding. Finding the
+right co-founder however, is not a walk in the park.
+
+Usually it goes something like this:
+
+-   Make a list of everyone you know from high school, university, and work that codes and actually enjoys it.
+-   Get to know them more. Hang out, grab a cofee, and see if they are someone you enjoy working with. If you're already friends
+    with them, it makes this a whole lot easier.
+-   Make them an offer. Equity. Equity + Salary if you can afford it. Make it a firm offer, no ambiguity.
+-   Hopefully they accept. If not, repeat.
+
+Very early on (about a month or two after I had the idea), I asked a friend of mine to join as a co-founder. They refused. Maybe it was
+because I didn't have a working product yet. Maybe it was because they landed internships at really good tech companies and couldn't drop
+them on just an idea _(sarcasm)_. I waited a year until I asked someone else — till I had the prototype working. On **August 8th, 2022**
+I asked a friend of mine from high school, [Lasitha][5], if he wanted to be a co-founder (he was helping me with the website for a month
+or so at this point). He grasciously accepted!
+
+### Now what?
+
+When you launch a product with a website, you want to generate a lot of traffic on that website so potential users see your product _(duh)_.
+This is largely done through marketting (we're broke, so not happening), SEO, inbound links, and from content that your website
+contains (like blog posts). This blog post, that I've been trying to finish the past couple days, is the last step that is remaining
+before we launch. What's next?
+
+-   Get early adopters.
+-   Forge a strong relationship with the early adopters.
+-   Continue writing content to generate traffic.
+-   Build cool features.
+-   Praying... **lots** and **lots** of praying.
+
+[1]: /blog/our-origins/chapter_1.jpg 'Chapter 1'
+[2]: https://journeys.autopilotapp.com/blog/zapier-remote-work-company 'Zapier Origins'
+[3]: /blog/our-origins/gcp_automl_bill.png 'Google AutoML Bill'
+[4]: https://news.ycombinator.com/item?id=2223705 'Stealth Mode = Bad'
+[5]: /about#lasitha 'Lasitha Amuwala'
