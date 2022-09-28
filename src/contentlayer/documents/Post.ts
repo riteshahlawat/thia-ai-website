@@ -11,6 +11,7 @@ const CoverImage = defineNestedType(() => ({
     fields: {
         url: { type: 'string', required: true },
         alt: { type: 'string', required: true },
+        title: { type: 'string', required: true },
         width: { type: 'number', required: true },
         height: { type: 'number', required: true },
     },

@@ -59,6 +59,7 @@ const Blog = ({ post }: Props) => {
                         width={post.coverImage.width}
                         height={post.coverImage.height}
                         alt={post.coverImage.alt}
+                        title={post.coverImage.title}
                     />
                 </Box>
                 <Box lineHeight='7' color='thia.gray.100'>
