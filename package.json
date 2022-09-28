@@ -16,6 +16,7 @@
         "@emotion/react": "^11.9.3",
         "@emotion/styled": "^11.9.3",
         "@fontsource/inter": "^4.5.11",
+        "@fontsource/open-sans": "^4.5.11",
         "@nikolovlazar/chakra-ui-prose": "^1.1.0",
         "@stripe/react-stripe-js": "^1.9.0",
         "@stripe/stripe-js": "^1.32.0",
