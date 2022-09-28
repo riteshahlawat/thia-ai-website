@@ -11,7 +11,7 @@ export const Prose = {
         },
         h2: {
             display: 'block',
-            fontSize: '1.5em',
+            fontSize: '1.5em !important',
             my: '0.83em !important',
             mx: '0 !important',
             letterSpacing: '.07em',
@@ -45,8 +45,8 @@ export const Prose = {
             letterSpacing: '.07em',
         },
         p: {
-            fontWeight: mode('normal', 'normal')(props),
-            color: mode('thia.gray.950', 'thia.gray.500')(props),
+            color: mode('thia.gray.950', 'thia.gray.400')(props),
+            fontFamily: 'Open Sans, sans-serif',
         },
         li: {
             fontWeight: mode('400', '300')(props),
@@ -54,7 +54,7 @@ export const Prose = {
                 color: mode('var(--chakra-colors-thia-purple-600) !important', 'var(--chakra-colors-thia-purple-200) !important')(props),
                 content: `"–"`,
             },
-            color: mode('thia.gray.950', 'thia.gray.300')(props),
+            color: mode('thia.gray.950', 'thia.gray.400')(props),
         },
         pre: {
             p: '4',

@@ -10,6 +10,10 @@ import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 interface MemberType {
     name: string;
     role: string;
+    /**
+     * HTML div id.
+     */
+    id: string;
     imgPath?: string;
     socials: Array<{
         name: string;
@@ -25,6 +29,7 @@ const socialIcons: { [key: string]: React.ReactNode } = {
 const teamData: Array<MemberType> = [
     {
         name: 'Ritesh Ahlawat',
+        id: 'ritesh',
         role: 'Founder',
         imgPath: '/team/ritesh_ahlawat.jpg',
         socials: [
@@ -34,6 +39,7 @@ const teamData: Array<MemberType> = [
     },
     {
         name: 'Lasitha Amuwala',
+        id: 'lasitha',
         role: 'Co-Founder',
         imgPath: '/team/lasitha_amuwala.jpg',
         socials: [
@@ -43,10 +49,10 @@ const teamData: Array<MemberType> = [
     },
 ];
 
-const MemberBox = ({ name, role, imgPath, socials }: MemberType) => {
+const MemberBox = ({ name, role, id, imgPath, socials }: MemberType) => {
     const socialButtonHoverBG = useColorModeValue('thia.gray.200', 'thia.gray.900');
     return (
-        <VStack p={5} gap={1}>
+        <VStack p={5} gap={1} id={id}>
             <Circle size='175px' pos='relative' overflow='hidden' bg={useColorModeValue('blackAlpha.100', 'alphaWhite.100')}>
                 <Image alt={name} layout='fill' src={imgPath ?? '/team/placeholder.png'} objectFit='contain' quality={100} />
             </Circle>

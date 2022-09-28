@@ -2,9 +2,9 @@ import React from 'react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { SeoPage } from '@/components/seo/SeoPage';
 import { Box, Heading, HStack, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ContentContainer } from '@/components/common/ContentContainer';
-import Link from 'next/link';
 
 export const getStaticProps = async () => {
     const posts = allPosts

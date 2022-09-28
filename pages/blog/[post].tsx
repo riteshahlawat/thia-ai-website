@@ -1,12 +1,12 @@
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Headings } from '@/components/docs/DocHeadings';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
 import { Avatar, Box, Flex, Heading, HStack, Text } from '@chakra-ui/react';
 import { allPosts, Post } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { Headings } from '@/components/docs/DocHeadings';
 type Props = { post: Post };
 
 const components = {
