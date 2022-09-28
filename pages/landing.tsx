@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ImageBox, ImageBoxProps } from '@/components/landing/ImageBox';
 import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
+import { SeoPage } from '@/components/seo/SeoPage';
 
 const variants = {
     initial: { opacity: 0, width: '40%', height: '40%' },
@@ -47,11 +48,21 @@ const ImageBoxData: ImageBoxProps[] = [
 
 const Home: NextPage = () => {
     return (
-        <>
-            <Head>
-                <title>Thia</title>
-                <meta name='description' content='AutoML within your ecosystem' />
-            </Head>
+        <SeoPage
+            title='Thia AI'
+            description='AutoML within your Ecosystem - Train, Test, and Deploy ML Models'
+            openGraph={{
+                images: [
+                    {
+                        url: 'https://thia.tech/og-image/landing-page.jpg',
+                        type: 'image/jpeg',
+                        width: 1200,
+                        height: 630,
+                        alt: 'Thia Landing Page Image',
+                    },
+                ],
+            }}
+        >
             <Box w='full'>
                 <Section>
                     <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
@@ -131,7 +142,7 @@ const Home: NextPage = () => {
                     </Flex>
                 </Section>
             </Box>
-        </>
+        </SeoPage>
     );
 };
 
