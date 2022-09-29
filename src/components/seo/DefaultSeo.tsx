@@ -11,10 +11,10 @@ export const DefaultSeo = () => {
 
     const SEO = {
         titleTemplate: `%s - ${name}`,
+        defaultTitle: name,
         description,
         canonical: url,
         openGraph: {
-            title: `%s - ${name}`,
             description,
             type: 'website',
             locale: 'en-CA',

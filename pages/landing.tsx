@@ -49,7 +49,7 @@ const ImageBoxData: ImageBoxProps[] = [
 const Home: NextPage = () => {
     return (
         <SeoPage
-            title='Thia AI'
+            title=''
             description='AutoML within your Ecosystem - Train, Test, and Deploy ML Models'
             openGraph={{
                 images: [
