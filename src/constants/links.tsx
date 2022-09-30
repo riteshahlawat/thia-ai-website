@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 interface LinkObjType {
     [key: string]: {
@@ -23,6 +23,6 @@ export const links: LinkObjType = {
 
 export const socials: LinkObjType = {
     twitter: { path: 'https://twitter.com/thia_ai', icon: <FaTwitter />, label: 'Twitter' },
-    linkedin: { path: '#', icon: <FaLinkedin />, label: 'LinkedIn' },
-    github: { path: '#', icon: <FaGithub />, label: 'Github' },
+    instagram: { path: 'https://www.instagram.com/thia.ai/', icon: <FaInstagram />, label: 'Instagram' },
+    linkedin: { path: 'https://www.linkedin.com/company/thia-ai/', icon: <FaLinkedin />, label: 'LinkedIn' },
 };
