@@ -47,7 +47,7 @@ export const ImageBox = ({ label, heading, direction, description, imageSrc, lea
                             {heading}
                         </Heading>
                         <Text pb={5}>{description}</Text>
-                        <ChakraNextLink href={learnMoreURL} styleProps={{ variant: 'primaryOutlineButton' }}>
+                        <ChakraNextLink href={learnMoreURL} styleProps={{ variant: 'primaryOutlineButton', width: 'fit-content'}}>
                             Learn More
                         </ChakraNextLink>
                     </Flex>
