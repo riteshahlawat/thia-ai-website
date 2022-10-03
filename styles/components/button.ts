@@ -4,11 +4,10 @@ import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 export const Button: ComponentStyleConfig = {
     // Styles for the base style
     baseStyle: {
-        _focus: { boxShadow: 'none' },
         borderRadius: '3xl',
         transition: '300ms',
         fontWeight: 500,
-        letterSpacing: 'wider',
+        letterSpacing: 'wide',
     },
     // Styles for the size variations
     sizes: {
