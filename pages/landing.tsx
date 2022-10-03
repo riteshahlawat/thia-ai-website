@@ -1,11 +1,10 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import { Section } from '@/components/common/Section';
 
 import type { NextPage } from 'next';
 import { motion } from 'framer-motion';
 import { ImageBox, ImageBoxProps } from '@/components/landing/ImageBox';
-import { Box, Button, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, useColorModeValue, VStack } from '@chakra-ui/react';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 import { SeoPage } from '@/components/seo/SeoPage';
 
@@ -69,17 +68,18 @@ const Home: NextPage = () => {
                         <Heading px={{ base: 0, md: 10 }} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
                             AutoML within your ecosystem
                         </Heading>
-
-                        <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                            <ChakraNextLink href='/pricing'>
-                                <Button variant='secondary' size='lg' px='10' flexBasis={{ base: '100%', md: '50%' }}>
-                                    View Pricing
-                                </Button>
+                        <Flex flexDir={{ base: 'column', md: 'row' }} gap={{ base: 6, md: 10 }} justify='center' maxW='26rem'>
+                            <ChakraNextLink
+                                href='/signup'
+                                styleProps={{ variant: 'primaryButton', fontSize: { base: 'sm', md: 'lg' }, px: 7, h: '48px' }}
+                            >
+                                Try for Free
                             </ChakraNextLink>
-                            <ChakraNextLink href='/download'>
-                                <Button variant='primary' size='lg' px='10' flexBasis={{ base: '100%', md: '50%' }}>
-                                    Download
-                                </Button>
+                            <ChakraNextLink
+                                href='/download'
+                                styleProps={{ variant: 'primaryOutlineButton', fontSize: { base: 'sm', md: 'lg' }, px: 7, h: '48px' }}
+                            >
+                                Download
                             </ChakraNextLink>
                         </Flex>
                     </VStack>
@@ -128,15 +128,17 @@ const Home: NextPage = () => {
                             Integrate Thia into your app easily with our documentation or take the tutorial to get started!
                         </Text>
                         <Flex w='full' gap={{ base: 6, md: 10 }} justify='center' maxW='26rem' flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                            <ChakraNextLink href='/docs/getting-started'>
-                                <Button variant='primary' px='10' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
-                                    Get Started
-                                </Button>
+                            <ChakraNextLink
+                                href='/docs/getting-started'
+                                styleProps={{ variant: 'primaryButton', fontSize: 'lg', px: 5, h: '48px' }}
+                            >
+                                Get Started
                             </ChakraNextLink>
-                            <ChakraNextLink href='/signup'>
-                                <Button variant='primaryOutline' px='10' size='lg' flexBasis={{ base: '100%', md: '50%' }}>
-                                    Sign up for free
-                                </Button>
+                            <ChakraNextLink
+                                href='/signup'
+                                styleProps={{ variant: 'primaryOutlineButton', fontSize: 'lg', px: 5, h: '48px' }}
+                            >
+                                Sign up for free
                             </ChakraNextLink>
                         </Flex>
                     </Flex>
