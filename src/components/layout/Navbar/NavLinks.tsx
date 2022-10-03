@@ -159,6 +159,7 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                                             md: path === router.asPath ? buttonActiveTextColor : buttonTextColor,
                                         },
                                         bg: { base: 'inherit', md: path === router.asPath ? buttonBG : 'inherit' },
+                                        onClick: toggle,
                                     }}
                                 >
                                     {label}
