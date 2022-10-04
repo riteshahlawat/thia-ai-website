@@ -12,7 +12,7 @@ export const BaseLayout = ({ children }: Props) => {
     return (
         <>
             <Navinderbar />
-            <Box as='main' pt='var(--header-height)' minH='100vh'>
+            <Box as='main' pt='var(--header-height)' minH='100vh' id='main-content'>
                 {children}
             </Box>
             <ContentContainer>
