@@ -8,11 +8,12 @@ const lintToButtonStyles = {
     borderRadius: '3xl',
     transition: '300ms',
     fontWeight: 'medium',
-    h: '40px',
     px: 4,
     userSelect: 'none',
     letterSpacing: 'wide',
     whiteSpace: 'nowrap',
+    h: '40px',
+    w: 'fit-content',
 };
 
 export const Link: ComponentStyleConfig = {
