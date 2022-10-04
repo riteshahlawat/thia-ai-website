@@ -5,7 +5,6 @@ import { MdArrowDropDown } from 'react-icons/md';
 import { ToggleColorMode } from '../ToggleColorMode';
 import {
     Box,
-    Button,
     Menu,
     MenuButton,
     MenuItem,
@@ -20,7 +19,7 @@ import {
 import { motion } from 'framer-motion';
 import { ChakraNextLink } from '@/components/common/ChakraNextLink';
 
-const navItemLinks = [links.docs, links.pricing, links.download, links.changelog, links.blog];
+const navItemLinks = [links.docs, links.download, links.pricing, links.blog, links.changelog];
 
 export const SignInSignOut = () => {
     const { data: user } = useUser();
@@ -51,29 +50,11 @@ export const SignInSignOut = () => {
     } else {
         return (
             <>
-                <ChakraNextLink href='/signin'>
-                    <Button
-                        size={{ base: 'sm', md: 'md' }}
-                        fontSize='sm'
-                        variant='secondary'
-                        borderRadius={100}
-                        _focus={{ boxShadow: 'none' }}
-                        _active={{ bg: 'brand.primary.dark' }}
-                    >
-                        Sign in
-                    </Button>
+                <ChakraNextLink href='/signin' styleProps={{ variant: 'secondaryButton', fontSize: 'sm', h: { base: '30px', md: '40px' } }}>
+                    Sign in
                 </ChakraNextLink>
-                <ChakraNextLink href='/signup'>
-                    <Button
-                        size={{ base: 'sm', md: 'md' }}
-                        fontSize='sm'
-                        variant='primary'
-                        borderRadius={100}
-                        _focus={{ boxShadow: 'none' }}
-                        _active={{ bg: 'brand.primary.dark' }}
-                    >
-                        Sign up
-                    </Button>
+                <ChakraNextLink href='/signup' styleProps={{ variant: 'primaryButton', fontSize: 'sm', h: { base: '30px', md: '40px' } }}>
+                    Try for Free
                 </ChakraNextLink>
             </>
         );
@@ -163,23 +144,25 @@ export const NavLinks = ({ isOpen, toggle }: { isOpen: boolean; toggle: () => vo
                     <Stack h='full' spacing={{ base: 0, md: 3 }} align='center' direction={{ base: 'column', md: 'row' }}>
                         {Object.values(navItemLinks).map(({ path, label }) => (
                             <Box as={motion.div} variants={listItem} key={label} w='full'>
-                                <ChakraNextLink href={path}>
-                                    <Button
-                                        h={{ base: 'var(--header-height)', md: 10 }}
-                                        key={label}
-                                        fontSize={{ base: 'md', md: 'sm' }}
-                                        w={{ base: 'full', md: 'auto' }}
-                                        borderRadius={{ base: 'none', md: 100 }}
-                                        variant='secondaryGhost'
-                                        color={{
+                                <ChakraNextLink
+                                    key={label}
+                                    href={path}
+                                    styleProps={{
+                                        variant: 'secondaryGhostButton',
+                                        fontSize: { base: 'md', md: 'sm' },
+                                        h: { base: 'var(--header-height)', md: 10 },
+                                        w: { base: 'full', md: 'auto' },
+                                        justifyContent: 'center',
+                                        borderRadius: { base: 'none', md: 100 },
+                                        color: {
                                             base: buttonTextColor,
                                             md: path === router.asPath ? buttonActiveTextColor : buttonTextColor,
-                                        }}
-                                        bg={{ base: 'inherit', md: path === router.asPath ? buttonBG : 'inherit' }}
-                                        onClick={toggle}
-                                    >
-                                        {label}
-                                    </Button>
+                                        },
+                                        bg: { base: 'inherit', md: path === router.asPath ? buttonBG : 'inherit' },
+                                        onClick: toggle,
+                                    }}
+                                >
+                                    {label}
                                 </ChakraNextLink>
                             </Box>
                         ))}

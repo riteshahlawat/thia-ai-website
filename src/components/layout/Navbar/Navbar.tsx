@@ -7,14 +7,13 @@ import Logo from '@/components/common/Logo';
 
 export const Navinderbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggle = () => setIsOpen(isOpen => !isOpen);
 
     return (
         <Box bg='black'>
             <NavContainer>
                 <Box flexShrink={0}>
-                    <Logo w='100px' />
+                    <Logo w='90px' />
                 </Box>
                 <NavLinks isOpen={isOpen} toggle={toggle} />
                 <HStack>
