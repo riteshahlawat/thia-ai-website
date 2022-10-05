@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, IconButton, Tooltip, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Tooltip, useColorModeValue, Heading as CHeading } from '@chakra-ui/react';
 import { MdOutlineLink } from 'react-icons/md';
 
 type Heading = {
@@ -9,16 +9,14 @@ type Heading = {
 
 const Heading = ({ heading, children }: Heading) => {
     const copyToClipboard = (e: any) => {
-        navigator.clipboard.writeText(
-            `${e.view.location.origin}${e.view.location.pathname}${children[0].props.href}`
-        );
+        navigator.clipboard.writeText(`${e.view.location.origin}${e.view.location.pathname}${children[0].props.href}`);
     };
 
     return (
-        <Flex className='heading' align='center'>
-            <Box as={heading.as} id={children[0].props.href.slice(1)}>
+        <Flex className='heading' alignItems='baseline'>
+            <CHeading as={heading.as} id={children[0].props.href.slice(1)}>
                 {children}
-            </Box>
+            </CHeading>
             <Tooltip
                 label={`Copy link to this section: ${children[1]}`}
                 aria-label='tooltip'
