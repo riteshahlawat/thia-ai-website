@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://thia.tech
+
+# Sitemaps
+Sitemap: https://thia.tech/sitemap.xml
