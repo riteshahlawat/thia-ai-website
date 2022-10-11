@@ -6,6 +6,7 @@
         "dev": "rimraf .next && next dev",
         "prod": "next build && next start",
         "build": "next build",
+        "postbuild": "next-sitemap",
         "start": "next start",
         "lint": "next lint",
         "prepare": "husky install"
@@ -28,6 +29,7 @@
         "next": "^12.2.5",
         "next-contentlayer": "^0.2.5",
         "next-seo": "^5.4.0",
+        "next-sitemap": "^3.1.24",
         "nprogress": "^0.2.0",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
