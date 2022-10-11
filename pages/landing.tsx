@@ -57,7 +57,7 @@ const Home: NextPage = () => {
                         type: 'image/jpeg',
                         width: 1200,
                         height: 630,
-                        alt: "Thia'scls Landing Page Image",
+                        alt: 'Thia Landing Page Image',
                     },
                 ],
             }}
