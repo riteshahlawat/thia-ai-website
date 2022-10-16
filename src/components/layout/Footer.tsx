@@ -155,18 +155,8 @@ export const Footer = () => {
             <Flex justify='space-between' py='8' fontSize='sm' gap={4}>
                 <Text>© 2022 Thia AI, CA. All rights reserved</Text>
                 <HStack spacing={{ base: 4, md: 8 }} align='start'>
-                    <ChakraNextLink href={'#'}>
-                        Terms
-                        <Box as='span' display={{ base: 'none', md: 'inline' }}>
-                            {' of Service'}
-                        </Box>
-                    </ChakraNextLink>
-                    <ChakraNextLink href={'#'}>
-                        Privacy
-                        <Box as='span' display={{ base: 'none', md: 'inline' }}>
-                            {' Policy'}
-                        </Box>
-                    </ChakraNextLink>
+                    <ChakraNextLink href={'/terms-of-service'}>Terms of Service</ChakraNextLink>
+                    <ChakraNextLink href={'#'}>Privacy Policy</ChakraNextLink>
                     <ChakraNextLink href={'#'}>License</ChakraNextLink>
                 </HStack>
             </Flex>
