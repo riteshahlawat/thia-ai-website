@@ -75,6 +75,9 @@ a {
     font-size: 25px !important;
 }
 
+.disable-scroll {
+    overflow: hidden;
+}
 /*
   blue tint gray
   --gray-50: #f2f5f7;
