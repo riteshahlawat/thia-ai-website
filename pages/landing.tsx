@@ -64,20 +64,23 @@ const Home: NextPage = () => {
         >
             <Box w='full'>
                 <Section>
-                    <VStack spacing={12} pt={12} pb={20} px={{ base: 0, xl: 20 }}>
+                    <VStack spacing={12} pt={12} pb={20} px={[0, 0, 5, 10, 20]}>
                         <Heading px={{ base: 0, md: 10 }} fontSize={{ base: '6xl', md: '8xl' }} lineHeight='shorter' textAlign='center'>
                             AutoML within your ecosystem
                         </Heading>
-                        <Flex flexDir={{ base: 'column', md: 'row' }} gap={{ base: 6, md: 10 }} justify='center' maxW='26rem'>
-                            <ChakraNextLink
-                                href='/signup'
-                                styleProps={{ variant: 'primaryButton', fontSize: { base: 'sm', md: 'lg' }, px: 7, h: '48px' }}
-                            >
+                        <Flex
+                            flexDir={{ base: 'column', md: 'row' }}
+                            gap={{ base: 6, md: 10 }}
+                            justify='center'
+                            maxW='26rem'
+                            align='center'
+                        >
+                            <ChakraNextLink href='/signup' styleProps={{ variant: 'primaryButton', fontSize: 'lg', px: 7, h: '48px' }}>
                                 Try for Free
                             </ChakraNextLink>
                             <ChakraNextLink
                                 href='/download'
-                                styleProps={{ variant: 'primaryOutlineButton', fontSize: { base: 'sm', md: 'lg' }, px: 7, h: '48px' }}
+                                styleProps={{ variant: 'primaryOutlineButton', fontSize: 'lg', px: 7, h: '48px' }}
                             >
                                 Download
                             </ChakraNextLink>
@@ -85,7 +88,7 @@ const Home: NextPage = () => {
                     </VStack>
                 </Section>
                 <Section w='100%' m='auto' pos='relative'>
-                    <Box pos='relative' px={{ base: 0, xl: 20 }}>
+                    <Box pos='relative' px={[0, 0, 5, 10, 20]}>
                         <Box
                             as={motion.div}
                             top='50%'

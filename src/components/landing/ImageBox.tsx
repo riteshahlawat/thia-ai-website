@@ -46,8 +46,15 @@ export const ImageBox = ({ label, heading, direction, description, imageSrc, lea
                         <Heading fontWeight='semibold' fontSize={{ base: '3xl', lg: '5xl' }}>
                             {heading}
                         </Heading>
-                        <Text pb={5}>{description}</Text>
-                        <ChakraNextLink href={learnMoreURL} styleProps={{ variant: 'primaryOutlineButton', width: 'fit-content'}}>
+                        <Text>{description}</Text>
+                        <ChakraNextLink
+                            href={learnMoreURL}
+                            styleProps={{
+                                variant: 'primaryOutlineButton',
+                                width: 'fit-content',
+                                alignSelf: { base: 'center', md: 'start' },
+                            }}
+                        >
                             Learn More
                         </ChakraNextLink>
                     </Flex>
