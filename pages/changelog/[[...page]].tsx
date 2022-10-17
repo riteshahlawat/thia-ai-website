@@ -14,7 +14,7 @@ const logsPerPage = 5;
 const components = { Image };
 
 const Log = React.memo(({ log }: { log: Changelog }) => {
-    const [date, setDate] = useState<string>('');
+    const [date, setDate] = useState('');
     const MDXComponent = useMDXComponent(log.body.code || '');
 
     useEffect(() => {
