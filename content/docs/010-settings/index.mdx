@@ -1,0 +1,30 @@
+---
+title: Settings
+description: Settings related to the App
+---
+
+import { Text } from '@chakra-ui/react';
+
+# Settings
+
+In the App, you can access **Settings** by clicking on the page in the side menu. Here are the settings you can access and what they do.
+
+## Light/Dark Mode
+
+You can change the color theme in the App from light to dark by flipping the toggle switch (_we prefer dark_ 😉).
+![Change Theme Settings][1]
+
+## Managing Model Cache
+
+When training a model, one of the first thing we do is download that specific model metadata onto the disk. This is so that if you were to train another model
+of that same type again, you won't need to download it's metadata again as it is cached onto the disk. You can, however, delete model cache for all models or specific
+models if they are taking up too much space.
+
+![Managing Model Cache Description][2]
+
+<Text color='var(--chakra-colors-red-500) !important'>Red: Delete the entire model cache</Text>
+
+<Text color='var(--chakra-colors-green-500) !important'>Green: Delete a specific model's cache</Text>
+
+[1]: /docs/ui/settings/1.jpg 'Change Theme Settings'
+[2]: /docs/ui/settings/2.jpg 'Managing Model Cache Description'
