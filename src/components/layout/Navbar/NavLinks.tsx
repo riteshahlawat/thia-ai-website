@@ -50,10 +50,16 @@ export const SignInSignOut = () => {
     } else {
         return (
             <>
-                <ChakraNextLink href='/signin' styleProps={{ variant: 'secondaryButton', fontSize: 'sm', h: { base: '30px', md: '40px' } }}>
+                <ChakraNextLink
+                    href='/signin'
+                    styleProps={{ variant: 'secondaryButton', fontSize: 'sm', h: { base: '35px', md: '40px' }, px: { base: 3, md: 5 } }}
+                >
                     Sign in
                 </ChakraNextLink>
-                <ChakraNextLink href='/signup' styleProps={{ variant: 'primaryButton', fontSize: 'sm', h: { base: '30px', md: '40px' } }}>
+                <ChakraNextLink
+                    href='/signup'
+                    styleProps={{ variant: 'primaryButton', fontSize: 'sm', h: { base: '35px', md: '40px' }, px: { base: 3, md: 5 } }}
+                >
                     Try for Free
                 </ChakraNextLink>
             </>
