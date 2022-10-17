@@ -15,7 +15,7 @@ export const Navinderbar = () => {
             <SkipNavigation />
             <NavContainer>
                 <Box flexShrink={0}>
-                    <Logo w='90px' />
+                    <Logo w='75px' />
                 </Box>
                 <NavLinks isOpen={isOpen} toggle={toggle} />
                 <HStack>
