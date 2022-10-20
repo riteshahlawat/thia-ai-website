@@ -1,6 +1,6 @@
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Text, useColorModeValue } from '@chakra-ui/react';
 import { allPrivacyPolicies, PrivacyPolicy } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import React from 'react';
@@ -31,8 +31,8 @@ const PrivacyPolicy = React.memo(({ log }: Props) => {
 });
 
 PrivacyPolicy.displayName = 'PrivacyPolicy';
+export default PrivacyPolicy;
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     return { props: { log: allPrivacyPolicies[0] } };
 };
-export default PrivacyPolicy;
