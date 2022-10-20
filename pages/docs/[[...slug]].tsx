@@ -13,6 +13,7 @@ import { getPathSegments, joinPathSegments } from 'src/utils/docs/pathSegmentUti
 import { Box, Container, Divider, Flex, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import { SeoPage } from '@/components/seo/SeoPage';
 import Image from 'next/image';
+import { GetStaticPaths, GetStaticProps } from 'next/types';
 
 const components = {
     ...Headings,
@@ -26,12 +27,7 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
             <Container maxW='container.2xl' px={[0, 5, 8, 8, 8]} h='full'>
                 <Flex pt='var(--header-height)' flexDirection={{ base: 'column', sm: 'row' }}>
                     <DocsNavigation tree={tree} />
-                    <Box
-                        flexGrow={1}
-                        minH='var(--fullHeightWithoutNav)'
-                        py={{ base: 0, sm: 7 }}
-                        pl={{ base: 0, sm: 5 }}
-                    >
+                    <Box flexGrow={1} minH='var(--fullHeightWithoutNav)' py={{ base: 0, sm: 7 }} pl={{ base: 0, sm: 5 }}>
                         <Flex
                             px={{ base: 0, sm: 7 }}
                             h='full'
@@ -80,14 +76,12 @@ const Docs = ({ doc, tree, childrenTree, breadcrumbs }: DocPageType) => {
     );
 };
 
-export const getStaticPaths = async () => {
-    const paths = allDocs.map(doc => {
-        return { params: { slug: getPathSegments(doc) } };
-    });
+export const getStaticPaths: GetStaticPaths = async () => {
+    const paths = allDocs.map(doc => ({ params: { slug: getPathSegments(doc) } }));
     return { paths, fallback: false };
 };
 
-export const getStaticProps = async ({ params }: any) => {
+export const getStaticProps: GetStaticProps = async ({ params }: any) => {
     const pagePath = params.slug?.join('/') ?? '';
     const doc = allDocs.find((doc: Doc) => joinPathSegments(doc) === pagePath);
 
