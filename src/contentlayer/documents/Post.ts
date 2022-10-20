@@ -58,6 +58,6 @@ export const Post = defineDocumentType(() => ({
     computedFields: {
         readingTime: { type: 'json', resolve: post => readingTime(post.body.raw) },
         url: { type: 'string', resolve: post => post._raw.flattenedPath },
-        // last_edited: { type: 'date', resolve: getLastEditedDate },
+        slug: { type: 'string', resolve: doc => doc._raw.flattenedPath.split('/')[1] },
     },
 }));
