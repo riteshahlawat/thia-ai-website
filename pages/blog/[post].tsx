@@ -7,6 +7,8 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Headings } from '@/components/docs/DocHeadings';
+import { GetStaticPaths, GetStaticProps } from 'next';
+
 type Props = { post: Post };
 
 const components = {
@@ -72,10 +74,13 @@ const Blog = ({ post }: Props) => {
     );
 };
 
-export const getServerSideProps = async ({ params }: any) => {
-    const post = allPosts.find((post: Post) => post.url === `blog/${params.post}`);
+export const getStaticPaths: GetStaticPaths = async () => {
+    const paths = allPosts.map(({ slug }) => ({ params: { post: slug } }));
+    return { paths, fallback: false };
+};
 
-    if (!post) return { notFound: true };
+export const getStaticProps: GetStaticProps = async ({ params }: any) => {
+    const post = allPosts.find((post: Post) => post.url === `blog/${params.post}`);
     return { props: { post } };
 };
 

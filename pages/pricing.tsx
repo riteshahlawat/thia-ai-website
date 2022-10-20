@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Stripe from 'stripe';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { ContentContainer } from 'src/components/common/ContentContainer';
 import { Box, Center, Heading, Link, useColorModeValue, VStack } from '@chakra-ui/react';
 import { Summary } from '@/components/pricing/Summary';
@@ -48,7 +48,7 @@ const Pricing: NextPage = ({ plans }: any) => {
     );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const products = await stripe.products.list({ active: true });
     const getPriceObj = (id: any) => stripe.prices.retrieve(id);
     const plans = await Promise.all(

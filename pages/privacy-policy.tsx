@@ -1,20 +1,18 @@
+import React from 'react';
 import { ContentContainer } from '@/components/common/ContentContainer';
 import { SeoPage } from '@/components/seo/SeoPage';
-import { Heading, Text, useColorModeValue } from '@chakra-ui/react';
+import { Text, useColorModeValue } from '@chakra-ui/react';
 import { allPrivacyPolicies, PrivacyPolicy } from 'contentlayer/generated';
 import { useMDXComponent } from 'next-contentlayer/hooks';
-import React from 'react';
-import Image from 'next/image';
 import { Prose } from '@nikolovlazar/chakra-ui-prose';
+import { GetStaticProps } from 'next';
 
-type Props = { log: PrivacyPolicy };
+type Props = { doc: PrivacyPolicy };
 
-const components = { Image };
-
-const PrivacyPolicy = React.memo(({ log }: Props) => {
-    const MDXComponent = useMDXComponent(log.body.code);
+const PrivacyPolicy = ({ doc }: Props) => {
     const color = useColorModeValue('thia.gray.700', 'thia.gray.600');
-    const dateLastUpdated = new Date(log.lastUpdatedAt).toLocaleDateString('default', { dateStyle: 'medium' });
+    const dateLastUpdated = new Date(doc.lastUpdatedAt).toLocaleDateString('default', { dateStyle: 'medium' });
+    const MDXComponent = useMDXComponent(doc.body.code);
 
     return (
         <SeoPage title='Privacy Policy' description='View our privacy policy'>
@@ -23,16 +21,15 @@ const PrivacyPolicy = React.memo(({ log }: Props) => {
                     Date Last Updated: {dateLastUpdated}
                 </Text>
                 <Prose as='article'>
-                    <MDXComponent components={components} />
+                    <MDXComponent />
                 </Prose>
             </ContentContainer>
         </SeoPage>
     );
-});
-
-PrivacyPolicy.displayName = 'PrivacyPolicy';
-
-export const getServerSideProps = async () => {
-    return { props: { log: allPrivacyPolicies[0] } };
 };
+
+export const getStaticProps: GetStaticProps = async () => {
+    return { props: { doc: allPrivacyPolicies[0] } };
+};
+
 export default PrivacyPolicy;

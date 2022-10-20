@@ -11,6 +11,7 @@ import { SubscriptionOverview as SubscriptionOverview } from '@/components/billi
 import { PaymentOverview } from '@/components/billing/PaymentDetails/PaymentOverview';
 import { SeoPage } from '@/components/seo/SeoPage';
 import { PlanSelection } from '@/components/billing/PlanSelection';
+import { GetServerSideProps } from 'next';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2020-08-27',
@@ -149,7 +150,7 @@ const Billing = ({ products }: { products: any }) => {
 
 export default Billing;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const productList = await stripe.products.list({ active: true });
     const getPriceObj = (id: any) => stripe.prices.retrieve(id);
     const products = await Promise.all(

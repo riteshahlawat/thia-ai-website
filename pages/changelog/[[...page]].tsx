@@ -9,6 +9,7 @@ import { SeoPage } from '@/components/seo/SeoPage';
 import { useRouter } from 'next/router';
 import { Pagination } from '@/components/pagination';
 import Image from 'next/image';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 const logsPerPage = 5;
 const components = { Image };
@@ -107,13 +108,23 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
     );
 });
 
-export const getServerSideProps = async ({ params }: any) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+    const numLogs = allChangelogs.length;
+    const numPages = Math.ceil(numLogs / logsPerPage);
+
+    let paths = [];
+    paths.push({ params: { page: [] } });
+
+    for (let i = 0; i < numPages; i++) {
+        paths.push({ params: { page: [(i + 1).toString()] } });
+    }
+    return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }: any) => {
     const currentPage = Number(params.page ?? 1);
     const logs = allChangelogs.sort((a: Changelog, b: Changelog) => +new Date(b.createdAt) - +new Date(a.createdAt));
     const totalLogs = logs.length;
-
-    if (isNaN(currentPage)) return { notFound: true };
-    if (currentPage < 1 || currentPage > Math.ceil(totalLogs / logsPerPage)) return { notFound: true };
 
     const indexOfLastLog = currentPage * logsPerPage;
     const indexOfFirstLog = indexOfLastLog - logsPerPage;
