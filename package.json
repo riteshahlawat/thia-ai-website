@@ -21,6 +21,7 @@
         "@nikolovlazar/chakra-ui-prose": "^1.1.0",
         "@stripe/react-stripe-js": "^1.9.0",
         "@stripe/stripe-js": "^1.32.0",
+        "@vercel/og": "^0.0.20",
         "axios": "^0.27.2",
         "contentlayer": "^0.2.5",
         "firebase": "^9.8.1",
