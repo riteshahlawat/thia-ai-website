@@ -53,7 +53,7 @@ const Home: NextPage = () => {
             openGraph={{
                 images: [
                     {
-                        url: 'https://thia.tech/api/og/image?title=AutoML within your Ecosystem',
+                        url: 'https://thia.tech/api/og/image?title=AutoML%20within%20your%20Ecosystem',
                         type: 'image/jpeg',
                         width: 1200,
                         height: 630,

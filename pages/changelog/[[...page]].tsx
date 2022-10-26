@@ -68,7 +68,7 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
             openGraph={{
                 images: [
                     {
-                        url: `https://thia.tech/api/og/image?title=Changelog&subtitle=Release: ${logs[0].version}`,
+                        url: `https://thia.tech/api/og/image?title=Changelog&subtitle=Release:%20${logs[0].version.replace(' ', '%20')}`,
                         type: 'image/jpeg',
                         width: 1200,
                         height: 630,
