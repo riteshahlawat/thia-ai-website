@@ -52,7 +52,7 @@ export const ImageBox = ({ label, heading, direction, description, imageSrc, lea
                             styleProps={{
                                 variant: 'primaryOutlineButton',
                                 width: 'fit-content',
-                                alignSelf: { base: 'center', md: 'start' },
+                                alignSelf: { base: 'center', lg: 'start' },
                             }}
                         >
                             Learn More
