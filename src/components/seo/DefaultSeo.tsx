@@ -22,7 +22,7 @@ export const DefaultSeo = () => {
             site_name: name,
             images: [
                 {
-                    url: 'http://localhost:3000/api/og/image?title=AutoML within your ecosystem',
+                    url: 'https://thia.tech/api/og/image?title=AutoML within your ecosystem',
                     width: 1200,
                     height: 630,
                     alt: name,
