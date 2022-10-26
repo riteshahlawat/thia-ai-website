@@ -20,6 +20,14 @@ export const DefaultSeo = () => {
             locale: 'en-CA',
             url,
             site_name: name,
+            images: [
+                {
+                    url: 'http://localhost:3000/api/og/image?title=AutoML within your ecosystem',
+                    width: 1200,
+                    height: 630,
+                    alt: name,
+                },
+            ],
         },
         twitter: {
             handle: '@lasithaamuwala',

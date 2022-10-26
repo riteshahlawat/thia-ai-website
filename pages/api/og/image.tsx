@@ -26,9 +26,9 @@ const ImageGenerator = (req: any) => {
                     ></div>
                     <div tw='w-full h-full text-white flex flex-col justify-center items-center'>
                         <div tw='w-1/2 h-2/3 flex flex-col px-10 justify-center items-center'>
-                            <img tw='relative mx-0 my-[50px]' alt='Thia.AI' width='100%' src='https://thia.tech/logo/thia-logo-dark.svg' />
-                            <h1 tw='text-white font-bold mb-5 text-6xl'>{title}</h1>
-                            {hasSubtitle && <h1 tw='text-white text-3xl'>{subtitle}</h1>}
+                            <img tw='relative mx-0 my-10' alt='Thia.AI' width='100%' src='https://thia.tech/logo/thia-logo-dark.svg' />
+                            <h1 tw='text-white font-bold mb-5 text-5xl text-center'>{title}</h1>
+                            {hasSubtitle && <h1 tw='text-white text-3xl text-center'>{subtitle}</h1>}
                         </div>
                     </div>
                 </div>

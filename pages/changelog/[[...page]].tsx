@@ -61,7 +61,6 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
     const router = useRouter();
 
     const paginate = (number: number) => router.push(`/changelog/${number}`);
-
     return (
         <SeoPage
             title='Changelog'
@@ -69,7 +68,7 @@ const ChangeLog = React.memo(({ logs, totalLogs, currentPage }: Props) => {
             openGraph={{
                 images: [
                     {
-                        url: 'https://thia.tech/api/og/image?title=Changelog&subtitle=Release%20-%200.1.0%20Alpha',
+                        url: `https://thia.tech/api/og/image?title=Changelog&subtitle=Release: ${logs[0].version}`,
                         type: 'image/jpeg',
                         width: 1200,
                         height: 630,
