@@ -1,14 +1,8 @@
 import { BaseSeo } from '@/components/seo/BaseSeo';
-import React from 'react';
+import { NextSeoProps } from 'next-seo';
+import React, { PropsWithChildren } from 'react';
 
-type Props = {
-    title: string;
-    description?: string;
-    children?: React.ReactNode;
-    [rest: string]: any;
-};
-
-export const SeoPage = ({ title, description, children, ...rest }: Props) => {
+export const SeoPage = ({ title, description, children, ...rest }: PropsWithChildren<NextSeoProps>) => {
     return (
         <>
             <BaseSeo title={title} description={description} {...rest} />
