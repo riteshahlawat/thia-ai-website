@@ -5,7 +5,9 @@ import { theme } from '../styles/chakra.theme';
 const Document = () => {
     return (
         <Html lang='en'>
-            <Head />
+            <Head >
+                <meta name='theme-color' content='#000000' />
+            </Head>
             <body>
                 <ColorModeScript initialColorMode={theme.config.initialColorMode} />
                 <Main />
