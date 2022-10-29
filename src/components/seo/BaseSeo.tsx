@@ -2,12 +2,8 @@ import React from 'react';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
 export const BaseSeo = ({ title, description, openGraph, ...rest }: NextSeoProps) => {
-    const ogImage = {
-        url: `https://thia.tech/api/og/image?title=${title}&subtitle=${description}`,
-        width: 1200,
-        height: 630,
-        alt: title,
-    };
+    const imageURL = `https://thia.tech/api/og/image?title=${title}${description ? `&subtitle=${description}`: ''}`;
+    const ogImage = { url: imageURL, width: 1200, height: 630, alt: title };
 
     const currentOGImage = openGraph?.images;
     const newOGImage = currentOGImage ? currentOGImage : [ogImage];
