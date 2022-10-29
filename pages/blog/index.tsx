@@ -27,7 +27,7 @@ const Blog = ({ posts }: { posts: Post[] }) => {
     const textColor = useColorModeValue('thia.gray.700', 'thia.gray.500');
 
     return (
-        <SeoPage title='Blog'>
+        <SeoPage title='Blog' description='Read the latest articles written by team Thia'>
             <ContentContainer maxW='container.md'>
                 <Box pt={10} pb={{ base: 5, md: 10 }}>
                     <Heading pb={4} fontSize='56px'>
