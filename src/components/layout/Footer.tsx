@@ -100,8 +100,8 @@ export const Footer = () => {
                 </GridItem>
                 <GridItem>
                     <VStack align={'flex-start'}>
-                        <ListHeader>Company</ListHeader>
-                        {[links.about, links.blog, links.support, links.careers].map(({ path, label }) => (
+                        <ListHeader>About</ListHeader>
+                        {[links.about, links.blog, links.support].map(({ path, label }) => (
                             <ChakraNextLink href={path} key={label}>
                                 {label}
                             </ChakraNextLink>

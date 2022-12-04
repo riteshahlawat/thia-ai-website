@@ -1,4 +1,4 @@
-import { mode } from '@chakra-ui/theme-tools';
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 import { withProse } from '@nikolovlazar/chakra-ui-prose';
 import { components } from './components/ComponentStyles';
@@ -58,7 +58,7 @@ export const theme = extendTheme(
             },
         },
         styles: {
-            global: (props: any) => ({
+            global: (props: StyleFunctionProps) => ({
                 body: {
                     bg: mode('thia.bg-base', 'thia.bg-dark')(props),
                     color: mode('thia.text-base', 'thia.text-dark')(props),
